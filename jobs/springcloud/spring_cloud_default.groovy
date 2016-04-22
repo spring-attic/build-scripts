@@ -14,7 +14,7 @@ projects.eachWithIndex { String projectName, Integer index ->
 			cron everyDayAt(index)
 		}
 		scm {
-			git("https://github.com/spring-cloud/$it")
+			git("https://github.com/spring-cloud/$projectName")
 		}
 		steps {
 			shell("""
@@ -37,6 +37,9 @@ projects.eachWithIndex { String projectName, Integer index ->
 					./mvnw clean verify -fae
 					''')
 		}
+	}
+	dsl.folder('Spring Cloud Jobs') {
+
 	}
 }
 
