@@ -25,6 +25,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 				git {
 					remote {
 						url "https://github.com/spring-cloud/$projectName"
+						branch 'master'
 					}
 					createTag(false)
 				}

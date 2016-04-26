@@ -23,6 +23,7 @@ class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig {
 				git {
 					remote {
 						url "https://github.com/spring-cloud/spring-cloud-sleuth"
+						branch 'master'
 					}
 					createTag(false)
 				}

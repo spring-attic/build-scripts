@@ -21,6 +21,7 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 				git {
 					remote {
 						url "https://github.com/spring-cloud/$projectName"
+						branch 'master'
 					}
 					createTag(false)
 				}

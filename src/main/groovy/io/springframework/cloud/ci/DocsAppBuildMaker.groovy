@@ -24,6 +24,7 @@ class DocsAppBuildMaker implements NotificationTrait, DefaultConfig {
 				git {
 					remote {
 						url "https://github.com/spring-cloud-samples/sleuth-documentation-apps"
+						branch 'master'
 					}
 					createTag(false)
 				}

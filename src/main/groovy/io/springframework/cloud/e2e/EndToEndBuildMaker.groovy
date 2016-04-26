@@ -29,6 +29,7 @@ class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultCo
 				git {
 					remote {
 						url "https://github.com/spring-cloud/$projectName"
+						branch 'master'
 					}
 					createTag(false)
 				}
