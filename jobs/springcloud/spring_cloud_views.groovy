@@ -1,10 +1,11 @@
 package springcloud
 
+import io.springframework.cloud.view.ViewBuilder
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-//new ViewBuilder(this).buildDashboard()
+new ViewBuilder(this).buildDashboard()
 
 dsl.nestedView('Spring Cloud') {
 	views {
