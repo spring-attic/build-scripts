@@ -1,5 +1,6 @@
 package io.springframework.cloud.e2e
 
+import io.springframework.common.DefaultConfig
 import io.springframework.common.NotificationTrait
 import io.springframework.common.PublisherTrait
 import javaposse.jobdsl.dsl.DslFactory
@@ -7,7 +8,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements NotificationTrait, PublisherTrait {
+class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig {
 	private final DslFactory dsl
 
 	EndToEndBuildMaker(DslFactory dsl) {
@@ -23,6 +24,7 @@ class EndToEndBuildMaker implements NotificationTrait, PublisherTrait {
 			triggers {
 				cron cronExpr
 			}
+			jdk jdk8()
 			scm {
 				git {
 					remote {

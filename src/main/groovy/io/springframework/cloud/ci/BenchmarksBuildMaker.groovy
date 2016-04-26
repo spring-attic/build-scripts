@@ -1,12 +1,13 @@
 package io.springframework.cloud.ci
 
+import io.springframework.common.DefaultConfig
 import io.springframework.common.NotificationTrait
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class BenchmarksBuildMaker implements NotificationTrait {
+class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig {
 	private final DslFactory dsl
 
 	BenchmarksBuildMaker(DslFactory dsl) {
@@ -26,6 +27,7 @@ class BenchmarksBuildMaker implements NotificationTrait {
 					createTag(false)
 				}
 			}
+			jdk jdk8()
 			steps {
 				shell('''
 				echo "Running JMeter benchmarks"
