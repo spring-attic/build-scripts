@@ -11,7 +11,7 @@ dsl.nestedView('Spring Cloud') {
 	views {
 		listView('Compatibility') {
 			jobs {
-				regex('.*-compatibility-check')
+				regex('spring-cloud.*-compatibility-check')
 			}
 			columns {
 				status()
@@ -24,7 +24,7 @@ dsl.nestedView('Spring Cloud') {
 		}
 		listView('CI') {
 			jobs {
-				regex('.*-ci')
+				regex('spring-cloud.*-ci')
 			}
 			columns {
 				status()
@@ -37,7 +37,7 @@ dsl.nestedView('Spring Cloud') {
 		}
 		listView('E2E') {
 			jobs {
-				regex('.*-e2e')
+				regex('spring-cloud.*-e2e')
 			}
 			columns {
 				status()
@@ -48,9 +48,9 @@ dsl.nestedView('Spring Cloud') {
 				buildButton()
 			}
 		}
-		listView('E2E') {
+		listView('Sonar') {
 			jobs {
-				regex('.*-e2e')
+				regex('spring-cloud.*-sonar')
 			}
 			columns {
 				status()
