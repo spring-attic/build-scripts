@@ -8,7 +8,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig {
+class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig, BreweryDefatuts {
 	private final DslFactory dsl
 
 	EndToEndBuildMaker(DslFactory dsl) {
@@ -49,8 +49,8 @@ class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultCo
 			}
 			publishers {
 				archiveJunit gradleJUnitResults()
-				archiveArtifacts('target/brewery/acceptance-tests/build/reports/tests/**/*.*')
-				archiveArtifacts('target/brewery/acceptance-tests/build/spock-reports/**/*')
+				archiveArtifacts acceptanceTestReports()
+				archiveArtifacts acceptanceTestSpockReports()
 			}
 		}
 	}

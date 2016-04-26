@@ -5,10 +5,10 @@ package io.springframework.cloud.e2e
  */
 trait BreweryDefatuts {
 	String acceptanceTestReports() {
-		return 'target/brewery/acceptance-tests/build/reports/tests/**/*.*'
+		return '**/acceptance-tests/build/reports/tests/**/*.*'
 	}
 
 	String acceptanceTestSpockReports() {
-		return 'target/brewery/acceptance-tests/build/spock-reports/**/*'
+		return '**/acceptance-tests/build/spock-reports/**/*'
 	}
 }
