@@ -49,6 +49,8 @@ class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultCo
 			}
 			publishers {
 				archiveJunit gradleJUnitResults()
+				archiveArtifacts('target/brewery/acceptance-tests/build/reports/tests/**/*.*')
+				archiveArtifacts('target/brewery/acceptance-tests/build/spock-reports/**/*')
 			}
 		}
 	}
