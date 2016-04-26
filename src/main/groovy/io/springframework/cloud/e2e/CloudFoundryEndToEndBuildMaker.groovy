@@ -62,6 +62,7 @@ class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrai
 
 						echo "Setting alias to cf"
 						alias cf=`pwd`/cf
+						export cf=`pwd`/cf
 
 						echo "Cloud foundry version"
 						cf --version
@@ -69,8 +70,8 @@ class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrai
 						echo "Logging in to CF"
 						cf api --skip-ssl-validation api.run.pivotal.io
 						cf login -u ${cfUsername()} -p ${cfPassword()} -o FrameworksAndRuntimes -s ${cfSpace()}
-					""")
-				shell("""
+
+						echo "Running script CF"
 						sh -e ${script}
 					""")
 			}
