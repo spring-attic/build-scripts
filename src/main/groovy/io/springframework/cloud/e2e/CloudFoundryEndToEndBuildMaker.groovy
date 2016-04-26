@@ -21,19 +21,19 @@ class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrai
 	}
 
 	void buildSpringCloudStream() {
-		build('spring-cloud', 'spring-cloud-sleuth', "scripts/runAcceptanceTestsStreamOnCF.sh", EVERY_DAY_AT_18)
+		build('spring-cloud-sleuth','spring-cloud', 'spring-cloud-sleuth', "scripts/runAcceptanceTestsStreamOnCF.sh", EVERY_DAY_AT_18)
 	}
 
 	void buildBreweryForDocs() {
-		build('spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", EVERY_SUN_AT_16)
+		build('brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", EVERY_SUN_AT_16)
 	}
 
 	void buildSleuthDocApps() {
-		build('spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", EVERY_SUN_AT_14)
+		build('sleuth-doc-apps', 'spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", EVERY_SUN_AT_14)
 	}
 
-	protected void build(String githubOrg, String projectName, String script, String cronExpr) {
-		dsl.job("${projectName}-on-cf-e2e") {
+	protected void build(String description, String githubOrg, String projectName, String script, String cronExpr) {
+		dsl.job("${description}-on-cf-e2e") {
 			triggers {
 				cron cronExpr
 			}
