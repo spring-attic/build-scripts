@@ -25,11 +25,11 @@ class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrai
 	}
 
 	void buildBreweryForDocs() {
-		build('brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", EVERY_SUN_AT_16)
+		build('spring-cloud-brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", EVERY_SUN_AT_16)
 	}
 
 	void buildSleuthDocApps() {
-		build('sleuth-doc-apps', 'spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", EVERY_SUN_AT_14)
+		build('spring-cloud-sleuth-doc-apps', 'spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", EVERY_SUN_AT_14)
 	}
 
 	protected void build(String description, String githubOrg, String projectName, String script, String cronExpr) {

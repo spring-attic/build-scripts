@@ -4,11 +4,11 @@ import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.JobParent
 import javaposse.jobdsl.dsl.View
 
-class ViewBuilder {
+class DashboardViewBuilder {
 
 	private final DslFactory dslFactory
 
-	ViewBuilder(DslFactory dslFactory) {
+	DashboardViewBuilder(DslFactory dslFactory) {
 		this.dslFactory = dslFactory
 	}
 

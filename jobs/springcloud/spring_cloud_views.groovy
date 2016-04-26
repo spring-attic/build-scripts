@@ -1,15 +1,15 @@
 package springcloud
 
-import io.springframework.cloud.view.ViewBuilder
+import io.springframework.cloud.view.DashboardViewBuilder
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-new ViewBuilder(this).buildDashboard()
+new DashboardViewBuilder(this).buildDashboard()
 
 dsl.nestedView('Spring Cloud') {
 	views {
-		listView('Compatibility Jobs') {
+		listView('Compatibility') {
 			jobs {
 				regex('.*-compatibility-check')
 			}
@@ -22,7 +22,7 @@ dsl.nestedView('Spring Cloud') {
 				buildButton()
 			}
 		}
-		listView('CI Jobs') {
+		listView('CI') {
 			jobs {
 				regex('.*-ci')
 			}
@@ -35,9 +35,22 @@ dsl.nestedView('Spring Cloud') {
 				buildButton()
 			}
 		}
-		listView('E2E Jobs') {
+		listView('E2E') {
 			jobs {
 				regex('.*-e2e')
+			}
+			columns {
+				status()
+				name()
+				lastSuccess()
+				lastFailure()
+				lastBuildConsole()
+				buildButton()
+			}
+		}
+		listView('All Cloud') {
+			jobs {
+				regex('spring-cloud.*')
 			}
 			columns {
 				status()
