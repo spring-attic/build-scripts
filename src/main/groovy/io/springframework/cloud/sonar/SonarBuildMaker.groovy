@@ -47,6 +47,8 @@ class SonarBuildMaker implements NotificationTrait, DefaultConfig, PublisherTrai
 		return buildStep {
 			shell('./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Psonar -U')
 			shell('''\
+				echo "Running sonar please wait..."
+				stty -echo
 				./mvnw $SONAR_MAVEN_GOAL -Psonar -Dsonar.jdbc.driverClassName=org.postgresql.Driver -Dsonar.jdbc.url=$SONAR_JDBC_URL -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.jdbc.username=$SONAR_JDBC_USERNAME -Dsonar.jdbc.password=$SONAR_JDBC_PASSWORD
 				''')
 		}
