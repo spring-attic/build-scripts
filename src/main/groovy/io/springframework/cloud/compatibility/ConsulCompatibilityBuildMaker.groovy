@@ -1,11 +1,12 @@
 package io.springframework.cloud.compatibility
 
+import io.springframework.cloud.common.ConsulTrait
 import io.springframework.common.PublisherTrait
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements PublisherTrait {
+class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements PublisherTrait, ConsulTrait {
 	private final DslFactory dsl
 
 	ConsulCompatibilityBuildMaker(DslFactory dsl) {
@@ -27,26 +28,11 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 				}
 			}
 			steps {
-				shell('''
-					echo "Clearing consul data"
-					rm -rf /tmp/consul
-					rm -rf /tmp/consul-config
-					''')
-				shell('''
-					echo "Install consul"
-					./src/main/bash/travis_install_consul.sh
-
-					echo "Run consul"
-					./src/test/bash/travis_run_consul.sh
-				''')
-
+				shell preConsulShell()
 			}
 			steps defaultSteps()
 			steps {
-				shell('''
-					echo "Kill consul"
-					kill -9 $(ps aux | grep '[c]onsul' | awk '{print $2}') && echo "Killed consul" || echo "Can't find consul in running processes"
-					''')
+				shell postConsulShell()
 			}
 			publishers {
 				archiveJunit mavenJunitResults()

@@ -7,6 +7,8 @@ import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
 import io.springframework.cloud.e2e.EndToEndBuildMaker
 import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
+import io.springframework.cloud.sonar.ConsulSonarBuildMaker
+import io.springframework.cloud.sonar.SonarBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
@@ -38,7 +40,10 @@ cfMaker.buildSleuthDocApps()
 cfMaker.buildSpringCloudStream()
 
 // SONAR BUILDS
-
+['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each {
+	new SonarBuildMaker(dsl).buildSonar(it)
+}
+new ConsulSonarBuildMaker(dsl).buildSonar()
 
 // ========== FUNCTIONS ==========
 
