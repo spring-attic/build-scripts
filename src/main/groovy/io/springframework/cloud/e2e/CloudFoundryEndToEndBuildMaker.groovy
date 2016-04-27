@@ -71,7 +71,7 @@ class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrai
 						cf login -u ${cfUsername()} -p ${cfPassword()} -o FrameworksAndRuntimes -s ${cfSpace()}
 
 						echo "Running script CF"
-						. ./${script}
+						bash ${script}
 					""")
 			}
 			configure {
