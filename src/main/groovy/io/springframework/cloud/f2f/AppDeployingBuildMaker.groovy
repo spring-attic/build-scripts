@@ -36,7 +36,7 @@ class AppDeployingBuildMaker implements NotificationTrait, PublisherTrait, Defau
 				}
 			}
 			steps {
-				shell('''./mvnw clean deploy''')
+				shell('''./mvnw clean verify deploy''')
 			}
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)
