@@ -1,6 +1,7 @@
 package io.springframework.cloud.e2e
 
 import io.springframework.common.CfConfig
+import io.springframework.common.CronTrait
 import io.springframework.common.DefaultConfig
 import io.springframework.common.NotificationTrait
 import io.springframework.common.PublisherTrait
@@ -9,9 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig, BreweryDefatuts, CfConfig {
-	private static final String EVERY_DAY_AT_18 = "H H * * *"
-	private static final String EVERY_SUN = "H H * * 7"
+class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig, BreweryDefatuts, CfConfig, CronTrait {
 
 	private final DslFactory dsl
 
@@ -20,15 +19,15 @@ class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrai
 	}
 
 	void buildSpringCloudStream() {
-		build('spring-cloud-sleuth','spring-cloud', 'spring-cloud-sleuth', "scripts/runAcceptanceTestsStreamOnCF.sh", EVERY_DAY_AT_18)
+		build('spring-cloud-sleuth','spring-cloud', 'spring-cloud-sleuth', "scripts/runAcceptanceTestsStreamOnCF.sh", oncePerDay())
 	}
 
 	void buildBreweryForDocs() {
-		build('spring-cloud-brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", EVERY_SUN)
+		build('spring-cloud-brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", everySunday())
 	}
 
 	void buildSleuthDocApps() {
-		build('spring-cloud-sleuth-doc-apps', 'spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", EVERY_SUN)
+		build('spring-cloud-sleuth-doc-apps', 'spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", everySunday())
 	}
 
 	protected void build(String description, String githubOrg, String projectName, String script, String cronExpr) {

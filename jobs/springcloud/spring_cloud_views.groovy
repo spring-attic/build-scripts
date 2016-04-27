@@ -13,66 +13,48 @@ dsl.nestedView('Spring Cloud') {
 			jobs {
 				regex('spring-cloud.*-compatibility-check')
 			}
-			columns {
-				status()
-				name()
-				lastSuccess()
-				lastFailure()
-				lastBuildConsole()
-				buildButton()
-			}
+			columns defaultColumns()
 		}
 		listView('CI') {
 			jobs {
 				regex('spring-cloud.*-ci')
 			}
-			columns {
-				status()
-				name()
-				lastSuccess()
-				lastFailure()
-				lastBuildConsole()
-				buildButton()
-			}
+			columns defaultColumns()
 		}
 		listView('E2E') {
 			jobs {
 				regex('spring-cloud.*-e2e')
 			}
-			columns {
-				status()
-				name()
-				lastSuccess()
-				lastFailure()
-				lastBuildConsole()
-				buildButton()
-			}
+			columns defaultColumns()
 		}
 		listView('Sonar') {
 			jobs {
 				regex('spring-cloud.*-sonar')
 			}
-			columns {
-				status()
-				name()
-				lastSuccess()
-				lastFailure()
-				lastBuildConsole()
-				buildButton()
+			columns defaultColumns()
+		}
+		listView('F2F') {
+			jobs {
+				regex('spring-cloud.*-f2f')
 			}
+			columns defaultColumns()
 		}
 		listView('All Cloud') {
 			jobs {
 				regex('spring-cloud.*')
 			}
-			columns {
-				status()
-				name()
-				lastSuccess()
-				lastFailure()
-				lastBuildConsole()
-				buildButton()
-			}
+			columns defaultColumns()
 		}
+	}
+}
+
+private Closure defaultColumns() {
+	return {
+		status()
+		name()
+		lastSuccess()
+		lastFailure()
+		lastBuildConsole()
+		buildButton()
 	}
 }

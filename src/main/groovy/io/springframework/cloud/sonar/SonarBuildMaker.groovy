@@ -1,5 +1,6 @@
 package io.springframework.cloud.sonar
 
+import io.springframework.common.CronTrait
 import io.springframework.common.DefaultConfig
 import io.springframework.common.NotificationTrait
 import io.springframework.common.PublisherTrait
@@ -9,7 +10,7 @@ import javaposse.jobdsl.dsl.helpers.step.StepContext
 /**
  * @author Marcin Grzejszczak
  */
-class SonarBuildMaker implements NotificationTrait, DefaultConfig, PublisherTrait, SonarTrait {
+class SonarBuildMaker implements NotificationTrait, DefaultConfig, PublisherTrait, SonarTrait, CronTrait {
 	private  static final String ONCE_PER_DAY = "H H * * *"
 	private final DslFactory dsl
 
@@ -17,7 +18,11 @@ class SonarBuildMaker implements NotificationTrait, DefaultConfig, PublisherTrai
 		this.dsl = dsl
 	}
 
-	void buildSonar(String projectName, String cronExpr = ONCE_PER_DAY) {
+	void buildSonar(String projectName) {
+		buildSonar(projectName, oncePerDay())
+	}
+
+	void buildSonar(String projectName, String cronExpr) {
 		dsl.job("$projectName-sonar") {
 			triggers {
 				cron cronExpr

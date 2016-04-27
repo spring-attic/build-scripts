@@ -1,5 +1,6 @@
 package io.springframework.cloud.ci
 
+import io.springframework.common.CronTrait
 import io.springframework.common.DefaultConfig
 import io.springframework.common.NotificationTrait
 import javaposse.jobdsl.dsl.DslFactory
@@ -7,15 +8,18 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig {
-	private  static final String ONCE_PER_DAY = "H H * * *"
+class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig, CronTrait {
 	private final DslFactory dsl
 
 	BenchmarksBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 	}
 
-	void buildSleuth(String cronExpr = ONCE_PER_DAY) {
+	void buildSleuth() {
+		buildSleuth(oncePerDay())
+	}
+
+	void buildSleuth(String cronExpr) {
 		dsl.job('spring-cloud-sleuth-benchmark-ci') {
 			triggers {
 				cron cronExpr
