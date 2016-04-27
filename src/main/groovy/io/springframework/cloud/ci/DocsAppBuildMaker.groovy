@@ -14,7 +14,7 @@ class DocsAppBuildMaker implements NotificationTrait, DefaultConfig {
 		this.dsl = dsl
 	}
 
-	void buildDocs(String cronExpr = "0 0 3 1/1 * ? *") {
+	void buildDocs(String cronExpr) {
 		dsl.job('spring-cloud-sleuth-docs-apps-ci') {
 			triggers {
 				cron cronExpr

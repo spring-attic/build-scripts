@@ -12,8 +12,8 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 // COMPATIBILITY BUILDS
-['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].eachWithIndex { String projectName, Integer index ->
-	new CompatibilityBuildMaker(dsl).build(projectName, everyDayAt(5, index))
+['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each { String projectName->
+	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
 new ConsulCompatibilityBuildMaker(dsl).build('spring-cloud-consul')
 
@@ -21,15 +21,15 @@ new ConsulCompatibilityBuildMaker(dsl).build('spring-cloud-consul')
 new BenchmarksBuildMaker(dsl).buildSleuth()
 
 // CI BUILDS
-new DocsAppBuildMaker(dsl).buildDocs()
+new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
 
 // E2E BUILDS
-['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].eachWithIndex { String projectName, Integer index ->
-	new EndToEndBuildMaker(dsl).build(projectName, everyDayAt(index, 10))
+['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].each { String projectName ->
+	new EndToEndBuildMaker(dsl).build(projectName, everyThreeHours())
 }
 def sleuthMaker = new SleuthEndToEndBuildMaker(dsl)
-sleuthMaker.buildSleuth(everyDayAt(0, 15))
-sleuthMaker.buildSleuthStream(everyDayAt(1, 15))
+sleuthMaker.buildSleuth(everyThreeHours())
+sleuthMaker.buildSleuthStream(everyThreeHours())
 
 // E2E on CF
 def cfMaker = new CloudFoundryEndToEndBuildMaker(dsl)
@@ -42,6 +42,6 @@ cfMaker.buildSpringCloudStream()
 
 // ========== FUNCTIONS ==========
 
-String everyDayAt(int startingHour, int offset) {
-	return "0 0 ${startingHour + offset} 1/1 * ? *"
+String everyThreeHours() {
+	return "H H/3 * * *"
 }

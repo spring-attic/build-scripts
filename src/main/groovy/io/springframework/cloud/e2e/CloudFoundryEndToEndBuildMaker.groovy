@@ -10,9 +10,8 @@ import javaposse.jobdsl.dsl.DslFactory
  * @author Marcin Grzejszczak
  */
 class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig, BreweryDefatuts, CfConfig {
-	private static final String EVERY_DAY_AT_18 = "0 0 18 1/1 * ? *"
-	private static final String EVERY_SUN_AT_14 = "0 0 14 ? * SUN *"
-	private static final String EVERY_SUN_AT_16 = "0 0 16 ? * SUN *"
+	private static final String EVERY_DAY_AT_18 = "H H * * *"
+	private static final String EVERY_SUN = "H H * * 7"
 
 	private final DslFactory dsl
 
@@ -25,11 +24,11 @@ class CloudFoundryEndToEndBuildMaker implements NotificationTrait, PublisherTrai
 	}
 
 	void buildBreweryForDocs() {
-		build('spring-cloud-brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", EVERY_SUN_AT_16)
+		build('spring-cloud-brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", EVERY_SUN)
 	}
 
 	void buildSleuthDocApps() {
-		build('spring-cloud-sleuth-doc-apps', 'spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", EVERY_SUN_AT_14)
+		build('spring-cloud-sleuth-doc-apps', 'spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", EVERY_SUN)
 	}
 
 	protected void build(String description, String githubOrg, String projectName, String script, String cronExpr) {
