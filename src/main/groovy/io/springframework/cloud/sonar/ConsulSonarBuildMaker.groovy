@@ -13,7 +13,7 @@ class ConsulSonarBuildMaker extends SonarBuildMaker implements ConsulTrait {
 	}
 
 	void buildSonar() {
-		super.buildSonar('spring-cloud-sonar')
+		super.buildSonar('spring-cloud-consul')
 	}
 
 	@Override
