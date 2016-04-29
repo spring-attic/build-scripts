@@ -23,6 +23,7 @@ class AppDeployingBuildMaker implements NotificationTrait, PublisherTrait, Defau
 	void build(String githubOrg, String projectName, String cronExpr) {
 		dsl.job("spring-cloud-${projectName}-f2f") {
 			triggers {
+				githubPush()
 				cron cronExpr
 			}
 			jdk jdk8()
