@@ -51,7 +51,7 @@ class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig, CronTrai
 				shell('''
 				echo "Copying Benchmarks results"
 				mkdir -p results/jmh
-				cp -avr target/benchmarks.log results/jmh/
+				cp -avr target/ results/jmh/
 				''')
 			}
 			publishers {
@@ -61,7 +61,37 @@ class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig, CronTrai
 			}
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)
+				appendPerformancePlugin(it as Node,
+						'results/benchmarks/target/jmeter/results/*.jtl',
+						'results/benchmarks/jmh/target/test-reports/*.xml')
 			}
+		}
+	}
+
+	private void appendPerformancePlugin(Node rootNode, String jmeterPath, String junitPath) {
+		Node propertiesNode = rootNode / 'publishers'
+		def perf = propertiesNode / 'hudson.plugins.performance.PerformancePublisher'
+		(perf / 'errorFailedThreshold').setValue(0)
+		(perf / 'errorUnstableThreshold').setValue(0)
+		(perf / 'errorUnstableResponseTimeThreshold').setValue(0)
+		(perf / 'relativeFailedThresholdPositive').setValue(0)
+		(perf / 'relativeFailedThresholdNegative').setValue(0)
+		(perf / 'relativeUnstableThresholdPositive').setValue(0)
+		(perf / 'relativeUnstableThresholdNegative').setValue(0)
+		(perf / 'nthBuildNumber').setValue(0)
+		(perf / 'modeRelativeThresholds').setValue(false)
+		(perf / 'configType').setValue('ART')
+		(perf / 'modeOfThreshold').setValue(false)
+		(perf / 'compareBuildPrevious').setValue(false)
+		(perf / 'xml').setValue('')
+		(perf / 'modePerformancePerTestCase').setValue(true)
+		(perf / 'modeThroughput').setValue(false)
+		def parsers = perf / 'parsers'
+		if (jmeterPath) {
+			(parsers / 'hudson.plugins.performance.JMeterParser' / 'glob').setValue(jmeterPath)
+		}
+		if (junitPath) {
+			(parsers / 'hudson.plugins.performance.JUnitParser' / 'glob').setValue(junitPath)
 		}
 	}
 }
