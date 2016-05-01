@@ -62,13 +62,12 @@ class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig, CronTrai
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)
 				appendPerformancePlugin(it as Node,
-						'results/benchmarks/target/jmeter/results/*.jtl',
-						'results/benchmarks/jmh/target/test-reports/*.xml')
+						'results/benchmarks/target/jmeter/results/*.jtl')
 			}
 		}
 	}
 
-	private void appendPerformancePlugin(Node rootNode, String jmeterPath, String junitPath) {
+	private void appendPerformancePlugin(Node rootNode, String jmeterPath) {
 		Node propertiesNode = rootNode / 'publishers'
 		def perf = propertiesNode / 'hudson.plugins.performance.PerformancePublisher'
 		(perf / 'errorFailedThreshold').setValue(0)
@@ -90,8 +89,8 @@ class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig, CronTrai
 		if (jmeterPath) {
 			(parsers / 'hudson.plugins.performance.JMeterParser' / 'glob').setValue(jmeterPath)
 		}
-		if (junitPath) {
+		/*if (junitPath) {
 			(parsers / 'hudson.plugins.performance.JUnitParser' / 'glob').setValue(junitPath)
-		}
+		}*/
 	}
 }
