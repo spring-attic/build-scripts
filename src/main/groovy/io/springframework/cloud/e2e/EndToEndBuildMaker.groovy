@@ -9,6 +9,9 @@ import javaposse.jobdsl.dsl.DslFactory
  * @author Marcin Grzejszczak
  */
 class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig, BreweryDefatuts {
+
+	private static final String BREWERY_NUMBER_OF_RETRIES_IF_APP_IS_DOWN = 'RETRIES'
+
 	private final DslFactory dsl
 
 	EndToEndBuildMaker(DslFactory dsl) {
@@ -25,6 +28,11 @@ class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultCo
 				cron cronExpr
 			}
 			jdk jdk8()
+			wrappers {
+				environmentVariables([
+						(BREWERY_NUMBER_OF_RETRIES_IF_APP_IS_DOWN): 140
+				])
+			}
 			scm {
 				git {
 					remote {
