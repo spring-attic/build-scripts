@@ -8,8 +8,6 @@ import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
 import io.springframework.cloud.e2e.EndToEndBuildMaker
 import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
 import io.springframework.cloud.f2f.AppDeployingBuildMaker
-import io.springframework.cloud.sonar.ConsulSonarBuildMaker
-import io.springframework.cloud.sonar.SonarBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
@@ -42,11 +40,11 @@ new CloudFoundryEndToEndBuildMaker(dsl).with {
 	buildSpringCloudStream()
 }
 
-// SONAR BUILDS
-['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each {
+// SONAR BUILDS - disabled until sonar is set
+/*['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each {
 	new SonarBuildMaker(dsl).buildSonar(it)
 }
-new ConsulSonarBuildMaker(dsl).buildSonar()
+new ConsulSonarBuildMaker(dsl).buildSonar()*/
 
 // F2F
 new AppDeployingBuildMaker(dsl).with {
