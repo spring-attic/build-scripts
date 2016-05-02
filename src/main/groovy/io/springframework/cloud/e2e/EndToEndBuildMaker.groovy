@@ -10,8 +10,6 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig, BreweryDefatuts {
 
-	private static final String BREWERY_NUMBER_OF_RETRIES_IF_APP_IS_DOWN = 'RETRIES'
-
 	private final DslFactory dsl
 
 	EndToEndBuildMaker(DslFactory dsl) {
@@ -30,7 +28,7 @@ class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultCo
 			jdk jdk8()
 			wrappers {
 				environmentVariables([
-						(BREWERY_NUMBER_OF_RETRIES_IF_APP_IS_DOWN): 140
+						RETRIES: 140
 				])
 			}
 			scm {
