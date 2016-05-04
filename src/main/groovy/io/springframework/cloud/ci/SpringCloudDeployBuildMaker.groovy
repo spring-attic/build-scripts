@@ -49,4 +49,8 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher 
 			}
 		}
 	}
+
+	void deployWithoutTests(String project) {
+		deploy(project, false)
+	}
 }

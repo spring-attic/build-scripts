@@ -17,6 +17,8 @@ def allProjects = ['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-
 				   'spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-config', 'spring-cloud-security',
 				   'spring-cloud-cloudfoundry', 'spring-cloud-aws', 'spring-cloud-build', 'spring-cloud-cluster']
 
+def projectsWithTests = allProjects - 'spring-cloud-build'
+
 // COMPATIBILITY BUILDS
 (allProjects - ['spring-cloud-consul', 'spring-cloud-build']).each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
@@ -30,9 +32,10 @@ new BenchmarksBuildMaker(dsl).buildSleuth()
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
 new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
-	allProjects.each {
+	projectsWithTests.each {
 		maker.deploy(it)
 	}
+	maker.deployWithoutTests('spring-cloud-build')
 }
 
 // E2E BUILDS
