@@ -25,8 +25,10 @@ new BenchmarksBuildMaker(dsl).buildSleuth()
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
 new CloudDeployBuildMaker(dsl).with { CloudDeployBuildMaker maker ->
-	['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul', 'spring-cloud-bus', 'spring-cloud-commons'].each {
-		maker.deploy(it)
+	['sleuth', 'netflix', 'zookeeper', 'consul', 'bus',
+	 'commons', 'config', 'security', 'cloudfoundry', 'aws', 'build'
+	'cluster'].each {
+		maker.deploy("spring-cloud-$it")
 	}
 }
 

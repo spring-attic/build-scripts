@@ -35,11 +35,7 @@ class CloudDeployBuildMaker implements Notification, JdkConfig {
 					./docs/src/main/asciidoc/ghpages.sh
 					''')
 				shell('''
-					VERSION=$(mvn validate | grep Building | head -1 | sed -e 's/.* //')
-					MILESTONE=$(echo ${VERSION} | egrep 'M|RC' && echo true || echo false)
-					MVN_PROFILE=$([ "${MILESTONE}" == "true" ] && echo -P milestone)
-
-					./mvnw -s .settings.xml deploy $MVN_PROFILE -nsu -Dmaven.test.redirectTestOutputToFile=true
+					./mvnw -s .settings.xml deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
 					''')
 			}
 
