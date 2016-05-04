@@ -36,7 +36,8 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher 
 					./docs/src/main/asciidoc/ghpages.sh
 					''')
 				shell('''
-					./mvnw deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
+					git stash && git checkout master
+					./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
 					''')
 			}
 			configure {
