@@ -1,12 +1,12 @@
 package io.springframework.cloud.compatibility
 
 import io.springframework.cloud.common.ConsulTrait
-import io.springframework.common.PublisherTrait
+import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements PublisherTrait, ConsulTrait {
+class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publisher, ConsulTrait {
 	private final DslFactory dsl
 
 	ConsulCompatibilityBuildMaker(DslFactory dsl) {

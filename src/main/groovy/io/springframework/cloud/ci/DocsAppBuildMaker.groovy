@@ -1,13 +1,13 @@
 package io.springframework.cloud.ci
 
-import io.springframework.common.DefaultConfig
-import io.springframework.common.NotificationTrait
+import io.springframework.common.JdkConfig
+import io.springframework.common.Notification
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class DocsAppBuildMaker implements NotificationTrait, DefaultConfig {
+class DocsAppBuildMaker implements Notification, JdkConfig {
 	private final DslFactory dsl
 
 	DocsAppBuildMaker(DslFactory dsl) {

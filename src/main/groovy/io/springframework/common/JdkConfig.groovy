@@ -3,7 +3,7 @@ package io.springframework.common
 /**
  * @author Marcin Grzejszczak
  */
-trait DefaultConfig {
+trait JdkConfig {
 
 	String jdk8() {
 		return "jdk8"

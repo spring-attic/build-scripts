@@ -1,14 +1,14 @@
 package io.springframework.cloud.compatibility
 
-import io.springframework.common.DefaultConfig
-import io.springframework.common.NotificationTrait
-import io.springframework.common.PublisherTrait
+import io.springframework.common.JdkConfig
+import io.springframework.common.Notification
+import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class CompatibilityBuildMaker extends CompatibilityTasks implements NotificationTrait, PublisherTrait, DefaultConfig {
+class CompatibilityBuildMaker extends CompatibilityTasks implements Notification, Publisher, JdkConfig {
 	private final DslFactory dsl
 
 	CompatibilityBuildMaker(DslFactory dsl) {

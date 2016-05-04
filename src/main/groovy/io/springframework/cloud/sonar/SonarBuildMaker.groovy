@@ -1,16 +1,16 @@
 package io.springframework.cloud.sonar
 
-import io.springframework.common.CronTrait
-import io.springframework.common.DefaultConfig
-import io.springframework.common.NotificationTrait
-import io.springframework.common.PublisherTrait
+import io.springframework.common.Cron
+import io.springframework.common.JdkConfig
+import io.springframework.common.Notification
+import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.helpers.step.StepContext
 
 /**
  * @author Marcin Grzejszczak
  */
-class SonarBuildMaker implements NotificationTrait, DefaultConfig, PublisherTrait, SonarTrait, CronTrait {
+class SonarBuildMaker implements Notification, JdkConfig, Publisher, SonarTrait, Cron {
 	private  static final String ONCE_PER_DAY = "H H * * *"
 	private final DslFactory dsl
 

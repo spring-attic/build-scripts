@@ -1,15 +1,15 @@
 package io.springframework.cloud.f2f
 
-import io.springframework.common.CronTrait
-import io.springframework.common.DefaultConfig
-import io.springframework.common.NotificationTrait
-import io.springframework.common.PublisherTrait
+import io.springframework.common.Cron
+import io.springframework.common.JdkConfig
+import io.springframework.common.Notification
+import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class AppDeployingBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig, CronTrait {
+class AppDeployingBuildMaker implements Notification, Publisher, JdkConfig, Cron {
 	private final DslFactory dsl
 
 	AppDeployingBuildMaker(DslFactory dsl) {

@@ -1,14 +1,14 @@
 package io.springframework.cloud.e2e
 
-import io.springframework.common.DefaultConfig
-import io.springframework.common.NotificationTrait
-import io.springframework.common.PublisherTrait
+import io.springframework.common.JdkConfig
+import io.springframework.common.Notification
+import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements NotificationTrait, PublisherTrait, DefaultConfig, BreweryDefatuts {
+class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefatuts {
 
 	private final DslFactory dsl
 

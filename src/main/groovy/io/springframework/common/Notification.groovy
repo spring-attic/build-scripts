@@ -3,7 +3,7 @@ package io.springframework.common
 /**
  * @author Marcin Grzejszczak
  */
-trait NotificationTrait {
+trait Notification {
 
 	void appendSlackNotificationForSpringCloud(Node rootNode) {
 		appendSlackNotification(rootNode, "spring-cloud-firehose")

@@ -3,7 +3,7 @@ package io.springframework.common
 /**
  * @author Marcin Grzejszczak
  */
-trait CronTrait {
+trait Cron {
 	String every15Minutes() {
 		return "H/15 * * * *"
 	}

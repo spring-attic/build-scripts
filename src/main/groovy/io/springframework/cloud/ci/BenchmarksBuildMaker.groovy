@@ -1,14 +1,14 @@
 package io.springframework.cloud.ci
 
-import io.springframework.common.CronTrait
-import io.springframework.common.DefaultConfig
-import io.springframework.common.NotificationTrait
+import io.springframework.common.Cron
+import io.springframework.common.JdkConfig
+import io.springframework.common.Notification
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class BenchmarksBuildMaker implements NotificationTrait, DefaultConfig, CronTrait {
+class BenchmarksBuildMaker implements Notification, JdkConfig, Cron {
 	private final DslFactory dsl
 
 	BenchmarksBuildMaker(DslFactory dsl) {
