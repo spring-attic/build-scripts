@@ -13,8 +13,12 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
+def allProjects = ['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul',
+				   'spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-config', 'spring-cloud-security',
+				   'spring-cloud-cloudfoundry', 'spring-cloud-aws', 'spring-cloud-build', 'spring-cloud-cluster']
+
 // COMPATIBILITY BUILDS
-['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each { String projectName->
+(allProjects - 'spring-cloud-consul').each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
 new ConsulCompatibilityBuildMaker(dsl).build('spring-cloud-consul')
@@ -25,10 +29,8 @@ new BenchmarksBuildMaker(dsl).buildSleuth()
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
 new CloudDeployBuildMaker(dsl).with { CloudDeployBuildMaker maker ->
-	['sleuth', 'netflix', 'zookeeper', 'consul', 'bus',
-	 'commons', 'config', 'security', 'cloudfoundry', 'aws', 'build',
-	'cluster'].each {
-		maker.deploy("spring-cloud-$it")
+	allProjects.each {
+		maker.deploy(it)
 	}
 }
 
