@@ -23,7 +23,7 @@ class AppDeployingBuildMaker implements Notification, Publisher, JdkConfig, Cron
 	void build(String githubOrg, String projectName, String cronExpr) {
 		dsl.job("spring-cloud-${projectName}-f2f") {
 			triggers {
-				scm every15Minutes()
+				githubPush()
 				cron cronExpr
 			}
 			jdk jdk8()
