@@ -13,7 +13,7 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 		this.dsl = dsl
 	}
 
-	void build(String projectName, String cronExpr = "0 0 0 1/1 * ? *") {
+	void build(String projectName, String cronExpr = "H H/3 * * *") {
 		dsl.job("${projectName}-compatibility-check") {
 			triggers {
 				cron cronExpr

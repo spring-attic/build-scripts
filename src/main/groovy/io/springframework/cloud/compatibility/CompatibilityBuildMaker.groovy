@@ -16,6 +16,10 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 	}
 
 	void build(String projectName, String cronExpr) {
+		buildWithTests(projectName, cronExpr, true)
+	}
+
+	private void buildWithTests(String projectName, String cronExpr, boolean checkTests) {
 		dsl.job("${projectName}-compatibility-check") {
 			triggers {
 				cron cronExpr
@@ -34,10 +38,16 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)
 			}
-			publishers {
-				archiveJunit mavenJunitResults()
+			if (checkTests) {
+				publishers {
+					archiveJunit mavenJunitResults()
+				}
 			}
 		}
+	}
+
+	void buildWithoutTests(String projectName, String cronExpr) {
+		buildWithTests(projectName, cronExpr, false)
 	}
 
 }

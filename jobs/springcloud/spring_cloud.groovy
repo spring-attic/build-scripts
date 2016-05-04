@@ -18,9 +18,10 @@ def allProjects = ['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-
 				   'spring-cloud-cloudfoundry', 'spring-cloud-aws', 'spring-cloud-build', 'spring-cloud-cluster']
 
 // COMPATIBILITY BUILDS
-(allProjects - 'spring-cloud-consul').each { String projectName->
+(allProjects - ['spring-cloud-consul', 'spring-cloud-build']).each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
+new CompatibilityBuildMaker(dsl).buildWithoutTests('spring-cloud-build', everyThreeHours())
 new ConsulCompatibilityBuildMaker(dsl).build('spring-cloud-consul')
 
 // BENCHMARK BUILDS
