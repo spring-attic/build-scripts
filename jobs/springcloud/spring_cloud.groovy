@@ -2,7 +2,7 @@ package springcloud
 
 import io.springframework.cloud.ci.BenchmarksBuildMaker
 import io.springframework.cloud.ci.DocsAppBuildMaker
-import io.springframework.cloud.ci.CloudDeployBuildMaker
+import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
 import io.springframework.cloud.compatibility.CompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
@@ -29,7 +29,7 @@ new BenchmarksBuildMaker(dsl).buildSleuth()
 
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
-new CloudDeployBuildMaker(dsl).with { CloudDeployBuildMaker maker ->
+new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 	allProjects.each {
 		maker.deploy(it)
 	}

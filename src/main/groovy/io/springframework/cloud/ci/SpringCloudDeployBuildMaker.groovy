@@ -7,10 +7,10 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class CloudDeployBuildMaker implements Notification, JdkConfig {
+class SpringCloudDeployBuildMaker implements Notification, JdkConfig {
 	private final DslFactory dsl
 
-	CloudDeployBuildMaker(DslFactory dsl) {
+	SpringCloudDeployBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 	}
 
@@ -35,7 +35,7 @@ class CloudDeployBuildMaker implements Notification, JdkConfig {
 					./docs/src/main/asciidoc/ghpages.sh
 					''')
 				shell('''
-					./mvnw -s .settings.xml deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
+					./mvnw deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
 					''')
 			}
 
