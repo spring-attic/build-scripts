@@ -13,7 +13,7 @@ abstract class CompatibilityTasks {
 		return buildStep {
 			shell("""
 					echo -e "Printing the list of dependencies"
-					./mvnw dependency:tree -Dspring-boot.version=1.4.0.BUILD-SNAPSHOT
+					./mvnw dependency:tree -U -Dspring-boot.version=1.4.0.BUILD-SNAPSHOT
 					""")
 			shell runTests()
 		}
@@ -22,7 +22,7 @@ abstract class CompatibilityTasks {
 	protected String runTests() {
 		return '''
 					echo -e "Running the tests"
-					./mvnw clean verify -fae -Dspring-boot.version=1.4.0.BUILD-SNAPSHOT'''
+					./mvnw clean verify -Ufae -Dspring-boot.version=1.4.0.BUILD-SNAPSHOT'''
 	}
 
 	private Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {
