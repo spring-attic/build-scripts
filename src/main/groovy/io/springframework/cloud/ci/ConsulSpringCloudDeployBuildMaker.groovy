@@ -34,6 +34,10 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 			}
 			steps {
 				shell('''
+						echo "Clearing the installed cloud artifacts"
+						rm -rf ~/.m2/repository/org/springframework/cloud/
+						''')
+				shell('''
 						./mvnw install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
 						./docs/src/main/asciidoc/ghpages.sh
 						git reset --hard && git checkout master

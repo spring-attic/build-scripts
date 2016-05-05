@@ -38,13 +38,17 @@ abstract class CompatibilityTasks {
 					./mvnw dependency:tree
 					""")
 			shell runTests()
+			shell('''
+					echo "Clearing the installed cloud artifacts"
+					rm -rf ~/.m2/repository/org/springframework/cloud/
+					''')
 		}
 	}
 
 	protected String runTests() {
 		return '''
 					echo -e "Running the tests"
-					./mvnw clean verify -fae'''
+					./mvnw clean verify -fae || echo "Clearing the installed cloud artifacts" && rm -rf ~/.m2/repository/org/springframework/cloud/'''
 	}
 
 	private Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {

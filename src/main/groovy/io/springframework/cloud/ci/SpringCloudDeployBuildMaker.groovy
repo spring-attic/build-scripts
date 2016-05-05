@@ -32,6 +32,10 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher 
 			}
 			steps {
 				shell('''
+					echo "Clearing the installed cloud artifacts"
+					rm -rf ~/.m2/repository/org/springframework/cloud/
+					''')
+				shell('''
 					./mvnw clean install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
 					./docs/src/main/asciidoc/ghpages.sh
 					''')
