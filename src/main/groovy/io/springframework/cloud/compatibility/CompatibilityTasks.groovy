@@ -29,7 +29,9 @@ abstract class CompatibilityTasks {
 			}
 			shell('''
 					echo "Installing built version with different parent"
-					./spring-cloud-build/mvnw clean install
+					cd spring-cloud-build
+					./mvnw clean install
+					cd ..
 					''')
 			shell("""
 					echo -e "Printing the list of dependencies"
