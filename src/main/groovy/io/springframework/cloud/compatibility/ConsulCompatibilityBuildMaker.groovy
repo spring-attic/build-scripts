@@ -28,20 +28,18 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 				}
 			}
 			steps {
-				conditionalSteps {
-					condition {
-						alwaysRun()
-					}
-					steps {
-						shell preConsulShell()
-						steps defaultSteps()
-						shell postConsulShell()
-					}
-				}
+				shell preConsulShell()
+				steps defaultSteps()
+				shell postConsulShell()
 			}
 			publishers {
 				archiveJunit mavenJunitResults()
 			}
 		}
+	}
+
+	@Override
+	protected String runTests() {
+		return "${super.runTests()} || ${postConsulShell()}"
 	}
 }

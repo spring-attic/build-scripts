@@ -21,8 +21,7 @@ trait ConsulTrait {
 
 	String postConsulShell() {
 		return '''
-					echo "Kill consul" &&
-					kill -9 $(ps aux | grep '[c]onsul' | awk '{print $2}') && echo "Killed consul" || echo "Can't find consul in running processes"
+					echo "Kill consul" && kill -9 $(ps aux | grep '[c]onsul' | awk '{print $2}') && echo "Killed consul" || echo "Can't find consul in running processes"
 					'''
 	}
 }

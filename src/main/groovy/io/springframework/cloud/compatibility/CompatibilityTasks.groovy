@@ -35,11 +35,15 @@ abstract class CompatibilityTasks {
 					echo -e "Printing the list of dependencies"
 					./mvnw dependency:tree
 					""")
-			shell('''
+			shell runTests()
+		}
+	}
+
+	protected String runTests() {
+		return '''
 					echo -e "Running the tests"
 					./mvnw clean verify -fae
-					''')
-		}
+					'''
 	}
 
 	private Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {
