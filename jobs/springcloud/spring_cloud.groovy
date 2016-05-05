@@ -1,4 +1,3 @@
-/*
 package springcloud
 
 import io.springframework.cloud.ci.BenchmarksBuildMaker
@@ -58,11 +57,10 @@ new CloudFoundryEndToEndBuildMaker(dsl).with {
 }
 
 // SONAR BUILDS - disabled until sonar is set
-*/
-/*['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each {
+['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each {
 	new SonarBuildMaker(dsl).buildSonar(it)
 }
-new ConsulSonarBuildMaker(dsl).buildSonar()*//*
+new ConsulSonarBuildMaker(dsl).buildSonar()
 
 
 // F2F
@@ -75,4 +73,4 @@ new AppDeployingBuildMaker(dsl).with {
 
 String everyThreeHours() {
 	return "H H/3 * * *"
-}*/
+}
