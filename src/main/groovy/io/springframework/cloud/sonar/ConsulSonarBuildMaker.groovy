@@ -19,7 +19,12 @@ class ConsulSonarBuildMaker extends SonarBuildMaker implements ConsulTrait {
 	@Override
 	Closure defaultSteps() {
 		return buildStep {
-			shell postConsulShell()
+			conditionalSteps {
+				condition {
+					alwaysRun()
+					shell postConsulShell()
+				}
+			}
 		} << super.defaultSteps() <<  buildStep {
 			shell preConsulShell()
 		}

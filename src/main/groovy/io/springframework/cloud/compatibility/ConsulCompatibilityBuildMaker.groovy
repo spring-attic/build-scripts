@@ -32,7 +32,12 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 			}
 			steps defaultSteps()
 			steps {
-				shell postConsulShell()
+				conditionalSteps {
+					condition {
+						alwaysRun()
+						shell postConsulShell()
+					}
+				}
 			}
 			publishers {
 				archiveJunit mavenJunitResults()

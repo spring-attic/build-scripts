@@ -42,7 +42,12 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 				shell('''
 					./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
 					''')
-				shell postConsulShell()
+				conditionalSteps {
+					condition {
+						alwaysRun()
+						shell postConsulShell()
+					}
+				}
 			}
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)
