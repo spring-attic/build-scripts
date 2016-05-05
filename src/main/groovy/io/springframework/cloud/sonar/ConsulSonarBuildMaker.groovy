@@ -22,8 +22,8 @@ class ConsulSonarBuildMaker extends SonarBuildMaker implements ConsulTrait {
 			conditionalSteps {
 				condition {
 					alwaysRun()
-					shell postConsulShell()
 				}
+				shell postConsulShell()
 			}
 		} << super.defaultSteps() <<  buildStep {
 			shell preConsulShell()

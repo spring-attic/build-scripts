@@ -36,24 +36,17 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 				conditionalSteps {
 					condition {
 						alwaysRun()
+					}
+					steps {
 						shell('''
 							./mvnw install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
 							./docs/src/main/asciidoc/ghpages.sh
 							git reset --hard && git checkout master
 						''')
-					}
-					condition {
-						alwaysRun()
 						shell preConsulShell()
-					}
-					condition {
-						alwaysRun()
 						shell('''
 							./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
 						''')
-					}
-					condition {
-						alwaysRun()
 						shell postConsulShell()
 					}
 				}

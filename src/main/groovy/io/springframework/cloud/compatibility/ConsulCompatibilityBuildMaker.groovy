@@ -31,14 +31,10 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 				conditionalSteps {
 					condition {
 						alwaysRun()
+					}
+					steps {
 						shell preConsulShell()
-					}
-					condition {
-						alwaysRun()
 						steps defaultSteps()
-					}
-					condition {
-						alwaysRun()
 						shell postConsulShell()
 					}
 				}

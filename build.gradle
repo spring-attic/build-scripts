@@ -36,5 +36,5 @@ task workspace(type: Copy) {
 }
 
 wrapper {
-    gradleVersion '2.12'
+    gradleVersion '2.13'
 }
