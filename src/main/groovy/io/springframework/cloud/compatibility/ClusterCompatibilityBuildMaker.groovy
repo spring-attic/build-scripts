@@ -3,6 +3,7 @@ package io.springframework.cloud.compatibility
 import io.springframework.cloud.common.ClusterTrait
 import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
+
 /**
  * @author Marcin Grzejszczak
  */
@@ -13,7 +14,9 @@ class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements Publi
 		this.dsl = dsl
 	}
 
-	void build(String projectName, String cronExpr = "H H/3 * * *") {
+	void build() {
+		String projectName = 'spring-cloud-cluster'
+		String cronExpr = "H H/3 * * *"
 		dsl.job("${projectName}-compatibility-check") {
 			triggers {
 				cron cronExpr
@@ -40,6 +43,6 @@ class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements Publi
 
 	@Override
 	protected String runTests() {
-		return "${super.runTests()} || ${postConsulShell()}"
+		return "${preClusterShell()} \n\n ${super.runTests()} || ${postClusterShell()}"
 	}
 }

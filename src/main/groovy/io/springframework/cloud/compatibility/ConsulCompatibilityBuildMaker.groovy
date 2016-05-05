@@ -13,7 +13,9 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 		this.dsl = dsl
 	}
 
-	void build(String projectName, String cronExpr = "H H/3 * * *") {
+	void build() {
+		String projectName = 'spring-cloud-consul'
+		String cronExpr = "H H/3 * * *"
 		dsl.job("${projectName}-compatibility-check") {
 			triggers {
 				cron cronExpr

@@ -5,6 +5,7 @@ import io.springframework.cloud.ci.ClusterSpringCloudDeployBuildMaker
 import io.springframework.cloud.ci.ConsulSpringCloudDeployBuildMaker
 import io.springframework.cloud.ci.DocsAppBuildMaker
 import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
+import io.springframework.cloud.compatibility.ClusterCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.CompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
@@ -25,11 +26,12 @@ def allProjects = ['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-
 def projectsWithTests = allProjects - 'spring-cloud-build'
 
 // COMPATIBILITY BUILDS
-(allProjects - ['spring-cloud-consul', 'spring-cloud-build']).each { String projectName->
+(allProjects - ['spring-cloud-consul', 'spring-cloud-build', 'spring-cloud-cluster']).each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
 new CompatibilityBuildMaker(dsl).buildWithoutTests('spring-cloud-build', everyThreeHours())
-new ConsulCompatibilityBuildMaker(dsl).build('spring-cloud-consul')
+new ConsulCompatibilityBuildMaker(dsl).build()
+new ClusterCompatibilityBuildMaker(dsl).build()
 
 // BENCHMARK BUILDS
 new BenchmarksBuildMaker(dsl).buildSleuth()
