@@ -42,8 +42,7 @@ abstract class CompatibilityTasks {
 	protected String runTests() {
 		return '''
 					echo -e "Running the tests"
-					./mvnw clean verify -fae
-					'''
+					./mvnw clean verify -fae'''
 	}
 
 	private Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {
