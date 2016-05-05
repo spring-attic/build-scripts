@@ -1,6 +1,7 @@
 package springcloud
 
 import io.springframework.cloud.ci.BenchmarksBuildMaker
+import io.springframework.cloud.ci.ConsulSpringCloudDeployBuildMaker
 import io.springframework.cloud.ci.DocsAppBuildMaker
 import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
 import io.springframework.cloud.compatibility.CompatibilityBuildMaker
@@ -32,11 +33,12 @@ new BenchmarksBuildMaker(dsl).buildSleuth()
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
 new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
-	projectsWithTests.each {
+	(projectsWithTests - 'spring-cloud-consul').each {
 		maker.deploy(it)
 	}
 	maker.deployWithoutTests('spring-cloud-build')
 }
+new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 
 // E2E BUILDS
 ['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].each { String projectName ->
