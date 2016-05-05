@@ -47,6 +47,13 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 						shell('''
 							./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
 						''')
+					}
+				}
+				conditionalSteps {
+					condition {
+						alwaysRun()
+					}
+					steps {
 						shell postConsulShell()
 					}
 				}
