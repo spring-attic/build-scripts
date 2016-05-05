@@ -38,8 +38,8 @@ class ClusterSpringCloudDeployBuildMaker implements Notification, JdkConfig, Pub
 						./docs/src/main/asciidoc/ghpages.sh
 						git reset --hard && git checkout master
 					''')
-				shell preClusterShell()
 				shell("""
+						${preClusterShell()}
 						./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true || ${postClusterShell()}
 					""")
 				shell postClusterShell()
