@@ -1,14 +1,13 @@
 package io.springframework.cloud.sonar
 
-import io.springframework.cloud.common.ConsulTrait
+import io.springframework.cloud.common.ClusterTrait
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class ConsulSonarBuildMaker extends SonarBuildMaker implements ConsulTrait {
+class ClusterSonarBuildMaker extends SonarBuildMaker implements ClusterTrait {
 
-	ConsulSonarBuildMaker(DslFactory dsl) {
+	ClusterSonarBuildMaker(DslFactory dsl) {
 		super(dsl)
 	}
 
@@ -19,14 +18,14 @@ class ConsulSonarBuildMaker extends SonarBuildMaker implements ConsulTrait {
 	@Override
 	Closure defaultSteps() {
 		return buildStep {
-			shell postConsulShell()
+			shell postClusterShell()
 		} << super.defaultSteps() <<  buildStep {
-			shell preConsulShell()
+			shell preClusterShell()
 		}
 	}
 
 	@Override
 	protected String postAction() {
-		return postConsulShell()
+		return postClusterShell()
 	}
 }

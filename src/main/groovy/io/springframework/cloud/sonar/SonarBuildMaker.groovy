@@ -51,13 +51,17 @@ class SonarBuildMaker implements Notification, JdkConfig, Publisher, SonarTrait,
 	Closure defaultSteps() {
 		return buildStep {
 			shell('./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Psonar -U')
-			shell('''\
+			shell("""\
 				echo "Running sonar please wait..."
 				set +x
-				./mvnw $SONAR_MAVEN_GOAL -Psonar -Dsonar.jdbc.driverClassName=org.postgresql.Driver -Dsonar.jdbc.url=$SONAR_JDBC_URL -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.jdbc.username=$SONAR_JDBC_USERNAME -Dsonar.jdbc.password=$SONAR_JDBC_PASSWORD
+				./mvnw \$SONAR_MAVEN_GOAL -Psonar -Dsonar.jdbc.driverClassName=org.postgresql.Driver -Dsonar.jdbc.url=\$SONAR_JDBC_URL -Dsonar.host.url=\$SONAR_HOST_URL -Dsonar.jdbc.username=\$SONAR_JDBC_USERNAME -Dsonar.jdbc.password=\$SONAR_JDBC_PASSWORD || ${postAction()}
 				set -x
-				''')
+				""")
 		}
+	}
+
+	protected String postAction() {
+		return 'echo "Tests failed"'
 	}
 
 	protected Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {
