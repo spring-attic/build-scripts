@@ -28,11 +28,15 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 				}
 			}
 			steps {
-				shell preConsulShell()
-			}
-			steps defaultSteps()
-			steps {
 				conditionalSteps {
+					condition {
+						alwaysRun()
+						shell preConsulShell()
+					}
+					condition {
+						alwaysRun()
+						steps defaultSteps()
+					}
 					condition {
 						alwaysRun()
 						shell postConsulShell()
