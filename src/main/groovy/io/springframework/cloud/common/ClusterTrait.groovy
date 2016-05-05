@@ -8,7 +8,7 @@ trait ClusterTrait {
 	String preClusterShell() {
 		return '''
 					echo "Killing all docker instances"
-					docker kill $(docker ps -q)
+					docker kill $(docker ps -q) || echo "No containers are running"
 
 					echo "Running etcd"
 					docker run -d --name etcd quay.io/coreos/etcd:v2.3.3
@@ -17,7 +17,7 @@ trait ClusterTrait {
 
 	String postClusterShell() {
 		return '''
-					echo "Killing all docker instances" && docker kill $(docker ps -q)
+					echo "Killing all docker instances" && docker kill $(docker ps -q) || echo "No containers are running"
 					'''
 	}
 }
