@@ -1,6 +1,7 @@
 package springcloud
 
 import io.springframework.cloud.ci.BenchmarksBuildMaker
+import io.springframework.cloud.ci.ClusterSpringCloudDeployBuildMaker
 import io.springframework.cloud.ci.ConsulSpringCloudDeployBuildMaker
 import io.springframework.cloud.ci.DocsAppBuildMaker
 import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
@@ -10,6 +11,7 @@ import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
 import io.springframework.cloud.e2e.EndToEndBuildMaker
 import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
 import io.springframework.cloud.f2f.AppDeployingBuildMaker
+import io.springframework.cloud.sonar.ClusterSonarBuildMaker
 import io.springframework.cloud.sonar.ConsulSonarBuildMaker
 import io.springframework.cloud.sonar.SonarBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
@@ -35,12 +37,13 @@ new BenchmarksBuildMaker(dsl).buildSleuth()
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
 new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
-	(projectsWithTests - 'spring-cloud-consul').each {
+	(projectsWithTests - ['spring-cloud-consul', 'spring-cloud-cluster']).each {
 		maker.deploy(it)
 	}
 	maker.deployWithoutTests('spring-cloud-build')
 }
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
+new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 
 // E2E BUILDS
 ['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].each { String projectName ->
@@ -63,6 +66,7 @@ new CloudFoundryEndToEndBuildMaker(dsl).with {
 	new SonarBuildMaker(dsl).buildSonar(it)
 }
 new ConsulSonarBuildMaker(dsl).buildSonar()
+new ClusterSonarBuildMaker(dsl).buildSonar()
 
 
 // F2F
