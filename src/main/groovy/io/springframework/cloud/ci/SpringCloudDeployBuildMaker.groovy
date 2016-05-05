@@ -32,11 +32,11 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher 
 			}
 			steps {
 				shell('''
-					./mvnw install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
+					./mvnw clean install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
 					./docs/src/main/asciidoc/ghpages.sh
 					''')
 				shell('''
-					git reset --hard && git checkout master && git pull origin master --rebase &&
+					git reset --hard && git checkout master && git pull origin master &&
 					./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
 					''')
 			}
