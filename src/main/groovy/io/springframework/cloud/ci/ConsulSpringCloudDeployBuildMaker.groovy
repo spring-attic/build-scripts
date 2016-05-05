@@ -33,11 +33,11 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 				}
 			}
 			steps {
-				shell preConsulShell()
 				shell('''
 					./mvnw install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
 					./docs/src/main/asciidoc/ghpages.sh
 					''')
+				shell preConsulShell()
 				shell('''
 					git reset --hard && git checkout master
 					./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
