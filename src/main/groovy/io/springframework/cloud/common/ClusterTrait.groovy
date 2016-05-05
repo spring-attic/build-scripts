@@ -6,7 +6,7 @@ package io.springframework.cloud.common
 trait ClusterTrait {
 
 	String preClusterShell() {
-		return '''
+		return '''\
 					mkdir -p etcd
 					cd etcd
 					curl -L  https://github.com/coreos/etcd/releases/download/v2.3.3/etcd-v2.3.3-linux-amd64.tar.gz -o etcd-v2.3.3-linux-amd64.tar.gz
@@ -18,7 +18,7 @@ trait ClusterTrait {
 	}
 
 	String postClusterShell() {
-		return '''
+		return '''\
 					pkill etcd && echo "Killed ETCD" || echo "No ETCD process is running"
 					rm -rf etcd && echo "Removed ETCD target" || echo "NO ETCD target"
 					'''
