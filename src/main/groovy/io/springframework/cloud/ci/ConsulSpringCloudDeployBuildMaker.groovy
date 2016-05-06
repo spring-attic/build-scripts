@@ -29,6 +29,7 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 						url "https://github.com/spring-cloud/${project}"
 						branch 'master'
 					}
+					wipeOutWorkspace()
 					createTag(false)
 				}
 			}
