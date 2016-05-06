@@ -44,6 +44,7 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 					''')
 				shell preConsulShell()
 				shell("""
+						git reset --hard && git checkout master && git pull origin master &&
 						./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true || ${postConsulShell()}
 					""")
 				shell postConsulShell()
