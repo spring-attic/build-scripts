@@ -24,8 +24,7 @@ abstract class CompatibilityTasks {
 	protected String runTests() {
 		return """
 					echo -e "Running the tests"
-					./mvnw clean install
-					./mvnw verify -U -fae -Dspring-boot.version=${springBootVersion}"""
+					./mvnw clean install -U -fae -Dspring-boot.version=${springBootVersion}"""
 	}
 
 	private Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {
