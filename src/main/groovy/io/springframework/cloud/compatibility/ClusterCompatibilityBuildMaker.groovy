@@ -31,7 +31,6 @@ class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements Publi
 				}
 			}
 			steps {
-				shell preClusterShell()
 				steps defaultSteps()
 				shell postClusterShell()
 			}

@@ -30,7 +30,6 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 				}
 			}
 			steps {
-				shell preConsulShell()
 				steps defaultSteps()
 				shell postConsulShell()
 			}
@@ -42,6 +41,6 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 
 	@Override
 	protected String runTests() {
-		return "${super.runTests()} || ${postConsulShell()}"
+		return "${preConsulShell()} \n ${super.runTests()} || ${postConsulShell()}"
 	}
 }
