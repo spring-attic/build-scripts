@@ -1,5 +1,6 @@
 package io.springframework.cloud.ci
 
+import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
 import io.springframework.common.Publisher
@@ -8,7 +9,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher {
+class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher, Cron {
 	private final DslFactory dsl
 
 	SpringCloudDeployBuildMaker(DslFactory dsl) {
@@ -18,6 +19,7 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher 
 	void deploy(String project, boolean checkTests = true) {
 		dsl.job("$project-ci") {
 			triggers {
+				cron oncePerDay()
 				githubPush()
 			}
 			jdk jdk8()
