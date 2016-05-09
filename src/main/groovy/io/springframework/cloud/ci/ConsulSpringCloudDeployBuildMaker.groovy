@@ -1,6 +1,7 @@
 package io.springframework.cloud.ci
 
 import io.springframework.cloud.common.ConsulTrait
+import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
 import io.springframework.common.Publisher
@@ -9,7 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher, ConsulTrait {
+class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher, ConsulTrait, Cron {
 	private final DslFactory dsl
 
 	ConsulSpringCloudDeployBuildMaker(DslFactory dsl) {
@@ -20,6 +21,7 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 		String project = 'spring-cloud-consul'
 		dsl.job("$project-ci") {
 			triggers {
+				cron everyThreeHours()
 				githubPush()
 			}
 			jdk jdk8()
@@ -43,8 +45,8 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 						./docs/src/main/asciidoc/ghpages.sh
 						git reset --hard && git checkout master && git pull origin master
 					''')
-				shell preConsulShell()
-				shell("""
+				shell("""\
+						${preConsulShell()}
 						./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true || ${postConsulShell()}
 					""")
 				shell postConsulShell()

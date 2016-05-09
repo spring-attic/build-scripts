@@ -1,6 +1,7 @@
 package io.springframework.cloud.e2e
 
 import io.springframework.common.JdkConfig
+import io.springframework.common.Label
 import io.springframework.common.Notification
 import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
@@ -8,7 +9,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefatuts {
+class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefatuts, Label {
 
 	private final DslFactory dsl
 
@@ -27,8 +28,10 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 			}
 			jdk jdk8()
 			wrappers {
+				label e2e()
 				environmentVariables([
-						RETRIES: 140
+						RETRIES: 70,
+						(jdk8HomeEnvVar()): jdk8DefaultPath()
 				])
 			}
 			scm {

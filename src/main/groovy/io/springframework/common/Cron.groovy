@@ -1,8 +1,11 @@
 package io.springframework.common
 
+import groovy.transform.CompileStatic
+
 /**
  * @author Marcin Grzejszczak
  */
+@CompileStatic
 trait Cron {
 
 	String every15Minutes() {
