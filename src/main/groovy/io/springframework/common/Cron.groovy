@@ -16,4 +16,8 @@ trait Cron {
 	String everySunday() {
 		return "H H * * 7"
 	}
+
+	String everyThreeHours() {
+		return "H H/3 * * *"
+	}
 }

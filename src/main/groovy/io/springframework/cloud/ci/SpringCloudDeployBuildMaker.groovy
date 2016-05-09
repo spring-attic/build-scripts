@@ -19,7 +19,7 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
 	void deploy(String project, boolean checkTests = true) {
 		dsl.job("$project-ci") {
 			triggers {
-				cron oncePerDay()
+				cron everyThreeHours()
 				githubPush()
 			}
 			jdk jdk8()
