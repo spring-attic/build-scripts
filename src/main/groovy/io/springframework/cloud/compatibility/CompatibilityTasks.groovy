@@ -13,11 +13,11 @@ abstract class CompatibilityTasks {
 
 	Closure defaultSteps() {
 		return buildStep {
+			shell runTests()
 			shell("""
 					echo -e "Printing the list of dependencies"
 					./mvnw dependency:tree -U -Dspring-boot.version=${springBootVersion}
 					""")
-			shell runTests()
 		}
 	}
 
