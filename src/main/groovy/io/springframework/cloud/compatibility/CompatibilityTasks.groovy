@@ -9,7 +9,7 @@ import javaposse.jobdsl.dsl.helpers.step.StepContext
 @PackageScope
 abstract class CompatibilityTasks {
 
-	private static final String springBootVersion = '1.3.5.BUILD-SNAPSHOT'
+	private static final String springBootVersion = '1.4.0.BUILD-SNAPSHOT'
 
 	Closure defaultSteps() {
 		return buildStep {
