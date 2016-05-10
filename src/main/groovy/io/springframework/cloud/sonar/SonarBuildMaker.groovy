@@ -4,6 +4,7 @@ import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
 import io.springframework.common.Publisher
+import io.springframework.common.SonarTrait
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.helpers.step.StepContext
 
@@ -11,7 +12,7 @@ import javaposse.jobdsl.dsl.helpers.step.StepContext
  * @author Marcin Grzejszczak
  */
 class SonarBuildMaker implements Notification, JdkConfig, Publisher, SonarTrait, Cron {
-	private  static final String ONCE_PER_DAY = "H H * * *"
+
 	private final DslFactory dsl
 
 	SonarBuildMaker(DslFactory dsl) {

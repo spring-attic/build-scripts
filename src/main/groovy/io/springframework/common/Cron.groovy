@@ -3,6 +3,8 @@ package io.springframework.common
 import groovy.transform.CompileStatic
 
 /**
+ * Contains common cron expressions
+ *
  * @author Marcin Grzejszczak
  */
 @CompileStatic

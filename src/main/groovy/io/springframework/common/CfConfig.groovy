@@ -3,6 +3,8 @@ package io.springframework.common
 import groovy.transform.CompileStatic
 
 /**
+ * Contains default Jenkins variables for Cloud Foundry
+ *
  * @author Marcin Grzejszczak
  */
 @CompileStatic

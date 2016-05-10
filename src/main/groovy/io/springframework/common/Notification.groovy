@@ -1,6 +1,8 @@
 package io.springframework.common
 
 /**
+ * A trait to append notifications to Slack
+ *
  * @author Marcin Grzejszczak
  */
 trait Notification {

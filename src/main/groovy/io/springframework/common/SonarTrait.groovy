@@ -1,6 +1,8 @@
-package io.springframework.cloud.sonar
+package io.springframework.common
 
 /**
+ * Trait with Sonar related code
+ *
  * @author Marcin Grzejszczak
  */
 trait SonarTrait {

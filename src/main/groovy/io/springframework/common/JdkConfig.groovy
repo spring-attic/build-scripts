@@ -3,6 +3,8 @@ package io.springframework.common
 import groovy.transform.CompileStatic
 
 /**
+ * Defaults for JDK
+ *
  * @author Marcin Grzejszczak
  */
 @CompileStatic

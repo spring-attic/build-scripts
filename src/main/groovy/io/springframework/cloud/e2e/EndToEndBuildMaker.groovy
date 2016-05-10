@@ -28,7 +28,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 			}
 			jdk jdk8()
 			wrappers {
-				label e2e()
+				label aws()
 				environmentVariables([
 						RETRIES: 70,
 						(jdk8HomeEnvVar()): jdk8DefaultPath()
