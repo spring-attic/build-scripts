@@ -44,3 +44,36 @@ http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/ver
 perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/'
 4) Store it as plugins.txt
 ----
+
+= Configuring Jenkins for Spring Cloud
+
+You have to provide the following values/plugin configuration for your Jenkins to make everything work:
+
+.Table Things to do
+|===
+|Property Name/Plugin name |Description
+
+|CF_USERNAME
+|The name of the Cloud Foundry user that access the Spring Cloud e2e space
+
+|CF_PASSWORD
+|The password for the Cloud Foundry user that access the Spring Cloud e2e space
+
+|CF_SPACE
+|The name of the space in Cloud Foundry that has e2e tests
+
+|Git plugin
+|You have to provide the username and email for the user that access artifactory
+
+|Global Slack Notifier
+|Provide team / integration token values to notify Slack
+
+|Cloud plugin
+|Provide values for Cloud so that jobs labeled for aws execution would work
+
+|Cloud plugin
+|The instances have to have proper values for JDK / JAVA_HOME
+
+|===
+
+Also it's required to have Maven settings allowing you to push to artifactory.
