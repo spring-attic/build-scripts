@@ -19,3 +19,28 @@ Remember to add `src/main/groovy` and `src/main/resources` for processing
 
 WARNING: Remember that views can be overridden that's why the suggestion is to contain in one script all the logic needed to build a view
  for a single project (check out that `spring_cloud_views.groovy` is building all the `spring-cloud` views).
+ 
+= Running Jenkins
+
+Just run 
+
+[source]
+----
+docker-compose up -d
+----
+
+and your jenkins with plugins present in `plugins.txt` will be ready at port 8080. 
+
+TIP: For now you have to add the seed job manually. Check the *How to use it in Jenkins?* section for more info.
+
+In order to download the latest plugins:
+
+[source]
+----
+1) Open in your browser
+http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" 
+2) Store the XML to a file
+3) Pipe the contents of the file to this command:
+perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/'
+4) Store it as plugins.txt
+----
