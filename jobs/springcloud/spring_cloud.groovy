@@ -11,6 +11,8 @@ import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
 import io.springframework.cloud.e2e.EndToEndBuildMaker
 import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
+import io.springframework.cloud.e2erelease.BrixtonReleaseEndToEndBuildMaker
+import io.springframework.cloud.e2erelease.BrixtonSleuthReleaseEndToEndBuildMaker
 import io.springframework.cloud.f2f.AppDeployingBuildMaker
 import io.springframework.cloud.sonar.ClusterSonarBuildMaker
 import io.springframework.cloud.sonar.ConsulSonarBuildMaker
@@ -75,6 +77,15 @@ new ClusterSonarBuildMaker(dsl).buildSonar()
 new AppDeployingBuildMaker(dsl).with {
 	build('marcingrzejszczak', 'atom-feed')
 	build('dsyer', 'github-analytics')
+}
+
+// TEMPORARY E2E BUILDS
+['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].each { String projectName ->
+	new BrixtonReleaseEndToEndBuildMaker(dsl).build(projectName, everyThreeHours())
+}
+new BrixtonSleuthReleaseEndToEndBuildMaker(dsl).with {
+	buildSleuth(everyThreeHours())
+	buildSleuthStream(everyThreeHours())
 }
 
 // ========== FUNCTIONS ==========
