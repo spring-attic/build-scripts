@@ -27,12 +27,6 @@ dsl.nestedView('Spring Cloud') {
 			}
 			columns defaultColumns()
 		}
-		listView('E2E_RELEASE') {
-			jobs {
-				regex('spring-cloud.*release-e2e')
-			}
-			columns defaultColumns()
-		}
 		listView('Sonar') {
 			jobs {
 				regex('spring-cloud.*-sonar')
