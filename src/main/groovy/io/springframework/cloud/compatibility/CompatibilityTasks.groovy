@@ -1,5 +1,6 @@
 package io.springframework.cloud.compatibility
 
+import groovy.transform.CompileStatic
 import groovy.transform.PackageScope
 import javaposse.jobdsl.dsl.helpers.step.StepContext
 
@@ -7,8 +8,10 @@ import javaposse.jobdsl.dsl.helpers.step.StepContext
  * @author Marcin Grzejszczak
  */
 @PackageScope
+@CompileStatic
 abstract class CompatibilityTasks {
 
+	protected static final String DEFAULT_BOOT_VERSION = '1.4.0.BUILD-SNAPSHOT'
 	protected static final String SPRING_BOOT_VERSION_VAR = 'SPRING_BOOT_VERSION'
 
 	Closure defaultSteps() {

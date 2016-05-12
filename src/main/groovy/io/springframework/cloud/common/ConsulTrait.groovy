@@ -1,8 +1,11 @@
 package io.springframework.cloud.common
 
+import groovy.transform.CompileStatic
+
 /**
  * @author Marcin Grzejszczak
  */
+@CompileStatic
 trait ConsulTrait {
 
 	String preConsulShell() {

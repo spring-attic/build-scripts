@@ -3,7 +3,6 @@ package io.springframework.cloud.compatibility
 import io.springframework.cloud.common.ClusterTrait
 import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
@@ -18,8 +17,12 @@ class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements Publi
 		String projectName = 'spring-cloud-cluster'
 		String cronExpr = "H H/3 * * *"
 		dsl.job("${projectName}-compatibility-check") {
+			concurrentBuild()
 			triggers {
 				cron cronExpr
+				parameters {
+					stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')
+				}
 			}
 			scm {
 				git {
