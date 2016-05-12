@@ -94,3 +94,4 @@ thinBackup:1.7.4
 mapdb-api:1.0.6.0
 msbuild:1.25
 icon-shim:2.0.3
+jenkins-multijob-plugin:1.21
