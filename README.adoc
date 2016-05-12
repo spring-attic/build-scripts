@@ -31,8 +31,6 @@ docker-compose up -d
 
 and your jenkins with plugins present in `plugins.txt` will be ready at port 8080. 
 
-TIP: For now you have to add the seed job manually. Check the *How to use it in Jenkins?* section for more info.
-
 In order to download the latest plugins:
 
 [source]
@@ -44,6 +42,8 @@ http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/ver
 perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/'
 4) Store it as plugins.txt
 ----
+
+Wait patiently for Jenkins to start - the job will be added automatically for you.
 
 = Configuring Jenkins for Spring Cloud
 

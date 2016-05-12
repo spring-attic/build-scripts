@@ -9,14 +9,14 @@ import javaposse.jobdsl.dsl.helpers.step.StepContext
 @PackageScope
 abstract class CompatibilityTasks {
 
-	private static final String springBootVersion = '1.4.0.BUILD-SNAPSHOT'
+	protected static final String SPRING_BOOT_VERSION_VAR = 'SPRING_BOOT_VERSION'
 
 	Closure defaultSteps() {
 		return buildStep {
 			shell runTests()
 			shell("""
 					echo -e "Printing the list of dependencies"
-					./mvnw dependency:tree -U -Dspring-boot.version=${springBootVersion}
+					./mvnw dependency:tree -U -Dspring-boot.version=\$${SPRING_BOOT_VERSION_VAR}
 					""")
 		}
 	}
@@ -24,7 +24,7 @@ abstract class CompatibilityTasks {
 	protected String runTests() {
 		return """
 					echo -e "Running the tests"
-					./mvnw clean install -U -fae -Dspring-boot.version=${springBootVersion}"""
+					./mvnw clean install -U -fae -Dspring-boot.version=\$${SPRING_BOOT_VERSION_VAR}"""
 	}
 
 	private Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {

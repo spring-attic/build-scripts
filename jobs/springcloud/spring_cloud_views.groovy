@@ -7,6 +7,13 @@ DslFactory dsl = this
 
 new DashboardViewBuilder(this).buildDashboard()
 
+dsl.listView('Seeds') {
+	jobs {
+		regex('.*-seed')
+	}
+	columns defaultColumns()
+}
+
 dsl.nestedView('Spring Cloud') {
 	views {
 		listView('Compatibility') {

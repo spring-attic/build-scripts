@@ -9,6 +9,8 @@ import javaposse.jobdsl.dsl.DslFactory
  * @author Marcin Grzejszczak
  */
 class CompatibilityBuildMaker extends CompatibilityTasks implements Notification, Publisher, JdkConfig {
+	private static final String DEFAULT_BOOT_VERSION = '1.4.0.BUILD-SNAPSHOT'
+
 	private final DslFactory dsl
 
 	CompatibilityBuildMaker(DslFactory dsl) {
@@ -23,6 +25,9 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 		dsl.job("${projectName}-compatibility-check") {
 			triggers {
 				cron cronExpr
+				parameters {
+					stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')
+				}
 			}
 			jdk jdk8()
 			scm {
