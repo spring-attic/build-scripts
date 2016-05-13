@@ -30,7 +30,6 @@ class BenchmarksBuildMaker implements Notification, JdkConfig, Cron {
 						url "https://github.com/spring-cloud/spring-cloud-sleuth"
 						branch 'master'
 					}
-					createTag(false)
 				}
 			}
 			jdk jdk8()

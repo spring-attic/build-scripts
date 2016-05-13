@@ -11,23 +11,32 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 	private static final String DEFAULT_BOOT_VERSION = '1.4.0.BUILD-SNAPSHOT'
 
 	private final DslFactory dsl
+	private final String suffix
 
 	CompatibilityBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
+		this.suffix = 'compatibility-check'
 	}
 
-	void build(String projectName, String cronExpr) {
+	CompatibilityBuildMaker(DslFactory dsl, String suffix) {
+		this.dsl = dsl
+		this.suffix = suffix
+	}
+
+	void build(String projectName, String cronExpr = '') {
 		buildWithTests(projectName, cronExpr, true)
 	}
 
 	private void buildWithTests(String projectName, String cronExpr, boolean checkTests) {
-		dsl.job("${projectName}-compatibility-check") {
+		dsl.job("${projectName}-${suffix}") {
 			concurrentBuild()
 			parameters {
 				stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')
 			}
 			triggers {
-				cron cronExpr
+				if (cronExpr) {
+					cron cronExpr
+				}
 				parameters {
 					stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')
 				}
@@ -39,7 +48,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 						url "https://github.com/spring-cloud/$projectName"
 						branch 'master'
 					}
-					createTag(false)
+
 				}
 			}
 			steps defaultSteps()
@@ -54,7 +63,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 		}
 	}
 
-	void buildWithoutTests(String projectName, String cronExpr) {
+	void buildWithoutTests(String projectName, String cronExpr = '') {
 		buildWithTests(projectName, cronExpr, false)
 	}
 

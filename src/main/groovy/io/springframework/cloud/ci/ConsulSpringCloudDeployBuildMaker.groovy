@@ -32,7 +32,7 @@ class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publ
 						branch 'master'
 					}
 					wipeOutWorkspace()
-					createTag(false)
+
 				}
 			}
 			steps {

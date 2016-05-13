@@ -8,15 +8,21 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publisher, ConsulTrait {
 	private final DslFactory dsl
+	private final String suffix
 
 	ConsulCompatibilityBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
+		this.suffix = 'compatibility-check'
 	}
 
-	void build() {
+	ConsulCompatibilityBuildMaker(DslFactory dsl, String suffix) {
+		this.dsl = dsl
+		this.suffix = suffix
+	}
+
+	void build(String cronExpr = '') {
 		String projectName = 'spring-cloud-consul'
-		String cronExpr = "H H/3 * * *"
-		dsl.job("${projectName}-compatibility-check") {
+		dsl.job("${projectName}-${suffix}") {
 			concurrentBuild()
 			triggers {
 				cron cronExpr
@@ -30,7 +36,6 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 						url "https://github.com/spring-cloud/$projectName"
 						branch 'master'
 					}
-					createTag(false)
 				}
 			}
 			steps {

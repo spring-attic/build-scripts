@@ -34,7 +34,7 @@ class SonarBuildMaker implements Notification, JdkConfig, Publisher, SonarTrait,
 						url "https://github.com/spring-cloud/$projectName"
 						branch 'master'
 					}
-					createTag(false)
+
 				}
 			}
 			jdk jdk8()

@@ -22,6 +22,12 @@ dsl.nestedView('Spring Cloud') {
 			}
 			columns defaultColumns()
 		}
+		listView('Boot Compatibility') {
+			jobs {
+				regex('spring-cloud.*compatibility-boot-check')
+			}
+			columns defaultColumns()
+		}
 		listView('CI') {
 			jobs {
 				regex('spring-cloud.*-ci')

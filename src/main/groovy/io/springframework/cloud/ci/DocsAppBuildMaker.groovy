@@ -26,7 +26,7 @@ class DocsAppBuildMaker implements Notification, JdkConfig {
 						url "https://github.com/spring-cloud-samples/sleuth-documentation-apps"
 						branch 'master'
 					}
-					createTag(false)
+
 				}
 			}
 			steps {

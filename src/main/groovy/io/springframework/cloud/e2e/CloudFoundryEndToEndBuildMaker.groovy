@@ -42,7 +42,7 @@ class CloudFoundryEndToEndBuildMaker implements Notification, Publisher, JdkConf
 						url "https://github.com/$githubOrg/$projectName"
 						branch 'master'
 					}
-					createTag(false)
+
 				}
 			}
 			wrappers {

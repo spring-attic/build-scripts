@@ -30,7 +30,7 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
 						branch 'master'
 					}
 					wipeOutWorkspace()
-					createTag(false)
+
 				}
 			}
 			steps {

@@ -33,7 +33,7 @@ class AppDeployingBuildMaker implements Notification, Publisher, JdkConfig, Cron
 						url "https://github.com/$githubOrg/$projectName"
 						branch 'master'
 					}
-					createTag(false)
+
 				}
 			}
 			steps {

@@ -40,7 +40,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 						url "https://github.com/spring-cloud/$projectName"
 						branch 'master'
 					}
-					createTag(false)
+
 				}
 			}
 			steps {

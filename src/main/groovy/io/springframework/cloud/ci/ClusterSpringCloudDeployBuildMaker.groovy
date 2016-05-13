@@ -29,7 +29,7 @@ class ClusterSpringCloudDeployBuildMaker implements Notification, JdkConfig, Pub
 						url "https://github.com/spring-cloud/${project}"
 						branch 'master'
 					}
-					createTag(false)
+
 				}
 			}
 			steps {

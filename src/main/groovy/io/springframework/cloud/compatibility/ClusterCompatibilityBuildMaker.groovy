@@ -8,15 +8,21 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements Publisher, ClusterTrait {
 	private final DslFactory dsl
+	private final String suffix
 
 	ClusterCompatibilityBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
+		this.suffix = 'compatibility-check'
 	}
 
-	void build() {
+	ClusterCompatibilityBuildMaker(DslFactory dsl, String suffix) {
+		this.dsl = dsl
+		this.suffix = suffix
+	}
+
+	void build(String cronExpr = '') {
 		String projectName = 'spring-cloud-cluster'
-		String cronExpr = "H H/3 * * *"
-		dsl.job("${projectName}-compatibility-check") {
+		dsl.job("${projectName}-${suffix}") {
 			concurrentBuild()
 			triggers {
 				cron cronExpr
@@ -30,7 +36,7 @@ class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements Publi
 						url "https://github.com/spring-cloud/$projectName"
 						branch 'master'
 					}
-					createTag(false)
+
 				}
 			}
 			steps {
