@@ -22,12 +22,6 @@ MAINTAINER Marcin Grzejszczak <mgrzejszczak@pivotal.io>
 #  curl -sSL "http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" | perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/'
 
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-#RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
-
-#RUN echo -n 2.0 > $JENKINS_HOME/upgraded
-#RUN echo -n 2.0 > $JENKINS_HOME/.last_exec_version
-
-#RUN sed '1a\ \nJAVA_OPTS="-Dhudson.Main.development=true -Djenkins.install.runSetupWizard=false"' /usr/local/bin/jenkins.sh
 
 USER jenkins
 
