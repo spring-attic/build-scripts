@@ -37,9 +37,6 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 				if (cronExpr) {
 					cron cronExpr
 				}
-				parameters {
-					stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')
-				}
 			}
 			jdk jdk8()
 			scm {

@@ -24,11 +24,11 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 		String projectName = 'spring-cloud-consul'
 		dsl.job("${projectName}-${suffix}") {
 			concurrentBuild()
+			parameters {
+				stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')
+			}
 			triggers {
 				cron cronExpr
-				parameters {
-					stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')
-				}
 			}
 			scm {
 				git {
