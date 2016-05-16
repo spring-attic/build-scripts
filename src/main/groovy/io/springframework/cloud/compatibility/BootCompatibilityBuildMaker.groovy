@@ -1,6 +1,7 @@
 package io.springframework.cloud.compatibility
 
 import io.springframework.cloud.common.AllCloudJobs
+import io.springframework.cloud.common.SpringCloudJobsConfig
 import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.cloud.compatibility.CompatibilityTasks.DEFAULT_BOOT_VERSION
@@ -10,7 +11,7 @@ import static io.springframework.cloud.compatibility.CompatibilityTasks.SPRING_B
  *
  * @author Marcin Grzejszczak
  */
-class BootCompatibilityBuildMaker {
+class BootCompatibilityBuildMaker implements SpringCloudJobsConfig {
 	private static final String BOOT_COMPATIBILITY_SUFFIX = 'compatibility-boot-check'
 
 	private final DslFactory dsl
@@ -28,7 +29,8 @@ class BootCompatibilityBuildMaker {
 			steps {
 				phase('spring-boot-compatibility-phase') {
 					(AllCloudJobs.ALL_JOBS + AllCloudJobs.ALL_SAMPLES_JOBS).each { String projectName ->
-						phaseJob("${projectName}-${BOOT_COMPATIBILITY_SUFFIX}".toString()) {
+						String prefixedProjectName = prefixJob(projectName)
+						phaseJob("${prefixedProjectName}-${BOOT_COMPATIBILITY_SUFFIX}".toString()) {
 							currentJobParameters()
 						}
 					}

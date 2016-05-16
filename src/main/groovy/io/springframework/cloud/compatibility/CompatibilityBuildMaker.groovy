@@ -1,5 +1,6 @@
 package io.springframework.cloud.compatibility
 
+import io.springframework.cloud.common.SpringCloudJobsConfig
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
 import io.springframework.common.Publisher
@@ -7,7 +8,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class CompatibilityBuildMaker extends CompatibilityTasks implements Notification, Publisher, JdkConfig {
+class CompatibilityBuildMaker extends CompatibilityTasks implements Notification, Publisher, JdkConfig, SpringCloudJobsConfig {
 	public static final String DEFAULT_BOOT_VERSION = '1.4.0.BUILD-SNAPSHOT'
 	public static final String DEFAULT_SUFFIX = 'compatibility-check'
 
@@ -38,7 +39,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 	}
 
 	private void buildWithTests(String projectName, String cronExpr, boolean checkTests) {
-		String prefixedProjectName = projectName.startsWith('spring-cloud') ? projectName : "spring-cloud-${projectName}"
+		String prefixedProjectName = prefixJob(projectName)
 		dsl.job("${prefixedProjectName}-${suffix}") {
 			concurrentBuild()
 			parameters {
