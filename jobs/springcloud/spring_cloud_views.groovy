@@ -16,13 +16,13 @@ dsl.listView('Seeds') {
 
 dsl.nestedView('Spring Cloud') {
 	views {
-		listView('Compatibility') {
+		listView('Boot.NEXT') {
 			jobs {
 				regex('spring-cloud.*-compatibility-check')
 			}
 			columns defaultColumns()
 		}
-		listView('Boot Compatibility') {
+		listView('Boot.MANUAL') {
 			jobs {
 				name('spring-cloud-compatibility-boot-check')
 			}
