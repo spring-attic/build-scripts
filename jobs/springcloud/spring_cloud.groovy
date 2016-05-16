@@ -12,6 +12,8 @@ import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
 import io.springframework.cloud.f2f.AppDeployingBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
+import static io.springframework.cloud.compatibility.CompatibilityBuildMaker.DEFAULT_SUFFIX
+
 DslFactory dsl = this
 
 def allProjects = AllCloudJobs.ALL_JOBS
@@ -23,6 +25,7 @@ def projectsWithTests = allProjects - 'spring-cloud-build'
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
 new CompatibilityBuildMaker(dsl).buildWithoutTests('spring-cloud-build', everyThreeHours())
+new CompatibilityBuildMaker(dsl, DEFAULT_SUFFIX, 'spring-cloud-samples').build('tests', everyThreeHours())
 new ConsulCompatibilityBuildMaker(dsl).build(everyThreeHours())
 new ClusterCompatibilityBuildMaker(dsl).build(everyThreeHours())
 new BootCompatibilityBuildMaker(dsl).build()

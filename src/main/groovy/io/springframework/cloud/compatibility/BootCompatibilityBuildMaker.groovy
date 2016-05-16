@@ -5,7 +5,6 @@ import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.cloud.compatibility.CompatibilityTasks.DEFAULT_BOOT_VERSION
 import static io.springframework.cloud.compatibility.CompatibilityTasks.SPRING_BOOT_VERSION_VAR
-
 /**
  * Creates the jobs for the Boot Compatibility verifier
  *
@@ -28,8 +27,8 @@ class BootCompatibilityBuildMaker {
 			}
 			steps {
 				phase('spring-boot-compatibility-phase') {
-					AllCloudJobs.ALL_JOBS.each { String projectName ->
-						phaseJob("$projectName-${BOOT_COMPATIBILITY_SUFFIX}".toString()) {
+					(AllCloudJobs.ALL_JOBS + AllCloudJobs.ALL_SAMPLES_JOBS).each { String projectName ->
+						phaseJob("${projectName}-${BOOT_COMPATIBILITY_SUFFIX}".toString()) {
 							currentJobParameters()
 						}
 					}
@@ -45,5 +44,6 @@ class BootCompatibilityBuildMaker {
 		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests('spring-cloud-build')
 		new ConsulCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build()
 		new ClusterCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build()
+		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX, 'spring-cloud-samples').build('tests')
 	}
 }

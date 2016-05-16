@@ -8,19 +8,29 @@ import javaposse.jobdsl.dsl.DslFactory
  * @author Marcin Grzejszczak
  */
 class CompatibilityBuildMaker extends CompatibilityTasks implements Notification, Publisher, JdkConfig {
-	private static final String DEFAULT_BOOT_VERSION = '1.4.0.BUILD-SNAPSHOT'
+	public static final String DEFAULT_BOOT_VERSION = '1.4.0.BUILD-SNAPSHOT'
+	public static final String DEFAULT_SUFFIX = 'compatibility-check'
 
 	private final DslFactory dsl
+	private final String organization
 	private final String suffix
 
 	CompatibilityBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
-		this.suffix = 'compatibility-check'
+		this.suffix = DEFAULT_SUFFIX
+		this.organization = 'spring-cloud'
 	}
 
 	CompatibilityBuildMaker(DslFactory dsl, String suffix) {
 		this.dsl = dsl
 		this.suffix = suffix
+		this.organization = 'spring-cloud'
+	}
+
+	CompatibilityBuildMaker(DslFactory dsl, String suffix, String organization) {
+		this.dsl = dsl
+		this.suffix = suffix
+		this.organization = organization
 	}
 
 	void build(String projectName, String cronExpr = '') {
@@ -42,7 +52,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 			scm {
 				git {
 					remote {
-						url "https://github.com/spring-cloud/$projectName"
+						url "https://github.com/${organization}/$projectName"
 						branch 'master'
 					}
 
