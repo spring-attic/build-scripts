@@ -38,7 +38,8 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 	}
 
 	private void buildWithTests(String projectName, String cronExpr, boolean checkTests) {
-		dsl.job("${projectName}-${suffix}") {
+		String prefixedProjectName = projectName.startsWith('spring-cloud') ? projectName : "spring-cloud-${projectName}"
+		dsl.job("${prefixedProjectName}-${suffix}") {
 			concurrentBuild()
 			parameters {
 				stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')

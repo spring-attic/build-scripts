@@ -29,8 +29,6 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
 						url "https://github.com/spring-cloud/${project}"
 						branch 'master'
 					}
-					wipeOutWorkspace()
-
 				}
 			}
 			steps {
