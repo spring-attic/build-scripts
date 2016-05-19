@@ -17,6 +17,7 @@ import static io.springframework.cloud.compatibility.CompatibilityBuildMaker.DEF
 DslFactory dsl = this
 
 def allProjects = AllCloudJobs.ALL_JOBS
+def allIncubatorProjects = AllCloudJobs.ALL_INCUBATOR_JOBS
 
 def projectsWithTests = allProjects - 'spring-cloud-build'
 
@@ -43,6 +44,11 @@ new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 }
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
+
+// CI BUILDS FOR INCUBATOR
+allIncubatorProjects.each {
+	new SpringCloudIncubatorDeployBuildMaker(dsl).deploy(it)
+}
 
 // E2E BUILDS
 ['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].each { String projectName ->

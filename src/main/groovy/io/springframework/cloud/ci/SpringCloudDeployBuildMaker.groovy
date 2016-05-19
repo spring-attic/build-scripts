@@ -11,9 +11,16 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher, Cron {
 	private final DslFactory dsl
+	final String organization
 
 	SpringCloudDeployBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
+		this.organization = 'spring-cloud'
+	}
+
+	SpringCloudDeployBuildMaker(DslFactory dsl, String organization) {
+		this.dsl = dsl
+		this.organization = organization
 	}
 
 	void deploy(String project, boolean checkTests = true) {
@@ -26,7 +33,7 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
 			scm {
 				git {
 					remote {
-						url "https://github.com/spring-cloud/${project}"
+						url "https://github.com/${organization}/${project}"
 						branch 'master'
 					}
 				}
