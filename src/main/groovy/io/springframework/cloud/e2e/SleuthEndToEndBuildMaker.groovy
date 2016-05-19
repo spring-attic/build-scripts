@@ -15,7 +15,7 @@ class SleuthEndToEndBuildMaker extends EndToEndBuildMaker {
 	}
 
 	void buildSleuthStream(String cronExpr) {
-		super.build("spring-cloud-sleuth", "runAcceptanceTestsStream", cronExpr)
+		super.build("spring-cloud-sleuth-stream", 'spring-cloud-sleuth', "runAcceptanceTestsStream", cronExpr)
 	}
 
 }

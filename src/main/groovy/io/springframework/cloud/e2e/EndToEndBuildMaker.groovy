@@ -21,7 +21,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 		build(projectName, "runAcceptanceTests", cronExpr)
 	}
 
-	protected void build(String projectName, String scriptName, String cronExpr) {
+	protected void build(String projectName, String repoName, String scriptName, String cronExpr) {
 		dsl.job("${projectName}-e2e") {
 			triggers {
 				cron cronExpr
@@ -37,7 +37,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 			scm {
 				git {
 					remote {
-						url "https://github.com/spring-cloud/$projectName"
+						url "https://github.com/spring-cloud/$repoName"
 						branch 'master'
 					}
 
@@ -62,6 +62,10 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 				archiveArtifacts acceptanceTestSpockReports()
 			}
 		}
+	}
+
+	protected void build(String projectName, String scriptName, String cronExpr) {
+		build(projectName, projectName, scriptName, cronExpr)
 	}
 
 }
