@@ -51,13 +51,14 @@ allIncubatorProjects.each {
 }
 
 // E2E BUILDS
-['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].each { String projectName ->
-	new EndToEndBuildMaker(dsl).build(projectName, everyThreeHours())
+['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].eachWithIndex { String projectName, int index ->
+	def maker = new EndToEndBuildMaker(dsl)
+	maker.build(projectName, maker.everySixHoursStartingFrom(index + 1))
 }
 new SleuthEndToEndBuildMaker(dsl).with {
-	buildSleuth(everyThreeHours())
-	buildSleuthStream(everyThreeHours())
-	buildSleuthStreamKafka(everyThreeHours())
+	buildSleuth(everySixHoursStartingFrom(4))
+	buildSleuthStream(everySixHoursStartingFrom(5))
+	buildSleuthStreamKafka(everySixHoursStartingFrom(6))
 }
 
 // E2E on CF

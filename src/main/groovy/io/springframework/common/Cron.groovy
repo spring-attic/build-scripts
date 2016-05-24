@@ -25,4 +25,8 @@ trait Cron {
 	String everyThreeHours() {
 		return "H H/3 * * *"
 	}
+
+	String everySixHoursStartingFrom(int startingHour) {
+		return "H ${startingHour}-23/6 * * *"
+	}
 }

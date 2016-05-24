@@ -1,5 +1,6 @@
 package io.springframework.cloud.e2e
 
+import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Label
 import io.springframework.common.Notification
@@ -9,7 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefatuts, Label {
+class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefatuts, Label, Cron {
 
 	private final DslFactory dsl
 
