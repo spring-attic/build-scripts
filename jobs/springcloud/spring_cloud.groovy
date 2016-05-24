@@ -57,6 +57,7 @@ allIncubatorProjects.each {
 new SleuthEndToEndBuildMaker(dsl).with {
 	buildSleuth(everyThreeHours())
 	buildSleuthStream(everyThreeHours())
+	buildSleuthStreamKafka(everyThreeHours())
 }
 
 // E2E on CF

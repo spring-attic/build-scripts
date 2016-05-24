@@ -18,4 +18,8 @@ class SleuthEndToEndBuildMaker extends EndToEndBuildMaker {
 		super.build("spring-cloud-sleuth-stream", 'spring-cloud-sleuth', "runAcceptanceTestsStream", cronExpr)
 	}
 
+	void buildSleuthStreamKafka(String cronExpr) {
+		super.build("spring-cloud-sleuth-stream-with-kafka", 'spring-cloud-sleuth', "runAcceptanceTestsStreamKafka", cronExpr)
+	}
+
 }
