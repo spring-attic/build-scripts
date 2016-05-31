@@ -47,7 +47,7 @@ new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 
 // CI BUILDS FOR INCUBATOR
 allIncubatorProjects.each {
-	new SpringCloudIncubatorDeployBuildMaker(dsl).deploy(it)
+	//new SpringCloudIncubatorDeployBuildMaker(dsl).deploy(it)
 }
 
 // E2E BUILDS

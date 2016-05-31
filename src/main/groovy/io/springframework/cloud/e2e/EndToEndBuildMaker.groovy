@@ -41,7 +41,9 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 						url "https://github.com/spring-cloud/$repoName"
 						branch 'master'
 					}
-
+					extensions {
+						wipeOutWorkspace()
+					}
 				}
 			}
 			steps {
