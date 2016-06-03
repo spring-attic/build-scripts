@@ -30,11 +30,12 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 		build(projectName, projectName, scriptName, cronExpr, withTests)
 	}
 
-	void buildWithoutTests(String projectName, String scriptName, String cronExpr) {
-		build(projectName, projectName, scriptName, cronExpr, false)
+	void buildWithoutTests(String projectName, String scriptName, String cronExpr, String postBuildScripts) {
+		build(projectName, projectName, scriptName, cronExpr, false, postBuildScripts)
 	}
 
-	protected void build(String projectName, String repoName, String scriptName, String cronExpr, boolean withTests = true) {
+	protected void build(String projectName, String repoName, String scriptName, String cronExpr,
+						 boolean withTests = true, String postBuildScripts = "") {
 		String organization = this.organization
 		dsl.job("${prefixJob(projectName)}-e2e") {
 			triggers {
@@ -68,6 +69,11 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 				shell("""
 						sh -e scripts/${scriptName}.sh
 					""")
+				if (postBuildScripts) {
+					shell("""
+						sh -e ${postBuildScripts}
+					""")
+				}
 			}
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)
