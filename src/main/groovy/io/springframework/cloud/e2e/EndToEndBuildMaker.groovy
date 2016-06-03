@@ -26,11 +26,15 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 		build(projectName, "runAcceptanceTests", cronExpr)
 	}
 
-	void build(String projectName, String scriptName, String cronExpr) {
-		build(projectName, projectName, scriptName, cronExpr)
+	void build(String projectName, String scriptName, String cronExpr, boolean withTests = true) {
+		build(projectName, projectName, scriptName, cronExpr, withTests)
 	}
 
-	protected void build(String projectName, String repoName, String scriptName, String cronExpr) {
+	void buildWithoutTests(String projectName, String scriptName, String cronExpr) {
+		build(projectName, projectName, scriptName, cronExpr, false)
+	}
+
+	protected void build(String projectName, String repoName, String scriptName, String cronExpr, boolean withTests = true) {
 		String organization = this.organization
 		dsl.job("${prefixJob(projectName)}-e2e") {
 			triggers {
@@ -41,7 +45,8 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 				label aws()
 				environmentVariables([
 						RETRIES: 70,
-						(jdk8HomeEnvVar()): jdk8DefaultPath()
+						(jdk8HomeEnvVar()): jdk8DefaultPath(),
+						(pathToJavaBinEnvVar()): jdk8DefaultPath()
 				])
 			}
 			scm {
@@ -69,9 +74,11 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 				appendSlackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
-				archiveJunit gradleJUnitResults()
-				archiveArtifacts acceptanceTestReports()
-				archiveArtifacts acceptanceTestSpockReports()
+				if (withTests) {
+					archiveJunit gradleJUnitResults()
+					archiveArtifacts acceptanceTestReports()
+					archiveArtifacts acceptanceTestSpockReports()
+				}
 			}
 		}
 	}

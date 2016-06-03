@@ -18,6 +18,10 @@ trait JdkConfig {
 		return "jdk7"
 	}
 
+	String pathToJavaBinEnvVar() {
+		return 'JAVA_PATH_TO_BIN'
+	}
+
 	String jdk8HomeEnvVar() {
 		return 'JAVA_HOME'
 	}

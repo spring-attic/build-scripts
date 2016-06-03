@@ -71,7 +71,7 @@ new CloudFoundryEndToEndBuildMaker(dsl).with {
 // CUSTOM E2E
 // Josh's CI APP
 new EndToEndBuildMaker(dsl, 'joshlong').with {
-	build('bootiful-microservices', 'scenario_brixton_tester', everySaturday())
+	buildWithoutTests('bootiful-microservices', 'scenario_brixton_tester', everySaturday())
 }
 
 /*// SONAR BUILDS - disabled until sonar is set
