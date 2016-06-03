@@ -10,7 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class CloudFoundryEndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefatuts, CfConfig, Cron {
+class CloudFoundryEndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefaults, CfConfig, Cron {
 
 	private final DslFactory dsl
 

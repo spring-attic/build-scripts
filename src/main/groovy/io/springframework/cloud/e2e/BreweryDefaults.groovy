@@ -3,7 +3,7 @@ package io.springframework.cloud.e2e
 /**
  * @author Marcin Grzejszczak
  */
-trait BreweryDefatuts {
+trait BreweryDefaults {
 	String acceptanceTestReports() {
 		return '**/acceptance-tests/build/reports/tests/**/*.*'
 	}

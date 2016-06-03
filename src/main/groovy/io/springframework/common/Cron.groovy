@@ -18,6 +18,10 @@ trait Cron {
 		return "H H * * *"
 	}
 
+	String everySaturday() {
+		return "H H * * 6"
+	}
+
 	String everySunday() {
 		return "H H * * 7"
 	}

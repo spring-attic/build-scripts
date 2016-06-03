@@ -1,29 +1,38 @@
 package io.springframework.cloud.e2e
 
-import io.springframework.common.Cron
-import io.springframework.common.JdkConfig
-import io.springframework.common.Label
-import io.springframework.common.Notification
-import io.springframework.common.Publisher
+import io.springframework.cloud.common.SpringCloudJobsConfig
+import io.springframework.common.*
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefatuts, Label, Cron {
+class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefaults, Label, Cron, SpringCloudJobsConfig {
 
 	private final DslFactory dsl
+	private final String organization
 
 	EndToEndBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
+		this.organization = "spring-cloud"
+	}
+
+	EndToEndBuildMaker(DslFactory dsl, String organization) {
+		this.dsl = dsl
+		this.organization = organization
 	}
 
 	void build(String projectName, String cronExpr) {
 		build(projectName, "runAcceptanceTests", cronExpr)
 	}
 
+	void build(String projectName, String scriptName, String cronExpr) {
+		build(projectName, projectName, scriptName, cronExpr)
+	}
+
 	protected void build(String projectName, String repoName, String scriptName, String cronExpr) {
-		dsl.job("${projectName}-e2e") {
+		String organization = this.organization
+		dsl.job("${prefixJob(projectName)}-e2e") {
 			triggers {
 				cron cronExpr
 			}
@@ -38,7 +47,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 			scm {
 				git {
 					remote {
-						url "https://github.com/spring-cloud/$repoName"
+						url "https://github.com/${organization}/$repoName"
 						branch 'master'
 					}
 					extensions {
@@ -65,10 +74,6 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 				archiveArtifacts acceptanceTestSpockReports()
 			}
 		}
-	}
-
-	protected void build(String projectName, String scriptName, String cronExpr) {
-		build(projectName, projectName, scriptName, cronExpr)
 	}
 
 }

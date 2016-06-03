@@ -68,6 +68,12 @@ new CloudFoundryEndToEndBuildMaker(dsl).with {
 	buildSpringCloudStream()
 }
 
+// CUSTOM E2E
+// Josh's CI APP
+new EndToEndBuildMaker(dsl, 'joshlong').with {
+	build('bootiful-microservices', 'scenario_brixton_tester', everySaturday())
+}
+
 /*// SONAR BUILDS - disabled until sonar is set
 ['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each {
 	new SonarBuildMaker(dsl).buildSonar(it)
