@@ -45,8 +45,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 				label aws()
 				environmentVariables([
 						RETRIES: 70,
-						(jdk8HomeEnvVar()): jdk8DefaultPath(),
-						(pathToJavaBinEnvVar()): "${jdk8DefaultPath()}/"
+						(jdk8HomeEnvVar()): jdk8DefaultPath()
 				])
 			}
 			scm {
