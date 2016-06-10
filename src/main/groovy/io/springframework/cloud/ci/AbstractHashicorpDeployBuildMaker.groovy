@@ -2,6 +2,7 @@ package io.springframework.cloud.ci
 
 import groovy.transform.PackageScope
 import io.springframework.cloud.common.HashicorpTrait
+import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
@@ -12,7 +13,8 @@ import javaposse.jobdsl.dsl.DslFactory
  * @author Marcin Grzejszczak
  */
 @PackageScope
-abstract class AbstractHashicorpDeployBuildMaker implements Notification, JdkConfig, Publisher, HashicorpTrait, Cron {
+abstract class AbstractHashicorpDeployBuildMaker implements Notification, JdkConfig, Publisher, HashicorpTrait,
+		Cron, SpringCloudJobs {
 	protected final DslFactory dsl
 	protected final String organization
 	protected final String project
@@ -39,18 +41,11 @@ abstract class AbstractHashicorpDeployBuildMaker implements Notification, JdkCon
 				}
 			}
 			steps {
-				shell('''
-						echo "Clearing the installed cloud artifacts"
-						rm -rf ~/.m2/repository/org/springframework/cloud/
-						''')
-				shell('''
-						./mvnw install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
-						./docs/src/main/asciidoc/ghpages.sh
-						git reset --hard && git checkout master && git pull origin master
-					''')
+				shell(cleanup())
+				shell(buildDocs())
 				shell("""\
 						${preStep()}
-						./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true || ${postStep()}
+						${cleanAndDeploy()} || ${postStep()}
 					""")
 				shell postStep()
 			}

@@ -1,13 +1,14 @@
 package io.springframework.cloud.e2e
 
-import io.springframework.cloud.common.SpringCloudJobsConfig
+import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.common.*
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefaults, Label, Cron, SpringCloudJobsConfig {
+class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefaults, Label,
+		Cron, SpringCloudJobs {
 
 	private final DslFactory dsl
 	private final String organization
@@ -61,11 +62,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 				}
 			}
 			steps {
-				shell('''
-						echo "Clearing mvn and gradle repos"
-						rm -rf ~/.m2/repository/org/springframework/cloud/
-						rm -rf ~/.gradle/caches/modules-2/files-2.1/org.springframework.cloud/
-					''')
+				shell(cleanup())
 				shell("""
 						sh -e scripts/${scriptName}.sh
 					""")

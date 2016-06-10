@@ -1,6 +1,7 @@
 package io.springframework.cloud.ci
 
 import io.springframework.cloud.common.ClusterTrait
+import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
 import io.springframework.common.Publisher
@@ -9,7 +10,8 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class ClusterSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher, ClusterTrait {
+class ClusterSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
+		ClusterTrait, SpringCloudJobs {
 	private final DslFactory dsl
 
 	ClusterSpringCloudDeployBuildMaker(DslFactory dsl) {
@@ -33,18 +35,11 @@ class ClusterSpringCloudDeployBuildMaker implements Notification, JdkConfig, Pub
 				}
 			}
 			steps {
-				shell('''
-						echo "Clearing the installed cloud artifacts"
-						rm -rf ~/.m2/repository/org/springframework/cloud/
-						''')
-				shell('''
-						./mvnw install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
-						./docs/src/main/asciidoc/ghpages.sh
-						git reset --hard && git checkout master
-					''')
+				shell(cleanup())
+				shell(buildDocs())
 				shell("""
 						${preClusterShell()}
-						./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true || ${postClusterShell()}
+						${cleanAndDeploy()} || ${postClusterShell()}
 					""")
 				shell postClusterShell()
 			}

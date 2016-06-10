@@ -7,25 +7,19 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class CloudFoundryEndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefaults,
+class CloudFoundryBreweryTestExecutor implements Notification, Publisher, JdkConfig, BreweryDefaults,
 		CloudFoundry, Cron, SpringCloudJobs {
 
 	private final DslFactory dsl
 
-	CloudFoundryEndToEndBuildMaker(DslFactory dsl) {
+	CloudFoundryBreweryTestExecutor(DslFactory dsl) {
 		this.dsl = dsl
 	}
 
-	void buildSpringCloudStream() {
-		build('spring-cloud-sleuth','spring-cloud', 'spring-cloud-sleuth', "scripts/runAcceptanceTestsStreamOnCF.sh", oncePerDay())
-	}
-
-	void buildBreweryForDocs() {
-		build('spring-cloud-brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", everySunday())
-	}
-
-	void buildSleuthDocApps() {
-		build('spring-cloud-sleuth-doc-apps', 'spring-cloud-samples', 'sleuth-documentation-apps', "runAcceptanceTests.sh", everySunday())
+	void buildBreweryForDocsTests() {
+		// Run acceptance tests - skip building, deploying to CF, add docsbrewing prefix to CF
+		build('spring-cloud-brewery-for-docs-tests', 'spring-cloud-samples',
+				'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing -s -d", everyThreeHours())
 	}
 
 	protected void build(String description, String githubOrg, String projectName, String script, String cronExpr) {
@@ -54,7 +48,6 @@ class CloudFoundryEndToEndBuildMaker implements Notification, Publisher, JdkConf
 				appendSlackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
-				archiveJunit gradleJUnitResults()
 				archiveArtifacts acceptanceTestReports()
 				archiveArtifacts {
 					pattern acceptanceTestSpockReports()

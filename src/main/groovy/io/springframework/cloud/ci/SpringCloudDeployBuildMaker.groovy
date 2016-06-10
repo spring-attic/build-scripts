@@ -1,5 +1,6 @@
 package io.springframework.cloud.ci
 
+import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
@@ -9,7 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher, Cron {
+class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher, Cron, SpringCloudJobs {
 	private final DslFactory dsl
 	final String organization
 
@@ -39,18 +40,9 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
 				}
 			}
 			steps {
-				shell('''
-					echo "Clearing the installed cloud artifacts"
-					rm -rf ~/.m2/repository/org/springframework/cloud/
-					''')
-				shell('''
-					./mvnw clean install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
-					./docs/src/main/asciidoc/ghpages.sh
-					''')
-				shell('''
-					git reset --hard && git checkout master && git pull origin master &&
-					./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
-					''')
+				shell(cleanup())
+				shell(buildDocs())
+				shell(cleanAndDeploy())
 			}
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)

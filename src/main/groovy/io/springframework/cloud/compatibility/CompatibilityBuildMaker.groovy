@@ -1,6 +1,6 @@
 package io.springframework.cloud.compatibility
 
-import io.springframework.cloud.common.SpringCloudJobsConfig
+import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
 import io.springframework.common.Publisher
@@ -8,7 +8,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class CompatibilityBuildMaker extends CompatibilityTasks implements Notification, Publisher, JdkConfig, SpringCloudJobsConfig {
+class CompatibilityBuildMaker extends CompatibilityTasks implements Notification, Publisher, JdkConfig, SpringCloudJobs {
 	public static final String DEFAULT_BOOT_VERSION = '1.4.0.BUILD-SNAPSHOT'
 	public static final String DEFAULT_SUFFIX = 'compatibility-check'
 
