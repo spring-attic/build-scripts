@@ -21,7 +21,7 @@ trait SpringCloudJobs {
 		return '''
 					./mvnw clean install -P docs -pl docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
 					./docs/src/main/asciidoc/ghpages.sh
-					git reset --hard && git checkout master && git pull origin master
+					git reset --hard && git checkout master && git reset --hard origin/master && git pull origin master
 					'''
 	}
 
