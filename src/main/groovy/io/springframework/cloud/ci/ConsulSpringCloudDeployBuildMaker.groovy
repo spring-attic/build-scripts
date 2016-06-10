@@ -1,60 +1,23 @@
 package io.springframework.cloud.ci
 
-import io.springframework.cloud.common.ConsulTrait
-import io.springframework.common.Cron
-import io.springframework.common.JdkConfig
-import io.springframework.common.Notification
-import io.springframework.common.Publisher
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class ConsulSpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher, ConsulTrait, Cron {
-	private final DslFactory dsl
+class ConsulSpringCloudDeployBuildMaker extends AbstractHashicorpDeployBuildMaker {
 
 	ConsulSpringCloudDeployBuildMaker(DslFactory dsl) {
-		this.dsl = dsl
+		super(dsl, 'spring-cloud', 'spring-cloud-consul')
 	}
 
-	void deploy() {
-		String project = 'spring-cloud-consul'
-		dsl.job("$project-ci") {
-			triggers {
-				cron everyThreeHours()
-				githubPush()
-			}
-			jdk jdk8()
-			scm {
-				git {
-					remote {
-						url "https://github.com/spring-cloud/${project}"
-						branch 'master'
-					}
-				}
-			}
-			steps {
-				shell('''
-						echo "Clearing the installed cloud artifacts"
-						rm -rf ~/.m2/repository/org/springframework/cloud/
-						''')
-				shell('''
-						./mvnw install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
-						./docs/src/main/asciidoc/ghpages.sh
-						git reset --hard && git checkout master && git pull origin master
-					''')
-				shell("""\
-						${preConsulShell()}
-						./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true || ${postConsulShell()}
-					""")
-				shell postConsulShell()
-			}
-			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
-			}
-			publishers {
-				archiveJunit mavenJunitResults()
-			}
-		}
+	@Override
+	protected String preStep() {
+		return preConsulShell()
+	}
+
+	@Override
+	protected String postStep() {
+		return postConsulShell()
 	}
 }

@@ -1,12 +1,12 @@
 package io.springframework.cloud.sonar
 
-import io.springframework.cloud.common.ConsulTrait
+import io.springframework.cloud.common.HashicorpTrait
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class ConsulSonarBuildMaker extends SonarBuildMaker implements ConsulTrait {
+class ConsulSonarBuildMaker extends SonarBuildMaker implements HashicorpTrait {
 
 	ConsulSonarBuildMaker(DslFactory dsl) {
 		super(dsl)
