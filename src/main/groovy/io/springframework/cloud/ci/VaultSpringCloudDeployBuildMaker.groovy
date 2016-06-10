@@ -5,13 +5,9 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class ValutSpringCloudDeployBuildMaker extends AbstractHashicorpDeployBuildMaker {
+class VaultSpringCloudDeployBuildMaker extends AbstractHashicorpDeployBuildMaker {
 
-	ValutSpringCloudDeployBuildMaker(DslFactory dsl, String organization) {
-		super(dsl, organization, 'spring-cloud-vault-config')
-	}
-
-	ValutSpringCloudDeployBuildMaker(DslFactory dsl) {
+	VaultSpringCloudDeployBuildMaker(DslFactory dsl) {
 		super(dsl, 'spring-cloud-incubator', 'spring-cloud-vault-config')
 	}
 

@@ -44,7 +44,7 @@ new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
-new ValutSpringCloudDeployBuildMaker(dsl, 'mp911de').deploy()
+new VaultSpringCloudDeployBuildMaker(dsl).deploy()
 
 
 // E2E BUILDS
