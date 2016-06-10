@@ -6,6 +6,7 @@ import io.springframework.cloud.compatibility.BootCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ClusterCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.CompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
+import io.springframework.cloud.e2e.CloudFoundryBreweryTestExecutor
 import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
 import io.springframework.cloud.e2e.EndToEndBuildMaker
 import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
@@ -64,6 +65,7 @@ new CloudFoundryEndToEndBuildMaker(dsl).with {
 	buildSleuthDocApps()
 	buildSpringCloudStream()
 }
+new CloudFoundryBreweryTestExecutor(dsl).buildBreweryForDocsTests()
 
 // CUSTOM E2E
 // Josh's CI APP
