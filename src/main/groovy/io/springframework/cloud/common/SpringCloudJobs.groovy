@@ -26,9 +26,7 @@ trait SpringCloudJobs {
 	}
 
 	String cleanAndDeploy() {
-		return '''
-					./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true
-					'''
+		return '''./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true'''
 	}
 
 }
