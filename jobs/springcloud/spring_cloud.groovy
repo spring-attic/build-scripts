@@ -19,7 +19,7 @@ DslFactory dsl = this
 
 def allProjects = AllCloudJobs.ALL_JOBS
 
-def projectsWithTests = allProjects - 'spring-cloud-build'
+def projectsWithTests = allProjects - 'spring-cloud-build' - 'spring-cloud-starters'
 
 // COMPATIBILITY BUILDS
 (allProjects - ['spring-cloud-consul', 'spring-cloud-build', 'spring-cloud-cluster']).each { String projectName->
@@ -41,6 +41,7 @@ new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 		maker.deploy(it)
 	}
 	maker.deployWithoutTests('spring-cloud-build')
+	maker.deployWithoutTests('spring-cloud-starters')
 }
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
