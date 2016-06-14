@@ -18,11 +18,11 @@ import static io.springframework.cloud.compatibility.CompatibilityBuildMaker.COM
 DslFactory dsl = this
 
 def allProjects = AllCloudJobs.ALL_JOBS
-def projectsWithoutTests = ['spring-cloud-build' - 'spring-cloud-starters']
+def projectsWithoutTests = ['spring-cloud-build', 'spring-cloud-starters']
 def projectsWithTests = allProjects - projectsWithoutTests
 
 // COMPATIBILITY BUILDS
-(allProjects - ['spring-cloud-consul', 'spring-cloud-cluster'] - projectsWithoutTests).each { String projectName->
+(projectsWithTests - ['spring-cloud-consul', 'spring-cloud-cluster']).each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
 projectsWithoutTests.each {
