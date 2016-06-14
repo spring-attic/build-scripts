@@ -10,7 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class CompatibilityBuildMaker extends CompatibilityTasks implements Notification, Publisher, JdkConfig, SpringCloudJobs {
 	public static final String DEFAULT_BOOT_VERSION = '1.4.0.BUILD-SNAPSHOT'
-	public static final String DEFAULT_SUFFIX = 'compatibility-check'
+	public static final String COMPATIBILITY_BUILD_DEFAULT_SUFFIX = 'compatibility-check'
 
 	private final DslFactory dsl
 	private final String organization
@@ -18,7 +18,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 
 	CompatibilityBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
-		this.suffix = DEFAULT_SUFFIX
+		this.suffix = COMPATIBILITY_BUILD_DEFAULT_SUFFIX
 		this.organization = 'spring-cloud'
 	}
 

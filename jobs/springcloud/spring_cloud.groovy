@@ -13,20 +13,23 @@ import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
 import io.springframework.cloud.f2f.AppDeployingBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
-import static io.springframework.cloud.compatibility.CompatibilityBuildMaker.DEFAULT_SUFFIX
+import static io.springframework.cloud.compatibility.CompatibilityBuildMaker.COMPATIBILITY_BUILD_DEFAULT_SUFFIX
 
 DslFactory dsl = this
 
 def allProjects = AllCloudJobs.ALL_JOBS
-
-def projectsWithTests = allProjects - 'spring-cloud-build' - 'spring-cloud-starters'
+def projectsWithoutTests = ['spring-cloud-build' - 'spring-cloud-starters']
+def projectsWithTests = allProjects - projectsWithoutTests
 
 // COMPATIBILITY BUILDS
-(allProjects - ['spring-cloud-consul', 'spring-cloud-build', 'spring-cloud-cluster']).each { String projectName->
+(allProjects - ['spring-cloud-consul', 'spring-cloud-cluster'] - projectsWithoutTests).each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
-new CompatibilityBuildMaker(dsl).buildWithoutTests('spring-cloud-build', everyThreeHours())
-new CompatibilityBuildMaker(dsl, DEFAULT_SUFFIX, 'spring-cloud-samples').build('tests', everyThreeHours())
+projectsWithoutTests.each {
+	new CompatibilityBuildMaker(dsl).buildWithoutTests(it, everyThreeHours())
+}
+new CompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_DEFAULT_SUFFIX, 'spring-cloud-samples')
+		.build('tests', everyThreeHours())
 new ConsulCompatibilityBuildMaker(dsl).build(everyThreeHours())
 new ClusterCompatibilityBuildMaker(dsl).build(everyThreeHours())
 new BootCompatibilityBuildMaker(dsl).build()
@@ -40,8 +43,9 @@ new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 	(projectsWithTests - ['spring-cloud-consul', 'spring-cloud-cluster']).each {
 		maker.deploy(it)
 	}
-	maker.deployWithoutTests('spring-cloud-build')
-	maker.deployWithoutTests('spring-cloud-starters')
+	projectsWithoutTests.each {
+		maker.deployWithoutTests(it)
+	}
 }
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
