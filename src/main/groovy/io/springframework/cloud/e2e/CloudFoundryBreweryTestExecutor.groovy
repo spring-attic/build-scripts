@@ -34,7 +34,9 @@ class CloudFoundryBreweryTestExecutor implements Notification, Publisher, JdkCon
 						url "https://github.com/$githubOrg/$projectName"
 						branch 'master'
 					}
-
+					extensions {
+						wipeOutWorkspace()
+					}
 				}
 			}
 			wrappers {
