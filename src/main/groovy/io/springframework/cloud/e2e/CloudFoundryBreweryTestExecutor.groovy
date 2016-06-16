@@ -28,6 +28,11 @@ class CloudFoundryBreweryTestExecutor implements Notification, Publisher, JdkCon
 				cron cronExpr
 			}
 			jdk jdk8()
+			wrappers {
+				environmentVariables([
+						TEST_ZIPKIN_DEPENDENCIES: 'false',
+				])
+			}
 			scm {
 				git {
 					remote {
