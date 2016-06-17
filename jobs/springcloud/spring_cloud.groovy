@@ -76,7 +76,14 @@ new CloudFoundryBreweryTestExecutor(dsl).buildBreweryForDocsTests()
 // Josh's CI APP
 new EndToEndBuildMaker(dsl, 'joshlong').with {
 	buildWithoutTests('bootiful-microservices',
-			'scenario_brixton_tester',
+			'scripts/scenario_brixton_tester.sh',
+			everySaturday(),
+			'scripts/kill_all.sh')
+}
+new EndToEndBuildMaker(dsl, 'hecklerm').with {
+	buildWithoutTests('mark-hecklers-services',
+			'DemoCIProjectSuite',
+			'exerciseEndpoints.sh',
 			everySaturday(),
 			'scripts/kill_all.sh')
 }

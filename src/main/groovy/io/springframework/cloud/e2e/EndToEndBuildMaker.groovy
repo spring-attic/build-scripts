@@ -24,7 +24,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 	}
 
 	void build(String projectName, String cronExpr) {
-		build(projectName, "runAcceptanceTests", cronExpr)
+		build(projectName, "scripts/runAcceptanceTests.sh", cronExpr)
 	}
 
 	void build(String projectName, String scriptName, String cronExpr, boolean withTests = true) {
@@ -33,6 +33,10 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 
 	void buildWithoutTests(String projectName, String scriptName, String cronExpr, String postBuildScripts) {
 		build(projectName, projectName, scriptName, cronExpr, false, postBuildScripts)
+	}
+
+	void buildWithoutTests(String projectName, String repoName, String scriptName, String cronExpr, String postBuildScripts) {
+		build(projectName, repoName, scriptName, cronExpr, false, postBuildScripts)
 	}
 
 	protected void build(String projectName, String repoName, String scriptName, String cronExpr,
@@ -64,7 +68,7 @@ class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryD
 			steps {
 				shell(cleanup())
 				shell("""
-						sh -e scripts/${scriptName}.sh
+						sh -e ${scriptName}
 					""")
 				if (postBuildScripts) {
 					shell("""
