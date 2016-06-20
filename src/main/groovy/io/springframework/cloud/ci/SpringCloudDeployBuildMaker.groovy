@@ -41,7 +41,7 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
 			}
 			steps {
 				shell(cleanup())
-				shell(buildDocs())
+				shell(buildDocsWithGhPages())
 				shell(cleanAndDeploy())
 			}
 			configure {

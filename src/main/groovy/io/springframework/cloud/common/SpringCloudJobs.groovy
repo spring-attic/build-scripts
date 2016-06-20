@@ -17,12 +17,16 @@ trait SpringCloudJobs {
 					'''
 	}
 
-	String buildDocs() {
-		return '''
-					./mvnw clean install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true
+	String buildDocsWithGhPages() {
+		return """
+					${buildDocs()}
 					./docs/src/main/asciidoc/ghpages.sh
 					git reset --hard && git checkout master && git reset --hard origin/master && git pull origin master
-					'''
+					"""
+	}
+
+	String buildDocs() {
+		return '''./mvnw clean install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true'''
 	}
 
 	String cleanAndDeploy() {

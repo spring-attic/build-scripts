@@ -42,7 +42,7 @@ abstract class AbstractHashicorpDeployBuildMaker implements Notification, JdkCon
 			}
 			steps {
 				shell(cleanup())
-				shell(buildDocs())
+				shell(buildDocsWithGhPages())
 				shell("""\
 						${preStep()}
 						${cleanAndDeploy()} || ${postStep()}

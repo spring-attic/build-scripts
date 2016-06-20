@@ -36,7 +36,7 @@ class ClusterSpringCloudDeployBuildMaker implements Notification, JdkConfig, Pub
 			}
 			steps {
 				shell(cleanup())
-				shell(buildDocs())
+				shell(buildDocsWithGhPages())
 				shell("""
 						${preClusterShell()}
 						${cleanAndDeploy()} || ${postClusterShell()}
