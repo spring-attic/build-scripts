@@ -40,6 +40,9 @@ class SpringCloudContractDeployBuildMaker implements Notification, JdkConfig, Pu
 					}
 				}
 			}
+			wrappers {
+				maskPasswords()
+			}
 			steps {
 				shell(cleanup())
 				shell(buildDocs())
@@ -68,6 +71,9 @@ class SpringCloudContractDeployBuildMaker implements Notification, JdkConfig, Pu
 						branch 'master'
 					}
 				}
+			}
+			wrappers {
+				maskPasswords()
 			}
 			steps {
 				shell(cleanup())
