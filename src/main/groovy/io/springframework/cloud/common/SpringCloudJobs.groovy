@@ -33,4 +33,12 @@ trait SpringCloudJobs {
 		return '''./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true'''
 	}
 
+	String repoUserNameEnvVar() {
+		return 'REPO_USERNAME'
+	}
+
+	String repoPasswordEnvVar() {
+		return 'REPO_PASSWORD'
+	}
+
 }

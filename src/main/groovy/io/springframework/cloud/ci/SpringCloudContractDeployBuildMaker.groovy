@@ -85,10 +85,11 @@ class SpringCloudContractDeployBuildMaker implements Notification, JdkConfig, Pu
 					echo "Checking if local installation is working fine with samples"
 					./scripts/runTests.sh
 					''')
-				shell('''
+				shell("""
 					echo "Uploading snapshots"
-					./gradlew uploadArchives -x test
-					''')
+					./gradlew uploadArchives -x test -P${repoUserNameEnvVar()}=\$${repoUserNameEnvVar()} \
+					-P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()}
+					""")
 			}
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)
