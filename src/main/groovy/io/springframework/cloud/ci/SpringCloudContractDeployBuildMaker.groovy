@@ -92,8 +92,10 @@ class SpringCloudContractDeployBuildMaker implements Notification, JdkConfig, Pu
 					''')
 				shell("""
 					echo "Uploading snapshots (since the build is working fine)"
+					set +x
 					./gradlew uploadArchives -P${repoUserNameEnvVar()}=\$${repoUserNameEnvVar()} \
 -P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()}
+					set -x
 					""")
 			}
 			configure {
