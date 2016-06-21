@@ -43,7 +43,7 @@ class AppDeployingBuildMaker implements Notification, Publisher, JdkConfig, Cron
 				appendSlackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
-				archiveJunit mavenJunitResults()
+				archiveJunit mavenJUnitResults()
 			}
 		}
 	}

@@ -41,4 +41,8 @@ trait SpringCloudJobs {
 		return 'REPO_PASSWORD'
 	}
 
+	String repoSpringIoUserCredentialId() {
+		return '02bd1690-b54f-4c9f-819d-a77cb7a9822c'
+	}
+
 }

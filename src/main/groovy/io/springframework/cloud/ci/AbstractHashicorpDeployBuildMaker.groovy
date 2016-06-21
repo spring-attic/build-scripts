@@ -53,7 +53,7 @@ abstract class AbstractHashicorpDeployBuildMaker implements Notification, JdkCon
 				appendSlackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
-				archiveJunit mavenJunitResults()
+				archiveJunit mavenJUnitResults()
 			}
 		}
 	}

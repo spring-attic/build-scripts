@@ -47,7 +47,7 @@ class ClusterSpringCloudDeployBuildMaker implements Notification, JdkConfig, Pub
 				appendSlackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
-				archiveJunit mavenJunitResults()
+				archiveJunit mavenJUnitResults()
 			}
 		}
 	}

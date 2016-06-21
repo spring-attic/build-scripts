@@ -66,7 +66,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements Notification
 			}
 			if (checkTests) {
 				publishers {
-					archiveJunit mavenJunitResults()
+					archiveJunit mavenJUnitResults()
 				}
 			}
 		}

@@ -40,7 +40,7 @@ class SonarBuildMaker implements Notification, JdkConfig, Publisher, SonarTrait,
 			jdk jdk8()
 			steps defaultSteps()
 			publishers {
-				archiveArtifacts mavenJunitResults()
+				archiveArtifacts mavenJUnitResults()
 			}
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)

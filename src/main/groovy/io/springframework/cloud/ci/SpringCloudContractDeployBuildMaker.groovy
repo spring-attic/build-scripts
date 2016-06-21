@@ -52,7 +52,7 @@ class SpringCloudContractDeployBuildMaker implements Notification, JdkConfig, Pu
 				appendSlackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
-				archiveJunit mavenJunitResults()
+				archiveJunit mavenJUnitResults()
 			}
 		}
 	}
@@ -74,9 +74,14 @@ class SpringCloudContractDeployBuildMaker implements Notification, JdkConfig, Pu
 			}
 			wrappers {
 				maskPasswords()
+				credentialsBinding {
+					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(),
+							repoSpringIoUserCredentialId())
+				}
 			}
 			steps {
 				shell(cleanup())
+				// That way we'll have the test results from
 				shell('''
 					echo "Installing project locally"
 					./gradlew clean build install
@@ -86,16 +91,17 @@ class SpringCloudContractDeployBuildMaker implements Notification, JdkConfig, Pu
 					./scripts/runTests.sh
 					''')
 				shell("""
-					echo "Uploading snapshots"
-					./gradlew uploadArchives -x test -P${repoUserNameEnvVar()}=\$${repoUserNameEnvVar()} \
-					-P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()}
+					echo "Uploading snapshots (since the build is working fine)"
+					./gradlew uploadArchives -P${repoUserNameEnvVar()}=\$${repoUserNameEnvVar()} \
+-P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()}
 					""")
 			}
 			configure {
 				appendSlackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
-				archiveJunit mavenJunitResults()
+				archiveJunit mavenJUnitResults()
+				archiveJunit gradleJUnitResults()
 			}
 		}
 	}

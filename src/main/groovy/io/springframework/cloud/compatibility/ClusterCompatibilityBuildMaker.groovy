@@ -44,7 +44,7 @@ class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements Publi
 				shell postClusterShell()
 			}
 			publishers {
-				archiveJunit mavenJunitResults()
+				archiveJunit mavenJUnitResults()
 			}
 		}
 	}

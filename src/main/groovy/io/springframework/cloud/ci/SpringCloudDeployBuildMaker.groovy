@@ -49,7 +49,7 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
 			}
 			if (checkTests) {
 				publishers {
-					archiveJunit mavenJunitResults()
+					archiveJunit mavenJUnitResults()
 				}
 			}
 		}

@@ -43,7 +43,7 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements Publis
 				shell postConsulShell()
 			}
 			publishers {
-				archiveJunit mavenJunitResults()
+				archiveJunit mavenJUnitResults()
 			}
 		}
 	}
