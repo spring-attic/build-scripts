@@ -40,10 +40,12 @@ class BootCompatibilityBuildMaker implements SpringCloudJobs {
 	}
 
 	void buildAllRelatedJobs() {
-		(AllCloudJobs.ALL_JOBS - ['spring-cloud-consul', 'spring-cloud-build', 'spring-cloud-cluster']).each { String projectName->
+		AllCloudJobs.ALL_DEFAULT_JOBS.each { String projectName->
 			new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build(projectName)
 		}
-		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests('spring-cloud-build')
+		AllCloudJobs.JOBS_WITHOUT_TESTS.each {
+			new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests(it)
+		}
 		new ConsulCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build()
 		new ClusterCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build()
 		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX, 'spring-cloud-samples').build('tests')

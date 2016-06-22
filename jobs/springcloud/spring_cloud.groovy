@@ -1,7 +1,6 @@
 package springcloud
 
 import io.springframework.cloud.ci.*
-import io.springframework.cloud.common.AllCloudJobs
 import io.springframework.cloud.compatibility.BootCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ClusterCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.CompatibilityBuildMaker
@@ -13,19 +12,19 @@ import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
 import io.springframework.cloud.f2f.AppDeployingBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
+import static io.springframework.cloud.common.AllCloudJobs.*
 import static io.springframework.cloud.compatibility.CompatibilityBuildMaker.COMPATIBILITY_BUILD_DEFAULT_SUFFIX
 
 DslFactory dsl = this
 
-def allProjects = AllCloudJobs.ALL_JOBS
-def projectsWithoutTests = ['spring-cloud-build', 'spring-cloud-starters']
-def projectsWithTests = allProjects - projectsWithoutTests
+println "Projects with tests $ALL_JOBS_WITH_TESTS"
+println "Projects without tests $JOBS_WITHOUT_TESTS"
 
 // COMPATIBILITY BUILDS
-(projectsWithTests - ['spring-cloud-consul', 'spring-cloud-cluster']).each { String projectName->
+(ALL_DEFAULT_JOBS).each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
-projectsWithoutTests.each {
+JOBS_WITHOUT_TESTS.each {
 	new CompatibilityBuildMaker(dsl).buildWithoutTests(it, everyThreeHours())
 }
 new CompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_DEFAULT_SUFFIX, 'spring-cloud-samples')
@@ -40,10 +39,10 @@ new BenchmarksBuildMaker(dsl).buildSleuth()
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
 new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
-	(projectsWithTests - ['spring-cloud-consul', 'spring-cloud-cluster']).each {
+	(ALL_DEFAULT_JOBS).each {
 		maker.deploy(it)
 	}
-	projectsWithoutTests.each {
+	JOBS_WITHOUT_TESTS.each {
 		maker.deployWithoutTests(it)
 	}
 }
