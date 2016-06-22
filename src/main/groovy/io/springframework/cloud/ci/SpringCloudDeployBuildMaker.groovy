@@ -30,12 +30,15 @@ class SpringCloudDeployBuildMaker implements Notification, JdkConfig, Publisher,
 				cron everyThreeHours()
 				githubPush()
 			}
+			parameters {
+				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
+			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
 						url "https://github.com/${organization}/${project}"
-						branch 'master'
+						branch "\$${branchVar()}"
 					}
 				}
 			}

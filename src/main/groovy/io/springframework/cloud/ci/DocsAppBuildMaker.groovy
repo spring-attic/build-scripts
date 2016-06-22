@@ -1,5 +1,6 @@
 package io.springframework.cloud.ci
 
+import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.common.JdkConfig
 import io.springframework.common.Notification
 import javaposse.jobdsl.dsl.DslFactory
@@ -7,7 +8,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class DocsAppBuildMaker implements Notification, JdkConfig {
+class DocsAppBuildMaker implements Notification, JdkConfig, SpringCloudJobs {
 	private final DslFactory dsl
 
 	DocsAppBuildMaker(DslFactory dsl) {
@@ -19,12 +20,15 @@ class DocsAppBuildMaker implements Notification, JdkConfig {
 			triggers {
 				cron cronExpr
 			}
+			parameters {
+				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
+			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
 						url "https://github.com/spring-cloud-samples/sleuth-documentation-apps"
-						branch 'master'
+						branch "\$${branchVar()}"
 					}
 
 				}
