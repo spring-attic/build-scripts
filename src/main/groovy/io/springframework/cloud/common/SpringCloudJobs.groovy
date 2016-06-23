@@ -21,7 +21,7 @@ trait SpringCloudJobs {
 		return """
 					${buildDocs()}
 					./docs/src/main/asciidoc/ghpages.sh
-					git reset --hard && git checkout master && git reset --hard origin/master && git pull origin master
+					git reset --hard && git checkout \$${branchVar()} && git reset --hard origin/\$${branchVar()} && git pull origin \$${branchVar()}
 					"""
 	}
 
