@@ -6,6 +6,9 @@
 FROM jenkins:2.0
 MAINTAINER Marcin Grzejszczak <mgrzejszczak@pivotal.io>
 
+COPY seed/init.groovy /usr/share/jenkins/ref/init.groovy
+COPY seed/spring-cloud-seed.groovy /usr/share/jenkins/spring-cloud-seed.groovy
+
 # To print the list of plugins from a server
 #
 # GOTO:
@@ -19,14 +22,7 @@ MAINTAINER Marcin Grzejszczak <mgrzejszczak@pivotal.io>
 #
 # To get the list of plugins from an existing server:
 #  JENKINS_HOST=myhost.com:port
-#  curl -sSL "http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" | perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed 's/ /:/'
+#  curl -sSL "http://$JENKINS_HOST/pluginManager/api/xml?depth=1&xpath=/*/*/shortName|/*/*/version&wrapper=plugins" | perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1:\2\n/g'
 
 COPY plugins.txt /usr/share/jenkins/plugins.txt
-
-USER jenkins
-
-COPY seed/spring-cloud-seed/config.xml /usr/share/jenkins/spring-cloud-seed.xml
-COPY seed/unsafe_config.xml /usr/share/jenkins/unsafe_config.xml
-COPY seed/addSeedJob.sh /usr/share/jenkins/addSeedJob.sh
-
-ENTRYPOINT ["/usr/share/jenkins/addSeedJob.sh"]
+RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt

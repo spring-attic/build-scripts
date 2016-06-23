@@ -69,7 +69,7 @@ mailer:1.17
 sonar:2.4
 git:2.4.4
 build-timeout:1.16
-job-dsl:1.45
+job-dsl:1.47
 jackson2-api:2.7.3
 build-pipeline-plugin:1.5.2
 timestamper:1.7.4
