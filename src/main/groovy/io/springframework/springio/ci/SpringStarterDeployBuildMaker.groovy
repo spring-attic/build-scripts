@@ -46,7 +46,7 @@ class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, 
 			}
 			steps {
 				maven {
-					goals('clean install deploy')
+					goals('clean install')
 					mavenInstallation(maven33())
 				}
 			}

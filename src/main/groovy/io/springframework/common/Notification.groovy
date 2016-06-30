@@ -21,6 +21,7 @@ trait Notification {
 		(slack / 'notifyRepeatedFailure').setValue(true)
 		(slack / 'includeTestSummary').setValue(true)
 		(slack / 'showCommitList').setValue(true)
+		(slack / 'commitInfoChoice').setValue('AUTHORS_AND_TITLES')
 	}
 
 }
