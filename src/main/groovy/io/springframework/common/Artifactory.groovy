@@ -15,7 +15,7 @@ trait Artifactory {
 		return 'https://repo.spring.io'
 	}
 
-	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals, String rootPom, String mavenOpts) {
+	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String rootPom, String mavenGoals, String mavenOpts) {
 		Node propertiesNode = rootNode / 'builders'
 		def builder = propertiesNode / 'org.jfrog.hudson.maven3.Maven3Builder'
 		(builder / 'mavenName').setValue(mavenVersion)
