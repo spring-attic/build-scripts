@@ -43,7 +43,7 @@ class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, 
 				}
 			}
 			steps {
-				shell(cleanAndDeploy())
+				maven('clean install')
 			}
 			configure {
 				appendSlackNotificationForSpring(it as Node)
