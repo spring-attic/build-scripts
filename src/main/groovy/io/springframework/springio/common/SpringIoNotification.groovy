@@ -9,8 +9,8 @@ import io.springframework.common.Notification
  */
 trait SpringIoNotification extends Notification {
 
-	void appendSlackNotificationForSpring(Node rootNode) {
-		appendSlackNotification(rootNode, "spring-firehose")
+	void slackNotificationForSpring(Node rootNode) {
+		slackNotification(rootNode, "spring-firehose")
 	}
 
 }

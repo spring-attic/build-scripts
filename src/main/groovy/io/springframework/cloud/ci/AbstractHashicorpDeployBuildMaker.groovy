@@ -53,7 +53,7 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 				shell postStep()
 			}
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()

@@ -48,7 +48,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				shell(cleanAndDeploy())
 			}
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()
@@ -101,7 +101,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 					""")
 			}
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()

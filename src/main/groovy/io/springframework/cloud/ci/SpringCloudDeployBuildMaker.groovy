@@ -47,7 +47,7 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 				shell(cleanAndDeploy())
 			}
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 			}
 			if (checkTests) {
 				publishers {

@@ -63,7 +63,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudN
 			}
 			steps defaultSteps()
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 			}
 			if (checkTests) {
 				publishers {

@@ -39,7 +39,7 @@ class AppDeployingBuildMaker implements SpringCloudNotification, TestPublisher, 
 				shell('''./mvnw clean verify deploy''')
 			}
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()

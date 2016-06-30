@@ -78,7 +78,7 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 				}
 			}
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 			}
 			publishers {
 				if (withTests) {

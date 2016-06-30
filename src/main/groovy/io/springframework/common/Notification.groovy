@@ -7,7 +7,7 @@ package io.springframework.common
  */
 trait Notification {
 
-	void appendSlackNotification(Node rootNode, String roomName) {
+	void slackNotification(Node rootNode, String roomName) {
 		Node propertiesNode = rootNode / 'publishers'
 		def slack = propertiesNode / 'jenkins.plugins.slack.SlackNotifier'
 		(slack / 'room').setValue(roomName)

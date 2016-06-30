@@ -1,5 +1,6 @@
 package io.springframework.springio.ci
 
+import io.springframework.common.Artifactory
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Maven
@@ -12,7 +13,7 @@ import javaposse.jobdsl.dsl.DslFactory
  * @author Marcin Grzejszczak
  */
 class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
-		Cron, SpringIoJobs, Maven {
+		Cron, SpringIoJobs, Maven, Artifactory {
 	private final DslFactory dsl
 	final String organization
 
@@ -51,7 +52,8 @@ class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, 
 				}
 			}
 			configure {
-				appendSlackNotificationForSpring(it as Node)
+				slackNotificationForSpring(it as Node)
+				artifactoryMavenBuild(it as Node, maven33(), 'clean install')
 			}
 			if (checkTests) {
 				publishers {

@@ -37,7 +37,7 @@ class DocsAppBuildMaker implements SpringCloudNotification, JdkConfig, SpringClo
 			}
 
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 			}
 		}
 	}

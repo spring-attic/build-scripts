@@ -42,7 +42,7 @@ class SonarBuildMaker implements SpringCloudNotification, JdkConfig, TestPublish
 				archiveArtifacts mavenJUnitResults()
 			}
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				slackNotificationForSpringCloud(it as Node)
 				appendSonar(it as Node)
 			}
 		}

@@ -9,8 +9,8 @@ import io.springframework.common.Notification
  */
 trait SpringCloudNotification extends Notification {
 
-	void appendSlackNotificationForSpringCloud(Node rootNode) {
-		appendSlackNotification(rootNode, "spring-cloud-firehose")
+	void slackNotificationForSpringCloud(Node rootNode) {
+		slackNotification(rootNode, "spring-cloud-firehose")
 	}
 
 }
