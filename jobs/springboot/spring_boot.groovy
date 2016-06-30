@@ -1,6 +1,5 @@
 package springboot
 
-import io.springframework.springboot.ci.SpringBootDeployBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.springboot.common.AllSpringBootJobs.ALL_JOBS
@@ -11,5 +10,5 @@ println "Projects with tests $ALL_JOBS"
 
 // CI
 ALL_JOBS.each {
-	new SpringBootDeployBuildMaker(dsl).deploy('spring-boot')
+	//new SpringBootDeployBuildMaker(dsl).deploy('spring-boot')
 }
