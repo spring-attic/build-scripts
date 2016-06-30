@@ -36,6 +36,7 @@ trait Artifactory {
 		(resolverDetails / 'artifactoryName').setValue(artifactoryName())
 		(resolverDetails / 'artifactoryUrl').setValue(artifactoryUrl())
 		(configurator / 'deployArtifacts').setValue(true)
+		(configurator / 'deployBuildInfo').setValue(true)
 	}
 
 }
