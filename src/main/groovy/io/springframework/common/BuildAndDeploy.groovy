@@ -6,6 +6,9 @@ package io.springframework.common
 trait BuildAndDeploy {
 
 	String prefixJob(String projectName) {
+		if (projectName == projectSuffix()){
+			return projectName
+		}
 		return projectName.startsWith(projectSuffix()) ? projectName : "${projectSuffix()}-${projectName}"
 	}
 

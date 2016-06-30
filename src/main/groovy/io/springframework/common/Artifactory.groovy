@@ -15,14 +15,25 @@ trait Artifactory {
 		return 'https://repo.spring.io'
 	}
 
-	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals) {
+	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals, String mavenOpts) {
 		Node propertiesNode = rootNode / 'builders'
 		def builder = propertiesNode / 'org.jfrog.hudson.maven3.Maven3Builder'
 		(builder / 'mavenName').setValue(mavenVersion)
 		(builder / 'goals').setValue(mavenGoals)
+		if (mavenOpts) {
+			(builder / 'mavenOpts').setValue(mavenOpts)
+		}
+	}
+
+	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals) {
+		artifactoryMavenBuild(rootNode, mavenVersion, mavenGoals)
 	}
 
 	void artifactoryMaven3Configurator(Node rootNode) {
+		artifactoryMaven3Configurator(rootNode, '')
+	}
+
+	void artifactoryMaven3Configurator(Node rootNode, String excludePatterns) {
 		Node propertiesNode = rootNode / 'buildWrappers'
 		def configurator = propertiesNode / 'org.jfrog.hudson.maven3.ArtifactoryMaven3Configurator'
 		def details = configurator / 'details'
@@ -37,6 +48,10 @@ trait Artifactory {
 		(resolverDetails / 'artifactoryUrl').setValue(artifactoryUrl())
 		(configurator / 'deployArtifacts').setValue(true)
 		(configurator / 'deployBuildInfo').setValue(true)
+		(configurator / 'filterExcludedArtifactsFromBuild').setValue(true)
+		if (excludePatterns) {
+			(configurator / 'artifactDeploymentPatterns' / 'excludePatterns').setValue(excludePatterns)
+		}
 	}
 
 }
