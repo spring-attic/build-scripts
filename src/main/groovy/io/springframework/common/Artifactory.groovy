@@ -15,18 +15,21 @@ trait Artifactory {
 		return 'https://repo.spring.io'
 	}
 
-	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals, String mavenOpts) {
+	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals, String rootPom, String mavenOpts) {
 		Node propertiesNode = rootNode / 'builders'
 		def builder = propertiesNode / 'org.jfrog.hudson.maven3.Maven3Builder'
 		(builder / 'mavenName').setValue(mavenVersion)
 		(builder / 'goals').setValue(mavenGoals)
+		if (rootPom) {
+			(builder / 'rootPom').setValue(rootPom)
+		}
 		if (mavenOpts) {
 			(builder / 'mavenOpts').setValue(mavenOpts)
 		}
 	}
 
 	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals) {
-		artifactoryMavenBuild(rootNode, mavenVersion, mavenGoals)
+		artifactoryMavenBuild(rootNode, mavenVersion, mavenGoals, '', '')
 	}
 
 	void artifactoryMaven3Configurator(Node rootNode) {
