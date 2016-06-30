@@ -2,6 +2,7 @@ package io.springframework.springio.ci
 
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
+import io.springframework.common.Maven
 import io.springframework.common.TestPublisher
 import io.springframework.springio.common.SpringIoJobs
 import io.springframework.springio.common.SpringIoNotification
@@ -10,7 +11,8 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher, Cron, SpringIoJobs {
+class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
+		Cron, SpringIoJobs, Maven {
 	private final DslFactory dsl
 	final String organization
 
@@ -43,7 +45,10 @@ class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, 
 				}
 			}
 			steps {
-				maven('clean install')
+				maven {
+					goals('clean install')
+					mavenInstallation(maven33())
+				}
 			}
 			configure {
 				appendSlackNotificationForSpring(it as Node)
