@@ -46,6 +46,15 @@ new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 		maker.deployWithoutTests(it)
 	}
 }
+
+// BRANCHES BUILD - spring-cloud organization
+def branchMaker = new SpringCloudDeployBuildMaker(dsl)
+JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
+	branches.each { String branch ->
+		branchMaker.deploy(project, branch)
+	}
+}
+
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
@@ -55,7 +64,6 @@ new SpringCloudContractDeployBuildMaker(dsl).with {
 	deployMaven('spring-cloud-contract-verifier-maven-plugin', 'accurest-maven-plugin')
 	deployGradle('spring-cloud-contract-verifier', 'accurest')
 }
-
 
 // E2E BUILDS
 ['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].eachWithIndex { String projectName, int index ->

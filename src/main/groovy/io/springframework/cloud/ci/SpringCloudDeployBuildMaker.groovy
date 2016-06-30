@@ -24,13 +24,18 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 	}
 
 	void deploy(String project, boolean checkTests = true) {
-		dsl.job("$project-ci") {
+		deploy(project, 'master', checkTests)
+	}
+
+	void deploy(String project, String branchToBuild, boolean checkTests = true) {
+		String projectNameWithBranch = branchToBuild ? "$branchToBuild-" : ''
+		dsl.job("$project-${projectNameWithBranch}ci") {
 			triggers {
 				cron everyThreeHours()
 				githubPush()
 			}
 			parameters {
-				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
+				stringParam(branchVar(), branchToBuild ?: masterBranch(), 'Which branch should be built')
 			}
 			jdk jdk8()
 			scm {
