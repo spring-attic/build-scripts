@@ -54,6 +54,7 @@ class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, 
 			configure {
 				slackNotificationForSpring(it as Node)
 				artifactoryMavenBuild(it as Node, maven33(), 'clean install')
+				artifactoryMaven3Configurator(it as Node)
 			}
 			if (checkTests) {
 				publishers {

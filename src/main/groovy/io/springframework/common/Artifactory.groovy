@@ -7,11 +7,34 @@ package io.springframework.common
  */
 trait Artifactory {
 
+	String artifactoryName() {
+		return '-1638662726@1458342414489'
+	}
+
+	String artifactoryUrl() {
+		return 'https://repo.spring.io'
+	}
+
 	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals) {
 		Node propertiesNode = rootNode / 'builders'
-		def slack = propertiesNode / 'org.jfrog.hudson.maven3.Maven3Builder'
-		(slack / 'mavenName').setValue(mavenVersion)
-		(slack / 'goals').setValue(mavenGoals)
+		def builder = propertiesNode / 'org.jfrog.hudson.maven3.Maven3Builder'
+		(builder / 'mavenName').setValue(mavenVersion)
+		(builder / 'goals').setValue(mavenGoals)
+	}
+
+	void artifactoryMaven3Configurator(Node rootNode) {
+		Node propertiesNode = rootNode / 'buildWrappers'
+		def configurator = propertiesNode / 'org.jfrog.hudson.maven3.ArtifactoryMaven3Configurator'
+		def details = configurator / 'details'
+		(details / 'artifactoryName').setValue(artifactoryName())
+		(details / 'artifactoryUrl').setValue(artifactoryUrl())
+		def deployReleaseRepository = details / 'deployReleaseRepository'
+		(deployReleaseRepository / 'keyFromText').setValue('libs-release-local')
+		def deploySnapshotRepository = details / 'deploySnapshotRepository'
+		(deploySnapshotRepository / 'keyFromText').setValue('libs-snapshot-local')
+		def resolverDetails = configurator / 'resolverDetails'
+		(resolverDetails / 'artifactoryName').setValue(artifactoryName())
+		(resolverDetails / 'artifactoryUrl').setValue(artifactoryUrl())
 	}
 
 }
