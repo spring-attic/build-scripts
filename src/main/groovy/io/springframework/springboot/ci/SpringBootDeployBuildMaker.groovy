@@ -10,6 +10,8 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, TestPublisher,
 		Cron, SpringBootJobs, Maven, Artifactory {
+	private static final List<String> BRANCHES_TO_BUILD = ['1.0.x', '1.1.x', '1.2.x', '1.3.x']
+
 	private final DslFactory dsl
 	final String organization
 
@@ -24,40 +26,38 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 	}
 
 	void deploy(String project, boolean checkTests = true) {
-		dsl.job("${prefixJob(project)}-ci") {
-			triggers {
-				cron everyThreeHours()
-				githubPush()
-			}
-			jdk jdk8()
-			scm {
-				git {
-					remote {
-						url "https://github.com/${organization}/${project}"
-						branches '1.0.x', '1.1.x', '1.2.x', '1.3.x'
+		BRANCHES_TO_BUILD.each { String branchToBuild ->
+			dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
+				triggers {
+					cron everyThreeHours()
+					githubPush()
+				}
+				jdk jdk8()
+				scm {
+					git {
+						remote {
+							url "https://github.com/${organization}/${project}"
+							branch branchToBuild
+						}
+					}
+				}
+				steps {
+					maven {
+						mavenInstallation(maven30())
+						goals('install -U -P snapshot,prepare,ci -DskipTests')
+					}
+				}
+				configure {
+					slackNotificationForSpring(it as Node)
+					artifactoryMavenBuild(it as Node, maven30(), 'spring-boot-full-build/pom.xml', 'install -U -P full -s settings.xml', '-Xmx2g -XX:MaxPermSize=512m')
+					artifactoryMaven3Configurator(it as Node, '**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
+				}
+				if (checkTests) {
+					publishers {
+						archiveJunit mavenJUnitResults()
 					}
 				}
 			}
-			steps {
-				maven {
-					mavenInstallation(maven30())
-					goals('install -U -P snapshot,prepare,ci -DskipTests')
-				}
-			}
-			configure {
-				slackNotificationForSpring(it as Node)
-				artifactoryMavenBuild(it as Node, maven30(), 'spring-boot-full-build/pom.xml', 'install -U -P full -s settings.xml', '-Xmx2g -XX:MaxPermSize=512m')
-				artifactoryMaven3Configurator(it as Node, '**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
-			}
-			if (checkTests) {
-				publishers {
-					archiveJunit mavenJUnitResults()
-				}
-			}
 		}
-	}
-
-	void deployWithoutTests(String project) {
-		deploy(project, false)
 	}
 }
