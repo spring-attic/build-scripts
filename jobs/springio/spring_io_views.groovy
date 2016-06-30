@@ -22,6 +22,12 @@ dsl.nestedView('SpringIO') {
 			}
 			columns defaultColumns()
 		}
+		listView('Prod') {
+			jobs {
+				regex('spring-io.*-production')
+			}
+			columns defaultColumns()
+		}
 		listView('All Spring IO') {
 			jobs {
 				regex('spring-io.*')

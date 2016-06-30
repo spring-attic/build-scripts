@@ -7,10 +7,6 @@ package io.springframework.common
  */
 trait Notification {
 
-	void appendSlackNotificationForSpringCloud(Node rootNode) {
-		appendSlackNotification(rootNode, "spring-cloud-firehose")
-	}
-
 	void appendSlackNotification(Node rootNode, String roomName) {
 		Node propertiesNode = rootNode / 'publishers'
 		def slack = propertiesNode / 'jenkins.plugins.slack.SlackNotifier'

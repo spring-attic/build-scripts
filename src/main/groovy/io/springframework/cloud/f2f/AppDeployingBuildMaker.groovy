@@ -1,15 +1,14 @@
 package io.springframework.cloud.f2f
 
+import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
-import io.springframework.common.Notification
-import io.springframework.common.Publisher
+import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class AppDeployingBuildMaker implements Notification, Publisher, JdkConfig, Cron {
+class AppDeployingBuildMaker implements SpringCloudNotification, TestPublisher, JdkConfig, Cron {
 	private final DslFactory dsl
 
 	AppDeployingBuildMaker(DslFactory dsl) {

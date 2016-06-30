@@ -1,12 +1,15 @@
 package io.springframework.cloud.common
 
+import io.springframework.common.BuildAndDeploy
+
 /**
  * @author Marcin Grzejszczak
  */
-trait SpringCloudJobs {
+trait SpringCloudJobs extends BuildAndDeploy {
 
-	String prefixJob(String projectName) {
-		return projectName.startsWith('spring-cloud') ? projectName : "spring-cloud-${projectName}"
+	@Override
+	String projectSuffix() {
+		return 'spring-cloud'
 	}
 
 	String cleanup() {
@@ -29,10 +32,6 @@ trait SpringCloudJobs {
 		return '''./mvnw clean install -P docs -q -U -DskipTests=true -Dmaven.test.redirectTestOutputToFile=true'''
 	}
 
-	String cleanAndDeploy() {
-		return '''./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true'''
-	}
-
 	String repoUserNameEnvVar() {
 		return 'REPO_USERNAME'
 	}
@@ -43,14 +42,6 @@ trait SpringCloudJobs {
 
 	String repoSpringIoUserCredentialId() {
 		return '02bd1690-b54f-4c9f-819d-a77cb7a9822c'
-	}
-
-	String branchVar() {
-		return 'BRANCH'
-	}
-
-	String masterBranch() {
-		return 'master'
 	}
 
 }

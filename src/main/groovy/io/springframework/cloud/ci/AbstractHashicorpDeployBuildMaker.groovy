@@ -3,17 +3,17 @@ package io.springframework.cloud.ci
 import groovy.transform.PackageScope
 import io.springframework.cloud.common.HashicorpTrait
 import io.springframework.cloud.common.SpringCloudJobs
+import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
-import io.springframework.common.Notification
-import io.springframework.common.Publisher
+import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
 @PackageScope
-abstract class AbstractHashicorpDeployBuildMaker implements Notification, JdkConfig, Publisher, HashicorpTrait,
+abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, HashicorpTrait,
 		Cron, SpringCloudJobs {
 	protected final DslFactory dsl
 	protected final String organization

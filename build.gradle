@@ -38,3 +38,18 @@ task workspace(type: Copy) {
 wrapper {
     gradleVersion '2.13'
 }
+//
+//apply plugin: "jvm-component"
+//
+//model {
+//    components {
+//        main(JvmLibrarySpec) {
+//            dependencies {
+//                library "core"
+//            }
+//        }
+//
+//        core(JvmLibrarySpec) {
+//        }
+//    }
+//}

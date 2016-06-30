@@ -1,14 +1,13 @@
 package io.springframework.cloud.ci
 
+import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
-import io.springframework.common.Notification
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class BenchmarksBuildMaker implements Notification, JdkConfig, Cron {
+class BenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
 	private final DslFactory dsl
 
 	BenchmarksBuildMaker(DslFactory dsl) {

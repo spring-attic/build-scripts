@@ -1,14 +1,13 @@
 package io.springframework.cloud.ci
 
 import io.springframework.cloud.common.SpringCloudJobs
+import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.JdkConfig
-import io.springframework.common.Notification
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class DocsAppBuildMaker implements Notification, JdkConfig, SpringCloudJobs {
+class DocsAppBuildMaker implements SpringCloudNotification, JdkConfig, SpringCloudJobs {
 	private final DslFactory dsl
 
 	DocsAppBuildMaker(DslFactory dsl) {

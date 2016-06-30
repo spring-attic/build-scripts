@@ -1,17 +1,16 @@
 package io.springframework.cloud.sonar
 
+import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
-import io.springframework.common.Notification
-import io.springframework.common.Publisher
+import io.springframework.common.TestPublisher
 import io.springframework.common.SonarTrait
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.helpers.step.StepContext
-
 /**
  * @author Marcin Grzejszczak
  */
-class SonarBuildMaker implements Notification, JdkConfig, Publisher, SonarTrait, Cron {
+class SonarBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, SonarTrait, Cron {
 
 	private final DslFactory dsl
 

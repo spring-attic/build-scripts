@@ -1,30 +1,31 @@
-package io.springframework.cloud.ci
+package io.springframework.springio.ci
 
-import io.springframework.cloud.common.SpringCloudJobs
-import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.TestPublisher
+import io.springframework.springio.common.SpringIoJobs
+import io.springframework.springio.common.SpringIoNotification
 import javaposse.jobdsl.dsl.DslFactory
+
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, Cron, SpringCloudJobs {
+class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher, Cron, SpringIoJobs {
 	private final DslFactory dsl
 	final String organization
 
-	SpringCloudDeployBuildMaker(DslFactory dsl) {
+	SpringStarterDeployBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
-		this.organization = 'spring-cloud'
+		this.organization = 'spring-io'
 	}
 
-	SpringCloudDeployBuildMaker(DslFactory dsl, String organization) {
+	SpringStarterDeployBuildMaker(DslFactory dsl, String organization) {
 		this.dsl = dsl
 		this.organization = organization
 	}
 
 	void deploy(String project, boolean checkTests = true) {
-		dsl.job("$project-ci") {
+		dsl.job("${prefixJob(project)}-ci") {
 			triggers {
 				cron everyThreeHours()
 				githubPush()
@@ -42,12 +43,10 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 				}
 			}
 			steps {
-				shell(cleanup())
-				shell(buildDocsWithGhPages())
 				shell(cleanAndDeploy())
 			}
 			configure {
-				appendSlackNotificationForSpringCloud(it as Node)
+				appendSlackNotificationForSpring(it as Node)
 			}
 			if (checkTests) {
 				publishers {

@@ -1,16 +1,15 @@
 package io.springframework.cloud.ci
 
 import io.springframework.cloud.common.SpringCloudJobs
+import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
-import io.springframework.common.Notification
-import io.springframework.common.Publisher
+import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudContractDeployBuildMaker implements Notification, JdkConfig, Publisher, Cron,
+class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, Cron,
 		SpringCloudJobs {
 	private final DslFactory dsl
 	final String organization

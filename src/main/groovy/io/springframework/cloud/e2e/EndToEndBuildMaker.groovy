@@ -1,14 +1,15 @@
 package io.springframework.cloud.e2e
 
 import io.springframework.cloud.common.SpringCloudJobs
+import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.*
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements Notification, Publisher, JdkConfig, BreweryDefaults, Label,
-		Cron, SpringCloudJobs {
+class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
+		JdkConfig, BreweryDefaults, Label, Cron, SpringCloudJobs {
 
 	private final DslFactory dsl
 	private final String organization

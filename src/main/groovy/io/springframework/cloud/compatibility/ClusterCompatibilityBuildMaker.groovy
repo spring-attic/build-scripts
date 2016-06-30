@@ -1,12 +1,12 @@
 package io.springframework.cloud.compatibility
 
 import io.springframework.cloud.common.ClusterTrait
-import io.springframework.common.Publisher
+import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements Publisher, ClusterTrait {
+class ClusterCompatibilityBuildMaker extends CompatibilityTasks implements TestPublisher, ClusterTrait {
 	private final DslFactory dsl
 	private final String suffix
 

@@ -1,13 +1,14 @@
 package io.springframework.cloud.e2e
 
 import io.springframework.cloud.common.SpringCloudJobs
+import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.*
 import javaposse.jobdsl.dsl.DslFactory
 
 /**
  * @author Marcin Grzejszczak
  */
-class CloudFoundryBreweryTestExecutor implements Notification, Publisher, JdkConfig, BreweryDefaults,
+class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPublisher, JdkConfig, BreweryDefaults,
 		CloudFoundry, Cron, SpringCloudJobs {
 
 	private final DslFactory dsl

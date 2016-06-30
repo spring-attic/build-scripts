@@ -5,7 +5,7 @@ package io.springframework.common
  *
  * @author Marcin Grzejszczak
  */
-trait Publisher {
+trait TestPublisher {
 	String mavenJUnitResults() {
 		return '**/surefire-reports/*.xml'
 	}
