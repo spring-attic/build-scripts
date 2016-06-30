@@ -29,12 +29,13 @@ trait Artifactory {
 		(details / 'artifactoryName').setValue(artifactoryName())
 		(details / 'artifactoryUrl').setValue(artifactoryUrl())
 		def deployReleaseRepository = details / 'deployReleaseRepository'
-		(deployReleaseRepository / 'keyFromText').setValue('libs-release-local')
+		(deployReleaseRepository / 'keyFromSelect').setValue('libs-release-local')
 		def deploySnapshotRepository = details / 'deploySnapshotRepository'
-		(deploySnapshotRepository / 'keyFromText').setValue('libs-snapshot-local')
+		(deploySnapshotRepository / 'keyFromSelect').setValue('libs-snapshot-local')
 		def resolverDetails = configurator / 'resolverDetails'
 		(resolverDetails / 'artifactoryName').setValue(artifactoryName())
 		(resolverDetails / 'artifactoryUrl').setValue(artifactoryUrl())
+		(configurator / 'deployArtifacts').setValue(true)
 	}
 
 }
