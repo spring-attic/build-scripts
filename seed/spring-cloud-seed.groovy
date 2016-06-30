@@ -3,7 +3,7 @@ job('spring-cloud-seed') {
     scm {
         git {
             remote {
-                github('spring-cloud/spring-cloud-jenkins-dsl')
+                github('spring-io/build-scripts')
             }
 			branch('master')
             createTag(false)
