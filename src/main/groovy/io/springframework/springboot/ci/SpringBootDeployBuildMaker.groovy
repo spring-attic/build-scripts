@@ -10,7 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, TestPublisher,
 		Cron, SpringBootJobs, Maven, Artifactory {
-	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.0.x', '1.1.x', '1.2.x', '1.3.x']
+	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.2.x', '1.3.x']
 
 	private final DslFactory dsl
 	final String organization
