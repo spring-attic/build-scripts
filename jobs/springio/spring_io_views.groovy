@@ -20,7 +20,7 @@ String initializrName = AllSpringIoJobs.getInitializrName()
 
 dsl.nestedView('SpringIO') {
 	views {
-		deliveryPipelineView("$initializrName-delivery") {
+		deliveryPipelineView("Initializr Delivery") {
 			pipelineInstances(0)
 			showAggregatedPipeline()
 			columns(1)
@@ -32,7 +32,7 @@ dsl.nestedView('SpringIO') {
 				component("Deploy Initializr to production", SpringStarterBuildMaker.jobName())
 			}
 		}
-		buildMonitorView("$initializrName-deploy-to-prod-monitor") {
+		buildMonitorView("Initializr Deploy Monitor") {
 			jobs {
 				regex("^$initializrName.*\$")
 			}
