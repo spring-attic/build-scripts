@@ -76,7 +76,7 @@ class CloudFoundryPlugin {
 		}
 
 		private void appURIs() {
-			manifestChoice / 'appURIs'
+			builder / 'appURIs'
 		}
 
 		void envVars(Map<String, String> vars = [:]) {
