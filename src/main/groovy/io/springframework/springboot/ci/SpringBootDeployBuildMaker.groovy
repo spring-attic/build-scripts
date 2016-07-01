@@ -29,7 +29,8 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 		this.organization = organization
 	}
 
-	void deploy(String project, boolean checkTests = true) {
+	void deploy() {
+		String project = 'spring-boot'
 		BRANCHES_TO_BUILD.each { String branchToBuild ->
 			dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
 				triggers {
@@ -62,10 +63,8 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 //						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
 //					}
 				}
-				if (checkTests) {
-					publishers {
-						archiveJunit mavenJUnitResults()
-					}
+				publishers {
+					archiveJunit mavenJUnitResults()
 				}
 			}
 		}

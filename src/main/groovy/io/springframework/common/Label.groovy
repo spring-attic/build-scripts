@@ -12,4 +12,8 @@ trait Label {
 	String aws() {
 		return 'ec2-0'
 	}
+
+	String windows() {
+		return 'win2012'
+	}
 }
