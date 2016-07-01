@@ -109,6 +109,10 @@ class CloudFoundryPlugin {
 				instances()
 				domain()
 				timeout()
+				appPath()
+				buildPack()
+				stack()
+				command()
 			}
 
 			void appName(String appName) {
@@ -119,8 +123,8 @@ class CloudFoundryPlugin {
 				(manifestChoice / 'memory').setValue(memory)
 			}
 
-			void hostname(String hostbame) {
-				(manifestChoice / 'hostname').setValue(hostbame)
+			void hostname(String hostname) {
+				(manifestChoice / 'hostname').setValue(hostname)
 			}
 
 			void domain(String domain = 'cfapps.io') {
@@ -131,23 +135,23 @@ class CloudFoundryPlugin {
 				(manifestChoice / 'instances').setValue(instances)
 			}
 
-			void timeout(int timetout = 120) {
-				(manifestChoice / 'timeout').setValue(timetout)
+			void timeout(int timeout = 120) {
+				(manifestChoice / 'timeout').setValue(timeout)
 			}
 
-			void appPath(String appPath) {
+			void appPath(String appPath = '') {
 				(manifestChoice / 'appPath').setValue(appPath)
 			}
 
-			void buildPack(String buildPack) {
+			void buildPack(String buildPack = '') {
 				(manifestChoice / 'buildPack').setValue(buildPack)
 			}
 
-			void stack(String stack) {
+			void stack(String stack = '') {
 				(manifestChoice / 'stack').setValue(stack)
 			}
 
-			void command(String command) {
+			void command(String command = '') {
 				(manifestChoice / 'command').setValue(command)
 			}
 		}
