@@ -65,7 +65,9 @@ class SpringStarterBuildMaker implements SpringIoNotification, JdkConfig, TestPu
 			publishers {
 				archiveJunit mavenJUnitResults()
 				downstreamParameterized {
-					trigger(SpringStarterProductionBuildMaker.jobName())
+					trigger(SpringStarterProductionBuildMaker.jobName()) {
+						triggerWithNoParameters()
+					}
 				}
 			}
 		}

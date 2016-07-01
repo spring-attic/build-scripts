@@ -1,9 +1,11 @@
 package springio
 
 import io.springframework.cloud.view.DashboardViewBuilder
+import io.springframework.common.DefaultDeliveryPipelineView
 import io.springframework.springio.ci.SpringStarterBuildMaker
 import io.springframework.springio.common.AllSpringIoJobs
 import javaposse.jobdsl.dsl.DslFactory
+import javaposse.jobdsl.dsl.views.NestedViewsContext
 
 DslFactory dsl = this
 
@@ -20,18 +22,11 @@ String initializrName = AllSpringIoJobs.getInitializrName()
 
 dsl.nestedView('SpringIO') {
 	views {
-		deliveryPipelineView("Initializr Delivery") {
-			pipelineInstances(0)
-			showAggregatedPipeline()
-			columns(1)
-			updateInterval(5)
-			enableManualTriggers()
-			showAvatars()
-			showChangeLog()
-			pipelines {
-				component("Deploy Initializr to production", SpringStarterBuildMaker.jobName())
-			}
-		}
+		def nestedView = delegate as NestedViewsContext
+		DefaultDeliveryPipelineView.build(nestedView,
+				'Initializr Delivery',
+				"Deploy Initializr to production",
+				SpringStarterBuildMaker.jobName())
 		buildMonitorView("Initializr Deploy Monitor") {
 			jobs {
 				regex("^$initializrName.*\$")
