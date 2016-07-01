@@ -10,6 +10,4 @@ DslFactory dsl = this
 println "Projects with tests $ALL_JOBS"
 
 // CI
-ALL_JOBS.each {
-	new SpringBootDeployBuildMaker(dsl).deploy('spring-boot')
-}
+new SpringBootDeployBuildMaker(dsl).deploy('spring-boot')

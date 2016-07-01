@@ -32,7 +32,6 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 		BRANCHES_TO_BUILD.each { String branchToBuild ->
 			dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
 				triggers {
-					cron everyXHours(6)
 					githubPush()
 				}
 				jdk jdk8()

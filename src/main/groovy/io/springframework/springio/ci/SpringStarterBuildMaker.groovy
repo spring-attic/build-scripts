@@ -72,6 +72,6 @@ class SpringStarterBuildMaker implements SpringIoNotification, JdkConfig, TestPu
 	}
 
 	static String jobName() {
-		return "${AllSpringIoJobs.getInitializrName()}-build"
+		return "${AllSpringIoJobs.getInitializrName()}-ci"
 	}
 }
