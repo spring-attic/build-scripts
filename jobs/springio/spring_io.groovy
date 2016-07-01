@@ -7,5 +7,5 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 // CI
-new SpringStarterBuildMaker(dsl, 'snicoll').build()
-new SpringStarterProductionBuildMaker(dsl, 'snicoll').deploy()
+new SpringStarterBuildMaker(dsl, 'snicoll', 'maven-migration').build()
+new SpringStarterProductionBuildMaker(dsl, 'snicoll', 'maven-migration').deploy()

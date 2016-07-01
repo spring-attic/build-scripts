@@ -108,6 +108,7 @@ class CloudFoundryPlugin {
 				memory()
 				instances()
 				domain()
+				timeout()
 			}
 
 			void appName(String appName) {
@@ -128,6 +129,10 @@ class CloudFoundryPlugin {
 
 			void instances(int instances = 1) {
 				(manifestChoice / 'instances').setValue(instances)
+			}
+
+			void timeout(int timetout = 120) {
+				(manifestChoice / 'timeout').setValue(timetout)
 			}
 
 			void appPath(String appPath) {

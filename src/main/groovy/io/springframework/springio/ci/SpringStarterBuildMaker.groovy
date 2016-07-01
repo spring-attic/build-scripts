@@ -19,16 +19,19 @@ import static io.springframework.common.Artifactory.artifactoryMavenBuild
 class SpringStarterBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
 		Cron, SpringIoJobs, Maven, Pipeline {
 	private final DslFactory dsl
-	final String organization
+	private final String organization
+	private final String branchName
 
 	SpringStarterBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 		this.organization = 'spring-io'
+		this.branchName = 'masster'
 	}
 
-	SpringStarterBuildMaker(DslFactory dsl, String organization) {
+	SpringStarterBuildMaker(DslFactory dsl, String organization, String branchName) {
 		this.dsl = dsl
 		this.organization = organization
+		this.branchName = branchName
 	}
 
 	void build() {
@@ -41,16 +44,12 @@ class SpringStarterBuildMaker implements SpringIoNotification, JdkConfig, TestPu
 				cron everyThreeHours()
 				githubPush()
 			}
-			parameters {
-				//stringParam(branchVar(), masterBranch(), 'Which branch should be built')
-				stringParam(branchVar(), 'maven-migration', 'Which branch should be built')
-			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
 						url "https://github.com/${organization}/initializr"
-						branch "\$${branchVar()}"
+						branch branchName
 					}
 				}
 			}

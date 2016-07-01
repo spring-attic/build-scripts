@@ -17,16 +17,19 @@ import static io.springframework.common.CloudFoundryPlugin.pushToCloudFoundry
 class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
 		Cron, SpringIoJobs, Pipeline, Maven {
 	private final DslFactory dsl
-	final String organization
+	private final String organization
+	private final String branchName
 
 	SpringStarterProductionBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 		this.organization = 'spring-io'
+		this.branchName = 'master'
 	}
 
-	SpringStarterProductionBuildMaker(DslFactory dsl, String organization) {
+	SpringStarterProductionBuildMaker(DslFactory dsl, String organization, String branchName) {
 		this.dsl = dsl
 		this.organization = organization
+		this.branchName = branchName
 	}
 
 	void deploy() {
@@ -40,7 +43,7 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 				git {
 					remote {
 						url "https://github.com/${organization}/initializr"
-						branch "maven-migration"
+						branch branchName
 					}
 				}
 			}
@@ -58,6 +61,7 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 					cloudSpace('development')
 					manifestConfig {
 						appName('start')
+						appPath('initializr-service/target/initializr-service-1.0.0.BUILD-SNAPSHOT.jar')
 						hostName('start-development')
 						domain()
 					}
