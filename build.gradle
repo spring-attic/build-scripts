@@ -36,7 +36,7 @@ task workspace(type: Copy) {
 }
 
 wrapper {
-    gradleVersion '2.13'
+    gradleVersion '2.14'
 }
 //
 //apply plugin: "jvm-component"

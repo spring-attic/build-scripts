@@ -25,21 +25,18 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 		this.project = project
 	}
 
-	void deploy() {
-		dsl.job("$project-ci") {
+	void deploy(String branchName = 'master') {
+		dsl.job("$project-$branchName-ci") {
 			triggers {
 				cron everyThreeHours()
 				githubPush()
-			}
-			parameters {
-				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
 			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
 						url "https://github.com/${organization}/${project}"
-						branch "\$${branchVar()}"
+						branch branchName
 					}
 				}
 			}
