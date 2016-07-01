@@ -110,7 +110,7 @@ class CloudFoundryPlugin {
 				domain()
 				timeout()
 				appPath()
-				buildPack()
+				buildpack()
 				stack()
 				command()
 			}
@@ -143,8 +143,8 @@ class CloudFoundryPlugin {
 				(manifestChoice / 'appPath').setValue(appPath)
 			}
 
-			void buildPack(String buildPack = '') {
-				(manifestChoice / 'buildPack').setValue(buildPack)
+			void buildpack(String buildpack = '') {
+				(manifestChoice / 'buildpack').setValue(buildpack)
 			}
 
 			void stack(String stack = '') {
