@@ -74,6 +74,14 @@ You have to provide the following values/plugin configuration for your Jenkins t
 |Cloud plugin
 |The instances have to have proper values for JDK / JAVA_HOME
 
+|Artifactory.DEFAULT_ARTIFACTORY_NAME
+|The id of the Artifactory Repo is hardcoded in `io.springframework.common.Artifactory.DEFAULT_ARTIFACTORY_NAME`.
+Most likely after a new installation it will change and the code will need to get updated.
+
+|Maven Trait
+|The trait io.springframework.common.Maven contains references to Maven installations. You have to have your
+Jenkins Maven installations correspond to those entries.
+
 |===
 
 Also it's required to have Maven settings allowing you to push to artifactory.
