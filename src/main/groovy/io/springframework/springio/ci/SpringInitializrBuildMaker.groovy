@@ -16,26 +16,26 @@ import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Marcin Grzejszczak
  */
-class SpringStarterBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
+class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
 		Cron, SpringIoJobs, Maven, Pipeline {
 	private final DslFactory dsl
 	private final String organization
 	private final String branchName
 
-	SpringStarterBuildMaker(DslFactory dsl) {
+	SpringInitializrBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 		this.organization = 'spring-io'
-		this.branchName = 'masster'
+		this.branchName = 'master'
 	}
 
-	SpringStarterBuildMaker(DslFactory dsl, String organization, String branchName) {
+	SpringInitializrBuildMaker(DslFactory dsl, String organization, String branchName) {
 		this.dsl = dsl
 		this.organization = organization
 		this.branchName = branchName
 	}
 
 	void build() {
-		dsl.job("${initializrName()}-build") {
+		dsl.job(jobName()) {
 			deliveryPipelineConfiguration('Build', 'Build')
 			wrappers {
 				defaultDeliveryPipelineVersion()

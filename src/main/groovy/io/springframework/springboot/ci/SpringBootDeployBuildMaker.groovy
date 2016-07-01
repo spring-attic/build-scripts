@@ -1,13 +1,14 @@
 package io.springframework.springboot.ci
 
-import io.springframework.common.*
+import io.springframework.common.Cron
+import io.springframework.common.JdkConfig
+import io.springframework.common.Maven
+import io.springframework.common.TestPublisher
 import io.springframework.springboot.common.SpringBootJobs
 import io.springframework.springboot.common.SpringBootNotification
 import javaposse.jobdsl.dsl.DslFactory
 
-import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
 import static io.springframework.common.Artifactory.artifactoryMavenBuild
-
 /**
  * @author Marcin Grzejszczak
  */
@@ -57,9 +58,9 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 						rootPom('spring-boot-full-build/pom.xml')
 						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
 					}
-					artifactoryMaven3Configurator(it as Node) {
-						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
-					}
+//					artifactoryMaven3Configurator(it as Node) {
+//						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
+//					}
 				}
 				if (checkTests) {
 					publishers {
