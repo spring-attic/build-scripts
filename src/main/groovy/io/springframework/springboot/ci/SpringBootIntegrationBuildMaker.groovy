@@ -32,7 +32,6 @@ class SpringBootIntegrationBuildMaker implements SpringBootNotification, JdkConf
 				triggers {
 					cron(everyDatAtFullHour(12))
 				}
-				label(aws())
 				jdk jdk8()
 				scm {
 					git {
