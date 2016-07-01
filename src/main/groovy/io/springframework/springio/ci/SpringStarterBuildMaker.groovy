@@ -41,7 +41,6 @@ class SpringStarterBuildMaker implements SpringIoNotification, JdkConfig, TestPu
 				defaultDeliveryPipelineVersion()
 			}
 			triggers {
-				cron everyThreeHours()
 				githubPush()
 			}
 			jdk jdk8()
