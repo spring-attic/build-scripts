@@ -5,55 +5,113 @@ package io.springframework.common
  *
  * @author Marcin Grzejszczak
  */
-trait Artifactory {
+class Artifactory {
 
-	String artifactoryName() {
-		return '-1638662726@1458342414489'
+	private static String DEFAULT_ARTIFACTORY_NAME = '-1638662726@1458342414489'
+	private static String DEFAULT_ARTIFACTORY_URL = 'https://repo.spring.io'
+
+	static void artifactoryMavenBuild(Node rootNode, @DelegatesTo(ArtifactoryMaven) Closure closure) {
+		ArtifactoryMaven maven = new ArtifactoryMaven(rootNode)
+		closure.delegate = maven
+		closure.call()
 	}
 
-	String artifactoryUrl() {
-		return 'https://repo.spring.io'
+	static void artifactoryMavenBuild(Node rootNode) {
+		artifactoryMavenBuild(rootNode, Closure.IDENTITY)
 	}
 
-	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String rootPom, String mavenGoals, String mavenOpts) {
-		Node propertiesNode = rootNode / 'builders'
-		def builder = propertiesNode / 'org.jfrog.hudson.maven3.Maven3Builder'
-		(builder / 'mavenName').setValue(mavenVersion)
-		(builder / 'goals').setValue(mavenGoals)
-		if (rootPom) {
+	static void artifactoryMaven3Configurator(Node rootNode, @DelegatesTo(ArtifactoryMaven3Build) Closure closure) {
+		ArtifactoryMaven3Build maven = new ArtifactoryMaven3Build(rootNode)
+		closure.delegate = maven
+		closure.call()
+	}
+	static void artifactoryMaven3Configurator(Node rootNode) {
+		artifactoryMaven3Configurator(rootNode, Closure.IDENTITY)
+	}
+
+	static class ArtifactoryMaven implements Maven {
+		private final Node rootNode
+		private final def builder
+
+		ArtifactoryMaven(Node rootNode) {
+			this.rootNode = rootNode
+			Node propertiesNode = rootNode / 'builders'
+			this.builder = propertiesNode / 'org.jfrog.hudson.maven3.Maven3Builder'
+		}
+
+		void setMavenVersion(String mavenVersion) {
+			(builder / 'mavenName').setValue(mavenVersion)
+		}
+
+		void setGoals(String goals) {
+			(builder / 'goals').setValue(goals)
+		}
+
+		void setRootPom(String rootPom) {
 			(builder / 'rootPom').setValue(rootPom)
 		}
-		if (mavenOpts) {
+
+		void setMavenOpts(String mavenOpts) {
 			(builder / 'mavenOpts').setValue(mavenOpts)
 		}
 	}
 
-	void artifactoryMavenBuild(Node rootNode, String mavenVersion, String mavenGoals) {
-		artifactoryMavenBuild(rootNode, mavenVersion, mavenGoals, '', '')
-	}
+	static class ArtifactoryMaven3Build implements Maven {
+		private final Node rootNode
+		private final def configurator
+		private final def details
+		private final def resolverDetails
 
-	void artifactoryMaven3Configurator(Node rootNode) {
-		artifactoryMaven3Configurator(rootNode, '')
-	}
+		ArtifactoryMaven3Build(Node rootNode) {
+			this.rootNode = rootNode
+			Node propertiesNode = rootNode / 'buildWrappers'
+			this.configurator = propertiesNode / 'org.jfrog.hudson.maven3.ArtifactoryMaven3Configurator'
+			this.details = configurator / 'details'
+			this.resolverDetails = configurator / 'resolverDetails'
+			setArtifactoryName()
+			setArtifactoryUrl()
+			setDeploySnapshotRepository()
+			setDeployReleaseRepository()
+			setExcludePatterns()
+			deployArtifacts()
+			deployBuildInfo()
+			filterExcludedArtifactsFromBuild()
+		}
 
-	void artifactoryMaven3Configurator(Node rootNode, String excludePatterns) {
-		Node propertiesNode = rootNode / 'buildWrappers'
-		def configurator = propertiesNode / 'org.jfrog.hudson.maven3.ArtifactoryMaven3Configurator'
-		def details = configurator / 'details'
-		(details / 'artifactoryName').setValue(artifactoryName())
-		(details / 'artifactoryUrl').setValue(artifactoryUrl())
-		def deployReleaseRepository = details / 'deployReleaseRepository'
-		(deployReleaseRepository / 'keyFromSelect').setValue('libs-release-local')
-		def deploySnapshotRepository = details / 'deploySnapshotRepository'
-		(deploySnapshotRepository / 'keyFromSelect').setValue('libs-snapshot-local')
-		def resolverDetails = configurator / 'resolverDetails'
-		(resolverDetails / 'artifactoryName').setValue(artifactoryName())
-		(resolverDetails / 'artifactoryUrl').setValue(artifactoryUrl())
-		(configurator / 'deployArtifacts').setValue(true)
-		(configurator / 'deployBuildInfo').setValue(true)
-		(configurator / 'filterExcludedArtifactsFromBuild').setValue(true)
-		if (excludePatterns) {
+		void setArtifactoryName(String name = DEFAULT_ARTIFACTORY_NAME) {
+			(details / 'artifactoryName').setValue(name)
+			(resolverDetails / 'artifactoryName').setValue(name)
+		}
+
+		void setArtifactoryUrl(String url = DEFAULT_ARTIFACTORY_URL) {
+			(details / 'artifactoryUrl').setValue(url)
+			(resolverDetails / 'artifactoryUrl').setValue(url)
+		}
+
+		void setDeployReleaseRepository(String name = 'libs-release-local') {
+			def deployReleaseRepository = details / 'deployReleaseRepository'
+			(deployReleaseRepository / 'keyFromSelect').setValue(name)
+		}
+
+		void setDeploySnapshotRepository(String name = 'libs-snapshot-local') {
+			def deploySnapshotRepository = details / 'deploySnapshotRepository'
+			(deploySnapshotRepository / 'keyFromSelect').setValue(name)
+		}
+
+		void setExcludePatterns(String excludePatterns = '') {
 			(configurator / 'artifactDeploymentPatterns' / 'excludePatterns').setValue(excludePatterns)
+		}
+
+		void deployArtifacts(boolean deploy = true) {
+			(configurator / 'deployArtifacts').setValue(deploy)
+		}
+
+		void deployBuildInfo(boolean deploy = true) {
+			(configurator / 'deployBuildInfo').setValue(deploy)
+		}
+
+		void filterExcludedArtifactsFromBuild(boolean filter = true) {
+			(configurator / 'filterExcludedArtifactsFromBuild').setValue(filter)
 		}
 	}
 

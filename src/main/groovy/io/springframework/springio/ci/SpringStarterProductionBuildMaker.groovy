@@ -1,18 +1,16 @@
 package io.springframework.springio.ci
 
-import io.springframework.common.Artifactory
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.TestPublisher
 import io.springframework.springio.common.SpringIoJobs
 import io.springframework.springio.common.SpringIoNotification
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
 class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
-		Cron, SpringIoJobs, Artifactory {
+		Cron, SpringIoJobs {
 	private final DslFactory dsl
 	final String organization
 
@@ -33,7 +31,7 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 				git {
 					remote {
 						url "https://github.com/${organization}/${project}"
-						branch "master"
+						branch "maven-migration"
 					}
 				}
 			}

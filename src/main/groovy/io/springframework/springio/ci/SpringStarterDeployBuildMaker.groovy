@@ -1,6 +1,5 @@
 package io.springframework.springio.ci
 
-import io.springframework.common.Artifactory
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Maven
@@ -9,11 +8,13 @@ import io.springframework.springio.common.SpringIoJobs
 import io.springframework.springio.common.SpringIoNotification
 import javaposse.jobdsl.dsl.DslFactory
 
+import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
+import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Marcin Grzejszczak
  */
 class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
-		Cron, SpringIoJobs, Maven, Artifactory {
+		Cron, SpringIoJobs, Maven {
 	private final DslFactory dsl
 	final String organization
 
@@ -41,13 +42,17 @@ class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, 
 				git {
 					remote {
 						url "https://github.com/${organization}/${project}"
-						branch "\$${branchVar()}"
+						//branch "\$${branchVar()}"
+						branch "maven-migration"
 					}
 				}
 			}
 			configure {
 				slackNotificationForSpring(it as Node)
-				artifactoryMavenBuild(it as Node, maven33(), 'clean install')
+				artifactoryMavenBuild(it as Node) {
+					mavenVersion = maven33()
+					goals = 'clean install'
+				}
 				artifactoryMaven3Configurator(it as Node)
 			}
 			if (checkTests) {
@@ -56,9 +61,5 @@ class SpringStarterDeployBuildMaker implements SpringIoNotification, JdkConfig, 
 				}
 			}
 		}
-	}
-
-	void deployWithoutTests(String project) {
-		deploy(project, false)
 	}
 }

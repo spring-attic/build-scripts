@@ -5,11 +5,14 @@ import io.springframework.springboot.common.SpringBootJobs
 import io.springframework.springboot.common.SpringBootNotification
 import javaposse.jobdsl.dsl.DslFactory
 
+import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
+import static io.springframework.common.Artifactory.artifactoryMavenBuild
+
 /**
  * @author Marcin Grzejszczak
  */
 class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, TestPublisher,
-		Cron, SpringBootJobs, Maven, Artifactory {
+		Cron, SpringBootJobs, Maven {
 	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.2.x', '1.3.x']
 
 	private final DslFactory dsl
@@ -29,7 +32,7 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 		BRANCHES_TO_BUILD.each { String branchToBuild ->
 			dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
 				triggers {
-					cron everyThreeHours()
+					cron everyXHours(6)
 					githubPush()
 				}
 				jdk jdk8()
@@ -49,8 +52,15 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 				}
 				configure {
 					slackNotificationForSpring(it as Node)
-					artifactoryMavenBuild(it as Node, maven30(), 'spring-boot-full-build/pom.xml', 'install -U -P full -s settings.xml', '-Xmx2g -XX:MaxPermSize=512m')
-					artifactoryMaven3Configurator(it as Node, '**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
+					artifactoryMavenBuild(it as Node) {
+						mavenVersion = maven30()
+						goals = 'install -U -P full -s settings.xml'
+						rootPom = 'spring-boot-full-build/pom.xml'
+						mavenOpts = '-Xmx2g -XX:MaxPermSize=512m'
+					}
+					artifactoryMaven3Configurator(it as Node) {
+						excludePatterns = '**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip'
+					}
 				}
 				if (checkTests) {
 					publishers {

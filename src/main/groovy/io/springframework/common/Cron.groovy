@@ -30,6 +30,10 @@ trait Cron {
 		return "H H/3 * * *"
 	}
 
+	String everyXHours(int hours) {
+		return "H H/${hours} * * *"
+	}
+
 	String everySixHoursStartingFrom(int startingHour) {
 		return "H ${startingHour}-23/6 * * *"
 	}

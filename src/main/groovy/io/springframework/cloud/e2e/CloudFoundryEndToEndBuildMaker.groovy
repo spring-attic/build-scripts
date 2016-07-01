@@ -9,7 +9,7 @@ import javaposse.jobdsl.dsl.DslFactory
  * @author Marcin Grzejszczak
  */
 class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPublisher, JdkConfig, BreweryDefaults,
-		CloudFoundry, Cron, SpringCloudJobs {
+		BashCloudFoundry, Cron, SpringCloudJobs {
 
 	private final DslFactory dsl
 

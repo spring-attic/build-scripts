@@ -10,5 +10,5 @@ println "Projects with tests $ALL_JOBS"
 
 // CI
 ALL_JOBS.each {
-	//new SpringStarterDeployBuildMaker(dsl).deploy(it)
+	//new SpringStarterDeployBuildMaker(dsl, 'snicoll').deploy(it)
 }

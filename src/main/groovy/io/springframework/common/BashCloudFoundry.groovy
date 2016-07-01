@@ -3,7 +3,7 @@ package io.springframework.common
 /**
  * @author Marcin Grzejszczak
  */
-trait CloudFoundry {
+trait BashCloudFoundry {
 
 	String cfUsername() {
 		return '$CF_USERNAME'

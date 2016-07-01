@@ -1,18 +1,16 @@
 package io.springframework.springboot.ci
 
-import io.springframework.common.Artifactory
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.TestPublisher
 import io.springframework.springboot.common.SpringBootJobs
 import io.springframework.springboot.common.SpringBootNotification
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
 class SpringBootProductionBuildMaker implements SpringBootNotification, JdkConfig, TestPublisher,
-		Cron, SpringBootJobs, Artifactory {
+		Cron, SpringBootJobs {
 	private final DslFactory dsl
 	final String organization
 
