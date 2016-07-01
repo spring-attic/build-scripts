@@ -1,7 +1,7 @@
 package io.springframework.common
 
 /**
- * A trait to append Artifactory Maven Build
+ * A class represents a DSL to use with Artifactory plugin
  *
  * @author Marcin Grzejszczak
  */
@@ -39,19 +39,19 @@ class Artifactory {
 			this.builder = propertiesNode / 'org.jfrog.hudson.maven3.Maven3Builder'
 		}
 
-		void setMavenVersion(String mavenVersion) {
+		void mavenVersion(String mavenVersion) {
 			(builder / 'mavenName').setValue(mavenVersion)
 		}
 
-		void setGoals(String goals) {
+		void goals(String goals) {
 			(builder / 'goals').setValue(goals)
 		}
 
-		void setRootPom(String rootPom) {
+		void rootPom(String rootPom) {
 			(builder / 'rootPom').setValue(rootPom)
 		}
 
-		void setMavenOpts(String mavenOpts) {
+		void mavenOpts(String mavenOpts) {
 			(builder / 'mavenOpts').setValue(mavenOpts)
 		}
 	}
@@ -68,37 +68,37 @@ class Artifactory {
 			this.configurator = propertiesNode / 'org.jfrog.hudson.maven3.ArtifactoryMaven3Configurator'
 			this.details = configurator / 'details'
 			this.resolverDetails = configurator / 'resolverDetails'
-			setArtifactoryName()
-			setArtifactoryUrl()
-			setDeploySnapshotRepository()
-			setDeployReleaseRepository()
-			setExcludePatterns()
+			artifactoryName()
+			artifactoryUrl()
+			deploySnapshotRepository()
+			deployReleaseRepository()
+			excludePatterns()
 			deployArtifacts()
 			deployBuildInfo()
 			filterExcludedArtifactsFromBuild()
 		}
 
-		void setArtifactoryName(String name = DEFAULT_ARTIFACTORY_NAME) {
+		void artifactoryName(String name = DEFAULT_ARTIFACTORY_NAME) {
 			(details / 'artifactoryName').setValue(name)
 			(resolverDetails / 'artifactoryName').setValue(name)
 		}
 
-		void setArtifactoryUrl(String url = DEFAULT_ARTIFACTORY_URL) {
+		void artifactoryUrl(String url = DEFAULT_ARTIFACTORY_URL) {
 			(details / 'artifactoryUrl').setValue(url)
 			(resolverDetails / 'artifactoryUrl').setValue(url)
 		}
 
-		void setDeployReleaseRepository(String name = 'libs-release-local') {
+		void deployReleaseRepository(String name = 'libs-release-local') {
 			def deployReleaseRepository = details / 'deployReleaseRepository'
 			(deployReleaseRepository / 'keyFromSelect').setValue(name)
 		}
 
-		void setDeploySnapshotRepository(String name = 'libs-snapshot-local') {
+		void deploySnapshotRepository(String name = 'libs-snapshot-local') {
 			def deploySnapshotRepository = details / 'deploySnapshotRepository'
 			(deploySnapshotRepository / 'keyFromSelect').setValue(name)
 		}
 
-		void setExcludePatterns(String excludePatterns = '') {
+		void excludePatterns(String excludePatterns = '') {
 			(configurator / 'artifactDeploymentPatterns' / 'excludePatterns').setValue(excludePatterns)
 		}
 

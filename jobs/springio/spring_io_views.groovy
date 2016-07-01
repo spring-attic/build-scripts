@@ -1,6 +1,8 @@
 package springio
 
 import io.springframework.cloud.view.DashboardViewBuilder
+import io.springframework.springio.ci.SpringStarterBuildMaker
+import io.springframework.springio.common.AllSpringIoJobs
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
@@ -14,19 +16,26 @@ dsl.listView('Seeds') {
 	columns defaultColumns()
 }
 
+String initializrName = AllSpringIoJobs.getInitializrName()
+
 dsl.nestedView('SpringIO') {
 	views {
-		listView('CI') {
-			jobs {
-				regex('spring-io.*-ci')
+		deliveryPipelineView("$initializrName-delivery") {
+			pipelineInstances(0)
+			showAggregatedPipeline()
+			columns(1)
+			updateInterval(5)
+			enableManualTriggers()
+			showAvatars()
+			showChangeLog()
+			pipelines {
+				component("Deploy Initializr to production", SpringStarterBuildMaker.jobName())
 			}
-			columns defaultColumns()
 		}
-		listView('Prod') {
+		buildMonitorView("$initializrName-deploy-to-prod-monitor") {
 			jobs {
-				regex('spring-io.*-production')
+				regex("^$initializrName.*\$")
 			}
-			columns defaultColumns()
 		}
 		listView('All Spring IO') {
 			jobs {

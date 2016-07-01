@@ -53,13 +53,13 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 				configure {
 					slackNotificationForSpring(it as Node)
 					artifactoryMavenBuild(it as Node) {
-						mavenVersion = maven30()
-						goals = 'install -U -P full -s settings.xml'
-						rootPom = 'spring-boot-full-build/pom.xml'
-						mavenOpts = '-Xmx2g -XX:MaxPermSize=512m'
+						mavenVersion(maven30())
+						goals('install -U -P full -s settings.xml')
+						rootPom('spring-boot-full-build/pom.xml')
+						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
 					}
 					artifactoryMaven3Configurator(it as Node) {
-						excludePatterns = '**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip'
+						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
 					}
 				}
 				if (checkTests) {

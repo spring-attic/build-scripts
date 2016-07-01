@@ -2,15 +2,20 @@ package io.springframework.springio.ci
 
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
+import io.springframework.common.Maven
+import io.springframework.common.Pipeline
 import io.springframework.common.TestPublisher
+import io.springframework.springio.common.AllSpringIoJobs
 import io.springframework.springio.common.SpringIoJobs
 import io.springframework.springio.common.SpringIoNotification
 import javaposse.jobdsl.dsl.DslFactory
+
+import static io.springframework.common.CloudFoundryPlugin.pushToCloudFoundry
 /**
  * @author Marcin Grzejszczak
  */
 class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConfig, TestPublisher,
-		Cron, SpringIoJobs {
+		Cron, SpringIoJobs, Pipeline, Maven {
 	private final DslFactory dsl
 	final String organization
 
@@ -24,67 +29,44 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 		this.organization = organization
 	}
 
-	void deploy(String project, boolean checkTests = true) {
-		dsl.job("${prefixJob(project)}-production") {
+	void deploy() {
+		dsl.job(jobName()) {
+			deliveryPipelineConfiguration('Deploy', 'Push to CF')
+			wrappers {
+				defaultDeliveryPipelineVersion()
+			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
-						url "https://github.com/${organization}/${project}"
+						url "https://github.com/${organization}/initializr"
 						branch "maven-migration"
 					}
 				}
 			}
 			steps {
-				shell('''
-						echo "Building service"
-						version=1.3.5.RELEASE
-						if [ ! -d "spring-$version" ]; then
-						  wget http://repo.spring.io/release/org/springframework/boot/spring-boot-cli/$version/spring-boot-cli-$version-bin.zip
-						  unzip spring-boot-cli-$version-bin.zip
-						fi
-						spring-$version/bin/spring jar --exclude 'spring/**,start.jar' start.jar *.groovy
-						''')
-				shell('''
-						echo "Building service"
-						cat > deploy_script.sh <<EOF
-						#!/bin/bash
-
-						domain=start
-						if [ "\\$3" != "production" ]; then domain="start-\\${3}"; fi
-						echo HOST: \\${domain}
-
-						cf api --skip-ssl-validation api.run.pivotal.io
-						cf login -u \\$1 -p \\$2 -o spring.io -s $3
-						cf push start -p start.jar -n \\${domain}
-
-						EOF
-
-						cat deploy_script.sh
-
-						/bin/bash deploy_script.sh $*
-
-						## catch error in script we are calling
-						rc=$?
-						if [[ $rc != 0 ]] ; then
-							exit $rc
-						fi
-
-						rm -f deploy_script.sh
-						''')
+				maven {
+					goals('clean package')
+					mavenInstallation(maven30())
+					rootPOM('initializr-service/pom.xml')
+				}
 			}
 			configure {
 				slackNotificationForSpring(it as Node)
-			}
-			if (checkTests) {
-				publishers {
-					archiveJunit mavenJUnitResults()
+				pushToCloudFoundry(it as Node) {
+					organization('spring.io')
+					cloudSpace('development')
+					manifestConfig {
+						appName('start')
+						hostName('start-development')
+						domain()
+					}
 				}
 			}
 		}
 	}
 
-	void deployWithoutTests(String project) {
-		deploy(project, false)
+	static String jobName() {
+		return "${AllSpringIoJobs.getInitializrName()}-production"
 	}
 }

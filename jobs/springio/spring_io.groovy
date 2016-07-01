@@ -1,14 +1,11 @@
 package springio
 
+import io.springframework.springio.ci.SpringStarterBuildMaker
+import io.springframework.springio.ci.SpringStarterProductionBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
-
-import static io.springframework.springio.common.AllSpringIoJobs.ALL_JOBS
 
 DslFactory dsl = this
 
-println "Projects with tests $ALL_JOBS"
-
 // CI
-ALL_JOBS.each {
-	//new SpringStarterDeployBuildMaker(dsl, 'snicoll').deploy(it)
-}
+new SpringStarterBuildMaker(dsl, 'snicoll').build()
+new SpringStarterProductionBuildMaker(dsl, 'snicoll').deploy()

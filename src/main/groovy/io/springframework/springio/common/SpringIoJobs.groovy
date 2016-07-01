@@ -12,4 +12,7 @@ trait SpringIoJobs extends BuildAndDeploy {
 		return 'spring-io'
 	}
 
+	String initializrName() {
+		return "${projectSuffix()}-initializr"
+	}
 }
