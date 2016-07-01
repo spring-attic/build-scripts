@@ -119,8 +119,8 @@ class CloudFoundryPlugin {
 				(manifestChoice / 'memory').setValue(memory)
 			}
 
-			void hostName(String hostName) {
-				(manifestChoice / 'hostName').setValue(hostName)
+			void hostname(String hostbame) {
+				(manifestChoice / 'hostname').setValue(hostbame)
 			}
 
 			void domain(String domain = 'cfapps.io') {

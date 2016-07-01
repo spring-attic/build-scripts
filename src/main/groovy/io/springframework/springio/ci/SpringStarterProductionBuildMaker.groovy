@@ -62,7 +62,7 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 					manifestConfig {
 						appName('start')
 						appPath('initializr-service/target/initializr-service-1.0.0.BUILD-SNAPSHOT.jar')
-						hostName('start-development')
+						hostname('start-development')
 						domain()
 					}
 				}
