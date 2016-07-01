@@ -31,6 +31,7 @@ class CloudFoundryPlugin {
 			servicesToCreate()
 			manifestFromFile()
 			noRoute()
+			appURIs()
 		}
 
 		void target(String target = 'http://api.run.pivotal.io') {
@@ -58,7 +59,7 @@ class CloudFoundryPlugin {
 		}
 
 		void pluginTimeout(int timeout = 120) {
-			(builder / 'resetIfExists').setValue(timeout)
+			(builder / 'pluginTimeout').setValue(timeout)
 		}
 
 		void servicesToCreate(String... services = '') {
@@ -72,6 +73,10 @@ class CloudFoundryPlugin {
 
 		void noRoute(boolean value = false) {
 			(manifestChoice / 'noRoute').setValue(value)
+		}
+
+		private void appURIs() {
+			manifestChoice / 'appURIs'
 		}
 
 		void envVars(Map<String, String> vars = [:]) {
