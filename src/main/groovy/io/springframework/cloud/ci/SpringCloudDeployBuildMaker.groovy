@@ -48,7 +48,9 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 			}
 			steps {
 				shell(cleanup())
-				shell(buildDocsWithGhPages())
+				if (branchToBuild == masterBranch()) {
+					shell(buildDocsWithGhPages())
+				}
 				shell(cleanAndDeploy())
 			}
 			configure {
