@@ -55,7 +55,7 @@ class BenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
 			publishers {
 				archiveArtifacts('results/benchmarks/target/jmeter/results/*.png')
 				archiveArtifacts('results/benchmarks/target/jmeter/results/analysis/*.*')
-				archiveArtifacts('results/jmh/benchmarks.log')
+				archiveArtifacts('results/jmh/target/benchmarks.log')
 			}
 			configure {
 				slackNotificationForSpringCloud(it as Node)
