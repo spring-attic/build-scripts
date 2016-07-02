@@ -42,7 +42,9 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 			}
 			steps {
 				shell(cleanup())
-				shell(buildDocsWithGhPages())
+				if (branchName == 'master') {
+					shell(buildDocsWithGhPages())
+				}
 				shell("""\
 						${preStep()}
 						${cleanAndDeploy()} || ${postStep()}
