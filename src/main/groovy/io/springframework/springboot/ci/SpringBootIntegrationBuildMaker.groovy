@@ -61,7 +61,7 @@ class SpringBootIntegrationBuildMaker implements SpringBootNotification, JdkConf
 					slackNotificationForSpring(it as Node)
 				}
 				publishers {
-					archiveJunit '**/target/failsafe-reports/*.xml'
+					archiveJunit mavenJUnitFailsafeResults()
 				}
 			}
 		}

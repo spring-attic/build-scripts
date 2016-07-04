@@ -65,6 +65,7 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 				}
 				publishers {
 					archiveJunit mavenJUnitResults()
+					archiveJunit mavenJUnitFailsafeResults()
 				}
 			}
 		}

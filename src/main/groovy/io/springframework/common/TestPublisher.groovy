@@ -10,6 +10,10 @@ trait TestPublisher {
 		return '**/surefire-reports/*.xml'
 	}
 
+	String mavenJUnitFailsafeResults() {
+		return '**/failsafe-reports/*.xml'
+	}
+
 	String gradleJUnitResults() {
 		return '**/test-results/*.xml'
 	}
