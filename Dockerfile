@@ -8,6 +8,8 @@ MAINTAINER Marcin Grzejszczak <mgrzejszczak@pivotal.io>
 
 COPY seed/init.groovy /usr/share/jenkins/ref/init.groovy
 COPY seed/spring-cloud-seed.groovy /usr/share/jenkins/spring-cloud-seed.groovy
+COPY seed/spring-boot-seed.groovy /usr/share/jenkins/spring-boot-seed.groovy
+COPY seed/spring-io-seed.groovy /usr/share/jenkins/spring-io-seed.groovy
 
 # To print the list of plugins from a server
 #
