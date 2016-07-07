@@ -48,13 +48,11 @@ class JoshEndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			steps {
 				shell(cleanup())
 				shell("""
-						sh -e ${scriptName}
+						sh -e ${scriptName} || echo -e "\n\n\nTests failed!! Clearing up\n\n\n" && sh -e ${postBuildScripts} && exit 1
 					""")
-				if (postBuildScripts) {
-					shell("""
-						sh -e ${postBuildScripts}
-					""")
-				}
+				shell("""
+					sh -e ${postBuildScripts}
+				""")
 			}
 			configure {
 				slackNotificationForSpringCloud(it as Node)
