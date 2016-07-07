@@ -51,6 +51,7 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			wrappers {
 				label aws()
 				environmentVariables([
+						TERM: 'dumb',
 						RETRIES: 70,
 						(jdk8HomeEnvVar()): jdk8DefaultPath()
 				])
