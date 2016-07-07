@@ -48,7 +48,7 @@ class JoshEndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			steps {
 				shell(cleanup())
 				shell("""
-						./${scriptName} && echo "Tests passed!" || echo "Tests failed!! Clearing up" && ./${postBuildScripts} && exit 1
+						./${scriptName} && echo "Tests passed!" || (echo "Tests failed!! Clearing up" && ./${postBuildScripts} && exit 1)
 					""")
 				shell("""
 					echo "Clearing up after successful tests"
