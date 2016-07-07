@@ -31,7 +31,7 @@ class JoshEndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			jdk jdk8()
 			wrappers {
 				environmentVariables([
-						(jdk8HomeEnvVar()): jdk8DefaultPath()
+						RETRIES: 20
 				])
 			}
 			scm {
