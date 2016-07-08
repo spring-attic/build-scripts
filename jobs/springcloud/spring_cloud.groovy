@@ -56,10 +56,10 @@ new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
 new VaultSpringCloudDeployBuildMaker(dsl).deploy()
-// CI BUILD FOR SPRING CLOUD CONTRACTS (Codearte repo)
+// CI BUILD FOR SPRING CLOUD CONTRACTS
 new SpringCloudContractDeployBuildMaker(dsl).with {
-	deployMaven('spring-cloud-contract-verifier-maven-plugin', 'accurest-maven-plugin')
-	deployGradle('spring-cloud-contract-verifier', 'accurest')
+	deployVerifierMavenPlugin('spring-cloud-contract-verifier-maven-plugin')
+	deployVerifier('spring-cloud-contract-verifier')
 }
 
 // E2E BUILDS

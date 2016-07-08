@@ -13,18 +13,21 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 		SpringCloudJobs {
 	private final DslFactory dsl
 	final String organization
+	final String projectName
 
 	SpringCloudContractDeployBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
-		this.organization = 'Codearte'
+		this.organization = 'spring-cloud'
+		this.projectName = 'spring-cloud-contract'
 	}
 
-	SpringCloudContractDeployBuildMaker(DslFactory dsl, String organization) {
+	SpringCloudContractDeployBuildMaker(DslFactory dsl, String organization, String projectName = 'spring-cloud-contract') {
 		this.dsl = dsl
 		this.organization = organization
+		this.projectName = projectName
 	}
 
-	void deployMaven(String projectLabel, String projectName) {
+	void deployVerifierMavenPlugin(String projectLabel) {
 		dsl.job("${prefixJob(projectLabel)}-ci") {
 			triggers {
 				cron everyThreeHours()
@@ -43,9 +46,9 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				maskPasswords()
 			}
 			steps {
-				shell(cleanup())
-				shell(buildDocs())
-				shell(cleanAndDeploy())
+				shell(prepareDirectoryChange(cleanup()))
+				shell(prepareDirectoryChange(buildDocs()))
+				shell(prepareDirectoryChange(cleanAndDeploy()))
 			}
 			configure {
 				slackNotificationForSpringCloud(it as Node)
@@ -56,7 +59,11 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 		}
 	}
 
-	void deployGradle(String projectLabel, String projectName) {
+	private String prepareDirectoryChange(String command) {
+		return "cd \$WORKSPACE/spring-cloud-contract-verifier/spring-cloud-contract-verifier-maven-plugin; $command"
+	}
+
+	void deployVerifier(String projectLabel) {
 		dsl.job("${prefixJob(projectLabel)}-ci") {
 			triggers {
 				scm(every15Minutes())
@@ -86,14 +93,17 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				// That way we'll have the test results from
 				shell('''
 					echo "Installing project locally"
+					cd $WORKSPACE/spring-cloud-contract-verifier/spring-cloud-contract-verifier
 					./gradlew clean build install
 					''')
 				shell('''
 					echo "Checking if local installation is working fine with samples"
+					cd $WORKSPACE/spring-cloud-contract-verifier/spring-cloud-contract-verifier
 					./scripts/runTests.sh
 					''')
 				shell("""
 					echo "Uploading snapshots (since the build is working fine)"
+					cd \$WORKSPACE/spring-cloud-contract-verifier/spring-cloud-contract-verifier
 					set +x
 					./gradlew uploadArchives -P${repoUserNameEnvVar()}=\$${repoUserNameEnvVar()} \
 -P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()}
