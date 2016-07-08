@@ -32,16 +32,16 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 		build(projectName, projectName, scriptName, cronExpr, withTests)
 	}
 
-	void buildWithoutTests(String projectName, String scriptName, String cronExpr, String postBuildScripts) {
-		build(projectName, projectName, scriptName, cronExpr, false, postBuildScripts)
-	}
-
 	void buildWithoutTests(String projectName, String repoName, String scriptName, String cronExpr, String postBuildScripts) {
 		build(projectName, repoName, scriptName, cronExpr, false, postBuildScripts)
 	}
 
+	void buildWithGradleAndMavenTests(String projectName, String scriptName, String cronExpr) {
+		build(projectName, projectName, scriptName, cronExpr, true, '', true)
+	}
+
 	protected void build(String projectName, String repoName, String scriptName, String cronExpr,
-						 boolean withTests = true, String postBuildScripts = "") {
+						 boolean withTests = true, String postBuildScripts = "", boolean mavenTests = false) {
 		String organization = this.organization
 		dsl.job("${prefixJob(projectName)}-e2e") {
 			triggers {
@@ -86,6 +86,9 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 					archiveJunit gradleJUnitResults()
 					archiveArtifacts acceptanceTestReports()
 					archiveArtifacts acceptanceTestSpockReports()
+				}
+				if (mavenTests) {
+					archiveJunit mavenJUnitResults()
 				}
 			}
 		}

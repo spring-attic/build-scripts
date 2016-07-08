@@ -63,9 +63,12 @@ new SpringCloudContractDeployBuildMaker(dsl).with {
 }
 
 // E2E BUILDS
-['spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul'].eachWithIndex { String projectName, int index ->
+new NetflixEndToEndBuildMaker(dsl).with {
+	build(everySixHoursStartingFrom(1))
+}
+['spring-cloud-zookeeper', 'spring-cloud-consul'].eachWithIndex { String projectName, int index ->
 	def maker = new EndToEndBuildMaker(dsl)
-	maker.build(projectName, maker.everySixHoursStartingFrom(index + 1))
+	maker.build(projectName, maker.everySixHoursStartingFrom(index + 2))
 }
 new SleuthEndToEndBuildMaker(dsl).with {
 	buildSleuth(everySixHoursStartingFrom(4))
