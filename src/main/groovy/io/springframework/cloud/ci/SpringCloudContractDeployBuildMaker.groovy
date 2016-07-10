@@ -34,6 +34,9 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				cron everyThreeHours()
 				githubPush()
 			}
+			parameters {
+				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
+			}
 			jdk jdk8()
 			scm {
 				git {
@@ -45,6 +48,10 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 			}
 			wrappers {
 				maskPasswords()
+				credentialsBinding {
+					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(),
+							repoSpringIoUserCredentialId())
+				}
 			}
 			steps {
 				shell(cleanup())
