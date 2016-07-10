@@ -71,7 +71,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 					''')
 				shell('''
 					echo "Uploading snapshots of Maven stuff"
-					./mvnw clean deploy -DskipTests
+					./mvnw deploy -DskipTests
 					''')
 				shell("""
 					echo "Uploading snapshots of Gradle stuff"
