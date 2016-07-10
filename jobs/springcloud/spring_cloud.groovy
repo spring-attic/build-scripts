@@ -58,8 +58,7 @@ new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 new VaultSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILD FOR SPRING CLOUD CONTRACTS
 new SpringCloudContractDeployBuildMaker(dsl).with {
-	deployVerifierMavenPlugin('spring-cloud-contract-verifier-maven-plugin')
-	deployVerifier('spring-cloud-contract-verifier')
+	deploy()
 }
 
 // E2E BUILDS

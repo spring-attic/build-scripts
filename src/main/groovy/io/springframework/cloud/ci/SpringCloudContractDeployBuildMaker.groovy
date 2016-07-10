@@ -27,7 +27,8 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 		this.projectName = projectName
 	}
 
-	void deployVerifierMavenPlugin(String projectLabel) {
+	void deploy() {
+		String projectLabel = projectName
 		dsl.job("${prefixJob(projectLabel)}-ci") {
 			triggers {
 				cron everyThreeHours()
@@ -46,64 +47,28 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				maskPasswords()
 			}
 			steps {
-				shell(prepareDirectoryChange(cleanup()))
-				shell(prepareDirectoryChange(buildDocs()))
-				shell(prepareDirectoryChange(cleanAndDeploy()))
-			}
-			configure {
-				slackNotificationForSpringCloud(it as Node)
-			}
-			publishers {
-				archiveJunit mavenJUnitResults()
-			}
-		}
-	}
-
-	private String prepareDirectoryChange(String command) {
-		return "cd \$WORKSPACE/spring-cloud-contract-verifier/spring-cloud-contract-verifier-maven-plugin; $command"
-	}
-
-	void deployVerifier(String projectLabel) {
-		dsl.job("${prefixJob(projectLabel)}-ci") {
-			triggers {
-				scm(every15Minutes())
-				githubPush()
-			}
-			parameters {
-				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
-			}
-			jdk jdk8()
-			scm {
-				git {
-					remote {
-						url "https://github.com/${organization}/${projectName}"
-						branch "\$${branchVar()}"
-					}
-				}
-			}
-			wrappers {
-				maskPasswords()
-				credentialsBinding {
-					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(),
-							repoSpringIoUserCredentialId())
-				}
-			}
-			steps {
 				shell(cleanup())
-				// That way we'll have the test results from
+				shell(buildDocs())
 				shell('''
-					echo "Installing project locally"
-					cd $WORKSPACE/spring-cloud-contract-verifier/spring-cloud-contract-verifier
+					 echo "Running Spring Cloud Contract Verifier Core"
+					./mvnw clean install
+					''')
+				shell('''
+					echo "Running Spring Cloud Contract Verifier Gradle Plugin"
+					cd spring-cloud-contract-verifier-gradle-plugin
 					./gradlew clean build install
 					''')
 				shell('''
-					echo "Checking if local installation is working fine with samples"
-					cd $WORKSPACE/spring-cloud-contract-verifier/spring-cloud-contract-verifier
+					 echo "Checking if samples are not broken"
 					./scripts/runTests.sh
 					''')
+				shell('''
+					echo "Uploading snapshots of Maven stuff"
+					./mvnw clean deploy
+					''')
 				shell("""
-					echo "Uploading snapshots (since the build is working fine)"
-					cd \$WORKSPACE/spring-cloud-contract-verifier/spring-cloud-contract-verifier
+					echo "Uploading snapshots of Gradle stuff"
+					cd spring-cloud-contract-verifier-gradle-plugin
 					set +x
 					./gradlew uploadArchives -P${repoUserNameEnvVar()}=\$${repoUserNameEnvVar()} \
 -P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()}
