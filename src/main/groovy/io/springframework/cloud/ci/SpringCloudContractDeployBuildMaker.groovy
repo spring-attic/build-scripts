@@ -57,17 +57,8 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				shell(cleanup())
 				shell(buildDocs())
 				shell('''
-					 echo "Running Spring Cloud Contract Verifier Core"
-					./mvnw clean install
-					''')
-				shell('''
-					echo "Running Spring Cloud Contract Verifier Gradle Plugin"
-					cd spring-cloud-contract-verifier-gradle-plugin
-					./gradlew clean build install
-					''')
-				shell('''
-					 echo "Checking if samples are not broken"
-					./scripts/runTests.sh
+					 echo "Running Spring Cloud Contract build"
+					./scripts/buildAndTest.sh
 					''')
 				shell('''
 					echo "Uploading snapshots of Maven stuff"
