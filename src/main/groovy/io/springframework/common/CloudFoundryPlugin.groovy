@@ -118,11 +118,11 @@ class CloudFoundryPlugin {
 				buildpack()
 				stack()
 				command()
-				hostname('')
 			}
 
 			void appName(String appName) {
 				(manifestChoice / 'appName').setValue(appName)
+				hostname(appName)
 			}
 
 			void memory(int memory = 512) {
