@@ -58,11 +58,10 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 				slackNotificationForSpring(it as Node)
 				pushToCloudFoundry(it as Node) {
 					organization('spring.io')
-					cloudSpace('development')
+					cloudSpace('production')
 					manifestConfig {
 						appName('start')
 						appPath('initializr-service/target/initializr-service-1.0.0.BUILD-SNAPSHOT.jar')
-						hostname('start-development')
 						domain()
 					}
 				}

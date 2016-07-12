@@ -118,6 +118,7 @@ class CloudFoundryPlugin {
 				buildpack()
 				stack()
 				command()
+				hostname('')
 			}
 
 			void appName(String appName) {
