@@ -1,10 +1,6 @@
 package io.springframework.springio.ci
 
-import io.springframework.common.Cron
-import io.springframework.common.JdkConfig
-import io.springframework.common.Maven
-import io.springframework.common.Pipeline
-import io.springframework.common.TestPublisher
+import io.springframework.common.*
 import io.springframework.springio.common.AllSpringIoJobs
 import io.springframework.springio.common.SpringIoJobs
 import io.springframework.springio.common.SpringIoNotification
@@ -55,13 +51,16 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 				}
 			}
 			configure {
-				slackNotificationForSpring(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(springRoom())
+					notifySuccess(true)
+				}
 				pushToCloudFoundry(it as Node) {
 					organization('spring.io')
 					cloudSpace('production')
 					manifestConfig {
 						appName('start')
-						appPath('initializr-service/target/initializr-service-1.0.0.BUILD-SNAPSHOT.jar')
+						appPath('initializr-service/target/initializr-service-*.jar')
 						domain()
 					}
 				}

@@ -53,7 +53,9 @@ class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPu
 				shell(cfScriptToExecute(script))
 			}
 			configure {
-				slackNotificationForSpringCloud(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(cloudRoom())
+				}
 			}
 			publishers {
 				archiveArtifacts acceptanceTestReports()

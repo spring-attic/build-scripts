@@ -3,6 +3,7 @@ package io.springframework.cloud.f2f
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
+import io.springframework.common.SlackPlugin
 import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 /**
@@ -39,7 +40,9 @@ class AppDeployingBuildMaker implements SpringCloudNotification, TestPublisher, 
 				shell('''./mvnw clean verify deploy''')
 			}
 			configure {
-				slackNotificationForSpringCloud(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(cloudRoom())
+				}
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()

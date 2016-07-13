@@ -52,7 +52,9 @@ class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPub
 				shell(cfScriptToExecute(script))
 			}
 			configure {
-				slackNotificationForSpringCloud(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(cloudRoom())
+				}
 			}
 			publishers {
 				archiveJunit gradleJUnitResults()

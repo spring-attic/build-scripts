@@ -1,16 +1,14 @@
 package io.springframework.springboot.common
 
-import io.springframework.common.Notification
-
 /**
  * A trait to append notifications to Slack
  *
  * @author Marcin Grzejszczak
  */
-trait SpringBootNotification extends Notification {
+trait SpringBootNotification {
 
-	void slackNotificationForSpring(Node rootNode) {
-		slackNotification(rootNode, "spring-firehose")
+	String bootRoom() {
+		return 'spring-firehose'
 	}
 
 }

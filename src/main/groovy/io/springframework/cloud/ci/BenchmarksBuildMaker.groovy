@@ -3,6 +3,7 @@ package io.springframework.cloud.ci
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
+import io.springframework.common.SlackPlugin
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
@@ -58,7 +59,9 @@ class BenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
 				archiveArtifacts('results/jmh/target/benchmarks.log')
 			}
 			configure {
-				slackNotificationForSpringCloud(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(cloudRoom())
+				}
 				appendPerformancePlugin(it as Node,
 						'results/benchmarks/target/jmeter/results/*.jtl')
 			}

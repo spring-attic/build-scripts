@@ -3,6 +3,7 @@ package io.springframework.cloud.compatibility
 import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.JdkConfig
+import io.springframework.common.SlackPlugin
 import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 /**
@@ -63,7 +64,9 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudN
 			}
 			steps defaultSteps()
 			configure {
-				slackNotificationForSpringCloud(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(cloudRoom())
+				}
 			}
 			if (checkTests) {
 				publishers {

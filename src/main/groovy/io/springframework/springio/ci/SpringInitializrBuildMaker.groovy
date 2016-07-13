@@ -4,6 +4,7 @@ import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Maven
 import io.springframework.common.Pipeline
+import io.springframework.common.SlackPlugin
 import io.springframework.common.TestPublisher
 import io.springframework.springio.common.AllSpringIoJobs
 import io.springframework.springio.common.SpringIoJobs
@@ -53,7 +54,10 @@ class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, Tes
 				}
 			}
 			configure {
-				slackNotificationForSpring(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(springRoom())
+					notifySuccess(true)
+				}
 				artifactoryMavenBuild(it as Node) {
 					mavenVersion(maven33())
 					goals('clean install')

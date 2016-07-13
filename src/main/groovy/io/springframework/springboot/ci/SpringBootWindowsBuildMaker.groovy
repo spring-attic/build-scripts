@@ -48,7 +48,9 @@ class SpringBootWindowsBuildMaker implements SpringBootNotification, JdkConfig, 
 					}
 				}
 				configure {
-					slackNotificationForSpring(it as Node)
+					SlackPlugin.slackNotification(it as Node) {
+						room(bootRoom())
+					}
 				}
 				publishers {
 					archiveJunit mavenJUnitResults()

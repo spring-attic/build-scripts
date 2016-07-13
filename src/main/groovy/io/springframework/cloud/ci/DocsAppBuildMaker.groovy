@@ -3,6 +3,7 @@ package io.springframework.cloud.ci
 import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.JdkConfig
+import io.springframework.common.SlackPlugin
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
@@ -37,7 +38,9 @@ class DocsAppBuildMaker implements SpringCloudNotification, JdkConfig, SpringClo
 			}
 
 			configure {
-				slackNotificationForSpringCloud(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(cloudRoom())
+				}
 			}
 		}
 	}

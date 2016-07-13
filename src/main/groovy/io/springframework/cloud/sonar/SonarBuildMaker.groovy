@@ -3,6 +3,7 @@ package io.springframework.cloud.sonar
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
+import io.springframework.common.SlackPlugin
 import io.springframework.common.TestPublisher
 import io.springframework.common.SonarTrait
 import javaposse.jobdsl.dsl.DslFactory
@@ -42,7 +43,9 @@ class SonarBuildMaker implements SpringCloudNotification, JdkConfig, TestPublish
 				archiveArtifacts mavenJUnitResults()
 			}
 			configure {
-				slackNotificationForSpringCloud(it as Node)
+				SlackPlugin.slackNotification(it as Node) {
+					room(cloudRoom())
+				}
 				appendSonar(it as Node)
 			}
 		}

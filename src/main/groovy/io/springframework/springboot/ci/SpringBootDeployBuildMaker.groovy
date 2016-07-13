@@ -3,6 +3,7 @@ package io.springframework.springboot.ci
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Maven
+import io.springframework.common.SlackPlugin
 import io.springframework.common.TestPublisher
 import io.springframework.springboot.common.SpringBootJobs
 import io.springframework.springboot.common.SpringBootNotification
@@ -52,7 +53,9 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 					}
 				}
 				configure {
-					slackNotificationForSpring(it as Node)
+					SlackPlugin.slackNotification(it as Node) {
+						room(bootRoom())
+					}
 					artifactoryMavenBuild(it as Node) {
 						mavenVersion(maven32())
 						goals('clean install -U -P full -s settings.xml')

@@ -58,7 +58,9 @@ class SpringBootIntegrationBuildMaker implements SpringBootNotification, JdkConf
 					}
 				}
 				configure {
-					slackNotificationForSpring(it as Node)
+					SlackPlugin.slackNotification(it as Node) {
+						room(bootRoom())
+					}
 				}
 				publishers {
 					archiveJunit mavenJUnitFailsafeResults()

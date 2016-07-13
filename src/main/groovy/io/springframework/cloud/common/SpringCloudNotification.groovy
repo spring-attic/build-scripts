@@ -1,16 +1,12 @@
 package io.springframework.cloud.common
 
-import io.springframework.common.Notification
-
 /**
- * A trait to append notifications to Slack
  *
  * @author Marcin Grzejszczak
  */
-trait SpringCloudNotification extends Notification {
+trait SpringCloudNotification {
 
-	void slackNotificationForSpringCloud(Node rootNode) {
-		slackNotification(rootNode, "spring-cloud-firehose")
+	String cloudRoom() {
+		return "spring-cloud-firehose"
 	}
-
 }
