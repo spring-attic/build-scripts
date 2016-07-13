@@ -7,6 +7,7 @@ import io.springframework.springio.common.SpringIoNotification
 import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.common.CloudFoundryPlugin.pushToCloudFoundry
+
 /**
  * @author Marcin Grzejszczak
  */

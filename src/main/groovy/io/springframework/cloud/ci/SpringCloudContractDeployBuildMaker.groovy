@@ -56,7 +56,10 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 			}
 			steps {
 				shell(cleanup())
-				shell(buildDocs())
+				shell('''
+					echo "Building Spring Cloud Contract docs"
+					./scripts/generateDocs.sh
+					''')
 				shell('''
 					 echo "Running Spring Cloud Contract build"
 					./scripts/buildAndTest.sh
