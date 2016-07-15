@@ -70,7 +70,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 					''')
 				shell("""
 					echo "Uploading snapshots of Gradle stuff"
-					cd spring-cloud-contract-verifier-gradle-plugin
+					cd spring-cloud-contract-tools/spring-cloud-contract-gradle-plugin
 					set +x
 					./gradlew uploadArchives -P${repoUserNameEnvVar()}=\$${repoUserNameEnvVar()} \
 -P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()} -x test
