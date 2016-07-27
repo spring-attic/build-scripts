@@ -47,13 +47,6 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 					}
 				}
 			}
-			wrappers {
-				maskPasswords()
-				credentialsBinding {
-					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(),
-							repoSpringIoUserCredentialId())
-				}
-			}
 			steps {
 				shell(cleanup())
 				shell('''
