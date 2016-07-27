@@ -18,6 +18,10 @@ trait BuildAndDeploy {
 		return '''./mvnw clean deploy -nsu -Dmaven.test.redirectTestOutputToFile=true'''
 	}
 
+	String deployDocs() {
+		return '''echo "Deploying docs" && ./docs/src/main/asciidoc/ghpages.sh'''
+	}
+
 	String branchVar() {
 		return 'BRANCH'
 	}

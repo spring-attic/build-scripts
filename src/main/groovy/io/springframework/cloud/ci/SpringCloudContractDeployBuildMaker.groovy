@@ -76,6 +76,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 -P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()} -x test
 					set -x
 					""")
+				shell(deployDocs())
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
