@@ -53,9 +53,6 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 					shell(buildDocsWithGhPages())
 				}
 				shell(cleanAndDeploy())
-				if (branchToBuild == masterBranch()) {
-					shell(deployDocs())
-				}
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {

@@ -22,6 +22,9 @@ trait SpringCloudJobs extends BuildAndDeploy {
 
 	String buildDocsWithGhPages() {
 		return """
+					git checkout gh-pages
+					git reset --hard origin/gh-pages
+					git checkout master
 					${buildDocs()}
 					./docs/src/main/asciidoc/ghpages.sh
 					git reset --hard && git checkout master && git reset --hard origin/master && git pull origin master
