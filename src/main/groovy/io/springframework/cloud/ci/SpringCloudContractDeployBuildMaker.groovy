@@ -61,10 +61,6 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 			steps {
 				shell(cleanup())
 				shell('''
-					echo "Building Spring Cloud Contract docs"
-					./scripts/generateDocs.sh
-					''')
-				shell('''
 					 echo "Running Spring Cloud Contract build"
 					./scripts/buildAndTest.sh
 					''')
@@ -82,6 +78,8 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 					""")
 				shell("""
 					${setupGitCredentials()}
+					echo "Building Spring Cloud Contract docs"
+					./scripts/generateDocs.sh
 					${deployDocs()}
 					${cleanGitCredentials()}
 					""")
