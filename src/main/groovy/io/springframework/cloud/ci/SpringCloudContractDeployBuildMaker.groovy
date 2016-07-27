@@ -50,8 +50,12 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 			wrappers {
 				maskPasswords()
 				credentialsBinding {
-					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(),
+					usernamePassword(repoUserNameEnvVar(),
+							repoPasswordEnvVar(),
 							repoSpringIoUserCredentialId())
+					usernamePassword(githubRepoUserNameEnvVar(),
+							githubRepoPasswordEnvVar(),
+							githubUserCredentialId())
 				}
 			}
 			steps {
@@ -76,7 +80,11 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 -P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()} -x test
 					set -x
 					""")
-				shell(deployDocs())
+				shell("""
+					${setupGitCredentials()}
+					${deployDocs()}
+					${cleanGitCredentials()}
+					""")
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
