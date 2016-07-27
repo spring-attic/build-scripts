@@ -47,6 +47,13 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 					}
 				}
 			}
+			wrappers {
+				maskPasswords()
+				credentialsBinding {
+					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(),
+							repoSpringIoUserCredentialId())
+				}
+			}
 			steps {
 				shell(cleanup())
 				if (branchToBuild == masterBranch()) {

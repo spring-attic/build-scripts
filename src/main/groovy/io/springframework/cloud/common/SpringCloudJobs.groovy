@@ -23,6 +23,8 @@ trait SpringCloudJobs extends BuildAndDeploy {
 	String buildDocsWithGhPages() {
 		return """
 					set +x
+					git config user.name "${repoGithubUserName()}"
+					git config user.email "${repoGithubEmail()}"
 					git config credential.helper "store --file=/tmp/gitcredentials"
 					echo "https://\$${repoUserNameEnvVar()}:\$${repoPasswordEnvVar()}@github.com" > /tmp/gitcredentials
 					set -x
@@ -49,10 +51,6 @@ trait SpringCloudJobs extends BuildAndDeploy {
 
 	String repoSpringIoUserCredentialId() {
 		return '02bd1690-b54f-4c9f-819d-a77cb7a9822c'
-	}
-
-	String repoGithubUserCredentialId() {
-		return '3a20bcaa-d8ad-48e3-901d-9fbc941376ee'
 	}
 
 	String repoGithubUserName() {
