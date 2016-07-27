@@ -51,7 +51,7 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 				maskPasswords()
 				credentialsBinding {
 					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(),
-							repoSpringIoUserCredentialId())
+							repoGithubUserCredentialId())
 				}
 			}
 			steps {
