@@ -24,7 +24,7 @@ trait SpringCloudJobs extends BuildAndDeploy {
 		return """
 					git checkout gh-pages
 					git reset --hard origin/gh-pages
-					git checkout master
+					git checkout master && git reset --hard origin/master && git pull origin master
 					${buildDocs()}
 					./docs/src/main/asciidoc/ghpages.sh
 					git reset --hard && git checkout master && git reset --hard origin/master && git pull origin master
@@ -45,6 +45,19 @@ trait SpringCloudJobs extends BuildAndDeploy {
 
 	String repoSpringIoUserCredentialId() {
 		return '02bd1690-b54f-4c9f-819d-a77cb7a9822c'
+	}
+
+	String repoGithubUserCredentialId() {
+		return '3a20bcaa-d8ad-48e3-901d-9fbc941376ee'
+	}
+
+
+	String repoGithubUserName() {
+		return 'spring-buildmaster'
+	}
+
+	String repoGithubEmail() {
+		return 'buildmaster@springframework.org'
 	}
 
 }
