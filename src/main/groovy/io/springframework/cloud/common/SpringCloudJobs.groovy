@@ -23,15 +23,15 @@ trait SpringCloudJobs extends BuildAndDeploy {
 	String buildDocsWithGhPages() {
 		return """
 					set +x
-					git config credential.helper "store --file=/tmp/.git/credentials"
-					echo "https://\$${repoUserNameEnvVar()}:\$${repoPasswordEnvVar()}@github.com" > /tmp/.git/credentials
+					git config credential.helper "store --file=/tmp/gitcredentials"
+					echo "https://\$${repoUserNameEnvVar()}:\$${repoPasswordEnvVar()}@github.com" > /tmp/gitcredentials
 					set -x
 					(git checkout gh-pages && git reset --hard origin/gh-pages) || echo "No gh-pages are present"
 					git checkout master && git reset --hard origin/master && git pull origin master
 					${buildDocs()}
 					./docs/src/main/asciidoc/ghpages.sh
 					git reset --hard && git checkout master && git reset --hard origin/master && git pull origin master
-					rm -rf /tmp/.git/credentials
+					rm -rf /tmp/gitcredentials
 					"""
 	}
 
