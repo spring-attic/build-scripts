@@ -60,22 +60,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 			}
 			steps {
 				shell(cleanup())
-				shell('''
-					 echo "Running Spring Cloud Contract build"
-					./scripts/buildAndTest.sh
-					''')
-				shell('''
-					echo "Uploading snapshots of Maven stuff"
-					./mvnw deploy -DskipTests
-					''')
-				shell("""
-					echo "Uploading snapshots of Gradle stuff"
-					cd spring-cloud-contract-tools/spring-cloud-contract-gradle-plugin
-					set +x
-					./gradlew uploadArchives -P${repoUserNameEnvVar()}=\$${repoUserNameEnvVar()} \
--P${repoPasswordEnvVar()}=\$${repoPasswordEnvVar()} -x test
-					set -x
-					""")
+				shell(cleanAndDeploy())
 				shell("""
 					${setupGitCredentials()}
 					echo "Building Spring Cloud Contract docs"
