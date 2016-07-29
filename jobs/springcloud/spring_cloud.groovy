@@ -51,6 +51,8 @@ JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 		branchMaker.deploy(project, branch)
 	}
 }
+// Brixton branch for Spring Cloud Starters
+branchMaker.deploy('spring-cloud-starters', 'Brixton', false)
 
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
