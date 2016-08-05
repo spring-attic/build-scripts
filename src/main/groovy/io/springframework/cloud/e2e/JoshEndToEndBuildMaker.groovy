@@ -32,7 +32,7 @@ class JoshEndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			jdk jdk8()
 			wrappers {
 				environmentVariables([
-						RETRIES: 20
+						RETRIES: 35
 				])
 			}
 			scm {
