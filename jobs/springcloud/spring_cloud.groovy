@@ -93,6 +93,7 @@ new JoshEndToEndBuildMaker(dsl).with {
 			everyThreeHours(),
 			'scripts/kill_all.sh')
 }
+/*
 new EndToEndBuildMaker(dsl, 'hecklerm').with {
 	buildWithoutTests('mark-hecklers-services',
 			'DemoCIProjectSuite',
@@ -100,6 +101,7 @@ new EndToEndBuildMaker(dsl, 'hecklerm').with {
 			everySaturday(),
 			'scripts/kill_all.sh')
 }
+*/
 
 /*// SONAR BUILDS - disabled until sonar is set
 ['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each {

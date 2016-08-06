@@ -15,7 +15,7 @@ trait BuildAndDeploy {
 	abstract String projectSuffix()
 
 	String cleanAndDeploy() {
-		return '''./mvnw clean deploy -nsu -P docs,integration -U $MVN_LOCAL_OPTS -Dmaven.test.redirectTestOutputToFile=true'''
+		return '''./mvnw clean deploy -nsu -P docs,integration -U $MVN_LOCAL_OPTS -Dmaven.test.redirectTestOutputToFile=true -Dsurefire.runOrder=random'''
 	}
 
 	String deployDocs() {
