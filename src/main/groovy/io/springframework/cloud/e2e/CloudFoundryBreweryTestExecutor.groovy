@@ -20,7 +20,7 @@ class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPu
 	void buildBreweryForDocsTests() {
 		// Run acceptance tests - skip building, deploying to CF, add docsbrewing prefix to CF
 		build('spring-cloud-brewery-for-docs-tests', 'spring-cloud-samples',
-				'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing -s -d", everyThreeHours())
+				'brewery', "runAcceptanceTests.sh --whattotest SLEUTH_STREAM --usecloudfoundry --cloudfoundryprefix docsbrewing --skipbuilding --skipdeployment", everyThreeHours())
 	}
 
 	protected void build(String description, String githubOrg, String projectName, String script, String cronExpr) {
