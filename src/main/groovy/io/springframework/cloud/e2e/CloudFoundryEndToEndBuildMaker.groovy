@@ -22,7 +22,7 @@ class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPub
 	}
 
 	void buildBreweryForDocs() {
-		build('spring-cloud-brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh -t SLEUTH_STREAM -c -p docsbrewing", everySunday())
+		build('spring-cloud-brewery-for-docs', 'spring-cloud-samples', 'brewery', "runAcceptanceTests.sh --whattotest SLEUTH_STREAM --usecloudfoundry --cloudfoundryprefix docsbrewing", everySunday())
 	}
 
 	void buildSleuthDocApps() {
