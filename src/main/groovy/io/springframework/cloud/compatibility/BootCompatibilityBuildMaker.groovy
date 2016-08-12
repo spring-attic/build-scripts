@@ -28,7 +28,7 @@ class BootCompatibilityBuildMaker implements SpringCloudJobs {
 			}
 			steps {
 				phase('spring-boot-compatibility-phase') {
-					(AllCloudJobs.ALL_JOBS + AllCloudJobs.ALL_SAMPLES_JOBS).each { String projectName ->
+					(AllCloudJobs.BOOT_COMPATIBILITY_BUILD_JOBS).each { String projectName ->
 						String prefixedProjectName = prefixJob(projectName)
 						phaseJob("${prefixedProjectName}-${BOOT_COMPATIBILITY_SUFFIX}".toString()) {
 							currentJobParameters()

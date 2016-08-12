@@ -19,6 +19,29 @@ Remember to add `src/main/groovy` and `src/main/resources` for processing
 
 WARNING: Remember that views can be overridden that's why the suggestion is to contain in one script all the logic needed to build a view
  for a single project (check out that `spring_cloud_views.groovy` is building all the `spring-cloud` views).
+
+== I want to add a new job
+
+If your job is a standard Spring Cloud job that:
+
+ - can be built via `./mvnw clean install` and deployed with `./mvnw clean deploy`
+ - has docs under `docs` and those docs can be built via `./mvnw clean install -Pdocs`
+ - is using `spring-cloud-build` thanks to which boot version is parametrized
+ - the job resides under the `spring-cloud` organization
+
+you can just go to `io.springframework.cloud.common.AllCloudJobs` and add the name
+of the repo to `ALL_JOBS` list. That way the default CI jobs and views will be created for
+the master branch.
+
+If your job needs to be building other branches except for master just add your proper
+entries to the `JOBS_WITH_BRANCHES` map in `io.springframework.cloud.common.AllCloudJobs`.
+
+If you have some custom builds just add the entry to `ALL_JOBS` and `CUSTOM_BUILD_JOBS`.
+ Next you should just create your own implementation (check `io.springframework.cloud.ci.ConsulSpringCloudDeployBuildMaker`
+ for an example). Remember also to call it from the seed job (e.g. `springcloud/spring_cloud.groovy:29` for Consul).
+
+The views are automatically generated for you. They base on the name convention so check out
+`springcloud/spring_cloud_views.groovy` - it's pretty straightforward.
  
 = Running Jenkins
 
