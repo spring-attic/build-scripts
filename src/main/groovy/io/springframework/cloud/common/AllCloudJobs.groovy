@@ -23,7 +23,7 @@ class AllCloudJobs {
 	public static final List<String> ALL_JOBS = ['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul',
 												 'spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-security', 'spring-cloud-config',
 												 'spring-cloud-cloudfoundry', 'spring-cloud-aws', 'spring-cloud-build', 'spring-cloud-cluster',
-												 'spring-cloud-starters']
+												 'spring-cloud-starters', 'spring-cloud-cli']
 	/**
 	 * Some projects need to have the test report generation skipped (since they have no tests).
 	 */
@@ -56,6 +56,7 @@ class AllCloudJobs {
 	 */
 	public static final Map<String, List<String>> JOBS_WITH_BRANCHES = ['spring-cloud-sleuth' : ['1.0.x'],
 																		'spring-cloud-netflix' : ['1.0.x', '1.1.x'],
+																		'spring-cloud-cli' : ['1.0.x', '1.1.x'],
 																		'spring-cloud-config' : ['1.1.x']]
 
 	/**
