@@ -40,6 +40,14 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 						url "https://github.com/${organization}/${project}"
 						branch branchName
 					}
+					extensions {
+						wipeOutWorkspace()
+					}
+				}
+			}
+			wrappers {
+				environmentVariables {
+					env('BRANCH', branchName)
 				}
 			}
 			steps {

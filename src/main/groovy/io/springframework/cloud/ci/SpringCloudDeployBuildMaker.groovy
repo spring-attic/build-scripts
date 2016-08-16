@@ -47,6 +47,9 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 						url "https://github.com/${organization}/${project}"
 						branch "\$${branchVar()}"
 					}
+					extensions {
+						wipeOutWorkspace()
+					}
 				}
 			}
 			wrappers {
