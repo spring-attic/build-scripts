@@ -1,12 +1,10 @@
 package io.springframework.cloud.common
 
 import io.springframework.common.BuildAndDeploy
-import io.springframework.common.Maven
-
 /**
  * @author Marcin Grzejszczak
  */
-trait SpringCloudJobs extends BuildAndDeploy, Maven {
+trait SpringCloudJobs extends BuildAndDeploy {
 
 	@Override
 	String projectSuffix() {
@@ -52,7 +50,7 @@ trait SpringCloudJobs extends BuildAndDeploy, Maven {
 	 * Requires using Maven3 installation before calling
 	 */
 	String mavenBin() {
-		return "/opt/jenkins/data/tools/hudson.tasks.Maven_MavenInstallation/${maven33()}/apache-maven-3.3.9/bin/"
+		return "/opt/jenkins/data/tools/hudson.tasks.Maven_MavenInstallation/maven33/apache-maven-3.3.9/bin/"
 	}
 
 	String cleanGitCredentials() {

@@ -4,13 +4,15 @@ import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
+import io.springframework.common.Maven
 import io.springframework.common.SlackPlugin
 import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, Cron, SpringCloudJobs {
+class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, Cron,
+		SpringCloudJobs, Maven {
 	private final DslFactory dsl
 	final String organization
 
