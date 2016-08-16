@@ -6,6 +6,7 @@ import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
+import io.springframework.common.Maven
 import io.springframework.common.SlackPlugin
 import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
@@ -15,7 +16,7 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 @PackageScope
 abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, HashicorpTrait,
-		Cron, SpringCloudJobs {
+		Cron, SpringCloudJobs, Maven {
 	protected final DslFactory dsl
 	protected final String organization
 	protected final String project
@@ -42,6 +43,10 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 				}
 			}
 			steps {
+				maven {
+					mavenInstallation(maven33())
+					goals('--version')
+				}
 				shell(cleanup())
 				shell(buildDocsWithGhPages())
 				shell("""\

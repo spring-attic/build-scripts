@@ -1,11 +1,12 @@
 package io.springframework.cloud.common
 
 import io.springframework.common.BuildAndDeploy
+import io.springframework.common.Maven
 
 /**
  * @author Marcin Grzejszczak
  */
-trait SpringCloudJobs extends BuildAndDeploy {
+trait SpringCloudJobs extends BuildAndDeploy, Maven {
 
 	@Override
 	String projectSuffix() {
@@ -32,15 +33,26 @@ trait SpringCloudJobs extends BuildAndDeploy {
 	} 
 
 	String buildDocsWithGhPages() {
-		return """
+		return """#!/bin/bash -x
+					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
-					(git checkout gh-pages && git reset --hard origin/gh-pages) || echo "No gh-pages are present"
-					git checkout master && git reset --hard origin/master && git pull origin master
 					${buildDocs()}
-					./docs/src/main/asciidoc/ghpages.sh
-					git reset --hard && git checkout master && git reset --hard origin/master && git pull origin master
+					echo "Downloading ghpages script from Spring Cloud Build"
+					mkdir -p target
+					rm -rf target/ghpages.sh
+					curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-build/master/docs/src/main/asciidoc/ghpages.sh -o target/ghpages.sh
+					chmod +x target/ghpages.sh
+					. ./target/ghpages.sh
 					${cleanGitCredentials()}
 					"""
+	}
+
+	/**
+	 * Dirty hack cause Jenkins is not inserting Maven to path...
+	 * Requires using Maven3 installation before calling
+	 */
+	String mavenBin() {
+		return "/opt/jenkins/data/tools/hudson.tasks.Maven_MavenInstallation/${maven33()}/apache-maven-3.3.9/bin/"
 	}
 
 	String cleanGitCredentials() {
