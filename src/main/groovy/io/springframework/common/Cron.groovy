@@ -10,16 +10,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 trait Cron {
 
-	String every15Minutes() {
-		return "H/15 * * * *"
-	}
-
 	String oncePerDay() {
 		return "H H * * *"
-	}
-
-	String everySaturday() {
-		return "H H * * 6"
 	}
 
 	String everySunday() {
@@ -30,15 +22,11 @@ trait Cron {
 		return "H H/3 * * *"
 	}
 
-	String everyXHours(int hours) {
-		return "H H/${hours} * * *"
-	}
-
 	String everyDatAtFullHour(int hour) {
 		return "H H $hour 1/1 * ? *"
 	}
 
-	String everySixHoursStartingFrom(int startingHour) {
-		return "H ${startingHour}-23/6 * * *"
+	String everySixHours() {
+		return "H H/6 * * *"
 	}
 }

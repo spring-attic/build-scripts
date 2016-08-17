@@ -17,7 +17,7 @@ COPY seed/spring-io-seed.groovy /usr/share/jenkins/spring-io-seed.groovy
 # 1) https://jenkins.address/pluginManager/api/xml?depth=1
 # 2) Store the XML
 # 3) Run this Groovy DSL
-# def root = new XmlSlurper().parseText(xml)
+# def root = new groovy.util.XmlSlurper().parseText(xml)
 #        println root.plugin.collect {
 #            "${it.shortName}:$it.version"
 #        }.join('\n')

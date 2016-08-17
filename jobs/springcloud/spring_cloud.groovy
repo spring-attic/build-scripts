@@ -65,17 +65,19 @@ new SpringCloudContractDeployBuildMaker(dsl).with {
 
 // E2E BUILDS
 new NetflixEndToEndBuildMaker(dsl).with {
-	build(everySixHoursStartingFrom(1))
+	build(everySixHours())
 }
-['spring-cloud-zookeeper', 'spring-cloud-consul'].eachWithIndex { String projectName, int index ->
+['spring-cloud-zookeeper', 'spring-cloud-consul'].each { String projectName ->
 	def maker = new EndToEndBuildMaker(dsl)
-	maker.build(projectName, maker.everySixHoursStartingFrom(index + 2))
+	maker.build(projectName, maker.everySixHours())
 }
 new SleuthEndToEndBuildMaker(dsl).with {
-	buildSleuth(everySixHoursStartingFrom(4))
-	buildSleuthStream(everySixHoursStartingFrom(5))
-	buildSleuthStreamKafka(everySixHoursStartingFrom(6))
+	buildSleuth(everySixHours())
+	buildSleuthStream(everySixHours())
+	buildSleuthStreamKafka(everySixHours())
 }
+// All jobs for Brixton bom e2e with Brewery
+new BrixtonBreweryEndToEndBuildMaker(dsl).build()
 
 // E2E on CF
 new CloudFoundryEndToEndBuildMaker(dsl).with {

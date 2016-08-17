@@ -34,10 +34,6 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 		build(projectName, projectName, scriptName, cronExpr, withTests)
 	}
 
-	void buildWithoutTests(String projectName, String repoName, String scriptName, String cronExpr, String postBuildScripts) {
-		build(projectName, repoName, scriptName, cronExpr, false, postBuildScripts)
-	}
-
 	void buildWithGradleAndMavenTests(String projectName, String scriptName, String cronExpr) {
 		build(projectName, projectName, scriptName, cronExpr, true, '', true)
 	}
