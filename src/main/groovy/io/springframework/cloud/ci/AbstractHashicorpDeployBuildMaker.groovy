@@ -46,6 +46,12 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 				}
 			}
 			wrappers {
+				maskPasswords()
+				credentialsBinding {
+					usernamePassword(githubRepoUserNameEnvVar(),
+							githubRepoPasswordEnvVar(),
+							githubUserCredentialId())
+				}
 				environmentVariables {
 					env('BRANCH', branchName)
 				}
