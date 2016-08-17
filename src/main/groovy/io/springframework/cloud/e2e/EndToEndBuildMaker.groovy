@@ -11,7 +11,7 @@ import javaposse.jobdsl.dsl.DslFactory
 class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 		JdkConfig, BreweryDefaults, Label, Cron, SpringCloudJobs {
 
-	private static final int MAX_EC2_EXECUTORS = 2
+	private static final int MAX_EC2_EXECUTORS = 1
 
 	private final DslFactory dsl
 	private final String organization
