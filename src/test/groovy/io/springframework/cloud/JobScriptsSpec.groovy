@@ -3,21 +3,23 @@ package io.springframework.cloud
 import groovy.io.FileType
 import javaposse.jobdsl.dsl.DslScriptLoader
 import javaposse.jobdsl.dsl.MemoryJobManagement
+import javaposse.jobdsl.dsl.ScriptRequest
 import spock.lang.Specification
 import spock.lang.Unroll
-
 /**
  * Tests that all dsl scripts in the jobs directory will compile.
  */
 class JobScriptsSpec extends Specification {
 
     @Unroll
-    void 'test script #file.name'(File file) {
+    def 'test script #file.name'() {
         given:
-            MemoryJobManagement jm = new MemoryJobManagement()
+
+        MemoryJobManagement jm = new MemoryJobManagement()
+        DslScriptLoader loader = new DslScriptLoader(jm)
 
         when:
-            DslScriptLoader.runDslEngine(file.text, jm)
+            loader.runScripts([new ScriptRequest(file.text)])
 
         then:
             noExceptionThrown()
