@@ -13,7 +13,7 @@ class BrixtonBreweryEndToEndBuildMaker extends EndToEndBuildMaker {
 	}
 
 	void build() {
-		String prefix = 'brixton-'
+		String prefix = 'brixton'
 		String defaultSwitches = "--killattheend -v Brixton.BUILD-SNAPSHOT -r"
 		super.build("$prefix-zookeeper", repoName, "runAcceptanceTests.sh -t ZOOKEEPER $defaultSwitches", everyThreeHours())
 		super.build("$prefix-sleuth", repoName, "runAcceptanceTests.sh -t SLEUTH $defaultSwitches", everyThreeHours())
