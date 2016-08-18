@@ -66,7 +66,8 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				}
 				shell(cleanup())
 				shell(cleanAndDeploy())
-				shell("""
+				shell("""#!/bin/bash -x
+					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
 					echo "Building Spring Cloud Contract docs"
 					./scripts/generateDocs.sh
