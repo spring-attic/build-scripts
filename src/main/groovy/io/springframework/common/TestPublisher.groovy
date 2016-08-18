@@ -15,6 +15,6 @@ trait TestPublisher {
 	}
 
 	String gradleJUnitResults() {
-		return '**/test-results/*.xml'
+		return '**/test-results/**/*.xml'
 	}
 }
