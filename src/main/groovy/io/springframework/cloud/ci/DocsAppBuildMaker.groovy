@@ -34,7 +34,8 @@ class DocsAppBuildMaker implements SpringCloudNotification, JdkConfig, SpringClo
 				}
 			}
 			steps {
-				gradle('clean build --parallel')
+				gradle('clean')
+				gradle('build --parallel --refresh-dependencies')
 			}
 
 			configure {
