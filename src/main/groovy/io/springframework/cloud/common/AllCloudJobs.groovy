@@ -27,7 +27,7 @@ class AllCloudJobs {
 	/**
 	 * Some projects need to have the test report generation skipped (since they have no tests).
 	 */
-	public static final List<String> JOBS_WITHOUT_TESTS = ['spring-cloud-build', 'spring-cloud-starters']
+	public static final List<String> JOBS_WITHOUT_TESTS = ['spring-cloud-build', 'spring-cloud-release']
 
 	/**
 	 * Projects from this list will have the jobs with report generation
