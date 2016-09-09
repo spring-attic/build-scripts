@@ -7,6 +7,9 @@ import io.springframework.cloud.compatibility.CompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.e2e.*
 import io.springframework.cloud.f2f.AppDeployingBuildMaker
+import io.springframework.cloud.sonar.ClusterSonarBuildMaker
+import io.springframework.cloud.sonar.ConsulSonarBuildMaker
+import io.springframework.cloud.sonar.SonarBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.cloud.common.AllCloudJobs.*
@@ -105,12 +108,12 @@ new EndToEndBuildMaker(dsl, 'hecklerm').with {
 }
 */
 
-/*// SONAR BUILDS - disabled until sonar is set
-['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper'].each {
+['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix',
+ 'spring-cloud-zookeeper', 'spring-cloud-contract'].each {
 	new SonarBuildMaker(dsl).buildSonar(it)
 }
 new ConsulSonarBuildMaker(dsl).buildSonar()
-new ClusterSonarBuildMaker(dsl).buildSonar()*/
+new ClusterSonarBuildMaker(dsl).buildSonar()
 
 // F2F
 new AppDeployingBuildMaker(dsl).with {
