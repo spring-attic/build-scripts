@@ -52,6 +52,33 @@ dsl.nestedView('Spring Cloud') {
 			}
 			columns defaultColumns()
 		}
+		// new pipeline - requires https://github.com/marcingrzejszczak/jenkins-pipeline sample job seed to be ran
+		nestedView('F2F-pipelines') {
+			views {
+				String projectName = "jenkins-pipeline-sample"
+				deliveryPipelineView("Opinionated pipeline") {
+					allowPipelineStart()
+					pipelineInstances(5)
+					showAggregatedPipeline(false)
+					columns(1)
+					updateInterval(5)
+					enableManualTriggers()
+					showAvatars()
+					showChangeLog()
+					pipelines {
+						component("Deploy Github Analytics to production", "${projectName}-build")
+					}
+					allowRebuild()
+					showDescription()
+					showPromotions()
+					showTotalBuildTime()
+					configure {
+						(it / 'showTestResults').setValue(true)
+						(it / 'pagingEnabled').setValue(true)
+					}
+				}
+			}
+		}
 		listView('All Cloud') {
 			jobs {
 				regex('spring-cloud.*')
