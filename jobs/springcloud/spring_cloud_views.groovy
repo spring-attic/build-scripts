@@ -55,7 +55,8 @@ dsl.nestedView('Spring Cloud') {
 		nestedView('F2F-pipelines') {
 			def nested = delegate
 			['github-analytics','github-webhook'].each {
-				String projectName = "${it}-pipeline"
+				String artifactName = it
+				String projectName = "${artifactName}-pipeline"
 				nested.views {
 					deliveryPipelineView(projectName) {
 						allowPipelineStart()
@@ -67,7 +68,7 @@ dsl.nestedView('Spring Cloud') {
 						showAvatars()
 						showChangeLog()
 						pipelines {
-							component("Deploy ${it} to production", "${projectName}-build")
+							component("Deploy ${artifactName} to production", "${projectName}-build")
 						}
 						allowRebuild()
 						showDescription()
