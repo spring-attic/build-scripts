@@ -93,8 +93,12 @@ new CloudFoundryBreweryTestExecutor(dsl).buildBreweryForDocsTests()
 // CUSTOM E2E
 // Josh's CI APP
 new JoshEndToEndBuildMaker(dsl).with {
-	build('bootiful-microservices',
-			'scripts/test_all.sh',
+	build('bootiful-microservices-brixton',
+			'scripts/scenario_brixton_tester.sh',
+			everyThreeHours(),
+			'scripts/kill_all.sh')
+	build('bootiful-microservices-camden',
+			'scripts/scenario_camden_tester.sh',
 			everyThreeHours(),
 			'scripts/kill_all.sh')
 }

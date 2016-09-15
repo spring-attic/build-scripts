@@ -17,14 +17,15 @@ class JoshEndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 
 	private final DslFactory dsl
 	private final String organization
+	private final String repoName
 
 	JoshEndToEndBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 		this.organization = "joshlong"
+		this.repoName = 'bootiful-microservices'
 	}
 
-	void build(String repoName, String scriptName, String cronExpr, String postBuildScripts) {
-		String projectName = 'bootiful-microservices'
+	void build(String projectName, String scriptName, String cronExpr, String postBuildScripts) {
 		dsl.job("${prefixJob(projectName)}-e2e") {
 			triggers {
 				cron cronExpr
