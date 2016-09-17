@@ -65,7 +65,6 @@ class SpringCloudDeployBuildMaker implements SpringCloudNotification, JdkConfig,
 					mavenInstallation(maven33())
 					goals('--version')
 				}
-				shell(cleanup())
 				shell(buildDocsWithGhPages())
 				shell(cleanAndDeploy())
 			}

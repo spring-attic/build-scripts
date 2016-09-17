@@ -48,7 +48,6 @@ class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPub
 				maskPasswords()
 			}
 			steps {
-				shell(cleanup())
 				shell(cfScriptToExecute(script))
 			}
 			configure {

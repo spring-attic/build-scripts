@@ -38,7 +38,6 @@ class ClusterSpringCloudDeployBuildMaker implements SpringCloudNotification, Jdk
 				}
 			}
 			steps {
-				shell(cleanup())
 				shell(buildDocsWithGhPages())
 				shell("""
 						${preClusterShell()}

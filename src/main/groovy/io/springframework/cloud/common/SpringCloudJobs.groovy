@@ -11,14 +11,6 @@ trait SpringCloudJobs extends BuildAndDeploy {
 		return 'spring-cloud'
 	}
 
-	String cleanup() {
-		return '''
-					echo "Clearing the installed cloud artifacts"
-					rm -rf ~/.m2/repository/org/springframework/cloud/
-					rm -rf ~/.gradle/caches/modules-2/files-2.1/org.springframework.cloud/
-					'''
-	}
-	
 	String setupGitCredentials() {
 		return """
 					set +x

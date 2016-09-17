@@ -61,7 +61,6 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 					mavenInstallation(maven33())
 					goals('--version')
 				}
-				shell(cleanup())
 				shell(buildDocsWithGhPages())
 				shell("""\
 						${preStep()}
