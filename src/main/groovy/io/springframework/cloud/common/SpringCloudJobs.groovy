@@ -32,8 +32,7 @@ trait SpringCloudJobs extends BuildAndDeploy {
 					rm -rf target/ghpages.sh
 					curl https://raw.githubusercontent.com/spring-cloud/spring-cloud-build/master/docs/src/main/asciidoc/ghpages.sh -o target/ghpages.sh
 					chmod +x target/ghpages.sh
-					. ./target/ghpages.sh
-					${cleanGitCredentials()}
+					. ./target/ghpages.sh && ${cleanGitCredentials()} || ${cleanGitCredentials()}
 					"""
 	}
 
