@@ -11,7 +11,7 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudNotification, TestPublisher,
 		JdkConfig, SpringCloudJobs {
-	public static final String DEFAULT_BOOT_VERSION = '1.4.1.BUILD-SNAPSHOT'
+	public static final String DEFAULT_BOOT_VERSION = '1.4.2.BUILD-SNAPSHOT'
 	public static final String COMPATIBILITY_BUILD_DEFAULT_SUFFIX = 'compatibility-check'
 
 	private final DslFactory dsl
