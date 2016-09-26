@@ -38,16 +38,22 @@ new BenchmarksBuildMaker(dsl).buildSleuth()
 
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
+// Branch build maker that allows you to build and deploy a branch - this will be done on demand
+SpringCloudBranchBuildMaker branchBuildMaker = new SpringCloudBranchBuildMaker(dsl)
 new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 	(ALL_DEFAULT_JOBS).each {
 		maker.deploy(it)
+		branchBuildMaker.deploy(it)
 	}
 	JOBS_WITHOUT_TESTS.each {
 		maker.deployWithoutTests(it)
+		branchBuildMaker.deployWithoutTests(it)
 	}
 }
 
 // BRANCHES BUILD - spring-cloud organization
+// Build that allows you to deploy, and build gh-pages of multiple branches. Used for projects
+// where we support multiple versions
 def branchMaker = new SpringCloudDeployBuildMaker(dsl)
 JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 	branches.each { String branch ->
