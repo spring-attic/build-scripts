@@ -22,12 +22,6 @@ dsl.nestedView('SpringBoot') {
 			}
 			columns defaultColumns()
 		}
-		listView('Prod') {
-			jobs {
-				regex('spring-boot.*-production')
-			}
-			columns defaultColumns()
-		}
 		listView('All Spring Boot') {
 			jobs {
 				regex('spring-boot.*')
