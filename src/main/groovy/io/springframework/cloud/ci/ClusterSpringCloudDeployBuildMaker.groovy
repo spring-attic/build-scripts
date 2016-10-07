@@ -37,6 +37,15 @@ class ClusterSpringCloudDeployBuildMaker implements SpringCloudNotification, Jdk
 
 				}
 			}
+			wrappers {
+				timestamps()
+				colorizeOutput()
+				timeout {
+					noActivity(300)
+					failBuild()
+					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
+				}
+			}
 			steps {
 				shell(buildDocsWithGhPages())
 				shell("""

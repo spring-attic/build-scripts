@@ -46,6 +46,8 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 				}
 			}
 			wrappers {
+				timestamps()
+				colorizeOutput()
 				maskPasswords()
 				credentialsBinding {
 					usernamePassword(githubRepoUserNameEnvVar(),
@@ -54,6 +56,11 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 				}
 				environmentVariables {
 					env('BRANCH', branchName)
+				}
+				timeout {
+					noActivity(300)
+					failBuild()
+					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
 				}
 			}
 			steps {

@@ -47,12 +47,19 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			}
 			jdk jdk8()
 			wrappers {
+				timestamps()
+				colorizeOutput()
 				label aws()
 				environmentVariables([
 						TERM: 'dumb',
 						RETRIES: 70,
 						(jdk8HomeEnvVar()): jdk8DefaultPath()
 				])
+				timeout {
+					noActivity(300)
+					failBuild()
+					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
+				}
 			}
 			scm {
 				git {

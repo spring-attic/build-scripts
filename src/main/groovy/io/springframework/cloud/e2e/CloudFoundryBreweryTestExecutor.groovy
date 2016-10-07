@@ -33,6 +33,11 @@ class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPu
 				environmentVariables([
 						TEST_ZIPKIN_DEPENDENCIES: 'false',
 				])
+				timeout {
+					noActivity(300)
+					failBuild()
+					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
+				}
 			}
 			scm {
 				git {
@@ -46,6 +51,8 @@ class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPu
 				}
 			}
 			wrappers {
+				timestamps()
+				colorizeOutput()
 				maskPasswords()
 			}
 			steps {

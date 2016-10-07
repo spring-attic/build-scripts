@@ -32,6 +32,15 @@ class BenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
 					}
 				}
 			}
+			wrappers {
+				timestamps()
+				colorizeOutput()
+				timeout {
+					noActivity(300)
+					failBuild()
+					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
+				}
+			}
 			jdk jdk8()
 			steps {
 				shell('''

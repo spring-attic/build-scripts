@@ -32,9 +32,16 @@ class JoshEndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			}
 			jdk jdk8()
 			wrappers {
+				timestamps()
+				colorizeOutput()
 				environmentVariables([
 						RETRIES: 50
 				])
+				timeout {
+					noActivity(300)
+					failBuild()
+					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
+				}
 			}
 			scm {
 				git {
