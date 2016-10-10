@@ -30,7 +30,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
     }
 
     void deploy() {
-        dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
+        dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
             }
