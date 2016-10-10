@@ -20,7 +20,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
     private final DslFactory dsl
     final String organization
     final String project
-    
+
     final String branchToBuild = "master"
 
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization, String project) {
