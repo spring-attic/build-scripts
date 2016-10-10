@@ -1,8 +1,12 @@
 package io.springframework.scstappstarters.common
 
-import io.springframework.common.*
+import io.springframework.common.Cron
+import io.springframework.common.JdkConfig
+import io.springframework.common.Maven
+import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 
+import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
 import static io.springframework.common.Artifactory.artifactoryMavenBuild
 
 /**
@@ -52,10 +56,15 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					artifactoryMavenBuild(it as Node) {
 						mavenVersion(maven33())
 						goals('clean install')
-						rootPom('pom.xml')
-						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
 					}
 					artifactoryMaven3Configurator(it as Node)
+//					artifactoryMavenBuild(it as Node) {
+//						mavenVersion(maven33())
+//						goals('clean install')
+//						rootPom('pom.xml')
+//						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
+//					}
+//					artifactoryMaven3Configurator(it as Node)
 //					artifactoryMaven3Configurator(it as Node) {
 //						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
 //					}
