@@ -55,6 +55,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 						rootPom('pom.xml')
 						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
 					}
+					artifactoryMaven3Configurator(it as Node)
 //					artifactoryMaven3Configurator(it as Node) {
 //						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
 //					}
