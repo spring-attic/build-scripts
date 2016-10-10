@@ -13,7 +13,6 @@ import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Marcin Grzejszczak
  */
-@CompileStatic
 class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
         Cron, SpringScstAppStarterJobs, Maven {
 
