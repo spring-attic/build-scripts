@@ -50,7 +50,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 				}
 				configure {
 					artifactoryMavenBuild(it as Node) {
-						mavenVersion(maven32())
+						mavenVersion(maven33())
 						goals('clean install')
 						rootPom('pom.xml')
 						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
