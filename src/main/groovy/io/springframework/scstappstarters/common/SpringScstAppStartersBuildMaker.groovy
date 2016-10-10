@@ -1,5 +1,6 @@
 package io.springframework.scstappstarters.common
 
+import groovy.transform.CompileStatic
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Maven
@@ -12,12 +13,15 @@ import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Marcin Grzejszczak
  */
+@CompileStatic
 class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
         Cron, SpringScstAppStarterJobs, Maven {
 
     private final DslFactory dsl
     final String organization
     final String project
+    
+    final String branchToBuild = "master"
 
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization, String project) {
         this.dsl = dsl
