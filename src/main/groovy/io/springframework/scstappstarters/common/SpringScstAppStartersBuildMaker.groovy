@@ -50,6 +50,22 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 				"""
     }
 
+    String githubUserName() {
+        return 'spring-buildmaster'
+    }
+
+    String githubEmail() {
+        return 'buildmaster@springframework.org'
+    }
+
+    String githubRepoUserNameEnvVar() {
+        return 'GITHUB_REPO_USERNAME'
+    }
+
+    String githubRepoPasswordEnvVar() {
+        return 'GITHUB_REPO_PASSWORD'
+    }
+
     /**
      * TODO: This doesn't belong here
      */
