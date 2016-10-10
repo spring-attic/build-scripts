@@ -59,10 +59,11 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 //						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
 //					}
 				}
-				publishers {
-					archiveJunit mavenJUnitResults()
-					archiveJunit mavenJUnitFailsafeResults()
-				}
+				//ENABLE ONCE WE HAVE TESTS
+//				publishers {
+//					archiveJunit mavenJUnitResults()
+//					archiveJunit mavenJUnitFailsafeResults()
+//				}
 			}
 		}
 	}
