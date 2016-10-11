@@ -1,9 +1,10 @@
-package io.springframework.scstappstarters.common
+package io.springframework.scstappstarters.ci
 
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Maven
 import io.springframework.common.TestPublisher
+import io.springframework.scstappstarters.common.SpringScstAppStarterJobs
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak

@@ -1,6 +1,6 @@
 package scstappstarters
 
-import io.springframework.scstappstarters.common.SpringScstAppStartersBuildMaker
+import io.springframework.scstappstarters.ci.SpringScstAppStartersBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
