@@ -110,10 +110,9 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					""")
                 }
             }
-            publishers {
-                if (checkTests) {
+            if (checkTests) {
+                publishers {
                     archiveJunit mavenJUnitResults()
-                    archiveJunit mavenJUnitFailsafeResults()
                 }
             }
         }
