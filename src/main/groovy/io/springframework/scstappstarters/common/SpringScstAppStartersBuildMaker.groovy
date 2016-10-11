@@ -115,7 +115,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             steps {
                 maven {
                     mavenInstallation(maven32())
-                    goals('clean deploy -U -DskipTests')
+                    goals('clean deploy -U')
                 }
                 shell("""#!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
