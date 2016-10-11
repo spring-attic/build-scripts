@@ -74,35 +74,11 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
         deploy(false)
     }
 
-//    void deployWithoutApps() {
-//    dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
-//        triggers {
-//            githubPush()
-//        }
-//        jdk jdk8()
-//        scm {
-//            git {
-//                remote {
-//                    url "https://github.com/${organization}/${project}"
-//                    branch branchToBuild
-//                }
-//            }
-//        }
-//        steps {
-//            maven {
-//                mavenInstallation(maven32())
-//                goals('clean deploy -U -DskipTests')
-//            }
-//        }
-//        //ENABLE ONCE WE HAVE TESTS
-////				publishers {
-////					archiveJunit mavenJUnitResults()
-////					archiveJunit mavenJUnitFailsafeResults()
-////				}
-//    }
-//}
+    void deployWithoutAppsAndTests() {
+        deploy(false, false)
+    }
 
-    void deploy(boolean apps = true) {
+    void deploy(boolean buildApps = true, boolean checkTests = true) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
@@ -121,7 +97,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                     mavenInstallation(maven32())
                     goals('clean deploy -U')
                 }
-                if (apps) {
+                if (buildApps) {
                     shell("""#!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
@@ -133,16 +109,11 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					""")
                 }
             }
-            configure {
-//                artifactoryMavenBuild(it as Node) {
-//                    mavenVersion(maven33())
-//                    goals('clean install')
-//                }
-//                artifactoryMaven3Configurator(it as Node)
-            }
             publishers {
-                archiveJunit mavenJUnitResults()
-                archiveJunit mavenJUnitFailsafeResults()
+                if (checkTests) {
+                    archiveJunit mavenJUnitResults()
+                    archiveJunit mavenJUnitFailsafeResults()
+                }
             }
         }
 
