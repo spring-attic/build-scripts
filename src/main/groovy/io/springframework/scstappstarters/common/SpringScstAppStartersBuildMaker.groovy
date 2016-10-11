@@ -134,11 +134,10 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 //                }
 //                artifactoryMaven3Configurator(it as Node)
             }
-            //ENABLE ONCE WE HAVE TESTS
-//				publishers {
-//					archiveJunit mavenJUnitResults()
-//					archiveJunit mavenJUnitFailsafeResults()
-//				}
+            publishers {
+                archiveJunit mavenJUnitResults()
+                archiveJunit mavenJUnitFailsafeResults()
+            }
         }
 
     }
