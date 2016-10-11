@@ -71,34 +71,38 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
     }
 
     void deployWithoutApps() {
-        dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
-            triggers {
-                githubPush()
-            }
-            jdk jdk8()
-            scm {
-                git {
-                    remote {
-                        url "https://github.com/${organization}/${project}"
-                        branch branchToBuild
-                    }
-                }
-            }
-            steps {
-                maven {
-                    mavenInstallation(maven32())
-                    goals('clean deploy -U -DskipTests')
-                }
-            }
-            //ENABLE ONCE WE HAVE TESTS
-//				publishers {
-//					archiveJunit mavenJUnitResults()
-//					archiveJunit mavenJUnitFailsafeResults()
-//				}
-        }
+        deploy(false)
     }
 
-    void deploy() {
+//    void deployWithoutApps() {
+//    dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
+//        triggers {
+//            githubPush()
+//        }
+//        jdk jdk8()
+//        scm {
+//            git {
+//                remote {
+//                    url "https://github.com/${organization}/${project}"
+//                    branch branchToBuild
+//                }
+//            }
+//        }
+//        steps {
+//            maven {
+//                mavenInstallation(maven32())
+//                goals('clean deploy -U -DskipTests')
+//            }
+//        }
+//        //ENABLE ONCE WE HAVE TESTS
+////				publishers {
+////					archiveJunit mavenJUnitResults()
+////					archiveJunit mavenJUnitFailsafeResults()
+////				}
+//    }
+//}
+
+    void deploy(boolean apps = true) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
@@ -117,7 +121,8 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                     mavenInstallation(maven32())
                     goals('clean deploy -U')
                 }
-                shell("""#!/bin/bash -x
+                if (apps) {
+                    shell("""#!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
 					echo "Generating and building apps"
@@ -126,6 +131,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                     ../mvnw clean deploy
 					${cleanGitCredentials()}
 					""")
+                }
             }
             configure {
 //                artifactoryMavenBuild(it as Node) {
