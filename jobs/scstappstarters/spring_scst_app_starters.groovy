@@ -6,6 +6,6 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 // CI
-new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core").deploy()
+new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core").deployWithoutApps()
 new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "log").deploy()
 

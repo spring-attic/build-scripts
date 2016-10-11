@@ -70,6 +70,34 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
         return "rm -rf /tmp/gitcredentials"
     }
 
+    void deployWithoutApps() {
+        dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
+            triggers {
+                githubPush()
+            }
+            jdk jdk8()
+            scm {
+                git {
+                    remote {
+                        url "https://github.com/${organization}/${project}"
+                        branch branchToBuild
+                    }
+                }
+            }
+            steps {
+                maven {
+                    mavenInstallation(maven32())
+                    goals('clean deploy -U -DskipTests')
+                }
+            }
+            //ENABLE ONCE WE HAVE TESTS
+//				publishers {
+//					archiveJunit mavenJUnitResults()
+//					archiveJunit mavenJUnitFailsafeResults()
+//				}
+        }
+    }
+
     void deploy() {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
