@@ -89,15 +89,15 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                     mavenInstallation(maven32())
                     goals('clean deploy -U -DskipTests')
                 }
-//                shell("""#!/bin/bash -x
-//					export MAVEN_PATH=${mavenBin()}
-//					${setupGitCredentials()}
-//					echo "Generating and building apps"
-//					./generateApps.sh
-//                    cd apps
-//                    ../mvnw clean install
-//					${cleanGitCredentials()}
-//					""")
+                shell("""#!/bin/bash -x
+					export MAVEN_PATH=${mavenBin()}
+					${setupGitCredentials()}
+					echo "Generating and building apps"
+					./generateApps.sh
+                    cd apps
+                    ../mvnw clean deploy
+					${cleanGitCredentials()}
+					""")
             }
             configure {
 //                artifactoryMavenBuild(it as Node) {
