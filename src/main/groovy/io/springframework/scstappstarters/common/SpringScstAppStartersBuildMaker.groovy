@@ -95,7 +95,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 shell("""#!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
-					echo "Generating and build apps"
+					echo "Generating and building apps"
 					./generateApps.sh
                     cd apps
                     ../mvnw clean install
