@@ -5,9 +5,6 @@ import io.springframework.common.JdkConfig
 import io.springframework.common.Maven
 import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
-
-import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
-import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Marcin Grzejszczak
  */
@@ -90,24 +87,24 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             steps {
                 maven {
                     mavenInstallation(maven32())
-                    goals('install -U -DskipTests')
+                    goals('clean deploy -U -DskipTests')
                 }
-                shell("""#!/bin/bash -x
-					export MAVEN_PATH=${mavenBin()}
-					${setupGitCredentials()}
-					echo "Generating and building apps"
-					./generateApps.sh
-                    cd apps
-                    ../mvnw clean install
-					${cleanGitCredentials()}
-					""")
+//                shell("""#!/bin/bash -x
+//					export MAVEN_PATH=${mavenBin()}
+//					${setupGitCredentials()}
+//					echo "Generating and building apps"
+//					./generateApps.sh
+//                    cd apps
+//                    ../mvnw clean install
+//					${cleanGitCredentials()}
+//					""")
             }
             configure {
-                artifactoryMavenBuild(it as Node) {
-                    mavenVersion(maven33())
-                    goals('clean install')
-                }
-                artifactoryMaven3Configurator(it as Node)
+//                artifactoryMavenBuild(it as Node) {
+//                    mavenVersion(maven33())
+//                    goals('clean install')
+//                }
+//                artifactoryMaven3Configurator(it as Node)
             }
             //ENABLE ONCE WE HAVE TESTS
 //				publishers {
