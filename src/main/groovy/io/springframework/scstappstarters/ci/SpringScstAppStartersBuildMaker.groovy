@@ -24,62 +24,11 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
         this.project = project
     }
 
-    /**
-     * Dirty hack cause Jenkins is not inserting Maven to path...
-     * Requires using Maven3 installation before calling
-     *
-     * TODO: This doesn't belong here
-     */
-    String mavenBin() {
-        return "/opt/jenkins/data/tools/hudson.tasks.Maven_MavenInstallation/maven33/apache-maven-3.3.9/bin/"
+    void deployNonAppStarters() {
+        deploy(false, false, false)
     }
 
-    /**
-     * TODO: This doesn't belong here
-     */
-    String setupGitCredentials() {
-        return """
-					set +x
-					git config user.name "${githubUserName()}"
-					git config user.email "${githubEmail()}"
-					git config credential.helper "store --file=/tmp/gitcredentials"
-					echo "https://\$${githubRepoUserNameEnvVar()}:\$${githubRepoPasswordEnvVar()}@github.com" > /tmp/gitcredentials
-					set -x
-				"""
-    }
-
-    String githubUserName() {
-        return 'spring-buildmaster'
-    }
-
-    String githubEmail() {
-        return 'buildmaster@springframework.org'
-    }
-
-    String githubRepoUserNameEnvVar() {
-        return 'GITHUB_REPO_USERNAME'
-    }
-
-    String githubRepoPasswordEnvVar() {
-        return 'GITHUB_REPO_PASSWORD'
-    }
-
-    /**
-     * TODO: This doesn't belong here
-     */
-    String cleanGitCredentials() {
-        return "rm -rf /tmp/gitcredentials"
-    }
-
-    void deployWithoutApps() {
-        deploy(false)
-    }
-
-    void deployWithoutAppsAndTests() {
-        deploy(false, false)
-    }
-
-    void deploy(boolean buildApps = true, boolean checkTests = true) {
+    void deploy(boolean buildApps = true, boolean checkTests = true, boolean dockerHubPush = false) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
@@ -109,6 +58,19 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					${cleanGitCredentials()}
 					""")
                 }
+                if (dockerHubPush) {
+                    shell("""#!/bin/bash -x
+					export MAVEN_PATH=${mavenBin()}
+					${setupGitCredentials()}
+					echo "Pushing to Docker Hub"
+                    cd apps
+                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="${githubUserName()}" -Ddocker.password="${githubUserName()}"
+					${cleanGitCredentials()}
+					""")
+                }
+            }
+            configure {
+
             }
             if (checkTests) {
                 publishers {
