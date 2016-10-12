@@ -35,6 +35,8 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             }
             jdk jdk8()
             wrappers {
+                colorizeOutput()
+                maskPasswords()
                 credentialsBinding {
                     usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
                 }
