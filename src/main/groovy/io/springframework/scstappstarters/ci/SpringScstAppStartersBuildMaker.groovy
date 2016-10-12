@@ -28,12 +28,17 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
         deploy(false, false, false)
     }
 
-    void deploy(boolean buildApps = true, boolean checkTests = true, boolean dockerHubPush = false) {
+    void deploy(boolean buildApps = true, boolean checkTests = true, boolean dockerHubPush = true) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
             }
             jdk jdk8()
+            wrappers {
+                credentialsBinding {
+                    usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
+                }
+            }
             scm {
                 git {
                     remote {
@@ -64,13 +69,10 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					${setupGitCredentials()}
 					echo "Pushing to Docker Hub"
                     cd apps
-                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="${githubUserName()}" -Ddocker.password="${githubUserName()}"
+                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
 					${cleanGitCredentials()}
 					""")
                 }
-            }
-            configure {
-
             }
             if (checkTests) {
                 publishers {
@@ -78,6 +80,5 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 }
             }
         }
-
     }
 }

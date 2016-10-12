@@ -48,6 +48,14 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 		return 'GITHUB_REPO_PASSWORD'
 	}
 
+	String dockerHubUserNameEnvVar() {
+		return 'GITHUB_REPO_USERNAME'
+	}
+
+	String dockerHubPasswordEnvVar() {
+		return 'GITHUB_REPO_PASSWORD'
+	}
+
 	String cleanGitCredentials() {
 		return "rm -rf /tmp/gitcredentials"
 	}
