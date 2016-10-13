@@ -9,4 +9,5 @@ DslFactory dsl = this
 new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core").deployNonAppStarters()
 new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "log").deploy()
 new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "time").deploy()
+new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "file").deploy()
 
