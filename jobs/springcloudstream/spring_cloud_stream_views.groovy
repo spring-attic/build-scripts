@@ -9,7 +9,7 @@ new DashboardViewBuilder(this).buildDashboard()
 
 dsl.listView('Seeds') {
     jobs {
-        regex('.*-stream-seed')
+        regex('.*-seed')
     }
     columns defaultColumns()
 }
