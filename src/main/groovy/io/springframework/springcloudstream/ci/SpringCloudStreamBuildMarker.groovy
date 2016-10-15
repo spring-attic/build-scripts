@@ -44,7 +44,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             steps {
                 maven {
                     mavenInstallation(maven32())
-                    goals('clean install -U')
+                    goals('clean deploy -U')
                 }
             }
             publishers {
