@@ -39,6 +39,9 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             jdk jdk8()
             wrappers {
                 colorizeOutput()
+                environmentVariables([
+                        KAFKA_TIMEOUT_MULTIPLIER: '30',
+                ])
             }
             scm {
                 git {
