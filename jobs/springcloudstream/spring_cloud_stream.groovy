@@ -6,9 +6,7 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 // CI
-new SpringCloudStreamBuildMarker(dsl, "sobychacko", "spring-cloud-stream").deploy()
-new SpringCloudStreamBuildMarker(dsl, "sobychacko", "spring-cloud-stream-binder-kafka").deploy()
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream").deploy()
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", [KAFKA_TIMEOUT_MULTIPLIER: '30']).deploy()
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit").deploy()
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-google-pubsub").deploy()
-new SpringCloudStreamBuildMarker(dsl, "sobychacko", "spring-cloud-stream-binder-kafka", "ci-debugging").deploy()
-

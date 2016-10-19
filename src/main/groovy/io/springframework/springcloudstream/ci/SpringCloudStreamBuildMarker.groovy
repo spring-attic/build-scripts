@@ -16,13 +16,22 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
     final String organization
     final String project
 
-    final String branchToBuild = "master"
+    String branchToBuild = "master"
+
+    Map<String, Object> envVariables = new HashMap<>();
 
     SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, String branchToBuild) {
         this.dsl = dsl
         this.organization = organization
         this.project = project
         this.branchToBuild = branchToBuild
+    }
+
+    SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, Map<String, Object> envVariables) {
+        this.dsl = dsl
+        this.organization = organization
+        this.project = project
+        this.envVariables = envVariables
     }
 
     SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project) {
@@ -39,9 +48,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             jdk jdk8()
             wrappers {
                 colorizeOutput()
-                environmentVariables([
-                        KAFKA_TIMEOUT_MULTIPLIER: '30',
-                ])
+                environmentVariables(envVariables)
             }
             scm {
                 git {
