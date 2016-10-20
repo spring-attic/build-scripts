@@ -1,16 +1,16 @@
-package io.springframework.springcloudappmavenplugins.ci
+package io.springframework.springcloudappstartermavenplugins.ci
 
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
 import io.springframework.common.Maven
 import io.springframework.common.TestPublisher
-import io.springframework.springcloudappmavenplugins.common.SpringCloudAppMavenPluginsJobs
+import io.springframework.springcloudappstartermavenplugins.common.SpringCloudAppStarterMavenPluginsJobs
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Soby Chacko
  */
-class SpringCloudAppMavenPluginsBuildMaker implements JdkConfig, TestPublisher,
-        Cron, SpringCloudAppMavenPluginsJobs, Maven {
+class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, TestPublisher,
+        Cron, SpringCloudAppStarterMavenPluginsJobs, Maven {
 
     private final DslFactory dsl
     final String organization
@@ -20,7 +20,7 @@ class SpringCloudAppMavenPluginsBuildMaker implements JdkConfig, TestPublisher,
 
     Map<String, Object> envVariables = new HashMap<>();
 
-    SpringCloudAppMavenPluginsBuildMaker(DslFactory dsl, String organization, String project) {
+    SpringCloudAppStarterStarterMavenPluginsBuildMaker(DslFactory dsl, String organization, String project) {
         this.dsl = dsl
         this.organization = organization
         this.project = project

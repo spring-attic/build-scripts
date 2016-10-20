@@ -1,4 +1,4 @@
-package springcloudappmavenplugins
+package springcloudappstartermavenplugins
 
 import io.springframework.cloud.view.DashboardViewBuilder
 import javaposse.jobdsl.dsl.DslFactory
@@ -14,17 +14,17 @@ dsl.listView('Seeds') {
     columns defaultColumns()
 }
 
-dsl.nestedView('SpringCloudAppMavenPlugins') {
+dsl.nestedView('SpringCloudAppStarterMavenPlugins') {
     views {
         listView('CI') {
             jobs {
-                regex('spring-cloud-app-maven-plugins.*-ci')
+                regex('spring-cloud-app-starter.*-ci')
             }
             columns defaultColumns()
         }
-        listView('Spring Cloud App Maven Plugin') {
+        listView('Spring Cloud App Starter Maven Plugin') {
             jobs {
-                regex('spring-cloud-app-maven-plugins.*')
+                regex('spring-cloud-app-starter.*')
             }
             columns defaultColumns()
         }
