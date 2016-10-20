@@ -51,7 +51,6 @@ class SpringCloudAppMavenPluginsBuildMaker implements JdkConfig, TestPublisher,
                 }
             }
             publishers {
-                archiveJunit mavenJUnitResults()
             }
         }
     }
