@@ -41,7 +41,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.project = project
     }
 
-    void deploy(boolean checkTests = true, String mvnGoals = "clean deploy -U") {
+    void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U") {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
@@ -56,7 +56,9 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     remote {
                         url "https://github.com/${organization}/${project}"
                         branch branchToBuild
-                        recursiveSubmodules true
+                        if (recurseSubmodules) {
+                            recursiveSubmodules true
+                        }
                     }
                 }
             }
