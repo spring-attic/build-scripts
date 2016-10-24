@@ -41,7 +41,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.project = project
     }
 
-    void deploy() {
+    void deploy(boolean checkTests = true, String mvnGoals = "clean deploy -U") {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
@@ -62,11 +62,13 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             steps {
                 maven {
                     mavenInstallation(maven32())
-                    goals('clean deploy -U')
+                    goals(mvnGoals)
                 }
             }
             publishers {
-                archiveJunit mavenJUnitResults()
+                if (checkTests) {
+                    archiveJunit mavenJUnitResults()
+                }
             }
         }
     }
