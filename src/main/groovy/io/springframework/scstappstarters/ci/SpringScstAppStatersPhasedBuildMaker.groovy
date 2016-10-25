@@ -21,38 +21,46 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
         buildAllRelatedJobs()
         dsl.multiJob("spring-scst-app-starter-builds") {
             steps {
-                int counter = 1
-                (AllScstAppStarterJobs.PHASES).each {
-                    phase("phase-${counter}-job") {
-                        it.each {
-                            String projectName ->
-                            String prefixedProjectName = prefixJob(projectName)
-                            phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
-                                currentJobParameters()
-                            }
+//                int counter = 1
+//                (AllScstAppStarterJobs.PHASES).each {
+//                    phase("phase-${counter}-job") {
+//                        it.each {
+//                            String projectName ->
+//                            String prefixedProjectName = prefixJob(projectName)
+//                            phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+//                                currentJobParameters()
+//                            }
+//                        }
+//                    }
+//                    counter++;
+//                }
+
+
+
+                phase('phase-1-jobs') {
+                    (AllScstAppStarterJobs.CORE_PHASE).each { String projectName ->
+                        String prefixedProjectName = prefixJob(projectName)
+                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                            currentJobParameters()
                         }
                     }
-                    counter++;
                 }
-
-//
-//
-//                phase('phase-1-jobs') {
-//                    (AllScstAppStarterJobs.PHASE1_JOBS).each { String projectName ->
-//                        String prefixedProjectName = prefixJob(projectName)
-//                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
-//                            currentJobParameters()
-//                        }
-//                    }
-//                }
-//                phase('phase-2-jobs') {
-//                    (AllScstAppStarterJobs.PHASE2_JOBS).each { String projectName ->
-//                        String prefixedProjectName = prefixJob(projectName)
-//                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
-//                            currentJobParameters()
-//                        }
-//                    }
-//                }
+                phase('phase-2-jobs') {
+                    (AllScstAppStarterJobs.PHASE1_JOBS).each { String projectName ->
+                        String prefixedProjectName = prefixJob(projectName)
+                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                            currentJobParameters()
+                        }
+                    }
+                }
+                phase('phase-3-jobs') {
+                    (AllScstAppStarterJobs.PHASE2_JOBS).each { String projectName ->
+                        String prefixedProjectName = prefixJob(projectName)
+                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                            currentJobParameters()
+                        }
+                    }
+                }
             }
         }
     }
