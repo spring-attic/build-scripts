@@ -24,7 +24,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                 phase('phase-1-jobs') {
                     (AllScstAppStarterJobs.PHASE1_JOBS).each { String projectName ->
                         String prefixedProjectName = prefixJob(projectName)
-                        phaseJob("${prefixedProjectName}-${branchToBuild}".toString()) {
+                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                             currentJobParameters()
                         }
                     }
@@ -32,7 +32,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                 phase('phase-2-jobs') {
                     (AllScstAppStarterJobs.PHASE2_JOBS).each { String projectName ->
                         String prefixedProjectName = prefixJob(projectName)
-                        phaseJob("${prefixedProjectName}-${branchToBuild}".toString()) {
+                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                             currentJobParameters()
                         }
                     }
