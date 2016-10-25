@@ -38,6 +38,17 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
 
 
                 phase('phase-1-jobs') {
+                    triggers {
+                        githubPush()
+                    }
+                    scm {
+                        git {
+                            remote {
+                                url "https://github.com/spring-cloud-stream-app-starters/core"
+                                branch branchToBuild
+                            }
+                        }
+                    }
                     (AllScstAppStarterJobs.CORE_PHASE).each { String projectName ->
                         String prefixedProjectName = prefixJob(projectName)
                         phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
