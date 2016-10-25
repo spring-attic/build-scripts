@@ -23,7 +23,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
             steps {
                 int counter = 1
                 (AllScstAppStarterJobs.PHASES).each {
-                    phase('phase-${counter}-job') {
+                    phase("phase-${counter}-job") {
                         it.each {
                             String projectName ->
                             String prefixedProjectName = prefixJob(projectName)
