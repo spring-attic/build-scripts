@@ -19,24 +19,24 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
 
     void build() {
         buildAllRelatedJobs()
-//        dsl.multiJob("${prefixJob(coreProject)}-${branchToBuild}-ci") {
-//            steps {
-//                phase('phase-1-jobs') {
-//                    (AllScstAppStarterJobs.PHASE1_JOBS).each { String projectName ->
-//                        String prefixedProjectName = prefixJob(projectName)
-//                        phaseJob("${prefixedProjectName}-${branchToBuild}".toString()) {
-//                        }
-//                    }
-//                }
-//                phase('phase-2-jobs') {
-//                    (AllScstAppStarterJobs.PHASE2_JOBS).each { String projectName ->
-//                        String prefixedProjectName = prefixJob(projectName)
-//                        phaseJob("${prefixedProjectName}-${branchToBuild}".toString()) {
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        dsl.multiJob("spring-scst-app-starter-builds") {
+            steps {
+                phase('phase-1-jobs') {
+                    (AllScstAppStarterJobs.PHASE1_JOBS).each { String projectName ->
+                        String prefixedProjectName = prefixJob(projectName)
+                        phaseJob("${prefixedProjectName}-${branchToBuild}".toString()) {
+                        }
+                    }
+                }
+                phase('phase-2-jobs') {
+                    (AllScstAppStarterJobs.PHASE2_JOBS).each { String projectName ->
+                        String prefixedProjectName = prefixJob(projectName)
+                        phaseJob("${prefixedProjectName}-${branchToBuild}".toString()) {
+                        }
+                    }
+                }
+            }
+        }
     }
 
     void buildAllRelatedJobs() {
