@@ -42,7 +42,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
 
                 int counter = 1
                 (AllScstAppStarterJobs.PHASES).each { List<String> ph ->
-                    phase("phase-${counter}-job") {
+                    phase("app-starters-ci-group-${counter}") {
                         ph.each {
                             String projectName ->
                                 String prefixedProjectName = prefixJob(projectName)
@@ -58,7 +58,8 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
     }
 
     void buildAllRelatedJobs() {
-        new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core").deployNonAppStarters()
+        new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core")
+                .deploy(false, false, false, false)
         AllScstAppStarterJobs.ALL_JOBS.each {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it).deploy()
         }

@@ -18,21 +18,30 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
     final String branchToBuild = "master"
 
-    SpringScstAppStartersBuildMaker(DslFactory dsl, String organization, String project) {
+    SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
+                                    String project) {
         this.dsl = dsl
         this.organization = organization
         this.project = project
     }
 
-    void deployNonAppStarters() {
-        deploy(false, false, false)
-    }
-
-    void deploy(boolean buildApps = true, boolean checkTests = true, boolean dockerHubPush = true) {
+    void deploy(boolean buildApps = true, boolean checkTests = true,
+                boolean dockerHubPush = true, boolean githubPushTrigger = true) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
-            triggers {
-                githubPush()
+            if (githubPushTrigger) {
+                triggers {
+                    githubPush()
+                }
+                scm {
+                    git {
+                        remote {
+                            url "https://github.com/${organization}/${project}"
+                            branch branchToBuild
+                        }
+                    }
+                }
             }
+
             jdk jdk8()
             wrappers {
                 colorizeOutput()
@@ -41,14 +50,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                     usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
                 }
             }
-            scm {
-                git {
-                    remote {
-                        url "https://github.com/${organization}/${project}"
-                        branch branchToBuild
-                    }
-                }
-            }
+
             steps {
                 maven {
                     mavenInstallation(maven32())
