@@ -53,6 +53,13 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                     }
                     counter++;
                 }
+
+                phase('docs-phase') {
+                    String prefixedProjectName = prefixJob("docs")
+                    phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                        currentJobParameters()
+                    }
+                }
             }
         }
     }
@@ -63,6 +70,8 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
         AllScstAppStarterJobs.ALL_JOBS.each {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it).deploy()
         }
+        new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "docs")
+                .deploy(false, false, false, true, true)
     }
 
 }

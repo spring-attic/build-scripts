@@ -26,7 +26,8 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
     }
 
     void deploy(boolean buildApps = true, boolean checkTests = true,
-                boolean dockerHubPush = true, boolean githubPushTrigger = true) {
+                boolean dockerHubPush = true, boolean githubPushTrigger = true,
+                boolean fullProfile = false) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             if (githubPushTrigger) {
                 triggers {
@@ -54,7 +55,12 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             steps {
                 maven {
                     mavenInstallation(maven32())
-                    goals('clean deploy -U')
+                    if (!fullProfile) {
+                        goals('clean deploy -U')
+                    }
+                    else {
+                        goals('clean deploy -U -Pfull')
+                    }
                 }
                 if (buildApps) {
                     shell("""#!/bin/bash -x
