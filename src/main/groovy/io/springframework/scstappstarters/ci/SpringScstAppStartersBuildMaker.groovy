@@ -33,12 +33,12 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 triggers {
                     githubPush()
                 }
-                scm {
-                    git {
-                        remote {
-                            url "https://github.com/${organization}/${project}"
-                            branch branchToBuild
-                        }
+            }
+            scm {
+                git {
+                    remote {
+                        url "https://github.com/${organization}/${project}"
+                        branch branchToBuild
                     }
                 }
             }
