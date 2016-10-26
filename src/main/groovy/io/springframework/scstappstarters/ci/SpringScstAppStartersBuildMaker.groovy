@@ -79,7 +79,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					echo "Pushing to Docker Hub"
                     cd apps
                     set +x
-                    ../mvnw -U --batch-mode docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
+                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
 					set -x
 					${cleanGitCredentials()}
 					""")
