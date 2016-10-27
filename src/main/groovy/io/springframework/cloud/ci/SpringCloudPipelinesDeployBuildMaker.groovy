@@ -70,9 +70,18 @@ class SpringCloudPipelinesDeployBuildMaker implements SpringCloudNotification, J
 	private String buildWithDocs() {
 		return """#!/bin/bash -x
 					${setupGitCredentials()}
-					git remote set-url --push origin `git config remote.origin.url | sed -e 's/^git:/https:/'`
+					${setOrigin()}
+					${checkoutMaster()}
 					(${build()} && ${syncDocs()} && ${cleanGitCredentials()}) || ${cleanGitCredentials()}
 					"""
+	}
+
+	private String setOrigin() {
+		return "git remote set-url --push origin `git config remote.origin.url | sed -e 's/^git:/https:/'`"
+	}
+
+	private String checkoutMaster() {
+		return "git checkout master && git pull origin master"
 	}
 
 	private String build() {
