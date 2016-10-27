@@ -70,12 +70,6 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     mavenInstallation(maven32())
                     goals(mvnGoals)
                 }
-                if (script != null) {
-                    shell("""#!/bin/bash -x
-					echo "tailing rabbit logs"
-                    tail -n 100 /var/log/rabbitmq/rabbit@localhost.log
-					""")
-                }
             }
             publishers {
                 mailer('schacko@pivotal.io', true, true)
