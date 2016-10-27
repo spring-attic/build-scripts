@@ -41,7 +41,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.project = project
     }
 
-    void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U", String script = "") {
+    void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U", String startScript = "", String stopScript = "") {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
@@ -63,12 +63,15 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 }
             }
             steps {
-                if (script != null) {
-                    shell(scriptToExecute(script))
+                if (startScript != null) {
+                    shell(scriptToExecute(startScript))
                 }
                 maven {
                     mavenInstallation(maven32())
                     goals(mvnGoals)
+                }
+                if (stopScript != null) {
+                    shell(scriptToExecute(stopScript))
                 }
             }
             publishers {
