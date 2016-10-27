@@ -50,6 +50,7 @@ new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 		branchBuildMaker.deployWithoutTests(it)
 	}
 }
+new SpringCloudPipelinesDeployBuildMaker(dsl).deploy()
 
 // BRANCHES BUILD - spring-cloud organization
 // Build that allows you to deploy, and build gh-pages of multiple branches. Used for projects
