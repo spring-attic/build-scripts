@@ -11,4 +11,11 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
     String projectSuffix() {
         return 'spring-cloud-stream'
     }
+
+    String scriptToExecute(String script) {
+        return """
+						echo "Running script"
+						bash ${script}
+					"""
+    }
 }
