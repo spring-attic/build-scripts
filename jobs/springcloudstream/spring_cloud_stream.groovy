@@ -15,4 +15,4 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binde
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters").deploy(false, true, "clean deploy -Pfull")
 
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream",
-        "1.0.x", [KAFKA_TIMEOUT_MULTIPLIER: '60']).deploy(true, false, "clean deploy -Pfull")
+        "1.0.x", [KAFKA_TIMEOUT_MULTIPLIER: '60']).deploy(true, false, "clean deploy -Pfull", "", "", "")
