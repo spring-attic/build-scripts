@@ -12,7 +12,7 @@ class AllScstAppStarterJobs {
      * List of all Spring Cloud jobs. This list will be used to create the boot compatibility builds
      * and will serve as basis for the default jobs
      */
-    public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp']
+    public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp', 'sftp']
 
     /**
      * List of all Spring Cloud jobs. This list will be used to create the boot compatibility builds
