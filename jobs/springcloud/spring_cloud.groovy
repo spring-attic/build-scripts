@@ -8,6 +8,7 @@ import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.e2e.*
 import io.springframework.cloud.f2f.AppDeployingBuildMaker
 import io.springframework.cloud.sonar.ClusterSonarBuildMaker
+import io.springframework.cloud.sonar.ConsulSonarBuildMaker
 import io.springframework.cloud.sonar.SonarBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
@@ -123,7 +124,7 @@ new EndToEndBuildMaker(dsl, 'hecklerm').with {
 	new SonarBuildMaker(dsl).buildSonar(it)
 }
 // TODO: Fix Consul Sonar Build
-//new ConsulSonarBuildMaker(dsl).buildSonar()
+new ConsulSonarBuildMaker(dsl).buildSonar()
 new ClusterSonarBuildMaker(dsl).buildSonar()
 
 // F2F

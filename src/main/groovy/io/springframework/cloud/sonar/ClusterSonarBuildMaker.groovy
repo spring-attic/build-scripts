@@ -12,7 +12,7 @@ class ClusterSonarBuildMaker extends SonarBuildMaker implements ClusterTrait {
 	}
 
 	void buildSonar() {
-		super.buildSonar('spring-cloud-consul')
+		super.buildSonar('spring-cloud-cluster')
 	}
 
 	@Override
