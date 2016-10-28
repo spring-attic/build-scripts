@@ -42,7 +42,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
     }
 
     void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U",
-                String scriptDir = "", String startScript = "", String stopScript = "") {
+                String scriptDir = null, String startScript = null, String stopScript = null) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
