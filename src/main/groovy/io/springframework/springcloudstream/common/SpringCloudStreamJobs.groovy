@@ -12,8 +12,10 @@ trait SpringCloudStreamJobs extends BuildAndDeploy {
         return 'spring-cloud-stream'
     }
 
-    String scriptToExecute(String script) {
+    String scriptToExecute(String scriptDir, String script) {
         return """
+                        echo "cd to ${scriptDir}"
+                        cd ci-docker-compose
 						echo "Running script"
 						bash ${script}
 					"""
