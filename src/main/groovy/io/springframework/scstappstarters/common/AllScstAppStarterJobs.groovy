@@ -8,22 +8,16 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AllScstAppStarterJobs {
 
-    /**
-     * List of all Spring Cloud jobs. This list will be used to create the boot compatibility builds
-     * and will serve as basis for the default jobs
-     */
     public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp', 'sftp']
 
-    /**
-     * List of all Spring Cloud jobs. This list will be used to create the boot compatibility builds
-     * and will serve as basis for the default jobs
-     */
     public static final List<String> PHASE2_JOBS = ['file', 'http', 'jdbc', 'twitter']
 
     public static final List<String> PHASE3_JOBS = ['gemfire', 'cassandra', 'hdfs', 'websocket']
 
-    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS + PHASE3_JOBS;
+    public static final List<String> PHASE4_JOBS = ['counter', 'aggregate-counter', 'field-value-counter']
 
-    public static final List<List<String>> PHASES = [PHASE1_JOBS, PHASE2_JOBS, PHASE3_JOBS]
+    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS + PHASE3_JOBS + PHASE4_JOBS;
+
+    public static final List<List<String>> PHASES = [PHASE1_JOBS, PHASE2_JOBS, PHASE3_JOBS, PHASE4_JOBS]
 
 }
