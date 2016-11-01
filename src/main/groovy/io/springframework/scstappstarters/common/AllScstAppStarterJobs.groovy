@@ -20,8 +20,10 @@ class AllScstAppStarterJobs {
      */
     public static final List<String> PHASE2_JOBS = ['file', 'http', 'jdbc', 'twitter']
 
-    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS
+    public static final List<String> PHASE3_JOBS = ['gemfire']
 
-    public static final List<List<String>> PHASES = [PHASE1_JOBS, PHASE2_JOBS]
+    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS + PHASE3_JOBS;
+
+    public static final List<List<String>> PHASES = [PHASE1_JOBS, PHASE2_JOBS, PHASE3_JOBS]
 
 }
