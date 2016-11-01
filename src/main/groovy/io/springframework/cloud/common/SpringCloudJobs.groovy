@@ -75,6 +75,18 @@ trait SpringCloudJobs extends BuildAndDeploy {
 	String githubUserCredentialId() {
 		return '3a20bcaa-d8ad-48e3-901d-9fbc941376ee'
 	}
+	
+	String dockerhubUserNameEnvVar() {
+		return 'DOCKER_HUB_USERNAME'
+	}
+
+	String dockerhubPasswordEnvVar() {
+		return 'DOCKER_HUB_PASSWORD'
+	}
+
+	String dockerhubCredentialId() {
+		return 'hub.docker.com-springbuildmaster'
+	}
 
 	String githubUserName() {
 		return 'spring-buildmaster'
