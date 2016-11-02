@@ -12,12 +12,14 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE2_JOBS = ['jms', 'http', 'jdbc', 'twitter', 'rabbit']
 
-    public static final List<String> PHASE3_JOBS = ['gemfire', 'cassandra', 'hdfs', 'websocket']
+    public static final List<String> PHASE3_JOBS = ['gemfire', 'cassandra', 'hdfs', 'websocket', 'router']
 
-    public static final List<String> PHASE4_JOBS = ['counter', 'aggregate-counter', 'field-value-counter']
+    public static final List<String> PHASE4_JOBS = ['counter', 'aggregate-counter', 'field-value-counter', 'bridge', 'gpfdist']
 
-    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS + PHASE3_JOBS + PHASE4_JOBS;
+    public static final List<String> PHASE5_JOBS = ['tasklauncher-local', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry']
 
-    public static final List<List<String>> PHASES = [PHASE1_JOBS, PHASE2_JOBS, PHASE3_JOBS, PHASE4_JOBS]
+    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS + PHASE3_JOBS + PHASE4_JOBS + PHASE5_JOBS;
+
+    public static final List<List<String>> PHASES = [PHASE1_JOBS, PHASE2_JOBS, PHASE3_JOBS, PHASE4_JOBS, PHASE5_JOBS]
 
 }
