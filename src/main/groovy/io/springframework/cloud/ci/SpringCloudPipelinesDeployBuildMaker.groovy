@@ -112,10 +112,6 @@ class SpringCloudPipelinesDeployBuildMaker implements SpringCloudNotification, J
 			docker images 
 			echo "Pushing LATEST image to DockerHub" 
 			docker push springcloud/spring-cloud-pipeline-jenkins:latest 
-			echo "Tagging image" 
-			docker tag springcloud/spring-cloud-pipeline-jenkins springcloud/spring-cloud-pipeline-jenkins:${buildNumber()} 
-			echo "Pushing tag spring-cloud-pipeline-jenkins:${buildNumber()}" 
-			docker push springcloud/spring-cloud-pipeline-jenkins:${buildNumber()}
 			echo "Removing all local images"
 			docker rmi -f springcloud/spring-cloud-pipeline-jenkins
 		"""
