@@ -75,21 +75,8 @@ class SpringCloudPipelinesDeployBuildMaker implements SpringCloudNotification, J
 					${setupGitCredentials()}
 					${setOrigin()}
 					${checkoutMaster()}
-					(${build()} && ${syncDocs()} && ${cleanGitCredentials()}) || ${cleanGitCredentials()}
-					echo "Deploying image to DockerHub" 
-					docker login --username=\$${dockerhubUserNameEnvVar()} --password=\$${dockerhubPasswordEnvVar()} 
-					echo "Docker images" 
-					docker images 
-					echo "Performing Docker Build" 
-					docker build -t springcloud/spring-cloud-pipeline-jenkins ./jenkins 
-					echo "Docker images post build" 
-					docker images 
-					echo "Pushing LATEST image to DockerHub" 
-					docker push springcloud/spring-cloud-pipeline-jenkins:latest 
-					echo "Tagging image" 
-					docker tag springcloud/spring-cloud-pipeline-jenkins springcloud/spring-cloud-pipeline-jenkins:${buildNumber()} 
-					echo "Pushing tag spring-cloud-pipeline-jenkins:${buildNumber()}" 
-					docker push springcloud/spring-cloud-pipeline-jenkins:${buildNumber()}
+					(${build()} && ${syncDocs()} && ${cleanGitCredentials()}) || ${cleanGitCredentials()} 
+					${dockerBuildAndPush()}
 					"""
 	}
 
@@ -111,5 +98,24 @@ class SpringCloudPipelinesDeployBuildMaker implements SpringCloudNotification, J
 	
 	private String buildNumber() {
 		return '${BUILD_NUMBER}'
+	}
+	
+	private String dockerBuildAndPush() {
+		return """
+			echo "Deploying image to DockerHub"
+			docker login --username=\$${dockerhubUserNameEnvVar()} --password=\$${dockerhubPasswordEnvVar()} 
+			echo "Docker images" 
+			docker images 
+			echo "Performing Docker Build" 
+			docker build -t springcloud/spring-cloud-pipeline-jenkins ./jenkins 
+			echo "Docker images post build" 
+			docker images 
+			echo "Pushing LATEST image to DockerHub" 
+			docker push springcloud/spring-cloud-pipeline-jenkins:latest 
+			echo "Tagging image" 
+			docker tag springcloud/spring-cloud-pipeline-jenkins springcloud/spring-cloud-pipeline-jenkins:${buildNumber()} 
+			echo "Pushing tag spring-cloud-pipeline-jenkins:${buildNumber()}" 
+			docker push springcloud/spring-cloud-pipeline-jenkins:${buildNumber()}
+		"""
 	}
 }
