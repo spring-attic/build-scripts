@@ -77,7 +77,7 @@ class SpringCloudPipelinesDeployBuildMaker implements SpringCloudNotification, J
 					${checkoutMaster()}
 					(${build()} && ${syncDocs()} && ${cleanGitCredentials()}) || ${cleanGitCredentials()}
 					echo "Deploying image to DockerHub" 
-					docker login --username=${dockerhubUserNameEnvVar()} --password=${dockerhubPasswordEnvVar()} 
+					docker login --username=\$${dockerhubUserNameEnvVar()} --password=\$${dockerhubPasswordEnvVar()} 
 					echo "Docker images" 
 					docker images 
 					echo "Performing Docker Build" 
