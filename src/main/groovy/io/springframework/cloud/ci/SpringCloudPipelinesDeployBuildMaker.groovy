@@ -46,6 +46,9 @@ class SpringCloudPipelinesDeployBuildMaker implements SpringCloudNotification, J
 					usernamePassword(githubRepoUserNameEnvVar(),
 							githubRepoPasswordEnvVar(),
 							githubUserCredentialId())
+					usernamePassword(dockerhubUserNameEnvVar(),
+							dockerhubPasswordEnvVar(),
+							dockerhubCredentialId())
 				}
 				timeout {
 					noActivity(300)
