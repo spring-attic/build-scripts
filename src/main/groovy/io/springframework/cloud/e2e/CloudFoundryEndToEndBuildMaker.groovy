@@ -41,7 +41,6 @@ class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPub
 						url "https://github.com/$githubOrg/$projectName"
 						branch 'master'
 					}
-
 				}
 			}
 			wrappers {
@@ -52,6 +51,9 @@ class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPub
 					noActivity(300)
 					failBuild()
 					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
+				}
+				credentialsBinding {
+					usernamePassword(cfUsername(), cfPassword(), cfCredentialsId())
 				}
 			}
 			steps {
