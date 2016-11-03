@@ -56,7 +56,7 @@ class SpringCloudPipelinesGradleBuildMaker implements SpringCloudNotification, T
 				}
 			}
 			publishers {
-				archiveJunit mavenJUnitResults()
+				archiveJunit gradleJUnitResults()
 			}
 		}
 	}
