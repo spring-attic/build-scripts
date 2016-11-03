@@ -1,5 +1,6 @@
 package io.springframework.cloud.f2f
 
+import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
@@ -9,7 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudPipelinesGradleBuildMaker implements SpringCloudNotification, TestPublisher, JdkConfig, Cron {
+class SpringCloudPipelinesGradleBuildMaker implements SpringCloudNotification, TestPublisher, JdkConfig, Cron, SpringCloudJobs {
 	private final DslFactory dsl
 	private final String githubOrg = 'spring-cloud-samples'
 
@@ -36,8 +37,18 @@ class SpringCloudPipelinesGradleBuildMaker implements SpringCloudNotification, T
 					}
 				}
 			}
+			wrappers {
+				credentialsBinding {
+					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(), repoSpringIoUserCredentialId())
+				}
+			}
 			steps {
-				shell('''./gradlew clean build deploy -PnewVersion=0.0.1.M1 -DM2_SETTINGS_REPO_ID=repo.spring.io -DREPO_WITH_JARS=https://repo.spring.io/libs-milestone-local''')
+				shell("""
+				set +x
+				./gradlew clean build deploy -PnewVersion=0.0.1.M1 -DM2_SETTINGS_REPO_USERNAME=\${${repoUserNameEnvVar()}} \
+ -DM2_SETTINGS_REPO_PASSWORD=\${${repoPasswordEnvVar()}} -DREPO_WITH_JARS=https://repo.spring.io/libs-milestone-local
+				set -x
+				""")
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
