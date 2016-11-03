@@ -62,8 +62,9 @@ JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 		branchMaker.deploy(project, branch)
 	}
 }
-// Brixton branch for Spring Cloud Release
+// Brixton and Camden branches for Spring Cloud Release
 branchMaker.deploy('spring-cloud-release', 'Brixton', false)
+branchMaker.deploy('spring-cloud-release', 'Camden', false)
 
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
@@ -87,8 +88,9 @@ new SleuthEndToEndBuildMaker(dsl).with {
 	buildSleuthStream(everySixHours())
 	buildSleuthStreamKafka(everySixHours())
 }
-// All jobs for Brixton bom e2e with Brewery
+// All jobs for e2e with Brewery
 new BrixtonBreweryEndToEndBuildMaker(dsl).build()
+new CamdenBreweryEndToEndBuildMaker(dsl).build()
 
 // E2E on CF
 new CloudFoundryEndToEndBuildMaker(dsl).with {
