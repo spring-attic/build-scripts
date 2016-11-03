@@ -37,7 +37,7 @@ class SpringCloudPipelinesGradleBuildMaker implements SpringCloudNotification, T
 				}
 			}
 			steps {
-				shell('''./gradlew clean build deploy -DM2_SETTINGS_REPO_ID=repo.spring.io -DREPO_WITH_JARS=https://repo.spring.io/libs-milestone-local''')
+				shell('''./gradlew clean build deploy -PnewVersion=0.0.1.M1 -DM2_SETTINGS_REPO_ID=repo.spring.io -DREPO_WITH_JARS=https://repo.spring.io/libs-milestone-local''')
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
