@@ -55,7 +55,7 @@ class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPu
 				colorizeOutput()
 				maskPasswords()
 				credentialsBinding {
-					usernamePassword(cfUsername(), cfPassword(), cfCredentialsId())
+					usernamePassword(cfUsernameProp(), cfPasswordProp(), cfCredentialsId())
 				}
 			}
 			steps {

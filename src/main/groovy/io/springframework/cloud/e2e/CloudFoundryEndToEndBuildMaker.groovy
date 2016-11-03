@@ -53,7 +53,7 @@ class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPub
 					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
 				}
 				credentialsBinding {
-					usernamePassword(cfUsername(), cfPassword(), cfCredentialsId())
+					usernamePassword(cfUsernameProp(), cfPasswordProp(), cfCredentialsId())
 				}
 			}
 			steps {

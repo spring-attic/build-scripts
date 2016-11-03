@@ -5,15 +5,23 @@ package io.springframework.common
  */
 trait BashCloudFoundry {
 
-	String cfUsername() {
+	String cfUsernameProp() {
 		return '$CF_USERNAME'
 	}
 
-	String cfPassword() {
+	String cfPasswordProp() {
 		return '$CF_PASSWORD'
 	}
 
-	String cfSpace() {
+	String cfUsername() {
+		return 'CF_USERNAME'
+	}
+
+	String cfPassword() {
+		return 'CF_PASSWORD'
+	}
+
+	String cfSpaceProp() {
 		return '$CF_SPACE'
 	}
 
@@ -35,7 +43,10 @@ trait BashCloudFoundry {
 
 						echo "Logging in to CF"
 						cf api --skip-ssl-validation api.run.pivotal.io
-						cf login -u ${cfUsername()} -p ${cfPassword()} -o FrameworksAndRuntimes -s ${cfSpace()}
+
+						set -x
+						cf login -u ${cfUsernameProp()} -p ${cfPasswordProp()} -o FrameworksAndRuntimes -s ${cfSpaceProp()}
+						set +x
 
 						echo "Running script CF"
 						bash ${script}
