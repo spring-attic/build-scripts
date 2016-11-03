@@ -45,7 +45,7 @@ trait BashCloudFoundry {
 						cf api --skip-ssl-validation api.run.pivotal.io
 
 						set +x
-						cf login -u ${cfUsernameProp()} -p ${cfPasswordProp()} -o FrameworksAndRuntimes -s ${cfSpaceProp()}
+						cf login -u "${cfUsernameProp()}" -p "${cfPasswordProp()}" -o FrameworksAndRuntimes -s "${cfSpaceProp()}"
 						set -x
 
 						echo "Running script CF"
