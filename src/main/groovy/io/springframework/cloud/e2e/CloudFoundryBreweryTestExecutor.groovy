@@ -57,6 +57,9 @@ class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPu
 				credentialsBinding {
 					usernamePassword(cfUsername(), cfPassword(), cfCredentialsId())
 				}
+				environmentVariables {
+					env(cfSpacePropName(), cfSpace())
+				}
 			}
 			steps {
 				shell(cfScriptToExecute(script))

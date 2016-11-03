@@ -55,6 +55,9 @@ class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPub
 				credentialsBinding {
 					usernamePassword(cfUsername(), cfPassword(), cfCredentialsId())
 				}
+				environmentVariables {
+					env(cfSpacePropName(), cfSpace())
+				}
 			}
 			steps {
 				shell(cfScriptToExecute(script))

@@ -22,7 +22,15 @@ trait BashCloudFoundry {
 	}
 
 	String cfSpaceProp() {
-		return '$CF_SPACE'
+		return '$' + cfSpacePropName()
+	}
+
+	String cfSpace() {
+		return 'mgrzejszczak'
+	}
+
+	String cfSpacePropName() {
+		return 'CF_SPACE'
 	}
 
 	String cfCredentialsId() {
