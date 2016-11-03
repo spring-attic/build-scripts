@@ -64,7 +64,7 @@ JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 }
 // Brixton and Camden branches for Spring Cloud Release
 branchMaker.deploy('spring-cloud-release', 'Brixton', false)
-branchMaker.deploy('spring-cloud-release', 'Camden', false)
+branchMaker.deploy('spring-cloud-release', 'Camden.x', false)
 
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
