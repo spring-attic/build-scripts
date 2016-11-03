@@ -38,7 +38,7 @@ class SpringCloudPipelinesMavenBuildMaker implements SpringCloudNotification, Te
 			}
 			steps {
 				shell('''./mvnw versions:set -DnewVersion=0.0.1.M1''')
-				shell('''./mvnw clean verify deploy -DM2_SETTINGS_REPO_ID=repo.spring.io -DREPO_WITH_JARS=https://repo.spring.io/libs-milestone-local''')
+				shell('''./mvnw clean verify deploy -Ddistribution.management.release.id=repo.spring.io -Ddistribution.management.release.url=https://repo.spring.io/libs-milestone-local''')
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
