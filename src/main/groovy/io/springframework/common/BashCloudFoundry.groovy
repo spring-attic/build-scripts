@@ -17,6 +17,10 @@ trait BashCloudFoundry {
 		return '$CF_SPACE'
 	}
 
+	String cfCredentialsId() {
+		return 'PWS buildmaster@springframework.org'
+	}
+
 	String cfScriptToExecute(String script) {
 		return """
 						echo "Downloading Cloud Foundry"
