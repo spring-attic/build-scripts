@@ -9,18 +9,19 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class AppDeployingBuildMaker implements SpringCloudNotification, TestPublisher, JdkConfig, Cron {
+class SpringCloudPipelinesMavenBuildMaker implements SpringCloudNotification, TestPublisher, JdkConfig, Cron {
 	private final DslFactory dsl
+	private final String githubOrg = 'spring-cloud-samples'
 
-	AppDeployingBuildMaker(DslFactory dsl) {
+	SpringCloudPipelinesMavenBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 	}
 
-	void build(String githubOrg, String projectName) {
-		build(githubOrg, projectName, oncePerDay())
+	void build(String projectName) {
+		build(projectName, oncePerDay())
 	}
 
-	void build(String githubOrg, String projectName, String cronExpr) {
+	void build(String projectName, String cronExpr) {
 		dsl.job("spring-cloud-${projectName}-f2f") {
 			triggers {
 				githubPush()
@@ -33,11 +34,10 @@ class AppDeployingBuildMaker implements SpringCloudNotification, TestPublisher, 
 						url "https://github.com/$githubOrg/$projectName"
 						branch 'master'
 					}
-
 				}
 			}
 			steps {
-				shell('''./mvnw clean verify deploy''')
+				shell('''./mvnw clean verify deploy -DM2_SETTINGS_REPO_ID=repo.spring.io -DREPO_WITH_JARS=https://repo.spring.io/libs-milestone-local''')
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {

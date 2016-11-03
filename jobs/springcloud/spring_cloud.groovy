@@ -6,7 +6,8 @@ import io.springframework.cloud.compatibility.ClusterCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.CompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.e2e.*
-import io.springframework.cloud.f2f.AppDeployingBuildMaker
+import io.springframework.cloud.f2f.SpringCloudPipelinesGradleBuildMaker
+import io.springframework.cloud.f2f.SpringCloudPipelinesMavenBuildMaker
 import io.springframework.cloud.sonar.ClusterSonarBuildMaker
 import io.springframework.cloud.sonar.ConsulSonarBuildMaker
 import io.springframework.cloud.sonar.SonarBuildMaker
@@ -128,10 +129,8 @@ new ConsulSonarBuildMaker(dsl).buildSonar()
 new ClusterSonarBuildMaker(dsl).buildSonar()
 
 // F2F
-new AppDeployingBuildMaker(dsl).with {
-	build('marcingrzejszczak', 'atom-feed')
-	build('dsyer', 'github-analytics')
-}
+new SpringCloudPipelinesMavenBuildMaker(dsl).build('github-webhook')
+new SpringCloudPipelinesGradleBuildMaker(dsl).build('github-analytics')
 
 // ========== FUNCTIONS ==========
 
