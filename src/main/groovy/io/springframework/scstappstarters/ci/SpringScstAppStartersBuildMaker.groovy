@@ -59,14 +59,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 maven {
                     mavenInstallation(maven33())
                     if (fullProfile) {
-                        artifactoryMavenBuild(it as Node) {
-                            mavenVersion(maven33())
-                            goals('clean install -U -Pfull -Pspring')
-                        }
-                        artifactoryMaven3Configurator(it as Node)
-
-
-                        //goals('clean install -U -Pfull -Pspring')
+                        goals('clean install -U -Pspring')
                     }
                     if (buildApps) {
                         goals('clean deploy -U -Pspring -PgenerateApps')
@@ -100,13 +93,13 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             }
             configure {
 
-//                if (fullProfile) {
-//                    artifactoryMavenBuild(it as Node) {
-//                        mavenVersion(maven33())
-//                        goals('clean install -U -Pfull -Pspring')
-//                    }
-//                    artifactoryMaven3Configurator(it as Node)
-//                }
+                if (fullProfile) {
+                    artifactoryMavenBuild(it as Node) {
+                        mavenVersion(maven33())
+                        goals('clean install -U -Pfull -Pspring')
+                    }
+                    artifactoryMaven3Configurator(it as Node)
+                }
 
             }
 
