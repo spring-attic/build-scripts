@@ -8,7 +8,7 @@ DslFactory dsl = this
 // CI
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream").deploy()
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", [KAFKA_TIMEOUT_MULTIPLIER: '60']).deploy()
-new SpringCloudStreamBuildMarker(dsl, "sobychacko", "spring-cloud-stream-binder-rabbit", "ci-build-rabbbit-docker", [:]).deploy(true, false,
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", [:]).deploy(true, false,
         "clean deploy -U", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
         "docker-compose-RABBITMQ-stop.sh")
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-google-pubsub").deploy()

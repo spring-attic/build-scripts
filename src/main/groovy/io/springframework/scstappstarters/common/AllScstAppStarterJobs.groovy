@@ -16,10 +16,24 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE4_JOBS = ['counter', 'aggregate-counter', 'field-value-counter', 'bridge', 'gpfdist']
 
-    public static final List<String> PHASE5_JOBS = ['tasklauncher-local', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry']
+    public static final List<String> PHASE5_JOBS = ['tasklauncher-local', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'throughput', 'filter']
 
-    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS + PHASE3_JOBS + PHASE4_JOBS + PHASE5_JOBS;
+    public static final List<String> PHASE6_JOBS = ['aws-s3', 'aws-integration-tests', 'groovy-filter', 'groovy-transform', 'httpclient']
 
-    public static final List<List<String>> PHASES = [PHASE1_JOBS, PHASE2_JOBS, PHASE3_JOBS, PHASE4_JOBS, PHASE5_JOBS]
+    public static final List<String> PHASE7_JOBS = ['load-generator', 'loggregator', 'mail', 'mongodb', 'pmml']
+
+    public static final List<String> PHASE8_JOBS = ['redis-pubsub', 'scriptable-transform', 'splitter', 'syslog', 'tcp']
+
+    public static final List<String> PHASE9_JOBS = ['trigger', 'triggertask']
+
+    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS +
+                                                PHASE3_JOBS + PHASE4_JOBS +
+                                                PHASE5_JOBS + PHASE6_JOBS +
+                                                PHASE7_JOBS + PHASE8_JOBS + PHASE9_JOBS;
+
+    public static final List<List<String>> PHASES = [PHASE1_JOBS, PHASE2_JOBS,
+                                                     PHASE3_JOBS, PHASE4_JOBS,
+                                                     PHASE5_JOBS, PHASE6_JOBS,
+                                                     PHASE7_JOBS, PHASE8_JOBS, PHASE9_JOBS]
 
 }
