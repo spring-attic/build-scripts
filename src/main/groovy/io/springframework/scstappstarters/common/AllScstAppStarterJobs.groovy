@@ -16,9 +16,9 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE4_JOBS = ['counter', 'aggregate-counter', 'field-value-counter', 'bridge', 'gpfdist']
 
-    public static final List<String> PHASE5_JOBS = ['tasklauncher-local', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'throughput', 'filter']
-
-    public static final List<String> PHASE6_JOBS = ['aws-s3', 'aws-integration-tests', 'groovy-filter', 'groovy-transform', 'httpclient']
+    public static final List<String> PHASE5_JOBS = ['tasklauncher-local', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'throughput', 'aws-s3']
+    //http-client
+    public static final List<String> PHASE6_JOBS = ['filter', 'aws-integration-tests', 'groovy-filter', 'groovy-transform']
 
     public static final List<String> PHASE7_JOBS = ['load-generator', 'loggregator', 'mail', 'mongodb', 'pmml']
 
