@@ -6,6 +6,9 @@ import io.springframework.common.Maven
 import io.springframework.common.TestPublisher
 import io.springframework.scstappstarters.common.SpringScstAppStarterJobs
 import javaposse.jobdsl.dsl.DslFactory
+
+import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
+import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Marcin Grzejszczak
  */
@@ -55,13 +58,13 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             steps {
                 maven {
                     mavenInstallation(maven33())
-                    if (fullProfile) {
-                        goals('clean deploy -U -Pfull -Pspring')
-                    }
-                    else if (buildApps) {
+//                    if (fullProfile) {
+//                        goals('clean install -U -Pfull -Pspring')
+//                    }
+                    if (buildApps) {
                         goals('clean deploy -U -Pspring -PgenerateApps')
                     }
-                    else {
+                    else if (!fullProfile) {
                         goals('clean deploy -U -Pspring')
                     }
                 }
@@ -88,6 +91,18 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					""")
                 }
             }
+            configure {
+
+                if (fullProfile) {
+                    artifactoryMavenBuild(it as Node) {
+                        mavenVersion(maven33())
+                        goals('clean install -U -Pfull -Pspring')
+                    }
+                    artifactoryMaven3Configurator(it as Node)
+                }
+
+            }
+
             publishers {
                 mailer('scdf-ci@pivotal.io', true, true)
                 if (checkTests) {
