@@ -1,7 +1,7 @@
 package springcloud
 
 import io.springframework.cloud.ci.*
-import io.springframework.cloud.compatibility.BootCompatibilityBuildMaker
+import io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ClusterCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.CompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
@@ -21,7 +21,7 @@ DslFactory dsl = this
 println "Projects with tests $ALL_JOBS_WITH_TESTS"
 println "Projects without tests $JOBS_WITHOUT_TESTS"
 
-// COMPATIBILITY BUILDS
+// AUTOMATIC COMPATIBILITY BUILDS
 (ALL_DEFAULT_JOBS).each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
@@ -32,7 +32,10 @@ new CompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_DEFAULT_SUFFIX, 'spring-clo
 		.build('tests', everyThreeHours())
 new ConsulCompatibilityBuildMaker(dsl).build(everyThreeHours())
 new ClusterCompatibilityBuildMaker(dsl).build(everyThreeHours())
-new BootCompatibilityBuildMaker(dsl).build()
+new CompatibilityBuildMaker(dsl).build("spring-cloud-contract", everyThreeHours())
+
+// MANUAL COMPATIBILITY BUILD
+new ManualBootCompatibilityBuildMaker(dsl).build()
 
 // BENCHMARK BUILDS
 new BenchmarksBuildMaker(dsl).buildSleuth()

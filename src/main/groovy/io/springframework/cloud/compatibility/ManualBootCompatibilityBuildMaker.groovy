@@ -11,12 +11,12 @@ import static io.springframework.cloud.compatibility.CompatibilityTasks.SPRING_B
  *
  * @author Marcin Grzejszczak
  */
-class BootCompatibilityBuildMaker implements SpringCloudJobs {
+class ManualBootCompatibilityBuildMaker implements SpringCloudJobs {
 	private static final String BOOT_COMPATIBILITY_SUFFIX = 'compatibility-boot-check'
 
 	private final DslFactory dsl
 
-	BootCompatibilityBuildMaker(DslFactory dsl) {
+	ManualBootCompatibilityBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 	}
 
@@ -46,6 +46,7 @@ class BootCompatibilityBuildMaker implements SpringCloudJobs {
 		AllCloudJobs.JOBS_WITHOUT_TESTS.each {
 			new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests(it)
 		}
+		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build("spring-cloud-contract")
 		new ConsulCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build()
 		new ClusterCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build()
 		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX, 'spring-cloud-samples').build('tests')

@@ -45,10 +45,10 @@ class AllCloudJobs {
 	 * That way the default CI jobs will not get generated. You can see that there are duplicates
 	 * in this list and {@link AllCloudJobs#ALL_JOBS}. That's intentional cause we need the list
 	 * of names of all jobs that we have in the organization. Since some jobs are custom
-	 * we will have custom implementations. Check out {@link io.springframework.cloud.compatibility.BootCompatibilityBuildMaker}
+	 * we will have custom implementations. Check out {@link io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker}
 	 * for more info.
 	 */
-	public static final List<String> CUSTOM_BUILD_JOBS = ['spring-cloud-consul', 'spring-cloud-build', 'spring-cloud-cluster']
+	public static final List<String> CUSTOM_BUILD_JOBS = ['spring-cloud-consul', 'spring-cloud-build', 'spring-cloud-cluster', 'spring-cloud-contract']
 
 	/**
 	 * {@link AllCloudJobs#ALL_DEFAULT_JOBS} creates jobs for master branch. Sometimes you need other branches.
@@ -70,7 +70,7 @@ class AllCloudJobs {
 	/**
 	 * List of all jobs that need to be executed when doing compatibility builds against
 	 * latest version of boot. This is a list of names of jobs. The proper implementations
-	 * like {@link io.springframework.cloud.compatibility.BootCompatibilityBuildMaker} or
+	 * like {@link io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker} or
 	 * {@link io.springframework.cloud.compatibility.CompatibilityBuildMaker} will try
 	 * to execute the jobs having those predefined names (with a proper suffix). It's up to
 	 * the implementors to ensure that those jobs really exist.
