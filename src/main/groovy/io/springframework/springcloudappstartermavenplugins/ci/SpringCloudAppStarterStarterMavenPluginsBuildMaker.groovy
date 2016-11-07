@@ -47,7 +47,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
             steps {
                 maven {
                     mavenInstallation(maven32())
-                    goals('clean deploy -U')
+                    goals('clean deploy -U -Pmilestone')
                 }
             }
             publishers {

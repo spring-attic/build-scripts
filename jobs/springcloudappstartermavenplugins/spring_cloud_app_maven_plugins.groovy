@@ -7,4 +7,5 @@ DslFactory dsl = this
 
 // CI
 new SpringCloudAppStarterStarterMavenPluginsBuildMaker(dsl, "spring-cloud", "spring-cloud-app-starter-doc-maven-plugin").deploy()
+new SpringCloudAppStarterStarterMavenPluginsBuildMaker(dsl, "spring-cloud", "spring-cloud-stream-app-maven-plugin").deploy()
 
