@@ -45,9 +45,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
                 }
             }
             steps {
-                maven {
-                    shell(cleanAndDeploy())
-                }
+                shell(cleanAndDeploy())
             }
             if (checkTests) {
                 publishers {
