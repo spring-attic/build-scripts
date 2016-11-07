@@ -26,7 +26,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
         this.project = project
     }
 
-    void deploy() {
+    void deploy(boolean checkTests = true) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
@@ -46,11 +46,13 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
             }
             steps {
                 maven {
-                    mavenInstallation(maven32())
-                    goals('clean deploy -U -Pmilestone')
+                    shell(cleanAndDeploy())
                 }
             }
-            publishers {
+            if (checkTests) {
+                publishers {
+                    archiveJunit mavenJUnitResults()
+                }
             }
         }
     }

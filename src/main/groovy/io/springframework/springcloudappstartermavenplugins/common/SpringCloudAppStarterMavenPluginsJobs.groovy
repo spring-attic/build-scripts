@@ -12,4 +12,9 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
         return 'spring-cloud-app-starter'
     }
 
+    @Override
+    String cleanAndDeploy() {
+        return '''./mvnw clean deploy -U'''
+    }
+
 }
