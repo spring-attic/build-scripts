@@ -24,7 +24,7 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE8_JOBS = ['redis-pubsub', 'scriptable-transform', 'splitter', 'syslog', 'tcp']
 
-    public static final List<String> PHASE9_JOBS = ['trigger', 'triggertask']
+    public static final List<String> PHASE9_JOBS = ['trigger', 'triggertask', 'tasklaunchrequest-transform', 'transform']
 
     public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS +
                                                 PHASE3_JOBS + PHASE4_JOBS +
