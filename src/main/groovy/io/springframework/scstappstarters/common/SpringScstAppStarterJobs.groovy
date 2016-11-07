@@ -59,4 +59,17 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 	String cleanGitCredentials() {
 		return "rm -rf /tmp/gitcredentials"
 	}
+
+	@Override
+	String cleanAndDeploy() {
+		return '''./mvnw clean deploy -U -Pspring'''
+	}
+
+	String cleanAndDeployWithGenerateApps() {
+		return '''./mvnw clean deploy -U -Pspring -PgenerateApps'''
+	}
+
+	String cleanAndInstall() {
+		return '''./mvnw clean install -U -Pspring'''
+	}
 }

@@ -56,18 +56,28 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             }
 
             steps {
-                maven {
-                    mavenInstallation(maven33())
-                    if (fullProfile) {
-                        goals('clean install -U -Pspring')
-                    }
-                    if (buildApps) {
-                        goals('clean deploy -U -Pspring -PgenerateApps -Pmilestone')
-                    }
-                    else if (!fullProfile) {
-                        goals('clean deploy -U -Pspring -Pmilestone')
-                    }
+
+                if (fullProfile) {
+                    shell(cleanAndInstall())
                 }
+                if (buildApps) {
+                    shell(cleanAndDeployWithGenerateApps())
+                }
+                else if (!fullProfile) {
+                    shell(cleanAndDeploy())
+                }
+//                maven {
+//                    mavenInstallation(maven33())
+//                    if (fullProfile) {
+//                        goals('clean install -U -Pspring')
+//                    }
+//                    if (buildApps) {
+//                        goals('clean deploy -U -Pspring -PgenerateApps -Pmilestone')
+//                    }
+//                    else if (!fullProfile) {
+//                        goals('clean deploy -U -Pspring -Pmilestone')
+//                    }
+//                }
                 if (buildApps) {
                     shell("""#!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
