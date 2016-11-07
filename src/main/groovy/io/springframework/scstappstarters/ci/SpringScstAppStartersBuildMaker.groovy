@@ -33,9 +33,9 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 boolean fullProfile = false) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             if (githubPushTrigger) {
-                triggers {
-                    githubPush()
-                }
+//                triggers {
+//                    githubPush()
+//                }
             }
             scm {
                 git {

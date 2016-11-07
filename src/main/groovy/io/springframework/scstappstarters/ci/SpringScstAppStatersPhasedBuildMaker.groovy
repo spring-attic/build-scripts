@@ -23,9 +23,9 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
             steps {
 
                 phase('core-phase') {
-                    triggers {
-                        githubPush()
-                    }
+//                    triggers {
+//                        githubPush()
+//                    }
                     scm {
                         git {
                             remote {
