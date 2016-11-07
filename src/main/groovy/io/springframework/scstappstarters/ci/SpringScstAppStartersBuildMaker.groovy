@@ -62,10 +62,10 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         goals('clean install -U -Pspring')
                     }
                     if (buildApps) {
-                        goals('clean deploy -U -Pspring -PgenerateApps')
+                        goals('clean deploy -U -Pspring -PgenerateApps -Pmilestone')
                     }
                     else if (!fullProfile) {
-                        goals('clean deploy -U -Pspring')
+                        goals('clean deploy -U -Pspring -Pmilestone')
                     }
                 }
                 if (buildApps) {
@@ -96,7 +96,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 if (fullProfile) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven33())
-                        goals('clean install -U -Pfull -Pspring')
+                        goals('clean install -U -Pfull -Pspring -Pmilestone')
                     }
                     artifactoryMaven3Configurator(it as Node)
                 }
