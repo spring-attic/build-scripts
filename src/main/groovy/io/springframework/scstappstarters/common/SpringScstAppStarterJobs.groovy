@@ -64,7 +64,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 	String cleanAndDeploy() {
 		return """
 					#!/bin/bash -x
-
+					git checkout master
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
