@@ -99,6 +99,16 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 					else
 						echo "Snapshots found. Aborting the release build."
 					fi
+
+					git commit -am"Updating release version to 1.1.0.RC1"
+
+                    ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false
+                    ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
+                    ./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false
+                    ./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
+                     git commit -am"Updating next version to 1.1.0.BUILD-SNAPSHOT"
+
+                    git push origin master
 			   """
 	}
 

@@ -78,42 +78,29 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 //                        goals('clean deploy -U -Pspring -Pmilestone')
 //                    }
 //                }
-                if (buildApps) {
-                    shell("""#!/bin/bash -x
-					export MAVEN_PATH=${mavenBin()}
-					${setupGitCredentials()}
-					echo "Building apps"
-                    cd apps
-                    ../mvnw clean deploy
-					${cleanGitCredentials()}
-					""")
-                }
-                if (dockerHubPush) {
-                    shell("""#!/bin/bash -x
-					export MAVEN_PATH=${mavenBin()}
-					//${setupGitCredentials()}
-					echo "Pushing to Docker Hub"
-                    cd apps
-                    set +x
-                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
-					set -x
-
-                    cd ..
-					git commit -am"Updating release version to 1.1.0.RC1"
-
-                    ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false
-                    ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
-                    ./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false
-                    ./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
-                    git commit -am"Updating next version to 1.1.0.BUILD-SNAPSHOT"
-
-                    git push origin master
-
-
-
-					//${cleanGitCredentials()}
-					""")
-                }
+//                if (buildApps) {
+//                    shell("""#!/bin/bash -x
+//					export MAVEN_PATH=${mavenBin()}
+//					${setupGitCredentials()}
+//					echo "Building apps"
+//                    cd apps
+//                    ../mvnw clean deploy
+//					${cleanGitCredentials()}
+//					""")
+//                }
+//                if (dockerHubPush) {
+//                    shell("""#!/bin/bash -x
+//					export MAVEN_PATH=${mavenBin()}
+//					//${setupGitCredentials()}
+//					echo "Pushing to Docker Hub"
+//                    cd apps
+//                    set +x
+//                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
+//					set -x
+//
+//					//${cleanGitCredentials()}
+//					""")
+//                }
             }
             configure {
 
