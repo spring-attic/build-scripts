@@ -65,6 +65,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 		return """
 					#!/bin/bash -x
 					git checkout master
+					git pull origin master
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
@@ -86,6 +87,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 		return """
 					#!/bin/bash -x
 					git checkout master
+					git pull origin master
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
 					./mvnw versions:update-parent -DparentVersion=1.1.0.RC1 -Pspring -DgenerateBackupPoms=false
