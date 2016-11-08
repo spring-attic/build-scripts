@@ -68,7 +68,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
-					if [ $lines -eq 0 ]; then
+					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring
 					else
 						echo "Snapshots found. Aborting the release build."
