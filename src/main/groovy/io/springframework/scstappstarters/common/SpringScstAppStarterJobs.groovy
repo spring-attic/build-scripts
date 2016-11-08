@@ -87,14 +87,14 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 					#!/bin/bash -x
 					git checkout master
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false
-					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :$project+"-app-dependencies"
+					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
 					./mvnw versions:update-parent -DparentVersion=1.1.0.RC1 -Pspring -DgenerateBackupPoms=false
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring -PgenerateApps
 						git commit -am"Updating release version to 1.1.0.RC1"
 						./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false
-						./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false -pl :$project+"-app-dependencies"
+						./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
 						./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false
 						git commit -am"Updating next version to 1.1.0.BUILD-SNAPSHOT"
 						git push origin master
