@@ -97,6 +97,19 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                     set +x
                     ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
 					set -x
+
+					git commit -am"Updating release version to 1.1.0.RC1"
+
+                    ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false
+                    ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
+                    ./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false
+                    ./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
+                    git commit -am"Updating next version to 1.1.0.BUILD-SNAPSHOT"
+
+                    git push origin master
+
+
+
 					${cleanGitCredentials()}
 					""")
                 }
