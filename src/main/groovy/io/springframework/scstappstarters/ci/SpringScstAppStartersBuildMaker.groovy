@@ -91,13 +91,14 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 if (dockerHubPush) {
                     shell("""#!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
-					${setupGitCredentials()}
+					//${setupGitCredentials()}
 					echo "Pushing to Docker Hub"
                     cd apps
                     set +x
                     ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
 					set -x
 
+                    cd ..
 					git commit -am"Updating release version to 1.1.0.RC1"
 
                     ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false
@@ -110,7 +111,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
 
 
-					${cleanGitCredentials()}
+					//${cleanGitCredentials()}
 					""")
                 }
             }
