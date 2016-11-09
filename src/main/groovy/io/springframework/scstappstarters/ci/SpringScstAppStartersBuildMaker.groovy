@@ -21,6 +21,16 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
     final String branchToBuild = "master"
 
+    boolean isRelease = false;
+
+    String releaseVersion
+    String parentVersion
+    String nextVersion
+
+    String releaseTrainVersion
+
+    String releaseType;
+
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
                                     String project) {
         this.dsl = dsl
@@ -28,14 +38,28 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
         this.project = project
     }
 
-    void deploy(boolean buildApps = true, boolean checkTests = true,
+    SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
+                                    String project, boolean isRelease,
+                                    String releaseVersion, String parentVersion,
+                                    String nextVersion, String releaseTrainVersion,
+                                    String releaseType) {
+        this(dsl, organization, project)
+        this.isRelease = isRelease
+        this.releaseVersion = releaseVersion
+        this.parentVersion = parentVersion
+        this.nextVersion = nextVersion
+        this.releaseTrainVersion = releaseTrainVersion
+        this.releaseType = releaseType
+    }
+
+    void deploy(boolean appsBuild = true, boolean checkTests = true,
                 boolean dockerHubPush = true, boolean githubPushTrigger = true,
-                boolean fullProfile = false) {
+                boolean docsBuild = false) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
-            if (githubPushTrigger) {
-//                triggers {
-//                    githubPush()
-//                }
+            if (githubPushTrigger && !isRelease) {
+                triggers {
+                    githubPush()
+                }
             }
             scm {
                 git {
@@ -56,58 +80,67 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             }
 
             steps {
+                if (isRelease) {
+                    if (docsBuild) {
+                        shell(cleanAndInstall(releaseTrainVersion, parentVersion))
+                    }
+                    else if (appsBuild) {
+                        shell(cleanAndDeployWithGenerateApps(project, releaseVersion, parentVersion))
+                    }
+                    else {
+                        shell(cleanAndDeploy(releaseVersion, nextVersion))
+                    }
+                }
+                else {
+                    maven {
+                        mavenInstallation(maven33())
+                        if (docsBuild) {
+                            goals('clean install -U -Pspring')
+                        }
+                        else if (appsBuild) {
+                            goals('clean deploy -U -Pspring -PgenerateApps -Pmilestone')
+                        }
+                        else {
+                            goals('clean deploy -U -Pspring -Pmilestone')
+                        }
+                    }
+                }
 
-                if (fullProfile) {
-                    shell(cleanAndInstall())
+                if (appsBuild) {
+                    shell("""#!/bin/bash -x
+					export MAVEN_PATH=${mavenBin()}
+					${setupGitCredentials()}
+					echo "Building apps"
+                    cd apps
+                    ../mvnw clean deploy
+					${cleanGitCredentials()}
+					""")
                 }
-                if (buildApps) {
-                    shell(cleanAndDeploy())
+                if (dockerHubPush) {
+                    shell("""#!/bin/bash -x
+					export MAVEN_PATH=${mavenBin()}
+					${setupGitCredentials()}
+					echo "Pushing to Docker Hub"
+                    cd apps
+                    set +x
+                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
+					set -x
+
+					${cleanGitCredentials()}
+					""")
                 }
-                else if (!fullProfile) {
-                    shell(cleanAndDeploy())
-                }
-//                maven {
-//                    mavenInstallation(maven33())
-//                    if (fullProfile) {
-//                        goals('clean install -U -Pspring')
-//                    }
-//                    if (buildApps) {
-//                        goals('clean deploy -U -Pspring -PgenerateApps -Pmilestone')
-//                    }
-//                    else if (!fullProfile) {
-//                        goals('clean deploy -U -Pspring -Pmilestone')
-//                    }
-//                }
-//                if (buildApps) {
-//                    shell("""#!/bin/bash -x
-//					export MAVEN_PATH=${mavenBin()}
-//					${setupGitCredentials()}
-//					echo "Building apps"
-//                    cd apps
-//                    ../mvnw clean deploy
-//					${cleanGitCredentials()}
-//					""")
-//                }
-//                if (dockerHubPush) {
-//                    shell("""#!/bin/bash -x
-//					export MAVEN_PATH=${mavenBin()}
-//					//${setupGitCredentials()}
-//					echo "Pushing to Docker Hub"
-//                    cd apps
-//                    set +x
-//                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
-//					set -x
-//
-//					//${cleanGitCredentials()}
-//					""")
-//                }
             }
             configure {
 
-                if (fullProfile) {
+                if (docsBuild) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven33())
-                        goals('clean install -U -Pfull -Pspring -Pmilestone')
+                        if (releaseType.equals("milestone")) {
+                            goals('clean install -U -Pfull -Pspring -Pmilestone')
+                        }
+                        else {
+                            goals('clean install -U -Pfull -Pspring')
+                        }
                     }
                     artifactoryMaven3Configurator(it as Node)
                 }
