@@ -8,7 +8,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
+class SpringCloudSamplesEndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 		JdkConfig, BreweryDefaults, Label, Cron, SpringCloudJobs {
 
 	private static final int MAX_EC2_EXECUTORS = 1
@@ -16,30 +16,27 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 	private final DslFactory dsl
 	private final String organization
 
-	EndToEndBuildMaker(DslFactory dsl) {
+	SpringCloudSamplesEndToEndBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
-		this.organization = "spring-cloud"
+		this.organization = "spring-cloud-samples"
 	}
 
-	EndToEndBuildMaker(DslFactory dsl, String organization) {
+	SpringCloudSamplesEndToEndBuildMaker(DslFactory dsl, String organization) {
 		this.dsl = dsl
 		this.organization = organization
 	}
 
 	void build(String projectName, String cronExpr) {
-		build(projectName, "scripts/runAcceptanceTests.sh", cronExpr)
+		build(projectName, projectName, "scripts/runAcceptanceTests.sh", cronExpr)
 	}
 
-	void build(String projectName, String scriptName, String cronExpr, boolean withTests = true) {
-		build(projectName, projectName, scriptName, cronExpr, withTests)
-	}
-
-	void buildWithGradleAndMavenTests(String projectName, String scriptName, String cronExpr) {
-		build(projectName, projectName, scriptName, cronExpr, true, '', true)
+	void buildWithGradleAndMavenTests(String projectName, String cronExpr) {
+		build(projectName, projectName, "scripts/runAcceptanceTests.sh", cronExpr, '', true, true)
 	}
 
 	protected void build(String projectName, String repoName, String scriptName, String cronExpr,
-						 boolean withTests = true, String postBuildScripts = "", boolean mavenTests = false) {
+						 String postBuildScripts = "", boolean mavenTests = false,
+						 boolean gradleTests = false) {
 		String organization = this.organization
 		dsl.job("${prefixJob(projectName)}-e2e") {
 			triggers {
@@ -49,11 +46,9 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			wrappers {
 				timestamps()
 				colorizeOutput()
-				label aws()
 				environmentVariables([
 						TERM: 'dumb',
-						RETRIES: 70,
-						(jdk8HomeEnvVar()): jdk8DefaultPath()
+						RETRIES: 70
 				])
 				timeout {
 					noActivity(300)
@@ -72,7 +67,6 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 					}
 				}
 			}
-			weight(MAX_EC2_EXECUTORS)
 			steps {
 				shell("""
 						sh -e ${scriptName}
@@ -89,10 +83,8 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 				}
 			}
 			publishers {
-				if (withTests) {
+				if (gradleTests) {
 					archiveJunit gradleJUnitResults()
-					archiveArtifacts acceptanceTestReports()
-					archiveArtifacts acceptanceTestSpockReports()
 				}
 				if (mavenTests) {
 					archiveJunit mavenJUnitResults()
