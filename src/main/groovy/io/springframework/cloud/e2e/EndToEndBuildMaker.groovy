@@ -15,15 +15,24 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 
 	private final DslFactory dsl
 	private final String organization
+	final String instanceLabel
 
 	EndToEndBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 		this.organization = "spring-cloud"
+		this.instanceLabel = aws()
 	}
 
 	EndToEndBuildMaker(DslFactory dsl, String organization) {
 		this.dsl = dsl
 		this.organization = organization
+		this.instanceLabel = aws()
+	}
+
+	EndToEndBuildMaker(DslFactory dsl, String organization, String label) {
+		this.dsl = dsl
+		this.organization = organization
+		this.instanceLabel = label
 	}
 
 	void build(String projectName, String cronExpr) {
@@ -53,7 +62,9 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			wrappers {
 				timestamps()
 				colorizeOutput()
-				label aws()
+				if (instanceLabel) {
+					label instanceLabel
+				}
 				environmentVariables([
 						TERM: 'dumb',
 						RETRIES: 70,
