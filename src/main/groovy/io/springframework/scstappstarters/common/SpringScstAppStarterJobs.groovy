@@ -62,23 +62,50 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 
 	@Override
 	String cleanAndDeploy() {
+//		return """
+//					#!/bin/bash -x
+//					git checkout master
+//					git pull origin master
+//					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false
+//					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
+//			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
+//					if [ \$lines -eq 0 ]; then
+//						./mvnw clean deploy -U -Pspring
+//						git commit -am"Updating release version to 1.1.0.RC1"
+//						./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false
+//						./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
+//						git commit -am"Updating next version to 1.1.0.BUILD-SNAPSHOT"
+//						git push origin master
+//					else
+//						echo "Snapshots found. Aborting the release build."
+//					fi
+//			   """
+
 		return """
 					#!/bin/bash -x
 					git checkout master
 					git pull origin master
+					rm -rf apps
 					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false
-					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
+					./mvnw versions:set -DnewVersion=1.1.0.RC1 -DgenerateBackupPoms=false -pl :time-app-dependencies
+					./mvnw versions:update-parent -DparentVersion=1.1.0.RC1 -Pspring -DgenerateBackupPoms=false
+					./mvnw versions:update-parent -DparentVersion=1.1.0.RC1 -Pspring -DgenerateBackupPoms=false -pl :time-app-dependencies
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
-						./mvnw clean deploy -U -Pspring
-						git commit -am"Updating release version to 1.1.0.RC1"
-						./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false
-						./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
-						git commit -am"Updating next version to 1.1.0.BUILD-SNAPSHOT"
-						git push origin master
+						./mvnw clean deploy -U -Pspring -PgenerateApps
 					else
 						echo "Snapshots found. Aborting the release build."
 					fi
+
+					git commit -am"Updating release version to 1.1.0.RC1"
+
+                    ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false
+                    ./mvnw versions:set -DnewVersion=1.1.0.BUILD-SNAPSHOT -DgenerateBackupPoms=false -pl time-app-dependencies
+                    ./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false
+                    ./mvnw versions:update-parent -DparentVersion=1.1.0.BUILD-SNAPSHOT -Pspring -DgenerateBackupPoms=false -pl time-app-dependencies
+                     git commit -am"Updating next version to 1.1.0.BUILD-SNAPSHOT"
+
+                    git push origin master
 			   """
 
 	}
