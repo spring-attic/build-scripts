@@ -65,11 +65,14 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 				if (instanceLabel) {
 					label instanceLabel
 				}
-				environmentVariables([
+				Map<String, String> envs = [
 						TERM: 'dumb',
-						RETRIES: 70,
-						(jdk8HomeEnvVar()): jdk8DefaultPath()
-				])
+						RETRIES: 70
+				]
+				if (instanceLabel == aws()) {
+					envs.put(jdk8HomeEnvVar(), jdk8DefaultPath())
+				}
+				environmentVariables(envs)
 				timeout {
 					noActivity(300)
 					failBuild()
