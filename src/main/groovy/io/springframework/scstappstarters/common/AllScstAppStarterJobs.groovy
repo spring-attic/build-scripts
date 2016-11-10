@@ -9,7 +9,7 @@ import groovy.transform.CompileStatic
 class AllScstAppStarterJobs {
 
     //public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp', 'sftp', 'file']
-    public static final List<String> PHASE1_JOBS = ['time']
+    public static final List<String> PHASE1_JOBS = ['time', 'ftp', 'tcp']
 
 //    public static final List<String> PHASE2_JOBS = ['jms', 'http', 'jdbc', 'twitter', 'rabbit']
 //
