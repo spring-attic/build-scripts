@@ -18,6 +18,10 @@ trait BuildAndDeploy {
 		return '''./mvnw clean deploy -nsu -P docs,integration -U $MVN_LOCAL_OPTS -Dmaven.test.redirectTestOutputToFile=true -Dsurefire.runOrder=random'''
 	}
 
+	String cleanAndDeployWithFlakes(int flakeCount=2) {
+		return """./mvnw clean deploy -nsu -P docs,integration -U \$MVN_LOCAL_OPTS -Dsurefire.rerunFailingTestsCount=${flakeCount} -Dmaven.test.redirectTestOutputToFile=true -Dsurefire.runOrder=random"""
+	}
+
 	String deployDocs() {
 		return '''echo "Deploying docs" && ./docs/src/main/asciidoc/ghpages.sh'''
 	}

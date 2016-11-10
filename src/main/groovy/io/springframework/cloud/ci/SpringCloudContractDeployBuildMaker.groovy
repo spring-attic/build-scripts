@@ -71,7 +71,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 					mavenInstallation(maven33())
 					goals('--version')
 				}
-				shell(cleanAndDeploy())
+				shell(cleanAndDeployWithFlakes())
 				shell("""#!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
