@@ -60,7 +60,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 		return "rm -rf /tmp/gitcredentials"
 	}
 
-	String cleanAndDeploy(String releaseVersion, String nextVersion) {
+	String cleanAndDeploy(String releaseVersion) {
 		return """
 					#!/bin/bash -x
 					git checkout master
@@ -70,11 +70,6 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring
-						git commit -am"Updating release version to $releaseVersion"
-						./mvnw versions:set -DnewVersion=$nextVersion -DgenerateBackupPoms=false
-						./mvnw versions:set -DnewVersion=$nextVersion -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
-						git commit -am"Updating next version to $nextVersion"
-						git push origin master
 					else
 						echo "Snapshots found. Aborting the release build."
 					fi

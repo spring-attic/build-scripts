@@ -25,7 +25,6 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
     String releaseVersion
     String parentVersion
-    String nextVersion
 
     String releaseTrainVersion
 
@@ -47,7 +46,6 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
         this.isRelease = isRelease
         this.releaseVersion = releaseVersion
         this.parentVersion = parentVersion
-        this.nextVersion = nextVersion
         this.releaseTrainVersion = releaseTrainVersion
         this.releaseType = releaseType
     }
@@ -88,7 +86,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         shell(cleanAndDeployWithGenerateApps(project, releaseVersion, parentVersion))
                     }
                     else {
-                        shell(cleanAndDeploy(releaseVersion, nextVersion))
+                        shell(cleanAndDeploy(releaseVersion))
                     }
                 }
                 else {
