@@ -142,7 +142,11 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                             goals('clean install -U -Pfull -Pspring')
                         }
                     }
-                    artifactoryMaven3Configurator(it as Node)
+                    artifactoryMaven3Configurator(it as Node) {
+                        if (releaseType.equals("milestone")) {
+                            deployReleaseRepository("libs-milestone-local")
+                        }
+                    }
                 }
 
             }
