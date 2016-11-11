@@ -77,7 +77,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                 new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, isRelease,
                         "1.1.0.RC1", "1.1.0.RC1", "Avogadro.RC1", "milestone").deploy()
             }
-            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "docs", isRelease,
+            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release", isRelease,
                     "1.1.0.RC1", "1.1.0.RC1", "Avogadro.RC1", "milestone")
                     .deploy(false, false, false, true, true)
         }
