@@ -40,8 +40,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
                                     String project, boolean isRelease,
                                     String releaseVersion, String parentVersion,
-                                    String nextVersion, String releaseTrainVersion,
-                                    String releaseType) {
+                                    String releaseTrainVersion, String releaseType) {
         this(dsl, organization, project)
         this.isRelease = isRelease
         this.releaseVersion = releaseVersion

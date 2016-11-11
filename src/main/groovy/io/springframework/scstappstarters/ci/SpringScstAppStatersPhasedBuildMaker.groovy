@@ -71,14 +71,14 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
     void buildAllRelatedJobs(boolean isRelease) {
         if (isRelease) {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core", isRelease,
-                    "1.1.0.RC1", "1.1.0.RC1", "1.1.0.BUILD-SNAPSHOT", "Avogadro.RC1", "milestone")
+                    "1.1.0.RC1", "1.1.0.RC1", "Avogadro.RC1", "milestone")
                     .deploy(false, false, false, false)
             AllScstAppStarterJobs.ALL_JOBS.each {
                 new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, isRelease,
-                        "1.1.0.RC1", "1.1.0.RC1", "1.1.0.BUILD-SNAPSHOT", "Avogadro.RC1", "milestone").deploy()
+                        "1.1.0.RC1", "1.1.0.RC1", "Avogadro.RC1", "milestone").deploy()
             }
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "docs", isRelease,
-                    "1.1.0.RC1", "1.1.0.RC1", "1.1.0.BUILD-SNAPSHOT", "Avogadro.RC1", "milestone")
+                    "1.1.0.RC1", "1.1.0.RC1", "Avogadro.RC1", "milestone")
                     .deploy(false, false, false, true, true)
         }
         else {
@@ -87,7 +87,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
             AllScstAppStarterJobs.ALL_JOBS.each {
                 new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it).deploy()
             }
-            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "docs")
+            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release")
                     .deploy(false, false, false, true, true)
         }
 
