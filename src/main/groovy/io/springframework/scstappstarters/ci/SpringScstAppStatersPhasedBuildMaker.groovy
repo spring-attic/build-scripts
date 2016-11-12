@@ -57,8 +57,8 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                 }
 
                 if (!isRelease) {
-                    phase('docs-phase') {
-                        String prefixedProjectName = prefixJob("docs")
+                    phase('app-starters-release-phase') {
+                        String prefixedProjectName = prefixJob("app-starters-release")
                         phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                             currentJobParameters()
                         }
