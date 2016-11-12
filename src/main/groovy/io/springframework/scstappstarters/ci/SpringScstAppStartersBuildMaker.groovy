@@ -149,7 +149,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             }
 
             publishers {
-                //mailer('scdf-ci@pivotal.io', true, true)
+                mailer('scdf-ci@pivotal.io', true, true)
                 if (checkTests) {
                     archiveJunit mavenJUnitResults()
                 }
