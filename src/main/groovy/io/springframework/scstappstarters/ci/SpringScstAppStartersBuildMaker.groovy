@@ -95,10 +95,10 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                             goals('clean install -U -Pspring')
                         }
                         else if (appsBuild) {
-                            goals('clean deploy -U -Pspring -PgenerateApps -Pmilestone')
+                            goals('clean deploy -U -Pspring -PgenerateApps')
                         }
                         else {
-                            goals('clean deploy -U -Pspring -Pmilestone')
+                            goals('clean deploy -U -Pspring')
                         }
                     }
                 }
@@ -132,7 +132,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 if (docsBuild) {
                     artifactoryMavenBuild(it as Node) {
                         mavenVersion(maven33())
-                        if (releaseType.equals("milestone")) {
+                        if (releaseType != null && releaseType.equals("milestone")) {
                             goals('clean install -U -Pfull -Pspring -Pmilestone')
                         }
                         else {
@@ -140,7 +140,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         }
                     }
                     artifactoryMaven3Configurator(it as Node) {
-                        if (releaseType.equals("milestone")) {
+                        if (releaseType != null && releaseType.equals("milestone")) {
                             deployReleaseRepository("libs-milestone-local")
                         }
                     }
