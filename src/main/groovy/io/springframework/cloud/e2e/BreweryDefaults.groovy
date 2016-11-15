@@ -6,7 +6,7 @@ package io.springframework.cloud.e2e
 trait BreweryDefaults {
 	String killAllApps() {
 		return '''
-			function kill_all_apps_with_port() {
+			function kill_all_apps() {
 				kill_app_with_port 9991
 				kill_app_with_port 9992
 				kill_app_with_port 9993
@@ -21,6 +21,8 @@ trait BreweryDefaults {
 				kill_app_with_port 9411
 				kill_app_with_port 9092
 				kill_app_with_port 2181
+				docker kill $(docker ps -q) || echo "No running docker containers are left"
+                docker stop `docker ps -a -q --filter="image=spotify/kafka"` || echo "No docker with Kafka was running - won't stop anything"
 			}
 
 			# port is $1
@@ -28,7 +30,7 @@ trait BreweryDefaults {
 				kill -9 $(lsof -t -i:$1) && echo "Killed an app running on port [$1]" || echo "No app running on port [$1]"
 			}
 
-			kill_all_apps_with_port
+			kill_all_apps
 		'''
 	}
 
