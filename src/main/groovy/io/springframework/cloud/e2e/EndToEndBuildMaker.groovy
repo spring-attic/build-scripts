@@ -74,6 +74,7 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			}
 			weight(MAX_EC2_EXECUTORS)
 			steps {
+				shell(killAllApps())
 				shell("""
 						sh -e ${scriptName}
 					""")
