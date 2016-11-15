@@ -39,4 +39,8 @@ trait BreweryDefaults {
 	String acceptanceTestSpockReports() {
 		return '**/acceptance-tests/build/spock-reports/**/*'
 	}
+
+	int defaultInactivity() {
+		return 30 * 60
+	}
 }

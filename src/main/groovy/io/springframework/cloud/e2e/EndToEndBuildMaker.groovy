@@ -56,7 +56,7 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 						(jdk8HomeEnvVar()): jdk8DefaultPath()
 				])
 				timeout {
-					noActivity(300)
+					noActivity(defaultInactivity())
 					failBuild()
 					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
 				}

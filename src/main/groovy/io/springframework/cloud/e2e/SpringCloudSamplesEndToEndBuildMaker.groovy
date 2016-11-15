@@ -51,7 +51,7 @@ class SpringCloudSamplesEndToEndBuildMaker implements SpringCloudNotification, T
 						RETRIES: 70
 				])
 				timeout {
-					noActivity(300)
+					noActivity(defaultInactivity())
 					failBuild()
 					writeDescription('Build failed due to timeout after {0} minutes of inactivity')
 				}
