@@ -1,4 +1,4 @@
-package scstappstarters
+package springcloudtaskappstarters
 
 import io.springframework.cloud.view.DashboardViewBuilder
 import javaposse.jobdsl.dsl.DslFactory
@@ -14,17 +14,17 @@ dsl.listView('Seeds') {
 	columns defaultColumns()
 }
 
-dsl.nestedView('SpringScstAppStarters') {
+dsl.nestedView('SpringCloudTaskAppStarters') {
 	views {
 		listView('CI') {
 			jobs {
-				regex('spring-scst-app-starters.*-ci')
+				regex('spring-cloud-task-app-starters.*-ci')
 			}
 			columns defaultColumns()
 		}
 		listView('All Spring App Starters') {
 			jobs {
-				regex('spring-scst-app-starters.*')
+				regex('spring-cloud-task-app-starters.*')
 			}
 			columns defaultColumns()
 		}
