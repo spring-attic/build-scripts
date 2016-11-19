@@ -58,7 +58,8 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         url "https://github.com/${organization}/${project}"
                         branch branchToBuild
                         if (recurseSubmodules) {
-                            recursiveSubmodules(true)
+                            recursiveSubmodules = true
+                            //recursiveSubmodules(true)
                         }
                     }
                 }
