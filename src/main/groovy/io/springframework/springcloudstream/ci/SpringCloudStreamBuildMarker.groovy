@@ -60,8 +60,8 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
 
                     }
                     if (recurseSubmodules) {
-                        //setRecursiveSubmodules(true)
-                        recursiveSubmodules true
+                        setRecursiveSubmodules(true)
+                        //recursiveSubmodules true
                     }
                 }
             }
