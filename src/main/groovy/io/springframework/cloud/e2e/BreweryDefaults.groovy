@@ -21,8 +21,9 @@ trait BreweryDefaults {
 				kill_app_with_port 9411
 				kill_app_with_port 9092
 				kill_app_with_port 2181
-				docker kill $(docker ps -q) || echo "No running docker containers are left"
+				docker kill $(docker ps -a -q) || echo "No running docker containers are left"
                 docker stop `docker ps -a -q --filter="image=spotify/kafka"` || echo "No docker with Kafka was running - won't stop anything"
+                docker kill `docker ps -a -q --filter="image=spotify/kafka"` || echo "No docker with Kafka was running - won't stop anything"
 			}
 
 			# port is $1
