@@ -18,8 +18,8 @@ trait BuildAndDeploy {
 		return '''./mvnw clean deploy -nsu -P docs,integration -U $MVN_LOCAL_OPTS -Dmaven.test.redirectTestOutputToFile=true -Dsurefire.runOrder=random'''
 	}
 
-	String cleanAndDeployWithFlakes(int flakeCount=2) {
-		return """./mvnw clean deploy -nsu -P docs,integration -U \$MVN_LOCAL_OPTS -Dsurefire.rerunFailingTestsCount=${flakeCount} -Dmaven.test.redirectTestOutputToFile=true -Dsurefire.runOrder=random"""
+	String removeStubAndDeploy() {
+		return """rm -rf ~/.m2/repository/com/example && rm -rf ~/.m2/repository/org/springframework/cloud/contract/verifier/stubs/ && ${cleanAndDeploy()}"""
 	}
 
 	String deployDocs() {
