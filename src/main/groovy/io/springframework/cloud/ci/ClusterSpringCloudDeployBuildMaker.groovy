@@ -25,14 +25,14 @@ class ClusterSpringCloudDeployBuildMaker implements SpringCloudNotification, Jdk
 				githubPush()
 			}
 			parameters {
-				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
+				stringParam(branchVarName(), masterBranch(), 'Which branch should be built')
 			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
 						url "https://github.com/spring-cloud/${project}"
-						branch "\$${branchVar()}"
+						branch "\$${branchVarName()}"
 					}
 
 				}

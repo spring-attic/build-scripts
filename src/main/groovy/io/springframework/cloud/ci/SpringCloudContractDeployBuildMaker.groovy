@@ -37,7 +37,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				githubPush()
 			}
 			parameters {
-				stringParam(branchVar(), branchName, 'Which branch should be built')
+				stringParam(branchVarName(), branchName, 'Which branch should be built')
 			}
 			jdk jdk8()
 			scm {

@@ -25,14 +25,14 @@ class SpringCloudBranchBuildMaker implements SpringCloudNotification, JdkConfig,
 	void deploy(String project, boolean checkTests = true) {
 		dsl.job("$project-branch-ci") {
 			parameters {
-				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
+				stringParam(branchVarName(), masterBranch(), 'Which branch should be built')
 			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
 						url "https://github.com/${organization}/${project}"
-						branch "\$${branchVar()}"
+						branch "\$${branchVarName()}"
 					}
 					extensions {
 						wipeOutWorkspace()

@@ -26,8 +26,12 @@ trait BuildAndDeploy {
 		return '''echo "Deploying docs" && ./docs/src/main/asciidoc/ghpages.sh'''
 	}
 
-	String branchVar() {
+	String branchVarName() {
 		return 'BRANCH'
+	}
+
+	String branchVar() {
+		return '$' + branchVarName()
 	}
 
 	String masterBranch() {

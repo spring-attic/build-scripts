@@ -21,14 +21,14 @@ class DocsAppBuildMaker implements SpringCloudNotification, JdkConfig, SpringClo
 				cron cronExpr
 			}
 			parameters {
-				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
+				stringParam(branchVarName(), masterBranch(), 'Which branch should be built')
 			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
 						url "https://github.com/spring-cloud-samples/sleuth-documentation-apps"
-						branch "\$${branchVar()}"
+						branch "\$${branchVarName()}"
 					}
 
 				}
