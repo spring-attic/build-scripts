@@ -31,7 +31,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 
 	void deploy(String branchName = masterBranch()) {
 		String projectLabel = projectName
-		dsl.job("${prefixJob(projectLabel)}-ci") {
+		dsl.job("${prefixJob(projectLabel)}-${branchName}-ci") {
 			triggers {
 				cron everyThreeHours()
 				githubPush()
