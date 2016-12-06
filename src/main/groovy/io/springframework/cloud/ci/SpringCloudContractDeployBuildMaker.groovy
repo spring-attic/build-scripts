@@ -29,7 +29,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 		this.projectName = projectName
 	}
 
-	void deploy() {
+	void deploy(String branchName = masterBranch()) {
 		String projectLabel = projectName
 		dsl.job("${prefixJob(projectLabel)}-ci") {
 			triggers {
@@ -37,14 +37,14 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 				githubPush()
 			}
 			parameters {
-				stringParam(branchVar(), masterBranch(), 'Which branch should be built')
+				stringParam(branchVar(), branchName, 'Which branch should be built')
 			}
 			jdk jdk8()
 			scm {
 				git {
 					remote {
 						url "https://github.com/${organization}/${projectName}"
-						branch 'master'
+						branch branchVar()
 					}
 				}
 			}

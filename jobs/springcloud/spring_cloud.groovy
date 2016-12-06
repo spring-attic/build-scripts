@@ -75,7 +75,8 @@ new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 new VaultSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILD FOR SPRING CLOUD CONTRACTS
 new SpringCloudContractDeployBuildMaker(dsl).with {
-	deploy()
+	deploy(masterBranch())
+	deploy("1.0.x")
 }
 
 // E2E BUILDS
