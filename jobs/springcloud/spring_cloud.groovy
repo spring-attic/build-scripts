@@ -98,6 +98,9 @@ new CamdenBreweryEndToEndBuildMaker(dsl).build()
 new SpringCloudSamplesEndToEndBuildMaker(dsl).with {
 	buildWithGradleAndMavenTests("spring-cloud-contract-samples", everySixHours())
 }
+new SpringCloudSamplesEndToEndBuildMaker(dsl).with {
+	buildWithGradleAndMavenTests("spring-cloud-contract-samples", everySixHours(), "1.0.x")
+}
 
 // E2E on CF
 new CloudFoundryEndToEndBuildMaker(dsl).with {

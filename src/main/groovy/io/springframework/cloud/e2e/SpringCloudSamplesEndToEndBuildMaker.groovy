@@ -30,15 +30,15 @@ class SpringCloudSamplesEndToEndBuildMaker implements SpringCloudNotification, T
 		build(projectName, projectName, "scripts/runAcceptanceTests.sh", cronExpr)
 	}
 
-	void buildWithGradleAndMavenTests(String projectName, String cronExpr) {
-		build(projectName, projectName, "scripts/runAcceptanceTests.sh", cronExpr, '', true, true)
+	void buildWithGradleAndMavenTests(String projectName, String cronExpr, String branch = masterBranch()) {
+		build(projectName, projectName, "scripts/runAcceptanceTests.sh", cronExpr, branch, '', true, true)
 	}
 
-	protected void build(String projectName, String repoName, String scriptName, String cronExpr,
+	protected void build(String projectName, String repoName, String scriptName, String cronExpr, String branchName = "",
 						 String postBuildScripts = "", boolean mavenTests = false,
 						 boolean gradleTests = false) {
 		String organization = this.organization
-		dsl.job("${prefixJob(projectName)}-e2e") {
+		dsl.job("${prefixJob(projectName)}-${branchName}-e2e") {
 			triggers {
 				cron cronExpr
 			}
@@ -60,7 +60,7 @@ class SpringCloudSamplesEndToEndBuildMaker implements SpringCloudNotification, T
 				git {
 					remote {
 						url "https://github.com/${organization}/$repoName"
-						branch 'master'
+						branch branchName
 					}
 					extensions {
 						wipeOutWorkspace()
