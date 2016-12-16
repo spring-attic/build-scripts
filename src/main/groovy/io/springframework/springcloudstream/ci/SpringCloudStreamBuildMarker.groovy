@@ -28,6 +28,13 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.envVariables = envVariables
     }
 
+    SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, String branchToBuild) {
+        this.dsl = dsl
+        this.organization = organization
+        this.project = project
+        this.branchToBuild = branchToBuild
+    }
+
     SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, Map<String, Object> envVariables) {
         this.dsl = dsl
         this.organization = organization
