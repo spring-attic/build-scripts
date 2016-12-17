@@ -72,6 +72,7 @@ branchMaker.deploy('spring-cloud-release', 'Camden.x', false)
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
+new SpringCloudKubernetesDeployBuildMaker(dsl).deploy()
 new VaultSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILD FOR SPRING CLOUD CONTRACTS
 new SpringCloudContractDeployBuildMaker(dsl).with {
