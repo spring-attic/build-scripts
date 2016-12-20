@@ -69,11 +69,11 @@ class SpringCloudSamplesEndToEndBuildMaker implements SpringCloudNotification, T
 			}
 			steps {
 				shell("""
-						sh -e ${scriptName}
+						./${scriptName}
 					""")
 				if (postBuildScripts) {
 					shell("""
-						sh -e ${postBuildScripts}
+						./${postBuildScripts}
 					""")
 				}
 			}
