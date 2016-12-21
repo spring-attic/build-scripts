@@ -12,7 +12,7 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binde
         "clean deploy -U", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
         "docker-compose-RABBITMQ-stop.sh")
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-google-pubsub").deploy()
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters").deploy(false, true, "clean deploy -Pfull")
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters").deploy(false, true, "clean deploy -Pfull", null, null, null, true)
 
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream",
         "1.0.x", [KAFKA_TIMEOUT_MULTIPLIER: '60']).deploy(true, false, "clean deploy -Pfull")

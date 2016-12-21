@@ -6,6 +6,8 @@ import io.springframework.common.Maven
 import io.springframework.common.TestPublisher
 import io.springframework.springcloudstream.common.SpringCloudStreamJobs
 import javaposse.jobdsl.dsl.DslFactory
+
+import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Soby Chacko
  */
@@ -42,7 +44,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
     }
 
     void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U -Pfull",
-                String scriptDir = null, String startScript = null, String stopScript = null) {
+                String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             triggers {
                 githubPush()
@@ -74,6 +76,15 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                 if (scriptDir != null && stopScript != null) {
                     shell(scriptToExecute(scriptDir, stopScript))
                 }
+            }
+            configure {
+                if (docsBuild) {
+                    artifactoryMavenBuild(it as Node) {
+                        mavenVersion(maven33())
+                        goals('clean install -U -Pfull -Pspring')
+                    }
+                }
+
             }
             publishers {
                 mailer('scdf-ci@pivotal.io', true, true)
