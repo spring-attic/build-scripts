@@ -80,7 +80,7 @@ new SpringCloudContractDeployBuildMaker(dsl).with {
 	deploy("1.0.x")
 }
 // issue #159
-new SpringCloudSamplesEndToEndBuildMaker(dsl, "marcingrzejszczak").build("sc-contract-159", everyThreeHours())
+new SpringCloudSamplesEndToEndBuildMaker(dsl, "marcingrzejszczak").build("spring-cloud-contract-159", everyThreeHours())
 
 // E2E BUILDS
 new NetflixEndToEndBuildMaker(dsl).with {
