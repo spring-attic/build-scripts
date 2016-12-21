@@ -34,7 +34,7 @@ class SpringCloudSamplesEndToEndBuildMaker implements SpringCloudNotification, T
 		build(projectName, projectName, "scripts/runAcceptanceTests.sh", cronExpr, branch, '', true, true)
 	}
 
-	protected void build(String projectName, String repoName, String scriptName, String cronExpr, String branchName = "",
+	protected void build(String projectName, String repoName, String scriptName, String cronExpr, String branchName = masterBranch(),
 						 String postBuildScripts = "", boolean mavenTests = false,
 						 boolean gradleTests = false) {
 		String organization = this.organization
