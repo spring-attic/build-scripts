@@ -72,12 +72,15 @@ branchMaker.deploy('spring-cloud-release', 'Camden.x', false)
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
+new SpringCloudKubernetesDeployBuildMaker(dsl).deploy()
 new VaultSpringCloudDeployBuildMaker(dsl).deploy()
-// CI BUILD FOR SPRING CLOUD CONTRACTS
+// CI BUILDS FOR SPRING CLOUD CONTRACTS
 new SpringCloudContractDeployBuildMaker(dsl).with {
 	deploy(masterBranch())
 	deploy("1.0.x")
 }
+// issue #159
+new SpringCloudSamplesEndToEndBuildMaker(dsl, "marcingrzejszczak").build("spring-cloud-contract-159", everyThreeHours())
 
 // E2E BUILDS
 new NetflixEndToEndBuildMaker(dsl).with {
