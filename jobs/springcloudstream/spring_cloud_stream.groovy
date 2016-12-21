@@ -32,5 +32,5 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binde
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-google-pubsub").deploy()
 
 // Spring Cloud Stream Release Builds
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters").deploy(false, true, "clean deploy -Pfull", null, null, null, true)
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", "Brooklyn.x").deploy(false, true, "clean deploy -Pfull", null, null, null, true)
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters").deploy(false, true, "clean package", null, null, null, true)
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", "Brooklyn.x").deploy(false, true, "clean package", null, null, null, true)

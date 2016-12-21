@@ -7,6 +7,7 @@ import io.springframework.common.TestPublisher
 import io.springframework.springcloudstream.common.SpringCloudStreamJobs
 import javaposse.jobdsl.dsl.DslFactory
 
+import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
 import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Soby Chacko
@@ -90,6 +91,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                         mavenVersion(maven33())
                         goals('clean install -U -Pfull -Pspring')
                     }
+                    artifactoryMaven3Configurator(it as Node)
                 }
 
             }
