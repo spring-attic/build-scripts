@@ -90,7 +90,7 @@ class BenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
 		(perf / 'nthBuildNumber').setValue(0)
 		(perf / 'modeRelativeThresholds').setValue(false)
 		// Average Response Time (ART), Percentile Response Time (PRT)
-		(perf / 'configType').setValue('PRT')
+		(perf / 'configType').setValue('ART')
 		(perf / 'modeOfThreshold').setValue(false)
 		(perf / 'failBuildIfNoResultFile').setValue(true)
 		(perf / 'compareBuildPrevious').setValue(false)
