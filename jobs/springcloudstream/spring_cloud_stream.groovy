@@ -21,11 +21,11 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binde
 
 // Rabbit binder builds
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", [:]).deploy(true, false,
-        "clean deploy -U", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
+        "clean deploy -U -Pspring", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
         "docker-compose-RABBITMQ-stop.sh")
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit",
         "1.1.x", [:]).deploy(true, false,
-        "clean deploy -U", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
+        "clean deploy -U -Pspring", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
         "docker-compose-RABBITMQ-stop.sh")
 
 // Google PubSub binder builds
