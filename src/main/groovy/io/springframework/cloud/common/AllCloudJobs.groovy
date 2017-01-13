@@ -68,6 +68,11 @@ class AllCloudJobs {
 	public static final List<String> ALL_DEFAULT_JOBS = ALL_JOBS - CUSTOM_BUILD_JOBS
 
 	/**
+	 * List of jobs that don't need boot compatibility tests.
+	 */
+	public static final List<String> JOBS_WITHOUT_BOOT_COMPATIBILITY = ['spring-cloud-cli']
+
+	/**
 	 * List of all jobs that need to be executed when doing compatibility builds against
 	 * latest version of boot. This is a list of names of jobs. The proper implementations
 	 * like {@link io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker} or
@@ -75,5 +80,5 @@ class AllCloudJobs {
 	 * to execute the jobs having those predefined names (with a proper suffix). It's up to
 	 * the implementors to ensure that those jobs really exist.
 	 */
-	public static final List<String> BOOT_COMPATIBILITY_BUILD_JOBS = ALL_JOBS + ALL_SAMPLES_JOBS
+	public static final List<String> BOOT_COMPATIBILITY_BUILD_JOBS = ALL_JOBS + ALL_SAMPLES_JOBS - JOBS_WITHOUT_BOOT_COMPATIBILITY
 }
