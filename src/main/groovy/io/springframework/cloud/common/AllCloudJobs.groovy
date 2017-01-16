@@ -81,4 +81,12 @@ class AllCloudJobs {
 	 * the implementors to ensure that those jobs really exist.
 	 */
 	public static final List<String> BOOT_COMPATIBILITY_BUILD_JOBS = ALL_JOBS + ALL_SAMPLES_JOBS - JOBS_WITHOUT_BOOT_COMPATIBILITY
+
+	/**
+	 * List of all jobs that need to be executed when doing compatibility builds against
+	 * latest version of boot. This is a list of names of jobs. These jobs include only those
+	 * builds that are not custom in any way. The difference between this and the {@link AllCloudJobs#BOOT_COMPATIBILITY_BUILD_JOBS}
+	 * is that this one contains only default jobs whereas the other contains all jobs
+	 */
+	public static final List<String> DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS = ALL_DEFAULT_JOBS - JOBS_WITHOUT_BOOT_COMPATIBILITY
 }

@@ -20,9 +20,10 @@ DslFactory dsl = this
 
 println "Projects with tests $ALL_JOBS_WITH_TESTS"
 println "Projects without tests $JOBS_WITHOUT_TESTS"
+println "Projects to build for automatic compatibility check $DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS"
 
 // AUTOMATIC COMPATIBILITY BUILDS
-(ALL_DEFAULT_JOBS).each { String projectName->
+(DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS).each { String projectName->
 	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
 }
 JOBS_WITHOUT_TESTS.each {
