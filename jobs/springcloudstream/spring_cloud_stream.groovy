@@ -31,6 +31,9 @@ new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binde
 // Google PubSub binder builds
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-google-pubsub").deploy()
 
+// JMS Core binder builds
+new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-jms").deploy()
+
 // Spring Cloud Stream Release Builds
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters").deploy(false, true, "clean package -Pspring", null, null, null, true)
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", "Brooklyn.x").deploy(false, true, "clean package -Pspring", null, null, null, true)
