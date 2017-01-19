@@ -6,6 +6,7 @@ import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.cloud.compatibility.CompatibilityTasks.DEFAULT_BOOT_VERSION
 import static io.springframework.cloud.compatibility.CompatibilityTasks.SPRING_BOOT_VERSION_VAR
+
 /**
  * Creates the jobs for the Boot Compatibility verifier
  *

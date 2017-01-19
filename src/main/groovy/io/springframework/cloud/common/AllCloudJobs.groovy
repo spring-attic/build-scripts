@@ -58,7 +58,8 @@ class AllCloudJobs {
 																		'spring-cloud-netflix' : ['1.0.x', '1.1.x', '1.2.x'],
 																		'spring-cloud-cli' : ['1.0.x', '1.1.x'],
 																		'spring-cloud-commons' : ['1.0.x', '1.1.x'],
-																		'spring-cloud-config' : ['1.1.x']]
+																		'spring-cloud-config' : ['1.1.x'],
+																		'spring-cloud-zookeeper' : ['1.0.x']]
 
 	/**
 	 * List of default jobs. Default means that `./mvnw clean deploy` will be executed to publish artifacts
@@ -89,4 +90,12 @@ class AllCloudJobs {
 	 * is that this one contains only default jobs whereas the other contains all jobs
 	 */
 	public static final List<String> DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS = ALL_DEFAULT_JOBS - JOBS_WITHOUT_BOOT_COMPATIBILITY
+
+
+	/**
+	 * Jobs with branches to be checked against latest boot versions. Defaults to latest branch of {@link AllCloudJobs#JOBS_WITH_BRANCHES}
+	 */
+	public static final Map<String, List<String>> JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD = JOBS_WITH_BRANCHES.collectEntries {
+		String project, List<String> branches -> return [(project) : [branches.last()]]
+	} as Map<String, List<String>>
 }

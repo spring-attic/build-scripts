@@ -11,7 +11,7 @@ import javaposse.jobdsl.dsl.helpers.step.StepContext
 @CompileStatic
 abstract class CompatibilityTasks {
 
-	protected static final String DEFAULT_BOOT_VERSION = '1.4.3.BUILD-SNAPSHOT'
+	protected static final String DEFAULT_BOOT_VERSION = '1.5.0.BUILD-SNAPSHOT'
 	protected static final String SPRING_BOOT_VERSION_VAR = 'SPRING_BOOT_VERSION'
 
 	Closure defaultSteps() {

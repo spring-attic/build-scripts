@@ -11,7 +11,6 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudNotification, TestPublisher,
 		JdkConfig, SpringCloudJobs {
-	public static final String DEFAULT_BOOT_VERSION = '1.4.3.BUILD-SNAPSHOT'
 	public static final String COMPATIBILITY_BUILD_DEFAULT_SUFFIX = 'compatibility-check'
 
 	private final DslFactory dsl
@@ -37,10 +36,14 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudN
 	}
 
 	void build(String projectName, String cronExpr = '') {
-		buildWithTests(projectName, cronExpr, true)
+		buildWithTests(projectName, projectName, masterBranch(), cronExpr, true)
 	}
 
-	private void buildWithTests(String projectName, String cronExpr, boolean checkTests) {
+	void build(String projectName, String repoName, String branch, String cronExpr) {
+		buildWithTests(projectName, repoName, branch, cronExpr, true)
+	}
+
+	private void buildWithTests(String projectName, String repoName, String branchName, String cronExpr, boolean checkTests) {
 		String prefixedProjectName = prefixJob(projectName)
 		dsl.job("${prefixedProjectName}-${suffix}") {
 			concurrentBuild()
@@ -56,8 +59,8 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudN
 			scm {
 				git {
 					remote {
-						url "https://github.com/${organization}/$projectName"
-						branch 'master'
+						url "https://github.com/${organization}/$repoName"
+						branch branchName
 					}
 
 				}
@@ -77,7 +80,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudN
 	}
 
 	void buildWithoutTests(String projectName, String cronExpr = '') {
-		buildWithTests(projectName, cronExpr, false)
+		buildWithTests(projectName, projectName, masterBranch(), cronExpr, false)
 	}
 
 }
