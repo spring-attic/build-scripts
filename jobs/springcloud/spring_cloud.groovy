@@ -29,7 +29,7 @@ println "Projects with branches to build for automatic compatibility check $JOBS
 }
 (JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD).each { String projectName, List<String> branches ->
 	branches.each { String branch ->
-		new CompatibilityBuildMaker(dsl).build("${projectName}-${branch}", projectName, branch, everyThreeHours())
+		new CompatibilityBuildMaker(dsl).build("${projectName}-${branch}", projectName, branch, every12Hours())
 	}
 }
 JOBS_WITHOUT_TESTS.each {
@@ -158,4 +158,8 @@ new SpringCloudPipelinesGradleBuildMaker(dsl).build('github-analytics')
 
 String everyThreeHours() {
 	return "H H/3 * * *"
+}
+
+String every12Hours() {
+	return "H H/12 * * *"
 }
