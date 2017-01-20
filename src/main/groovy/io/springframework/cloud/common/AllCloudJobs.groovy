@@ -59,7 +59,8 @@ class AllCloudJobs {
 																		'spring-cloud-cli' : ['1.0.x', '1.1.x'],
 																		'spring-cloud-commons' : ['1.0.x', '1.1.x'],
 																		'spring-cloud-config' : ['1.1.x'],
-																		'spring-cloud-zookeeper' : ['1.0.x']]
+																		'spring-cloud-zookeeper' : ['1.0.x'],
+									                                                                        'spring-cloud-bus' : ['1.2.x']]
 
 	/**
 	 * List of default jobs. Default means that `./mvnw clean deploy` will be executed to publish artifacts
