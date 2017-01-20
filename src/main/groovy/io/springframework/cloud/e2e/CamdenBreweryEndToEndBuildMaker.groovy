@@ -31,7 +31,7 @@ class CamdenBreweryEndToEndBuildMaker extends EndToEndBuildMaker {
 	}
 
 	private void buildForBoot(String prefix, String bootVersion) {
-		buildWithSwitches(prefix, "${defaultSwitches()} -PBOOT_VERSION=${bootVersion}")
+		buildWithSwitches(prefix, "${defaultSwitches()} -b ${bootVersion}")
 	}
 
 	private String defaultSwitches() {
