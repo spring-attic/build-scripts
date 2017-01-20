@@ -133,6 +133,10 @@ new JoshEndToEndBuildMaker(dsl).with {
 			everyThreeHours(),
 			'scripts/kill_all.sh')
 }
+new SpringCloudSamplesTestsBuildMaker(dsl).with {
+	buildForCamden()
+	buildForDalston()
+}
 /*
 new EndToEndBuildMaker(dsl, 'hecklerm').with {
 	buildWithoutTests('mark-hecklers-services',
