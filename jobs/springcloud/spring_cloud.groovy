@@ -105,6 +105,7 @@ new SleuthEndToEndBuildMaker(dsl).with {
 // All jobs for e2e with Brewery
 new BrixtonBreweryEndToEndBuildMaker(dsl).build()
 new CamdenBreweryEndToEndBuildMaker(dsl).build()
+new CamdenBreweryEndToEndBuildMaker(dsl).buildForLatestBoot()
 new SpringCloudSamplesEndToEndBuildMaker(dsl).with {
 	buildWithGradleAndMavenTests("spring-cloud-contract-samples", everySixHours())
 }

@@ -42,7 +42,13 @@ If you have some custom builds just add the entry to `ALL_JOBS` and `CUSTOM_BUIL
 
 The views are automatically generated for you. They base on the name convention so check out
 `springcloud/spring_cloud_views.groovy` - it's pretty straightforward.
- 
+
+== I want to add a new compatibility job for a latest branch
+
+There's nothing that you have to do. If you've added the newest branch under `JOBS_WITH_BRANCHES`
+the project automatically takes the latest branch version and reuses it as point of entry for
+`JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD`.
+
 = Running Jenkins
 
 Just run 
