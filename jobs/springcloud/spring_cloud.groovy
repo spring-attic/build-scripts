@@ -73,7 +73,8 @@ JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 	}
 }
 // Brixton and Camden branches for Spring Cloud Release
-branchMaker.deploy('spring-cloud-release', 'Brixton', false)
+// TODO: Remove once Dalston is done
+//branchMaker.deploy('spring-cloud-release', 'Brixton', false)
 branchMaker.deploy('spring-cloud-release', 'Camden.x', false)
 
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
@@ -103,7 +104,8 @@ new SleuthEndToEndBuildMaker(dsl).with {
 	buildSleuthStreamKafka(everySixHours())
 }
 // All jobs for e2e with Brewery
-new BrixtonBreweryEndToEndBuildMaker(dsl).build()
+// TODO: Remove once Dalston is done
+//new BrixtonBreweryEndToEndBuildMaker(dsl).build()
 new CamdenBreweryEndToEndBuildMaker(dsl).build()
 new CamdenBreweryEndToEndBuildMaker(dsl).buildForLatestBoot()
 new SpringCloudSamplesEndToEndBuildMaker(dsl).with {
@@ -124,10 +126,11 @@ new CloudFoundryBreweryTestExecutor(dsl).buildBreweryForDocsTests()
 // CUSTOM E2E
 // Josh's CI APP
 new JoshEndToEndBuildMaker(dsl).with {
-	build('bootiful-microservices-brixton',
-			'scripts/scenario_brixton_tester.sh',
-			everyThreeHours(),
-			'scripts/kill_all.sh')
+	// TODO: Remove once Dalston is done
+//	build('bootiful-microservices-brixton',
+//			'scripts/scenario_brixton_tester.sh',
+//			everyThreeHours(),
+//			'scripts/kill_all.sh')
 	build('bootiful-microservices-camden',
 			'scripts/scenario_camden_tester.sh',
 			everyThreeHours(),
