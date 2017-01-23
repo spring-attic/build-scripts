@@ -64,7 +64,7 @@ class SpringCloudSamplesTestsBuildMaker implements SpringCloudNotification, Test
 			}
 			steps {
 				shell("""
-						./mvnw --fail-at-end clean package -Dspring-cloud.version=${cloudTrainVersion}
+						./mvnw --fail-at-end clean package -Dspring-cloud.version=${cloudTrainVersion} -U
 					""")
 			}
 			configure {
