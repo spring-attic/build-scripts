@@ -60,7 +60,7 @@ class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, Tes
 				}
 				artifactoryMavenBuild(it as Node) {
 					mavenVersion(maven33())
-					goals('clean install')
+					goals('clean install -Pdocs')
 				}
 				artifactoryMaven3Configurator(it as Node)
 			}
