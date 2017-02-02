@@ -53,6 +53,12 @@ class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, Tes
 					}
 				}
 			}
+			steps {
+				shell("""
+						echo "Removing the stored stubs"
+						rm -rf ~/.m2/repository/io/spring/initializr/initializr-web/
+				""")
+			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
 					room(springRoom())
