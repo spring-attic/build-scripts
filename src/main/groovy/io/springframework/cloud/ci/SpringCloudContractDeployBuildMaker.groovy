@@ -38,14 +38,16 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 	}
 
 	void branch() {
-		doDeploy("${prefixJob(projectName)}-branch-ci", this.projectName, masterBranch())
+		doDeploy("${prefixJob(projectName)}-branch-ci", this.projectName, masterBranch(), false)
 	}
 
-	private void doDeploy(String projectName, String repoName, String branchName) {
+	private void doDeploy(String projectName, String repoName, String branchName, boolean trigger = true) {
 		dsl.job(projectName) {
-			triggers {
-				cron everyThreeHours()
-				githubPush()
+			if (trigger) {
+				triggers {
+					cron everyThreeHours()
+					githubPush()
+				}
 			}
 			parameters {
 				stringParam(branchVarName(), branchName, 'Which branch should be built')
