@@ -29,9 +29,20 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 		this.projectName = projectName
 	}
 
-	void deploy(String branchName = masterBranch()) {
-		String projectLabel = projectName
-		dsl.job("${prefixJob(projectLabel)}-${branchName}-ci") {
+	void deploy() {
+		doDeploy("${prefixJob(projectName)}-${masterBranch()}-ci", this.projectName, masterBranch())
+	}
+
+	void deploy(String branchName) {
+		doDeploy("${prefixJob(projectName)}-${branchName}-ci", this.projectName, branchName)
+	}
+
+	void branch() {
+		doDeploy("${prefixJob(projectName)}-branch-ci", this.projectName, masterBranch())
+	}
+
+	private void doDeploy(String projectName, String repoName, String branchName) {
+		dsl.job(projectName) {
 			triggers {
 				cron everyThreeHours()
 				githubPush()
@@ -43,7 +54,7 @@ class SpringCloudContractDeployBuildMaker implements SpringCloudNotification, Jd
 			scm {
 				git {
 					remote {
-						url "https://github.com/${organization}/${projectName}"
+						url "https://github.com/${organization}/${repoName}"
 						branch branchVar()
 					}
 				}

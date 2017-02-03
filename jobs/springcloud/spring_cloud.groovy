@@ -86,6 +86,7 @@ new VaultSpringCloudDeployBuildMaker(dsl).deploy()
 new SpringCloudContractDeployBuildMaker(dsl).with {
 	deploy(masterBranch())
 	deploy("1.0.x")
+	branch()
 }
 // issue #159
 new SpringCloudSamplesEndToEndBuildMaker(dsl, "marcingrzejszczak").build("spring-cloud-contract-159", everyThreeHours())
