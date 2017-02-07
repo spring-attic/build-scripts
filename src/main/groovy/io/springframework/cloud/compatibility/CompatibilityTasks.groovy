@@ -28,7 +28,7 @@ abstract class CompatibilityTasks {
 	protected String runTests() {
 		return """
 					echo -e "Checking if prod code compiles against latest boot"
-					./mvnw clean install -U -fae -DskipTests -Dspring-boot.version=\$${SPRING_BOOT_VERSION_VAR}"""
+					./mvnw clean compile -U -fae -Dspring-boot.version=\$${SPRING_BOOT_VERSION_VAR}"""
 	}
 
 	private Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {
