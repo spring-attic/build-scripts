@@ -22,8 +22,8 @@ class AllCloudJobs {
 	 */
 	public static final List<String> ALL_JOBS = ['spring-cloud-sleuth', 'spring-cloud-netflix', 'spring-cloud-zookeeper', 'spring-cloud-consul',
 												 'spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-security', 'spring-cloud-config',
-												 'spring-cloud-cloudfoundry', 'spring-cloud-aws', 'spring-cloud-build', 'spring-cloud-cluster',
-												 'spring-cloud-release', 'spring-cloud-cli', 'spring-cloud-contract']
+												 'spring-cloud-cloudfoundry', 'spring-cloud-aws', 'spring-cloud-build', 'spring-cloud-release',
+												 'spring-cloud-cli', 'spring-cloud-contract']
 	/**
 	 * Some projects need to have the test report generation skipped (since they have no tests).
 	 */
@@ -48,7 +48,7 @@ class AllCloudJobs {
 	 * we will have custom implementations. Check out {@link io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker}
 	 * for more info.
 	 */
-	public static final List<String> CUSTOM_BUILD_JOBS = ['spring-cloud-consul', 'spring-cloud-build', 'spring-cloud-cluster', 'spring-cloud-contract']
+	public static final List<String> CUSTOM_BUILD_JOBS = ['spring-cloud-consul', 'spring-cloud-build', 'spring-cloud-contract']
 
 	/**
 	 * {@link AllCloudJobs#ALL_DEFAULT_JOBS} creates jobs for master branch. Sometimes you need other branches.

@@ -2,13 +2,11 @@ package springcloud
 
 import io.springframework.cloud.ci.*
 import io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker
-import io.springframework.cloud.compatibility.ClusterCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.CompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.e2e.*
 import io.springframework.cloud.f2f.SpringCloudPipelinesGradleBuildMaker
 import io.springframework.cloud.f2f.SpringCloudPipelinesMavenBuildMaker
-import io.springframework.cloud.sonar.ClusterSonarBuildMaker
 import io.springframework.cloud.sonar.ConsulSonarBuildMaker
 import io.springframework.cloud.sonar.SonarBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
@@ -38,7 +36,6 @@ JOBS_WITHOUT_TESTS.each {
 new CompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_DEFAULT_SUFFIX, 'spring-cloud-samples')
 		.build('tests', everyThreeHours())
 new ConsulCompatibilityBuildMaker(dsl).build(everyThreeHours())
-new ClusterCompatibilityBuildMaker(dsl).build(everyThreeHours())
 new CompatibilityBuildMaker(dsl).build("spring-cloud-contract", everyThreeHours())
 
 // MANUAL COMPATIBILITY BUILD
@@ -78,7 +75,6 @@ JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 branchMaker.deploy('spring-cloud-release', 'Camden.x', false)
 
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
-new ClusterSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
 new SpringCloudKubernetesDeployBuildMaker(dsl).deploy()
 new VaultSpringCloudDeployBuildMaker(dsl).deploy()
@@ -157,7 +153,6 @@ new EndToEndBuildMaker(dsl, 'hecklerm').with {
 }
 // TODO: Fix Consul Sonar Build
 new ConsulSonarBuildMaker(dsl).buildSonar()
-new ClusterSonarBuildMaker(dsl).buildSonar()
 
 // F2F
 new SpringCloudPipelinesMavenBuildMaker(dsl).build('github-webhook')
