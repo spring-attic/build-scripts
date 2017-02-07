@@ -42,12 +42,12 @@ class ManualBootCompatibilityBuildMaker implements SpringCloudJobs {
 
 	void buildAllRelatedJobs() {
 		AllCloudJobs.ALL_DEFAULT_JOBS.each { String projectName->
-			new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build(projectName)
+			new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests(projectName)
 		}
 		AllCloudJobs.JOBS_WITHOUT_TESTS.each {
 			new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests(it)
 		}
-		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build("spring-cloud-contract")
+		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests("spring-cloud-contract")
 		new ConsulCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).build()
 		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX, 'spring-cloud-samples').build('tests')
 	}

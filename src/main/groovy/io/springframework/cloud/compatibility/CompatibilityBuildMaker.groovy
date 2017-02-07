@@ -43,6 +43,10 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudN
 		buildWithTests(projectName, repoName, branch, cronExpr, true)
 	}
 
+	void buildWithoutTests(String projectName, String repoName, String branch, String cronExpr) {
+		buildWithTests(projectName, repoName, branch, cronExpr, false)
+	}
+
 	private void buildWithTests(String projectName, String repoName, String branchName, String cronExpr, boolean checkTests) {
 		String prefixedProjectName = prefixJob(projectName)
 		dsl.job("${prefixedProjectName}-${suffix}") {

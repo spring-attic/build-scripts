@@ -23,11 +23,11 @@ println "Projects with branches to build for automatic compatibility check $JOBS
 
 // AUTOMATIC COMPATIBILITY BUILDS
 (DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS).each { String projectName->
-	new CompatibilityBuildMaker(dsl).build(projectName, everyThreeHours())
+	new CompatibilityBuildMaker(dsl).buildWithoutTests(projectName, everyThreeHours())
 }
 (JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD).each { String projectName, List<String> branches ->
 	branches.each { String branch ->
-		new CompatibilityBuildMaker(dsl).build("${projectName}-${branch}", projectName, branch, every12Hours())
+		new CompatibilityBuildMaker(dsl).buildWithoutTests("${projectName}-${branch}", projectName, branch, every12Hours())
 	}
 }
 JOBS_WITHOUT_TESTS.each {
@@ -36,7 +36,7 @@ JOBS_WITHOUT_TESTS.each {
 new CompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_DEFAULT_SUFFIX, 'spring-cloud-samples')
 		.build('tests', everyThreeHours())
 new ConsulCompatibilityBuildMaker(dsl).build(everyThreeHours())
-new CompatibilityBuildMaker(dsl).build("spring-cloud-contract", everyThreeHours())
+new CompatibilityBuildMaker(dsl).buildWithoutTests("spring-cloud-contract", everyThreeHours())
 
 // MANUAL COMPATIBILITY BUILD
 new ManualBootCompatibilityBuildMaker(dsl).build()
