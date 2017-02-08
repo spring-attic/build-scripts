@@ -34,8 +34,8 @@ JOBS_WITHOUT_TESTS.each {
 	new CompatibilityBuildMaker(dsl).buildWithoutTests(it, everyThreeHours())
 }
 new CompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_DEFAULT_SUFFIX, 'spring-cloud-samples')
-		.build('tests', everyThreeHours())
-new ConsulCompatibilityBuildMaker(dsl).build(everyThreeHours())
+		.buildWithoutTests('tests', everyThreeHours())
+new ConsulCompatibilityBuildMaker(dsl).buildWithoutTests(everyThreeHours())
 new CompatibilityBuildMaker(dsl).buildWithoutTests("spring-cloud-contract", everyThreeHours())
 
 // MANUAL COMPATIBILITY BUILD

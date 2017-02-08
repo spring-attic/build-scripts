@@ -21,6 +21,14 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements TestPu
 	}
 
 	void build(String cronExpr = '') {
+		doBuild(cronExpr)
+	}
+
+	void buildWithoutTests(String cronExpr = '') {
+		doBuild(cronExpr, false)
+	}
+
+	private void doBuild(String cronExpr = '', boolean tests = true) {
 		String projectName = 'spring-cloud-consul'
 		dsl.job("${projectName}-${suffix}") {
 			concurrentBuild()
@@ -42,14 +50,16 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements TestPu
 				steps defaultSteps()
 				shell postConsulShell()
 			}
-			publishers {
-				archiveJunit mavenJUnitResults()
+			if (tests) {
+				publishers {
+					archiveJunit mavenJUnitResults()
+				}
 			}
 		}
 	}
 
 	@Override
-	protected String runTests() {
-		return "${preConsulShell()} \n ${super.runTests()} || ${postConsulShell()}"
+	protected String compileProduction() {
+		return "${preConsulShell()} \n ${super.compileProduction()} || ${postConsulShell()}"
 	}
 }

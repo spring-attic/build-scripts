@@ -17,18 +17,35 @@ abstract class CompatibilityTasks {
 
 	Closure defaultSteps() {
 		return buildStep {
-			shell runTests()
-			shell("""
+			shell compileProduction()
+			shell(printDeps())
+		}
+	}
+
+	protected String printDeps() {
+		return """
 					echo -e "Printing the list of dependencies"
 					./mvnw dependency:tree -U -Dspring-boot.version=\$${SPRING_BOOT_VERSION_VAR}
-					""")
+			"""
+	}
+
+	Closure defaultStepsWithTests() {
+		return buildStep {
+			shell runTests()
+			shell(printDeps())
 		}
+	}
+
+	protected String compileProduction() {
+		return """
+					echo -e "Checking if prod code compiles against latest boot"
+					./mvnw clean compile -U -fae -Dspring-boot.version=\$${SPRING_BOOT_VERSION_VAR}"""
 	}
 
 	protected String runTests() {
 		return """
 					echo -e "Checking if prod code compiles against latest boot"
-					./mvnw clean compile -U -fae -Dspring-boot.version=\$${SPRING_BOOT_VERSION_VAR}"""
+					./mvnw clean install -U -fae -Dspring-boot.version=\$${SPRING_BOOT_VERSION_VAR}"""
 	}
 
 	private Closure buildStep(@DelegatesTo(StepContext) Closure buildSteps) {

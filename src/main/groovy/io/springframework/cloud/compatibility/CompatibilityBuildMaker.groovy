@@ -66,10 +66,9 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudN
 						url "https://github.com/${organization}/$repoName"
 						branch branchName
 					}
-
 				}
 			}
-			steps defaultSteps()
+			steps checkTests ? defaultStepsWithTests() : defaultSteps()
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
 					room(cloudRoom())
