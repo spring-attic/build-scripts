@@ -3,19 +3,18 @@ package io.springframework.cloud.compatibility
 import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.JdkConfig
-import io.springframework.common.SlackPlugin
 import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudNotification, TestPublisher,
+abstract class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudNotification, TestPublisher,
 		JdkConfig, SpringCloudJobs {
 	public static final String COMPATIBILITY_BUILD_DEFAULT_SUFFIX = 'compatibility-check'
 
-	private final DslFactory dsl
-	private final String organization
-	private final String suffix
+	protected final DslFactory dsl
+	protected final String organization
+	protected final String suffix
 
 	CompatibilityBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
@@ -47,40 +46,7 @@ class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudN
 		buildWithTests(projectName, repoName, branch, cronExpr, false)
 	}
 
-	private void buildWithTests(String projectName, String repoName, String branchName, String cronExpr, boolean checkTests) {
-		String prefixedProjectName = prefixJob(projectName)
-		dsl.job("${prefixedProjectName}-${suffix}") {
-			concurrentBuild()
-			parameters {
-				stringParam(SPRING_BOOT_VERSION_VAR, DEFAULT_BOOT_VERSION, 'Which version of Spring Boot should be used for the build')
-			}
-			triggers {
-				if (cronExpr) {
-					cron cronExpr
-				}
-			}
-			jdk jdk8()
-			scm {
-				git {
-					remote {
-						url "https://github.com/${organization}/$repoName"
-						branch branchName
-					}
-				}
-			}
-			steps checkTests ? defaultStepsWithTests() : defaultSteps()
-			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
-			}
-			if (checkTests) {
-				publishers {
-					archiveJunit mavenJUnitResults()
-				}
-			}
-		}
-	}
+	abstract protected void buildWithTests(String projectName, String repoName, String branchName, String cronExpr, boolean checkTests)
 
 	void buildWithoutTests(String projectName, String cronExpr = '') {
 		buildWithTests(projectName, projectName, masterBranch(), cronExpr, false)

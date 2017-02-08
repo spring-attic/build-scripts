@@ -1,18 +1,43 @@
 package springcloud
 
-import io.springframework.cloud.ci.*
-import io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker
-import io.springframework.cloud.compatibility.CompatibilityBuildMaker
+import io.springframework.cloud.ci.BenchmarksBuildMaker
+import io.springframework.cloud.ci.ConsulSpringCloudDeployBuildMaker
+import io.springframework.cloud.ci.DocsAppBuildMaker
+import io.springframework.cloud.ci.SpringCloudBranchBuildMaker
+import io.springframework.cloud.ci.SpringCloudContractDeployBuildMaker
+import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
+import io.springframework.cloud.ci.SpringCloudKubernetesDeployBuildMaker
+import io.springframework.cloud.ci.SpringCloudPipelinesDeployBuildMaker
+import io.springframework.cloud.ci.VaultSpringCloudDeployBuildMaker
+import io.springframework.cloud.compatibility.BootCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
-import io.springframework.cloud.e2e.*
+import io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker
+import io.springframework.cloud.compatibility.ManualSpringCompatibilityBuildMaker
+import io.springframework.cloud.compatibility.SpringCompatibilityBuildMaker
+import io.springframework.cloud.e2e.CamdenBreweryEndToEndBuildMaker
+import io.springframework.cloud.e2e.CloudFoundryBreweryTestExecutor
+import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
+import io.springframework.cloud.e2e.EndToEndBuildMaker
+import io.springframework.cloud.e2e.JoshEndToEndBuildMaker
+import io.springframework.cloud.e2e.NetflixEndToEndBuildMaker
+import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
+import io.springframework.cloud.e2e.SpringCloudSamplesEndToEndBuildMaker
+import io.springframework.cloud.e2e.SpringCloudSamplesTestsBuildMaker
 import io.springframework.cloud.f2f.SpringCloudPipelinesGradleBuildMaker
 import io.springframework.cloud.f2f.SpringCloudPipelinesMavenBuildMaker
 import io.springframework.cloud.sonar.ConsulSonarBuildMaker
 import io.springframework.cloud.sonar.SonarBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
-import static io.springframework.cloud.common.AllCloudJobs.*
-import static io.springframework.cloud.compatibility.CompatibilityBuildMaker.COMPATIBILITY_BUILD_DEFAULT_SUFFIX
+import static BootCompatibilityBuildMaker.COMPATIBILITY_BUILD_DEFAULT_SUFFIX
+import static io.springframework.cloud.common.AllCloudJobs.ALL_DEFAULT_JOBS
+import static io.springframework.cloud.common.AllCloudJobs.ALL_JOBS_WITH_TESTS
+import static io.springframework.cloud.common.AllCloudJobs.DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS
+import static io.springframework.cloud.common.AllCloudJobs.DEFAULT_SPRING_COMPATIBILITY_BUILD_JOBS
+import static io.springframework.cloud.common.AllCloudJobs.JOBS_WITHOUT_TESTS
+import static io.springframework.cloud.common.AllCloudJobs.JOBS_WITH_BRANCHES
+import static io.springframework.cloud.common.AllCloudJobs.JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD
+import static io.springframework.cloud.compatibility.SpringCompatibilityBuildMaker.COMPATIBILITY_BUILD_SPRING_SUFFIX
 
 DslFactory dsl = this
 
@@ -22,24 +47,38 @@ println "Projects to build for automatic compatibility check $DEFAULT_BOOT_COMPA
 println "Projects with branches to build for automatic compatibility check $JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD"
 
 // AUTOMATIC COMPATIBILITY BUILDS
+// BOOT
 (DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS).each { String projectName->
-	new CompatibilityBuildMaker(dsl).buildWithoutTests(projectName, everyThreeHours())
+	new BootCompatibilityBuildMaker(dsl).buildWithoutTests(projectName, everyThreeHours())
 }
 (JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD).each { String projectName, List<String> branches ->
 	branches.each { String branch ->
-		new CompatibilityBuildMaker(dsl).buildWithoutTests("${projectName}-${branch}", projectName, branch, every12Hours())
+		new BootCompatibilityBuildMaker(dsl).buildWithoutTests("${projectName}-${branch}", projectName, branch, every12Hours())
 	}
 }
 JOBS_WITHOUT_TESTS.each {
-	new CompatibilityBuildMaker(dsl).buildWithoutTests(it, everyThreeHours())
+	new BootCompatibilityBuildMaker(dsl).buildWithoutTests(it, everyThreeHours())
 }
-new CompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_DEFAULT_SUFFIX, 'spring-cloud-samples')
+new BootCompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_DEFAULT_SUFFIX, 'spring-cloud-samples')
 		.buildWithoutTests('tests', everyThreeHours())
-new ConsulCompatibilityBuildMaker(dsl).buildWithoutTests(everyThreeHours())
-new CompatibilityBuildMaker(dsl).buildWithoutTests("spring-cloud-contract", everyThreeHours())
+new ConsulCompatibilityBuildMaker(dsl).buildWithoutTestsForBoot(everyThreeHours())
+new BootCompatibilityBuildMaker(dsl).buildWithoutTests("spring-cloud-contract", everyThreeHours())
+
+// SPRING
+(DEFAULT_SPRING_COMPATIBILITY_BUILD_JOBS).each { String projectName->
+	new SpringCompatibilityBuildMaker(dsl).buildWithoutTests(projectName, everyDay())
+}
+JOBS_WITHOUT_TESTS.each {
+	new SpringCompatibilityBuildMaker(dsl).buildWithoutTests(it, everyThreeHours())
+}
+new SpringCompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_SPRING_SUFFIX, 'spring-cloud-samples')
+		.buildWithoutTests('tests', everyDay())
+new ConsulCompatibilityBuildMaker(dsl).buildWithoutTestsForSpring(everyDay())
+new SpringCompatibilityBuildMaker(dsl).buildWithoutTests("spring-cloud-contract", everyDay())
 
 // MANUAL COMPATIBILITY BUILD
 new ManualBootCompatibilityBuildMaker(dsl).build()
+new ManualSpringCompatibilityBuildMaker(dsl).build()
 
 // BENCHMARK BUILDS
 new BenchmarksBuildMaker(dsl).buildSleuth()
@@ -166,4 +205,8 @@ String everyThreeHours() {
 
 String every12Hours() {
 	return "H H/12 * * *"
+}
+
+String everyDay() {
+	return "H H * * *"
 }

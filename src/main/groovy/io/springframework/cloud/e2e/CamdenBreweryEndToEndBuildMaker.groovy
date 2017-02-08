@@ -18,7 +18,7 @@ class CamdenBreweryEndToEndBuildMaker extends EndToEndBuildMaker {
 	}
 
 	void buildForLatestBoot() {
-		buildForBoot("camden-latest-boot", AllCloudConstants.DEFAULT_BOOT_VERSION)
+		buildForBoot("camden-latest-boot", AllCloudConstants.LATEST_BOOT_VERSION)
 	}
 
 	private void buildWithSwitches(String prefix, String defaultSwitches) {

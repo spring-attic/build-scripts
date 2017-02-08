@@ -78,11 +78,21 @@ class AllCloudJobs {
 	 * List of all jobs that need to be executed when doing compatibility builds against
 	 * latest version of boot. This is a list of names of jobs. The proper implementations
 	 * like {@link io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker} or
-	 * {@link io.springframework.cloud.compatibility.CompatibilityBuildMaker} will try
+	 * {@link io.springframework.cloud.compatibility.BootCompatibilityBuildMaker} will try
 	 * to execute the jobs having those predefined names (with a proper suffix). It's up to
 	 * the implementors to ensure that those jobs really exist.
 	 */
 	public static final List<String> BOOT_COMPATIBILITY_BUILD_JOBS = ALL_JOBS + ALL_SAMPLES_JOBS - JOBS_WITHOUT_BOOT_COMPATIBILITY
+
+	/**
+	 * List of all jobs that need to be executed when doing compatibility builds against
+	 * latest version of spring. This is a list of names of jobs. The proper implementations
+	 * like {@link io.springframework.cloud.compatibility.ManualSpringCompatibilityBuildMaker} or
+	 * {@link io.springframework.cloud.compatibility.SpringCompatibilityBuildMaker} will try
+	 * to execute the jobs having those predefined names (with a proper suffix). It's up to
+	 * the implementors to ensure that those jobs really exist.
+	 */
+	public static final List<String> SPRING_COMPATIBILITY_BUILD_JOBS = ALL_JOBS + ALL_SAMPLES_JOBS - JOBS_WITHOUT_BOOT_COMPATIBILITY
 
 	/**
 	 * List of all jobs that need to be executed when doing compatibility builds against
@@ -91,6 +101,14 @@ class AllCloudJobs {
 	 * is that this one contains only default jobs whereas the other contains all jobs
 	 */
 	public static final List<String> DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS = ALL_DEFAULT_JOBS - JOBS_WITHOUT_BOOT_COMPATIBILITY
+
+	/**
+	 * List of all jobs that need to be executed when doing compatibility builds against
+	 * latest version of spring. This is a list of names of jobs. These jobs include only those
+	 * builds that are not custom in any way. The difference between this and the {@link AllCloudJobs#SPRING_COMPATIBILITY_BUILD_JOBS}
+	 * is that this one contains only default jobs whereas the other contains all jobs
+	 */
+	public static final List<String> DEFAULT_SPRING_COMPATIBILITY_BUILD_JOBS = ALL_DEFAULT_JOBS - JOBS_WITHOUT_BOOT_COMPATIBILITY
 
 
 	/**

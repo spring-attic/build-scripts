@@ -28,6 +28,18 @@ dsl.nestedView('Spring Cloud') {
 			}
 			columns defaultColumns()
 		}
+		listView('Spring.NEXT') {
+			jobs {
+				regex('spring-cloud.*-compatibility-spring-check')
+			}
+			columns defaultColumns()
+		}
+		listView('Spring.MANUAL') {
+			jobs {
+				name('spring-cloud-compatibility-spring-check')
+			}
+			columns defaultColumns()
+		}
 		listView('CI') {
 			jobs {
 				regex('spring-cloud.*-ci')

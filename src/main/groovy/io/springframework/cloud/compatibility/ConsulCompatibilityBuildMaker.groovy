@@ -3,6 +3,9 @@ package io.springframework.cloud.compatibility
 import io.springframework.cloud.common.HashicorpTrait
 import io.springframework.common.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
+
+import static io.springframework.cloud.common.AllCloudConstants.LATEST_SPRING_VERSION
+
 /**
  * @author Marcin Grzejszczak
  */
@@ -20,15 +23,23 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements TestPu
 		this.suffix = suffix
 	}
 
-	void build(String cronExpr = '') {
-		doBuild(cronExpr)
+	void buildForBoot(String cronExpr = '') {
+		doBuildForBoot(cronExpr)
 	}
 
-	void buildWithoutTests(String cronExpr = '') {
-		doBuild(cronExpr, false)
+	void buildWithoutTestsForBoot(String cronExpr = '') {
+		doBuildForBoot(cronExpr, false)
 	}
 
-	private void doBuild(String cronExpr = '', boolean tests = true) {
+	void buildForSpring(String cronExpr = '') {
+		doBuildForSpring(cronExpr)
+	}
+
+	void buildWithoutTestsForSpring(String cronExpr = '') {
+		doBuildForSpring(cronExpr, false)
+	}
+
+	private void doBuildForBoot(String cronExpr = '', boolean tests = true) {
 		String projectName = 'spring-cloud-consul'
 		dsl.job("${projectName}-${suffix}") {
 			concurrentBuild()
@@ -47,7 +58,37 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements TestPu
 				}
 			}
 			steps {
-				steps defaultSteps()
+				steps defaultStepsForBoot()
+				shell postConsulShell()
+			}
+			if (tests) {
+				publishers {
+					archiveJunit mavenJUnitResults()
+				}
+			}
+		}
+	}
+
+	private void doBuildForSpring(String cronExpr = '', boolean tests = true) {
+		String projectName = 'spring-cloud-consul'
+		dsl.job("${projectName}-spring-${suffix}") {
+			concurrentBuild()
+			parameters {
+				stringParam(SPRING_VERSION_VAR, LATEST_SPRING_VERSION, 'Which version of Spring should be used for the build')
+			}
+			triggers {
+				cron cronExpr
+			}
+			scm {
+				git {
+					remote {
+						url "https://github.com/spring-cloud/$projectName"
+						branch 'master'
+					}
+				}
+			}
+			steps {
+				steps defaultStepsForSpring()
 				shell postConsulShell()
 			}
 			if (tests) {
@@ -59,7 +100,12 @@ class ConsulCompatibilityBuildMaker extends CompatibilityTasks implements TestPu
 	}
 
 	@Override
-	protected String compileProduction() {
-		return "${preConsulShell()} \n ${super.compileProduction()} || ${postConsulShell()}"
+	protected String compileProductionForBoot() {
+		return "${preConsulShell()} \n ${super.compileProductionForBoot()} || ${postConsulShell()}"
+	}
+
+	@Override
+	protected String compileProductionForSpring() {
+		return "${preConsulShell()} \n ${super.compileProductionForSpring()} || ${postConsulShell()}"
 	}
 }

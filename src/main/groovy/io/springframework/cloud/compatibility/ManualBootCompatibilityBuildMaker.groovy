@@ -6,14 +6,13 @@ import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.cloud.compatibility.CompatibilityTasks.DEFAULT_BOOT_VERSION
 import static io.springframework.cloud.compatibility.CompatibilityTasks.SPRING_BOOT_VERSION_VAR
-
 /**
  * Creates the jobs for the Boot Compatibility verifier
  *
  * @author Marcin Grzejszczak
  */
 class ManualBootCompatibilityBuildMaker implements SpringCloudJobs {
-	private static final String BOOT_COMPATIBILITY_SUFFIX = 'compatibility-boot-check'
+	public static final String BOOT_COMPATIBILITY_SUFFIX = 'compatibility-boot-check'
 
 	private final DslFactory dsl
 
@@ -42,13 +41,13 @@ class ManualBootCompatibilityBuildMaker implements SpringCloudJobs {
 
 	void buildAllRelatedJobs() {
 		AllCloudJobs.ALL_DEFAULT_JOBS.each { String projectName->
-			new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests(projectName)
+			new BootCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests(projectName)
 		}
 		AllCloudJobs.JOBS_WITHOUT_TESTS.each {
-			new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests(it)
+			new BootCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests(it)
 		}
-		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests("spring-cloud-contract")
-		new ConsulCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests()
-		new CompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX, 'spring-cloud-samples').buildWithoutTests('tests')
+		new BootCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTests("spring-cloud-contract")
+		new ConsulCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX).buildWithoutTestsForBoot()
+		new BootCompatibilityBuildMaker(dsl, BOOT_COMPATIBILITY_SUFFIX, 'spring-cloud-samples').buildWithoutTests('tests')
 	}
 }
