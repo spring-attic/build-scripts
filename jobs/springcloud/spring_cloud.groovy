@@ -125,6 +125,7 @@ new SpringCloudContractDeployBuildMaker(dsl).with {
 }
 // issue #159
 new SpringCloudSamplesEndToEndBuildMaker(dsl, "marcingrzejszczak").build("spring-cloud-contract-159", everyThreeHours())
+new SpringCloudSamplesEndToEndBuildMaker(dsl, "openzipkin").buildWithoutTests("sleuth-webmvc-example", everyThreeHours())
 
 // E2E BUILDS
 new NetflixEndToEndBuildMaker(dsl).with {
