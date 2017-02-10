@@ -69,7 +69,7 @@ new BootCompatibilityBuildMaker(dsl).buildWithoutTests("spring-cloud-contract", 
 	new SpringCompatibilityBuildMaker(dsl).buildWithoutTests(projectName, everyDay())
 }
 JOBS_WITHOUT_TESTS.each {
-	new SpringCompatibilityBuildMaker(dsl).buildWithoutTests(it, everyThreeHours())
+	new SpringCompatibilityBuildMaker(dsl).buildWithoutTests(it, everyDay())
 }
 new SpringCompatibilityBuildMaker(dsl, COMPATIBILITY_BUILD_SPRING_SUFFIX, 'spring-cloud-samples')
 		.buildWithoutTests('tests', everyDay())
@@ -131,6 +131,8 @@ new SpringCloudSamplesEndToEndBuildMaker(dsl, "openzipkin").buildWithoutTests("s
 new NetflixEndToEndBuildMaker(dsl).with {
 	build(everySixHours())
 }
+
+// CUSTOM E2E FOR SPRING CLOUD PROJECTS
 ['spring-cloud-zookeeper', 'spring-cloud-consul'].each { String projectName ->
 	def maker = new EndToEndBuildMaker(dsl)
 	maker.build(projectName, maker.everySixHours())
@@ -186,6 +188,8 @@ new EndToEndBuildMaker(dsl, 'hecklerm').with {
 			'scripts/kill_all.sh')
 }
 */
+
+// SONAR
 
 ['spring-cloud-bus', 'spring-cloud-commons', 'spring-cloud-sleuth', 'spring-cloud-netflix',
  'spring-cloud-zookeeper', 'spring-cloud-contract'].each {
