@@ -104,7 +104,8 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 }
 
                 if (appsBuild) {
-                    shell("""#!/bin/bash -x
+                    shell("""set -e
+                    #!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
 					echo "Building apps"
@@ -114,7 +115,8 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					""")
                 }
                 if (dockerHubPush) {
-                    shell("""#!/bin/bash -x
+                    shell("""set -e
+                    #!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
 					echo "Pushing to Docker Hub"
