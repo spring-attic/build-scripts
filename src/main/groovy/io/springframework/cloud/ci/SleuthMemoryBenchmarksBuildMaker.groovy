@@ -16,7 +16,7 @@ class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkCo
 	}
 
 	void buildSleuth() {
-		doBuildSleuth(oncePerDay())
+		doBuildSleuth(everySunday())
 	}
 
 	private void doBuildSleuth(String cronExpr) {
