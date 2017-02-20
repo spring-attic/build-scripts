@@ -42,7 +42,7 @@ class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkCo
 				}
 			}
 			jdk jdk8()
-			def numbers = [100, 500, 1000, 2000]
+			def numbers = [100, 500, 2000]
 			steps {
 				numbers.each { int no ->
 					shell("""#!/bin/bash
