@@ -46,13 +46,13 @@ class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkCo
 				[100, 500, 1000, 2000, 5000].each { int no ->
 					shell("""#!/bin/bash
 					echo -e "Running example benchmarks with actuator for [${no}] requests"
-					WITH_ACTUATOR=yes NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh | tee log_${no}_actuator.log
-					./scripts/kill.sh
+					WITH_ACTUATOR=yes NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh || echo "Continuing..." | tee log_${no}_actuator.log
+					./scripts/kill.sh || echo "Continuing..."
 					""")
 					shell("""#!/bin/bash
 					echo -e "Running example benchmarks without actuator for [${no}] requests"
-					WITH_ACTUATOR=no NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh  | tee log_${no}_no_actuator.log
-					./scripts/kill.sh
+					WITH_ACTUATOR=no NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh || echo "Continuing..." | tee log_${no}_no_actuator.log
+					./scripts/kill.sh || echo "Continuing..."
 					""")
 				}
 			}
