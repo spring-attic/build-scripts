@@ -42,8 +42,9 @@ class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkCo
 				}
 			}
 			jdk jdk8()
+			def numbers = [100, 500, 1000, 2000]
 			steps {
-				[100, 500, 1000, 2000, 5000].each { int no ->
+				numbers.each { int no ->
 					shell("""#!/bin/bash
 					echo -e "Running example benchmarks with actuator for [${no}] requests"
 					WITH_ACTUATOR=yes NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh || echo "Continuing..." | tee log_${no}_actuator.log
@@ -62,7 +63,7 @@ class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkCo
 				}
 			}
 			publishers {
-				[100, 500, 1000, 2000, 5000].each { int no ->
+				numbers.each { int no ->
 					archiveArtifacts("log_${no}_actuator.log")
 					archiveArtifacts("log_${no}_no_actuator.log")
 				}
