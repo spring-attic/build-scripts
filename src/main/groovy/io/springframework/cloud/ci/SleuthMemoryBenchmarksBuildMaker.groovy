@@ -45,58 +45,30 @@ class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkCo
 			steps {
 				[100, 500, 1000, 2000, 5000].each { int no ->
 					shell("""#!/bin/bash
+					set -e
 					echo -e "Running example benchmarks with actuator for [${no}] requests"
-					WITH_ACTUATOR=yes NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh
+					WITH_ACTUATOR=yes NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh | tee log_${no}_actuator.log
 					./scripts/kill.sh
 					""")
 					shell("""#!/bin/bash
+					set -e
 					echo -e "Running example benchmarks without actuator for [${no}] requests"
-					WITH_ACTUATOR=no NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh
+					WITH_ACTUATOR=no NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh  | tee log_${no}_no_actuator.log
 					./scripts/kill.sh
 					""")
 				}
-			}
-			publishers {
-				archiveArtifacts('results/benchmarks/target/jmeter/results/*.png')
-				archiveArtifacts('results/benchmarks/target/jmeter/results/analysis/*.*')
-				archiveArtifacts('results/jmh/target/benchmarks.log')
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
 					room(cloudRoom())
 				}
-				appendPerformancePlugin(it as Node,
-						'results/benchmarks/target/jmeter/results/*.jtl')
+			}
+			publishers {
+				[100, 500, 1000, 2000, 5000].each { int no ->
+					archiveArtifacts("log_${no}_actuator.log")
+					archiveArtifacts("log_${no}_no_actuator.log")
+				}
 			}
 		}
-	}
-
-	private void appendPerformancePlugin(Node rootNode, String jmeterPath) {
-		Node propertiesNode = rootNode / 'publishers'
-		def perf = propertiesNode / 'hudson.plugins.performance.PerformancePublisher'
-		(perf / 'errorFailedThreshold').setValue(0)
-		(perf / 'errorUnstableThreshold').setValue(0)
-		(perf / 'errorUnstableResponseTimeThreshold').setValue(0)
-		(perf / 'relativeFailedThresholdPositive').setValue(20)
-		(perf / 'relativeFailedThresholdNegative').setValue(0)
-		(perf / 'relativeUnstableThresholdPositive').setValue(10)
-		(perf / 'relativeUnstableThresholdNegative').setValue(0)
-		(perf / 'nthBuildNumber').setValue(0)
-		(perf / 'modeRelativeThresholds').setValue(false)
-		// Average Response Time (ART), Percentile Response Time (PRT)
-		(perf / 'configType').setValue('ART')
-		(perf / 'modeOfThreshold').setValue(false)
-		(perf / 'failBuildIfNoResultFile').setValue(true)
-		(perf / 'compareBuildPrevious').setValue(false)
-		(perf / 'xml').setValue('')
-		(perf / 'modePerformancePerTestCase').setValue(true)
-		(perf / 'modeThroughput').setValue(false)
-		def parsers = perf / 'parsers'
-		if (jmeterPath) {
-			(parsers / 'hudson.plugins.performance.JMeterParser' / 'glob').setValue(jmeterPath)
-		}
-		/*if (junitPath) {
-			(parsers / 'hudson.plugins.performance.JUnitParser' / 'glob').setValue(junitPath)
-		}*/
 	}
 }

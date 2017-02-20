@@ -62,10 +62,17 @@ class SleuthBenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, 
 				cp -avr target/ results/jmh/
 				''')
 			}
+			publishers {
+				archiveArtifacts('results/benchmarks/target/jmeter/results/*.png')
+				archiveArtifacts('results/benchmarks/target/jmeter/results/analysis/*.*')
+				archiveArtifacts('results/jmh/target/benchmarks.log')
+			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
 					room(cloudRoom())
 				}
+				appendPerformancePlugin(it as Node,
+						'results/benchmarks/target/jmeter/results/*.jtl')
 			}
 		}
 	}
