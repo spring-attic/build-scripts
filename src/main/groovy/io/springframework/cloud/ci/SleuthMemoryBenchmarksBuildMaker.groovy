@@ -8,26 +8,26 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class BenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
+class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
 	private final DslFactory dsl
 
-	BenchmarksBuildMaker(DslFactory dsl) {
+	SleuthMemoryBenchmarksBuildMaker(DslFactory dsl) {
 		this.dsl = dsl
 	}
 
 	void buildSleuth() {
-		buildSleuth(oncePerDay())
+		doBuildSleuth(oncePerDay())
 	}
 
-	void buildSleuth(String cronExpr) {
-		dsl.job('spring-cloud-sleuth-benchmark-ci') {
+	private void doBuildSleuth(String cronExpr) {
+		dsl.job('spring-cloud-sleuth-memory-benchmark-ci') {
 			triggers {
 				cron cronExpr
 			}
 			scm {
 				git {
 					remote {
-						url "https://github.com/spring-cloud/spring-cloud-sleuth"
+						url "https://github.com/marcingrzejszczak/sleuth-memory-benchmarks"
 						branch 'master'
 					}
 				}
@@ -43,24 +43,20 @@ class BenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
 			}
 			jdk jdk8()
 			steps {
-				shell('''
-				echo "Running JMeter benchmarks"
-				./scripts/runJmeterBenchmarks.sh
-				''')
-				shell('''
-				echo "Copying JMeter results"
-				mkdir -p results/benchmarks
-				cp -avr benchmarks/target/ results/benchmarks/
-				''')
-				shell('''
-				echo "Running JMH benchmark tests"
-				./scripts/runJmhBenchmarks.sh
-				''')
-				shell('''
-				echo "Copying Benchmarks results"
-				mkdir -p results/jmh
-				cp -avr target/ results/jmh/
-				''')
+				[100, 500, 1000, 2000, 5000].each { int no ->
+					shell("""#!/bin/bash
+					set -e
+					echo -e "Running example benchmarks with actuator for [${no}] requests"
+					WITH_ACTUATOR=yes NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh
+					./scripts/kill.sh
+					""")
+					shell("""#!/bin/bash
+					set -e
+					echo -e "Running example benchmarks without actuator for [${no}] requests"
+					WITH_ACTUATOR=no NO_OF_REQUESTS=${no} ./scripts/runAcceptanceTests.sh
+					./scripts/kill.sh
+					""")
+				}
 			}
 			publishers {
 				archiveArtifacts('results/benchmarks/target/jmeter/results/*.png')

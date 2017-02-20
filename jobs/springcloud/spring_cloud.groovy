@@ -1,8 +1,9 @@
 package springcloud
 
-import io.springframework.cloud.ci.BenchmarksBuildMaker
 import io.springframework.cloud.ci.ConsulSpringCloudDeployBuildMaker
 import io.springframework.cloud.ci.DocsAppBuildMaker
+import io.springframework.cloud.ci.SleuthBenchmarksBuildMaker
+import io.springframework.cloud.ci.SleuthMemoryBenchmarksBuildMaker
 import io.springframework.cloud.ci.SpringCloudBranchBuildMaker
 import io.springframework.cloud.ci.SpringCloudContractDeployBuildMaker
 import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
@@ -81,7 +82,8 @@ new ManualBootCompatibilityBuildMaker(dsl).build()
 new ManualSpringCompatibilityBuildMaker(dsl).build()
 
 // BENCHMARK BUILDS
-new BenchmarksBuildMaker(dsl).buildSleuth()
+new SleuthBenchmarksBuildMaker(dsl).buildSleuth()
+new SleuthMemoryBenchmarksBuildMaker(dsl).buildSleuth()
 
 // CI BUILDS
 new DocsAppBuildMaker(dsl).buildDocs(everyThreeHours())
