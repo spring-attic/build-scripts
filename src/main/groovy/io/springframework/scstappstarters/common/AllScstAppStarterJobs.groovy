@@ -8,9 +8,9 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AllScstAppStarterJobs {
 
-    public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp', 'sftp', 'file']
+   // public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp', 'sftp', 'file']
 
-    public static final List<String> PHASE2_JOBS = ['jms', 'http', 'jdbc', 'twitter', 'rabbit']
+    //public static final List<String> PHASE2_JOBS = ['jms', 'http', 'jdbc', 'twitter', 'rabbit']
 
     public static final List<String> PHASE3_JOBS = ['gemfire', 'cassandra', 'hdfs', 'websocket', 'router']
 
@@ -26,20 +26,20 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE9_JOBS = ['trigger', 'triggertask', 'tasklaunchrequest-transform', 'transform', 'header-enricher']
 
-    public static final List<String> ALL_JOBS = PHASE1_JOBS + PHASE2_JOBS +
+    public static final List<String> ALL_JOBS =
+            //PHASE1_JOBS + PHASE2_JOBS +
                                                 PHASE3_JOBS + PHASE4_JOBS +
                                                 PHASE5_JOBS + PHASE6_JOBS +
                                                 PHASE7_JOBS + PHASE8_JOBS + PHASE9_JOBS;
 
-    public static final List<List<String>> PHASES = [PHASE1_JOBS,
-                                                     PHASE2_JOBS,
+    public static final List<List<String>> PHASES = [
                                                      PHASE3_JOBS, PHASE4_JOBS,
                                                      PHASE5_JOBS, PHASE6_JOBS,
                                                      PHASE7_JOBS, PHASE8_JOBS, PHASE9_JOBS]
 
-    public static final Map<String, String> RELEASE_PHASE1_JOBS = ['log':'1.1.2.M1', 'time':'1.1.2.M1', 'ftp':'1.1.2.M1', 'sftp':'1.1.2.M1', 'file':'1.1.2.M1']
+    //public static final Map<String, String> RELEASE_PHASE1_JOBS = ['log':'1.1.2.M1', 'time':'1.1.2.M1', 'ftp':'1.1.2.M1', 'sftp':'1.1.2.M1', 'file':'1.1.2.M1']
 
-    public static final Map<String, String> RELEASE_PHASE2_JOBS = ['jms':'1.1.2.M1', 'http':'1.1.3.M1', 'jdbc':'1.1.2.M1', 'twitter':'1.1.2.M1', 'rabbit':'1.1.2.M1']
+    //public static final Map<String, String> RELEASE_PHASE2_JOBS = ['jms':'1.1.2.M1', 'http':'1.1.3.M1', 'jdbc':'1.1.2.M1', 'twitter':'1.1.2.M1', 'rabbit':'1.1.2.M1']
 
     public static final Map<String, String> RELEASE_PHASE3_JOBS = ['gemfire':'1.1.2.M1', 'cassandra':'1.1.2.M1', 'hdfs':'1.1.2.M1', 'websocket':'1.1.2.M1', 'router':'1.1.2.M1']
 
@@ -55,7 +55,8 @@ class AllScstAppStarterJobs {
 
     public static final Map<String, String> RELEASE_PHASE9_JOBS = ['trigger':'1.1.2.M1', 'triggertask':'1.1.2.M1', 'tasklaunchrequest-transform':'1.1.2.M1', 'transform':'1.1.2.M1', 'header-enricher':'1.0.0.M1']
 
-    public static final Map<String, String> RELEASE_ALL_JOBS = RELEASE_PHASE1_JOBS + RELEASE_PHASE2_JOBS +
+    public static final Map<String, String> RELEASE_ALL_JOBS =
+            //RELEASE_PHASE1_JOBS + RELEASE_PHASE2_JOBS +
             RELEASE_PHASE3_JOBS + RELEASE_PHASE4_JOBS +
             RELEASE_PHASE5_JOBS + RELEASE_PHASE6_JOBS +
             RELEASE_PHASE7_JOBS + RELEASE_PHASE8_JOBS + RELEASE_PHASE9_JOBS;
