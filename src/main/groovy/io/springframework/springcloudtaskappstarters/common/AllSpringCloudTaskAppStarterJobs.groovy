@@ -17,4 +17,12 @@ class AllSpringCloudTaskAppStarterJobs {
     public static final List<List<String>> PHASES = [PHASE1_JOBS,
                                                      PHASE2_JOBS]
 
+    public static final Map<String, String> RELEASE_PHASE1_JOBS = ['timestamp':'1.2.0.M1', 'spark-client':'1.2.0.M1', 'spark-cluster':'1.2.0.M1', 'spark-yarn':'1.2.0.M1']
+
+    public static final Map<String, String> RELEASE_PHASE2_JOBS = ['sqoop-job':'1.2.0.M1', 'sqoop-tool':'1.2.0.M1', 'jdbchdfs-local':'1.2.0.M1']
+
+
+    public static final Map<String, String> RELEASE_ALL_JOBS =
+            RELEASE_PHASE1_JOBS + RELEASE_PHASE2_JOBS;
+
 }

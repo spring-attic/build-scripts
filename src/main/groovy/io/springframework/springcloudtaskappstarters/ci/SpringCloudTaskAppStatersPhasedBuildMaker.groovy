@@ -71,14 +71,16 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
     void buildAllRelatedJobs(boolean isRelease) {
         if (isRelease) {
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core", isRelease,
-                    "1.1.0.RC1", "1.1.0.RC1", "Addison.RC1", "milestone")
+                    "1.2.0.M1", null, null, "milestone")
                     .deploy(false, true, false, false)
-            AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each {
-                new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, isRelease,
-                        "1.1.0.RC1", "1.1.0.RC1", "Addison.RC1", "milestone").deploy()
-            }
+//            AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each {
+//                new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, isRelease,
+//                        "1.1.0.RC1", "1.1.0.RC1", "Addison.RC1", "milestone").deploy()
+//            }
+            AllSpringCloudTaskAppStarterJobs.RELEASE_ALL_JOBS.each { k, v -> new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "${k}", isRelease,
+                    "${v}", "1.2.0.M1", null, "milestone").deploy()}
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release", isRelease,
-                    "1.1.0.RC1", "1.1.0.RC1", "Addison.RC1", "milestone")
+                    null, "1.2.0.M1", "Belmont.M1", "milestone")
                     .deploy(false, false, false, true, true)
         }
         else {

@@ -35,7 +35,7 @@ trait SpringCloudTaskAppStarterJobs extends SpringScstAppStarterJobs {
 					rm -rf apps
 					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false
 					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false -pl :$project"-task-app-dependencies"
-					./mvnw versions:update-parent -DparentVersion=$parentVersion -Pspring -DgenerateBackupPoms=false
+					./mvnw versions:update-parent -DparentVersion=$parentVersion -Pspring -DgenerateBackupPoms=false -pl \\!$project-task-app-dependencies
 					lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring -PgenerateApps
