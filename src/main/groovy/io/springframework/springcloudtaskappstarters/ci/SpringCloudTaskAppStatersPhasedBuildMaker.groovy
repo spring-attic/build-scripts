@@ -77,7 +77,7 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
 //                new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, isRelease,
 //                        "1.1.0.RC1", "1.1.0.RC1", "Addison.RC1", "milestone").deploy()
 //            }
-            AllSpringCloudTaskAppStarterJobs.RELEASE_ALL_JOBS.each { k, v -> new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "${k}", isRelease,
+            AllSpringCloudTaskAppStarterJobs.RELEASE_ALL_JOBS.each { k, v -> new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "${k}", isRelease,
                     "${v}", "1.2.0.M1", null, "milestone").deploy()}
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release", isRelease,
                     null, "1.2.0.M1", "Belmont.M1", "milestone")
