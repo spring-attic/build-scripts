@@ -71,16 +71,16 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
     void buildAllRelatedJobs(boolean isRelease) {
         if (isRelease) {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core", isRelease,
-                    "1.1.3.M1", null, null, "milestone")
+                    "1.2.0.M1", null, null, "milestone")
                     .deploy(false, false, false, false)
 //            AllScstAppStarterJobs.ALL_JOBS.each {
 //                new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, isRelease,
 //                        "1.1.0.RC1", "1.1.0.RC1", "Avogadro.RC1", "milestone").deploy()
 //            }
             AllScstAppStarterJobs.RELEASE_ALL_JOBS.each { k, v -> new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "${k}", isRelease,
-                    "${v}", "1.1.3.M1", null, "milestone").deploy()}
+                    "${v}", "1.2.0.M1", null, "milestone").deploy()}
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release", isRelease,
-                    null, "1.1.3.M1", "Bacon.M1", "milestone")
+                    null, "1.2.0.M1", "Bacon.M1", "milestone")
                     .deploy(false, false, false, true, true)
         }
         else {

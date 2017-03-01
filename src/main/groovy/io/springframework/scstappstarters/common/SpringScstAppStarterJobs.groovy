@@ -63,8 +63,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 	String cleanAndDeploy(String releaseVersion) {
 		return """
 					#!/bin/bash -x
-					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false
-					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false -pl :app-starters-core-dependencies
+
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring
@@ -79,9 +78,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 		return """
 					#!/bin/bash -x
 					rm -rf apps
-					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false
-					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false -pl :$project"-app-dependencies"
-					./mvnw versions:update-parent -DparentVersion=$parentVersion -Pspring -DgenerateBackupPoms=false -pl \\!$project-app-dependencies
+
 					lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring -PgenerateApps
@@ -95,8 +92,6 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 
 		return """
 					#!/bin/bash -x
-					./mvnw versions:set -DnewVersion=$releaseTrainVersion -DgenerateBackupPoms=false
-					./mvnw versions:update-parent -DparentVersion=$parentVersion -Pspring -DgenerateBackupPoms=false
 
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
