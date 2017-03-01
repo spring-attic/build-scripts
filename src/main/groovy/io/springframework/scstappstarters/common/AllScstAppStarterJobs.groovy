@@ -27,12 +27,13 @@ class AllScstAppStarterJobs {
     public static final List<String> PHASE9_JOBS = ['trigger', 'triggertask', 'tasklaunchrequest-transform', 'transform', 'header-enricher']
 
     public static final List<String> ALL_JOBS =
-            PHASE1_JOBS + PHASE2_JOBS +
+                                                PHASE1_JOBS + PHASE2_JOBS +
                                                 PHASE3_JOBS + PHASE4_JOBS +
                                                 PHASE5_JOBS + PHASE6_JOBS +
                                                 PHASE7_JOBS + PHASE8_JOBS + PHASE9_JOBS;
 
     public static final List<List<String>> PHASES = [
+                                                    PHASE1_JOBS, PHASE2_JOBS,
                                                      PHASE3_JOBS, PHASE4_JOBS,
                                                      PHASE5_JOBS, PHASE6_JOBS,
                                                      PHASE7_JOBS, PHASE8_JOBS, PHASE9_JOBS]
