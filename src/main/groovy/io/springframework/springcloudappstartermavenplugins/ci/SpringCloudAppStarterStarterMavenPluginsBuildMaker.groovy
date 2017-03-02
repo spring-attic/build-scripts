@@ -14,15 +14,23 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
 
     private final DslFactory dsl
     final String organization
+    final String repo
     final String project
 
     String branchToBuild = "master"
 
     Map<String, Object> envVariables = new HashMap<>();
 
-    SpringCloudAppStarterStarterMavenPluginsBuildMaker(DslFactory dsl, String organization, String project) {
+    SpringCloudAppStarterStarterMavenPluginsBuildMaker(DslFactory dsl, String organization, String repo) {
         this.dsl = dsl
         this.organization = organization
+        this.repo = repo
+    }
+
+    SpringCloudAppStarterStarterMavenPluginsBuildMaker(DslFactory dsl, String organization, String repo, String project) {
+        this.dsl = dsl
+        this.organization = organization
+        this.repo = repo
         this.project = project
     }
 
@@ -39,7 +47,12 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
             scm {
                 git {
                     remote {
-                        url "https://github.com/${organization}/${project}"
+                        if (project != null && !project.isEmpty()) {
+                            url "https://github.com/${organization}/${repo}/${project}"
+                        }
+                        else {
+                            url "https://github.com/${organization}/${repo}"
+                        }
                         branch branchToBuild
                     }
                 }
