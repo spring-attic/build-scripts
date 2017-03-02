@@ -55,18 +55,13 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
             scm {
                 git {
                     remote {
-                        if (project != null && !project.isEmpty()) {
-                            url "https://github.com/${organization}/${repo}/${project}"
-                        }
-                        else {
-                            url "https://github.com/${organization}/${repo}"
-                        }
+                        url "https://github.com/${organization}/${repo}"
                         branch branchToBuild
                     }
                 }
             }
             steps {
-                shell(cleanAndDeploy())
+                shell(cleanAndDeploy(project))
             }
             if (checkTests) {
                 publishers {

@@ -13,8 +13,18 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
     }
 
     @Override
-    String cleanAndDeploy() {
-        return '''./mvnw clean deploy -U'''
+    String cleanAndDeploy(String project) {
+        if (project != null && !project.isEmpty()) {
+            return '''
+                         cd ${project}
+                        ./mvnw clean deploy -U
+                        '''
+        }
+        else {
+            return '''
+                        ./mvnw clean deploy -U
+                        '''
+        }
     }
 
 }
