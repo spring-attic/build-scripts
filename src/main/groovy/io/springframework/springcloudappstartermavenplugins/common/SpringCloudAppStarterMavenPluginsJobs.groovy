@@ -12,7 +12,6 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
         return 'spring-cloud-app-starter'
     }
 
-    @Override
     String cleanAndDeploy(String project) {
         if (project != null && !project.isEmpty()) {
             return '''
