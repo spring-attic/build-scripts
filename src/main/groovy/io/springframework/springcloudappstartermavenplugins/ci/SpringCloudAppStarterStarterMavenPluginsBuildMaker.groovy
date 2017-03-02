@@ -34,7 +34,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
         this.project = project
     }
 
-    void deploy(boolean checkTests = true) {
+    void deploy(boolean checkTests = false) {
         String projectBranch
         if (project != null && !project.isEmpty()) {
             projectBranch = project + "-" + branchToBuild
