@@ -7,6 +7,7 @@ import io.springframework.cloud.ci.SleuthMemoryBenchmarksBuildMaker
 import io.springframework.cloud.ci.SpringCloudBranchBuildMaker
 import io.springframework.cloud.ci.SpringCloudContractDeployBuildMaker
 import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
+import io.springframework.cloud.ci.SpringCloudGatewayDeployBuildMaker
 import io.springframework.cloud.ci.SpringCloudKubernetesDeployBuildMaker
 import io.springframework.cloud.ci.SpringCloudPipelinesDeployBuildMaker
 import io.springframework.cloud.ci.VaultSpringCloudDeployBuildMaker
@@ -118,6 +119,7 @@ branchMaker.deploy('spring-cloud-release', 'Camden.x', false)
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
 new SpringCloudKubernetesDeployBuildMaker(dsl).deploy()
+new SpringCloudGatewayDeployBuildMaker(dsl).deploy()
 new VaultSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR SPRING CLOUD CONTRACTS
 new SpringCloudContractDeployBuildMaker(dsl).with {
