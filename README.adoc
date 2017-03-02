@@ -74,6 +74,12 @@ perl -pe 's/.*?<shortName>([\w-]+).*?<version>([^<]+)()(<\/\w+>)+/\1 \2\n/g'|sed
 
 Wait patiently for Jenkins to start - the job will be added automatically for you.
 
+IMPORTANT: We're using the JMH Jenkins plugin which is not available anywhere in the marketplace.
+We're trying to automate its installation but if it fails you can download the HPI from
+https://bintray.com/marcingrzejszczak/jenkins/download_file?file_path=jmh-jenkins%2F0.0.1%2Fjmhbenchmark.hpi[here]
+and upload it yourself. The tag is in the forked repo over https://github.com/marcingrzejszczak/jmh-jenkins/releases/tag/0.0.1[here]
+
+
 = Configuring Jenkins for Spring Cloud
 
 You have to provide the following values/plugin configuration for your Jenkins to make everything work:

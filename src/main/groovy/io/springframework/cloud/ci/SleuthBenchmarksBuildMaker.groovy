@@ -3,6 +3,7 @@ package io.springframework.cloud.ci
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.Cron
 import io.springframework.common.JdkConfig
+import io.springframework.common.JmhPerformance
 import io.springframework.common.SlackPlugin
 import javaposse.jobdsl.dsl.DslFactory
 /**
@@ -70,6 +71,9 @@ class SleuthBenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, 
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
 					room(cloudRoom())
+				}
+				JmhPerformance.benchmarkPublisher(it as Node) {
+
 				}
 				appendPerformancePlugin(it as Node,
 						'results/benchmarks/target/jmeter/results/*.jtl')
