@@ -14,10 +14,11 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
 
     String cleanAndDeploy(String project) {
         if (project != null && !project.isEmpty()) {
-            return '''
-                         cd \${project}
+            return """
+                        cd "${project}"
                         ./mvnw clean deploy -U
-                        '''
+                    """
+
         }
         else {
             return '''
