@@ -35,7 +35,15 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
     }
 
     void deploy(boolean checkTests = true) {
-        dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
+        String projectBranch
+        if (project != null && !project.isEmpty()) {
+            projectBranch = project + "-" + branchToBuild
+        }
+        else {
+            projectBranch = branchToBuild
+        }
+
+        dsl.job("${prefixJob(repo)}-${projectBranch}-ci") {
             triggers {
                 githubPush()
             }
