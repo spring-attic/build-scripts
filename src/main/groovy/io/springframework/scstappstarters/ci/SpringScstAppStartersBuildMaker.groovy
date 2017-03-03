@@ -110,7 +110,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					${setupGitCredentials()}
 					echo "Building apps"
                     cd apps
-                    ../mvnw clean deploy
+                    ../mvnw clean deploy -U
 					${cleanGitCredentials()}
 					""")
                 }
