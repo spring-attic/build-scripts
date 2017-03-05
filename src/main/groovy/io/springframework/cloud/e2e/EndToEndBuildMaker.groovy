@@ -76,6 +76,10 @@ class EndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
 			steps {
 				shell(killAllApps())
 				shell("""
+					echo "Cleaning up .m2"
+					rm -rf ~/.m2/repository/org/springframework/cloud/launcher 
+				""")
+				shell("""
 						sh -e ${scriptName}
 					""")
 				if (postBuildScripts) {
