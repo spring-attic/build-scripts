@@ -9,6 +9,7 @@ import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
 import static io.springframework.common.Artifactory.artifactoryMavenBuild
+
 /**
  * @author Soby Chacko
  */
@@ -52,10 +53,12 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
     }
 
     void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U -Pfull,spring",
-                String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false) {
+                String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false, boolean isRelease = false) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
-            triggers {
-                githubPush()
+            if (!isRelease) {
+                triggers {
+                    githubPush()
+                }
             }
             jdk jdk8()
             wrappers {
