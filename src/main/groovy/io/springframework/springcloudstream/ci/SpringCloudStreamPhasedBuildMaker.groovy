@@ -2,13 +2,15 @@ package io.springframework.springcloudstream.ci
 
 import io.springframework.springcloudstream.common.SpringCloudStreamJobs
 import javaposse.jobdsl.dsl.DslFactory
+
 /**
  * @author Soby Chacko
  */
 class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 
-    public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit',
-                                                          'spring-cloud-stream-binder-jms']
+    public static
+    final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit',
+                                            'spring-cloud-stream-binder-jms']
 
     private final DslFactory dsl
 
@@ -41,20 +43,15 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                         }
                     }
                 }
-
-
-                BINDER_PHASE_JOBS.each { String ph ->
+                BINDER_PHASE_JOBS.each { String project ->
                     phase("spring-cloud-stream-binders-phase") {
-                        ph.each {
-                            String projectName ->
-                                String prefixedProjectName = prefixJob(projectName)
-                                phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
-                                    currentJobParameters()
-                                }
+                        String prefixedProjectName = prefixJob(project)
+                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                            currentJobParameters()
                         }
+
                     }
                 }
-
                 if (!isRelease) {
                     phase('spring-cloud-stream-starters-phase') {
                         String prefixedProjectName = prefixJob("spring-cloud-stream-starters")
@@ -77,8 +74,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 //            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release", isRelease,
 //                    null, "1.2.0.M1", "Bacon.M1", "milestone")
 //                    .deploy(false, false, false, true, true)
-        }
-        else {
+        } else {
             //core build
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream")
                     .deploy()
