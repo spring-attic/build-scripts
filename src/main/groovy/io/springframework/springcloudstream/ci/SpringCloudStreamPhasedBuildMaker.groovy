@@ -43,13 +43,13 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                         }
                     }
                 }
-                BINDER_PHASE_JOBS.each { String project ->
-                    phase("spring-cloud-stream-binders-phase") {
+
+                phase("spring-cloud-stream-binders-phase") {
+                    BINDER_PHASE_JOBS.each { String project ->
                         String prefixedProjectName = prefixJob(project)
                         phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                             currentJobParameters()
                         }
-
                     }
                 }
                 if (!isRelease) {
