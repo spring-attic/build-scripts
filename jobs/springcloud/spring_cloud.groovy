@@ -10,6 +10,7 @@ import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
 import io.springframework.cloud.ci.SpringCloudGatewayDeployBuildMaker
 import io.springframework.cloud.ci.SpringCloudKubernetesDeployBuildMaker
 import io.springframework.cloud.ci.SpringCloudPipelinesDeployBuildMaker
+import io.springframework.cloud.ci.SpringCloudReleaseToolsBuildMaker
 import io.springframework.cloud.ci.VaultSpringCloudDeployBuildMaker
 import io.springframework.cloud.compatibility.BootCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
@@ -101,6 +102,7 @@ new SpringCloudDeployBuildMaker(dsl).with { SpringCloudDeployBuildMaker maker ->
 	}
 }
 new SpringCloudPipelinesDeployBuildMaker(dsl).deploy()
+new SpringCloudReleaseToolsBuildMaker(dsl).deploy()
 
 // BRANCHES BUILD - spring-cloud organization
 // Build that allows you to deploy, and build gh-pages of multiple branches. Used for projects
