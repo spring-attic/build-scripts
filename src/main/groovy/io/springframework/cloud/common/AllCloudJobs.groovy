@@ -58,7 +58,7 @@ class AllCloudJobs {
 																		'spring-cloud-netflix' : ['1.0.x', '1.1.x', '1.2.x'],
 																		'spring-cloud-cli' : ['1.0.x', '1.1.x'],
 																		'spring-cloud-commons' : ['1.0.x', '1.1.x'],
-																		'spring-cloud-config' : ['1.1.x'],
+																		'spring-cloud-config' : ['1.1.x', '1.2.x'],
 																		'spring-cloud-zookeeper' : ['1.0.x'],
 																		'spring-cloud-bus': ['1.2.x']]
 
