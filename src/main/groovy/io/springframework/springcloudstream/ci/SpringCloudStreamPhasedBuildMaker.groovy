@@ -76,7 +76,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 //                    .deploy(false, false, false, true, true)
         } else {
             //core build
-            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream")
+            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream", false, false)
                     .deploy()
             //binder builds
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", [KAFKA_TIMEOUT_MULTIPLIER: '60']).deploy()

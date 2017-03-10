@@ -21,14 +21,14 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
     final String branchToBuild = "master"
 
-    boolean isRelease = false;
+    boolean isRelease = false
 
     String releaseVersion
     String parentVersion
 
     String releaseTrainVersion
 
-    String releaseType;
+    String releaseType
 
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
                                     String project) {
