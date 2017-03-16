@@ -9,7 +9,7 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class SpringBootWindowsBuildMaker implements SpringBootNotification, JdkConfig, TestPublisher,
 		Cron, SpringBootJobs, Maven, Label {
-	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.2.x', '1.3.x']
+	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.4.x', '1.5.x']
 
 	private final DslFactory dsl
 	final String organization
@@ -43,7 +43,7 @@ class SpringBootWindowsBuildMaker implements SpringBootNotification, JdkConfig, 
 				}
 				steps {
 					maven {
-						mavenInstallation(maven32())
+						mavenInstallation(maven33())
 						goals('clean install -U')
 					}
 				}

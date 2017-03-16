@@ -10,7 +10,7 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class SpringBootIntegrationBuildMaker implements SpringBootNotification, JdkConfig, TestPublisher,
 		Cron, SpringBootJobs, Maven, Label {
-	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.3.x']
+	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.4.x', '1.5.x']
 
 	private final DslFactory dsl
 	final String organization
@@ -48,7 +48,7 @@ class SpringBootIntegrationBuildMaker implements SpringBootNotification, JdkConf
 				}
 				steps {
 					maven {
-						mavenInstallation(maven32())
+						mavenInstallation(maven33())
 						goals('install -U -P snapshot,prepare,ci -DskipTests')
 					}
 					maven {

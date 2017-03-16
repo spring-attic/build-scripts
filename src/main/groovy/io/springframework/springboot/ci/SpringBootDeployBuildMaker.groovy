@@ -15,7 +15,7 @@ import static io.springframework.common.Artifactory.artifactoryMavenBuild
  */
 class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, TestPublisher,
 		Cron, SpringBootJobs, Maven {
-	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.2.x', '1.3.x']
+	private static final List<String> BRANCHES_TO_BUILD = ['master', '1.4.x', '1.5.x']
 
 	private final DslFactory dsl
 	final String organization
@@ -48,7 +48,7 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 				}
 				steps {
 					maven {
-						mavenInstallation(maven32())
+						mavenInstallation(maven33())
 						goals('install -U -P snapshot,prepare,ci -DskipTests')
 					}
 				}
@@ -62,9 +62,9 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 						rootPom('spring-boot-full-build/pom.xml')
 						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
 					}
-//					artifactoryMaven3Configurator(it as Node) {
-//						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
-//					}
+					artifactoryMaven3Configurator(it as Node) {
+						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-test-support*,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
+					}
 				}
 				publishers {
 					archiveJunit mavenJUnitResults()
