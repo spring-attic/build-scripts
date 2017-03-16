@@ -37,16 +37,10 @@ class SpringCloudPipelinesGradleBuildMaker implements SpringCloudNotification, T
 					}
 				}
 			}
-			wrappers {
-				credentialsBinding {
-					usernamePassword(repoUserNameEnvVar(), repoPasswordEnvVar(), repoSpringIoUserCredentialId())
-				}
-			}
 			steps {
 				shell("""
 				set +x
-				./gradlew clean build deploy -PnewVersion=0.0.1.M1 -DM2_SETTINGS_REPO_USERNAME=\${${repoUserNameEnvVar()}} \
- -DM2_SETTINGS_REPO_PASSWORD=\${${repoPasswordEnvVar()}} -DREPO_WITH_JARS=https://repo.spring.io/libs-milestone-local
+				./gradlew clean build -PnewVersion=0.0.1.M1
 				set -x
 				""")
 			}
