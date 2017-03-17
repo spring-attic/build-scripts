@@ -54,13 +54,14 @@ class AllCloudJobs {
 	 * {@link AllCloudJobs#ALL_DEFAULT_JOBS} creates jobs for master branch. Sometimes you need other branches.
 	 * That's why it's enough to provide the name of the project and the list of branches to build
 	 */
-	public static final Map<String, List<String>> JOBS_WITH_BRANCHES = ['spring-cloud-sleuth' : ['1.0.x', '1.1.x'],
+	public static final Map<String, List<String>> JOBS_WITH_BRANCHES = ['spring-cloud-sleuth' : ['1.1.x'],
 																		'spring-cloud-netflix' : ['1.0.x', '1.1.x', '1.2.x'],
 																		'spring-cloud-cli' : ['1.0.x', '1.1.x'],
 																		'spring-cloud-commons' : ['1.0.x', '1.1.x'],
 																		'spring-cloud-config' : ['1.1.x', '1.2.x'],
 																		'spring-cloud-zookeeper' : ['1.0.x'],
-																		'spring-cloud-bus': ['1.2.x']]
+																		'spring-cloud-bus': ['1.2.x'],
+																		'spring-cloud-build': ['1.2.x']]
 
 	/**
 	 * List of default jobs. Default means that `./mvnw clean deploy` will be executed to publish artifacts
