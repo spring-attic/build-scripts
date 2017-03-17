@@ -110,7 +110,8 @@ new SpringCloudReleaseToolsBuildMaker(dsl).deploy()
 def branchMaker = new SpringCloudDeployBuildMaker(dsl)
 JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 	branches.each { String branch ->
-		branchMaker.deploy(project, branch)
+		boolean checkTests = !JOBS_WITHOUT_TESTS.contains(project)
+		branchMaker.deploy(project, branch, checkTests)
 	}
 }
 // Brixton and Camden branches for Spring Cloud Release
