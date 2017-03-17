@@ -9,6 +9,7 @@ import io.springframework.springboot.common.SpringBootJobs
 import io.springframework.springboot.common.SpringBootNotification
 import javaposse.jobdsl.dsl.DslFactory
 
+import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
 import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Marcin Grzejszczak
