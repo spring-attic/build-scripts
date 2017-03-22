@@ -9,7 +9,6 @@ import io.springframework.springboot.common.SpringBootJobs
 import io.springframework.springboot.common.SpringBootNotification
 import javaposse.jobdsl.dsl.DslFactory
 
-import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
 import static io.springframework.common.Artifactory.artifactoryMavenBuild
 /**
  * @author Marcin Grzejszczak
@@ -62,9 +61,6 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 						goals('clean install -U -P full -s settings.xml')
 						rootPom('spring-boot-full-build/pom.xml')
 						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
-					}
-					artifactoryMaven3Configurator(it as Node) {
-						excludePatterns('**/*-tests.jar,**/*-site.jar,**/*spring-boot-test-support*,**/*spring-boot-sample*,**/*spring-boot-integration-tests*,**/*.effective-pom,**/*-starter-poms.zip')
 					}
 				}
 				publishers {
