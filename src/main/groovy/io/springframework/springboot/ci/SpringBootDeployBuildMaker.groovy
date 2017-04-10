@@ -49,7 +49,7 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 				steps {
 					maven {
 						mavenInstallation(maven33())
-						goals('install -U -P snapshot,prepare,ci -DskipTests')
+						goals('clean install -U -P snapshot,prepare,ci -DskipTests')
 					}
 				}
 				configure {
@@ -57,7 +57,7 @@ class SpringBootDeployBuildMaker implements SpringBootNotification, JdkConfig, T
 						room(bootRoom())
 					}
 					artifactoryMavenBuild(it as Node) {
-						mavenVersion(maven32())
+						mavenVersion(maven33())
 						goals('clean install -U -P full -s settings.xml')
 						rootPom('spring-boot-full-build/pom.xml')
 						mavenOpts('-Xmx2g -XX:MaxPermSize=512m')
