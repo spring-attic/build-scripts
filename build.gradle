@@ -81,6 +81,7 @@ task clearSeedsForScst(type: Delete) {
     delete fileTree('seed') {
         include '**/*'
         exclude '**/spring-cloud-stream-seed.groovy'
+        exclude '**/spring-cloud-task-app-starters-seed.groovy'
         exclude '**/init.groovy'
     }
 }
