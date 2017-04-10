@@ -39,23 +39,24 @@ wrapper {
     gradleVersion '3.4.1'
 }
 
-task clearJobs(type: Delete) {
+task clearCodeForScst(type: Delete) {
+    delete fileTree('src/main/groovy/io/springframework') {
+        include '**/*'
+        exclude '**/io/springframework/common/**/*'
+        exclude '**/io/springframework/scstappstarters/**/*'
+        exclude '**/io/springframework/springcloudtaskappstarters/**/*'
+    }
+}
+
+task clearJobsForScst(type: Delete) {
     delete fileTree('jobs') {
         include '**/*'
         exclude 'scstappstarters/**/*'
         exclude 'springcloudtaskappstarters/**/*'
     }
-    doLast {
-        file('jobs').eachDir {
-            println it.listFiles()
-            if (it.listFiles().length == 0) {
-                it.delete()
-            }
-        }
-    }
 }
 
-task clearSeeds(type: Delete) {
+task clearSeedsForScst(type: Delete) {
     delete fileTree('seed') {
         include '**/*'
         exclude 'spring-cloud-stream-seed.groovy'
