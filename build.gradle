@@ -50,6 +50,8 @@ wrapper {
 }
 
 task clearCodeForScst(type: Delete) {
+    group = "SCST"
+    description = "Removes unnecessary Groovy code"
     delete fileTree('src/main/groovy/io/springframework') {
         include '**/*'
         exclude '**/io/springframework/common/**/*'
@@ -59,6 +61,8 @@ task clearCodeForScst(type: Delete) {
 }
 
 task clearJobsForScst(type: Delete) {
+    group = "SCST"
+    description = "Removes jobs that are not related to SCST"
     delete fileTree('jobs') {
         include '**/*'
         exclude 'scstappstarters/**/*'
@@ -67,6 +71,8 @@ task clearJobsForScst(type: Delete) {
 }
 
 task clearSeedsForScst(type: Delete) {
+    group = "SCST"
+    description = "Removes seeds that are not related to SCST"
     delete fileTree('seed') {
         include '**/*'
         exclude 'spring-cloud-stream-seed.groovy'
@@ -74,8 +80,25 @@ task clearSeedsForScst(type: Delete) {
     }
 }
 
-task setupForScst(dependsOn: [clearCodeForScst, clearJobsForScst, clearSeedsForScst]) {}
+task setupForScst(dependsOn: [clearCodeForScst, clearJobsForScst, clearSeedsForScst]) {
+    group = "SCST"
+    description = "Combines all tasks related to setting up code for SCST"
+}
 
-task startScst(dependsOn: [setupForScst, composeUp]) {
+task composeUpForScst(dependsOn: [composeUp]) {
+    group = "SCST"
+    description = "Wrapps the `docker-compose up` task"
+    mustRunAfter setupForScst
+}
+
+task initializeAndStartScst(dependsOn: [setupForScst, composeUpForScst]) {
+    group = "SCST"
+    description = "Removes unnecessary code for SCST and starts Jenkins"
+    finalizedBy composeDown
+}
+
+task startJenkins(dependsOn: [composeUpForScst]) {
+    group = "Jenkins"
+    description = "Starts Jenkins via Docker Compose"
     finalizedBy composeDown
 }
