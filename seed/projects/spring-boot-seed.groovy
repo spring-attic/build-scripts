@@ -6,7 +6,6 @@ job('spring-io-seed') {
                 github('spring-io/build-scripts')
             }
 			branch('master')
-            createTag(false)
         }
     }
     steps {

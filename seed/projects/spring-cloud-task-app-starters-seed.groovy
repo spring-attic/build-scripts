@@ -6,7 +6,6 @@ job('spring-cloud-task-app-starters-seed') {
                 github('spring-io/build-scripts')
             }
             branch('master')
-            createTag(false)
         }
     }
     steps {
