@@ -1,6 +1,8 @@
-package io.springframework.common
+package io.springframework.common.job
 
 /**
+ * Trait containing setup for connecting to Cloud Foundry
+ *
  * @author Marcin Grzejszczak
  */
 trait BashCloudFoundry {

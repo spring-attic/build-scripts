@@ -1,6 +1,6 @@
 package io.springframework.cloud.common
 
-import io.springframework.common.BuildAndDeploy
+import io.springframework.common.job.BuildAndDeploy
 /**
  * @author Marcin Grzejszczak
  */

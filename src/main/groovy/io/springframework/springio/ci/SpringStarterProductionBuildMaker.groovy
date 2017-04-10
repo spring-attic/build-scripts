@@ -1,12 +1,17 @@
 package io.springframework.springio.ci
 
-import io.springframework.common.*
+import io.springframework.common.job.Cron
+import io.springframework.common.job.JdkConfig
+import io.springframework.common.job.Maven
+import io.springframework.common.job.Pipeline
+import io.springframework.common.job.SlackPlugin
+import io.springframework.common.job.TestPublisher
 import io.springframework.springio.common.AllSpringIoJobs
 import io.springframework.springio.common.SpringIoJobs
 import io.springframework.springio.common.SpringIoNotification
 import javaposse.jobdsl.dsl.DslFactory
 
-import static io.springframework.common.CloudFoundryPlugin.pushToCloudFoundry
+import static io.springframework.common.job.CloudFoundryPlugin.pushToCloudFoundry
 
 /**
  * @author Marcin Grzejszczak

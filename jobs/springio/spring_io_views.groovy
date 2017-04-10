@@ -1,7 +1,7 @@
 package springio
 
-import io.springframework.cloud.view.DashboardViewBuilder
-import io.springframework.common.DefaultDeliveryPipelineView
+import io.springframework.common.view.DashboardViewBuilder
+import io.springframework.common.view.DefaultDeliveryPipelineView
 import io.springframework.springio.ci.SpringInitializrBuildMaker
 import io.springframework.springio.common.AllSpringIoJobs
 import javaposse.jobdsl.dsl.DslFactory

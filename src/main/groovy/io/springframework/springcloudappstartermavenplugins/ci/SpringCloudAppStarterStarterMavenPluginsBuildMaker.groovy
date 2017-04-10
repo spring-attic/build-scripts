@@ -1,9 +1,9 @@
 package io.springframework.springcloudappstartermavenplugins.ci
 
-import io.springframework.common.Cron
-import io.springframework.common.JdkConfig
-import io.springframework.common.Maven
-import io.springframework.common.TestPublisher
+import io.springframework.common.job.Cron
+import io.springframework.common.job.JdkConfig
+import io.springframework.common.job.Maven
+import io.springframework.common.job.TestPublisher
 import io.springframework.springcloudappstartermavenplugins.common.SpringCloudAppStarterMavenPluginsJobs
 import javaposse.jobdsl.dsl.DslFactory
 /**

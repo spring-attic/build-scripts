@@ -1,6 +1,6 @@
 package springboot
 
-import io.springframework.cloud.view.DashboardViewBuilder
+import io.springframework.common.view.DashboardViewBuilder
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this

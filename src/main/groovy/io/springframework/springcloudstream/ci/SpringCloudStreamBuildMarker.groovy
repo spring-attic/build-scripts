@@ -1,14 +1,14 @@
 package io.springframework.springcloudstream.ci
 
-import io.springframework.common.Cron
-import io.springframework.common.JdkConfig
-import io.springframework.common.Maven
-import io.springframework.common.TestPublisher
+import io.springframework.common.job.Cron
+import io.springframework.common.job.JdkConfig
+import io.springframework.common.job.Maven
+import io.springframework.common.job.TestPublisher
 import io.springframework.springcloudstream.common.SpringCloudStreamJobs
 import javaposse.jobdsl.dsl.DslFactory
 
-import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
-import static io.springframework.common.Artifactory.artifactoryMavenBuild
+import static io.springframework.common.job.Artifactory.artifactoryMaven3Configurator
+import static io.springframework.common.job.Artifactory.artifactoryMavenBuild
 
 /**
  * @author Soby Chacko

@@ -1,11 +1,11 @@
 package io.springframework.cloud.sonar
 
 import io.springframework.cloud.common.SpringCloudNotification
-import io.springframework.common.Cron
-import io.springframework.common.JdkConfig
-import io.springframework.common.SlackPlugin
-import io.springframework.common.TestPublisher
-import io.springframework.common.SonarTrait
+import io.springframework.common.job.Cron
+import io.springframework.common.job.JdkConfig
+import io.springframework.common.job.SlackPlugin
+import io.springframework.common.job.TestPublisher
+import io.springframework.common.job.SonarTrait
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.helpers.step.StepContext
 /**

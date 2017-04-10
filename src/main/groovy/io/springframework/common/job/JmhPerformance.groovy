@@ -1,4 +1,4 @@
-package io.springframework.common
+package io.springframework.common.job
 
 /**
  * A class represents a DSL to use with JMH Performance plugin

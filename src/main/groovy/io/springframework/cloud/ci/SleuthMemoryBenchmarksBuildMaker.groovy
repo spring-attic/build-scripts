@@ -1,9 +1,9 @@
 package io.springframework.cloud.ci
 
 import io.springframework.cloud.common.SpringCloudNotification
-import io.springframework.common.Cron
-import io.springframework.common.JdkConfig
-import io.springframework.common.SlackPlugin
+import io.springframework.common.job.Cron
+import io.springframework.common.job.JdkConfig
+import io.springframework.common.job.SlackPlugin
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak

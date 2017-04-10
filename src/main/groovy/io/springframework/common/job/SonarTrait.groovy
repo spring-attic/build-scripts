@@ -1,4 +1,4 @@
-package io.springframework.common
+package io.springframework.common.job
 
 /**
  * Trait with Sonar related code

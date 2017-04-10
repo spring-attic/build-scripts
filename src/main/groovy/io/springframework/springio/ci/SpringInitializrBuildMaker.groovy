@@ -1,18 +1,18 @@
 package io.springframework.springio.ci
 
-import io.springframework.common.Cron
-import io.springframework.common.JdkConfig
-import io.springframework.common.Maven
-import io.springframework.common.Pipeline
-import io.springframework.common.SlackPlugin
-import io.springframework.common.TestPublisher
+import io.springframework.common.job.Cron
+import io.springframework.common.job.JdkConfig
+import io.springframework.common.job.Maven
+import io.springframework.common.job.Pipeline
+import io.springframework.common.job.SlackPlugin
+import io.springframework.common.job.TestPublisher
 import io.springframework.springio.common.AllSpringIoJobs
 import io.springframework.springio.common.SpringIoJobs
 import io.springframework.springio.common.SpringIoNotification
 import javaposse.jobdsl.dsl.DslFactory
 
-import static io.springframework.common.Artifactory.artifactoryMaven3Configurator
-import static io.springframework.common.Artifactory.artifactoryMavenBuild
+import static io.springframework.common.job.Artifactory.artifactoryMaven3Configurator
+import static io.springframework.common.job.Artifactory.artifactoryMavenBuild
 
 /**
  * @author Marcin Grzejszczak

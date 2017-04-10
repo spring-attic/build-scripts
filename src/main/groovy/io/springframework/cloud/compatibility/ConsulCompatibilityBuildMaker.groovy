@@ -1,7 +1,7 @@
 package io.springframework.cloud.compatibility
 
 import io.springframework.cloud.common.HashicorpTrait
-import io.springframework.common.TestPublisher
+import io.springframework.common.job.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 
 import static io.springframework.cloud.common.AllCloudConstants.LATEST_SPRING_VERSION

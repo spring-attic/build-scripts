@@ -1,7 +1,10 @@
-package io.springframework.common
+package io.springframework.common.view
 
 import javaposse.jobdsl.dsl.views.NestedViewsContext
+
 /**
+ * Delivery Pipeline View with default setup
+ *
  * @author Marcin Grzejszczak
  */
 class DefaultDeliveryPipelineView {

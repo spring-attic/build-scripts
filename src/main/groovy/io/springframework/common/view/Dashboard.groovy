@@ -1,4 +1,4 @@
-package io.springframework.cloud.view
+package io.springframework.common.view
 
 import javaposse.jobdsl.dsl.JobManagement
 import javaposse.jobdsl.dsl.View

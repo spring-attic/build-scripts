@@ -1,4 +1,4 @@
-package io.springframework.common
+package io.springframework.common.job
 
 /**
  * Contains default patterns for JUnit results

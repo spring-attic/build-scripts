@@ -1,6 +1,8 @@
-package io.springframework.common
+package io.springframework.common.job
 
 /**
+ * Trait with steps related to building and deploying artifacts
+ *
  * @author Marcin Grzejszczak
  */
 trait BuildAndDeploy {

@@ -2,7 +2,11 @@ package io.springframework.cloud.e2e
 
 import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
-import io.springframework.common.*
+import io.springframework.common.job.BashCloudFoundry
+import io.springframework.common.job.Cron
+import io.springframework.common.job.JdkConfig
+import io.springframework.common.job.SlackPlugin
+import io.springframework.common.job.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 
 /**

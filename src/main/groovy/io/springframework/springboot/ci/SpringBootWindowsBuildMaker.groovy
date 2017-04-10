@@ -1,6 +1,11 @@
 package io.springframework.springboot.ci
 
-import io.springframework.common.*
+import io.springframework.common.job.Cron
+import io.springframework.common.job.JdkConfig
+import io.springframework.common.job.Label
+import io.springframework.common.job.Maven
+import io.springframework.common.job.SlackPlugin
+import io.springframework.common.job.TestPublisher
 import io.springframework.springboot.common.SpringBootJobs
 import io.springframework.springboot.common.SpringBootNotification
 import javaposse.jobdsl.dsl.DslFactory

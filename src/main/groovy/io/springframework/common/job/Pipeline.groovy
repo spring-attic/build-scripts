@@ -1,6 +1,8 @@
-package io.springframework.common
+package io.springframework.common.job
 
 /**
+ * Trait for default setup of Deliver Pipeline version
+ *
  * @author Marcin Grzejszczak
  */
 trait Pipeline {
