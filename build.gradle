@@ -38,3 +38,11 @@ task workspace(type: Copy) {
 wrapper {
     gradleVersion '3.4.1'
 }
+
+task clearSeeds(type: Delete) {
+    delete fileTree('seed') {
+        include '**/*'
+        exclude 'spring-cloud-stream-seed.groovy'
+        exclude 'init.groovy'
+    }
+}
