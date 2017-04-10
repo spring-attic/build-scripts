@@ -39,6 +39,22 @@ wrapper {
     gradleVersion '3.4.1'
 }
 
+task clearJobs(type: Delete) {
+    delete fileTree('jobs') {
+        include '**/*'
+        exclude 'scstappstarters/**/*'
+        exclude 'springcloudtaskappstarters/**/*'
+    }
+    doLast {
+        file('jobs').eachDir {
+            println it.listFiles()
+            if (it.listFiles().length == 0) {
+                it.delete()
+            }
+        }
+    }
+}
+
 task clearSeeds(type: Delete) {
     delete fileTree('seed') {
         include '**/*'
