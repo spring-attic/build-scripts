@@ -49,12 +49,7 @@ wrapper {
     gradleVersion '3.4.1'
 }
 
-dockerCompose {
-    stopContainers = false // doesn't call `docker-compose down` - useful for debugging
-}
-
 // SCST
-
 task clearCodeForScst(type: Delete) {
     group = "SCST"
     description = "Removes unnecessary Groovy code"
@@ -116,7 +111,6 @@ task initializeAndStartScst(dependsOn: [setupForScst, composeUpForScst]) {
 }
 
 // Jenkins
-
 task startJenkins(dependsOn: [composeUpForScst]) {
     group = "Jenkins"
     description = "Starts Jenkins via Docker Compose"

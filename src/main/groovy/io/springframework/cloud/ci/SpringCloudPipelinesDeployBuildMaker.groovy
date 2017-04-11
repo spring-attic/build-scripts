@@ -79,7 +79,7 @@ class SpringCloudPipelinesDeployBuildMaker implements SpringCloudNotification, J
 					${setupGitCredentials()}
 					${setOrigin()}
 					${checkoutMaster()}
-					(${build()} && ${syncDocs()} && ${cleanGitCredentials()}) || ${cleanGitCredentials()} 
+					(${build()} && ${syncDocs()} && ${cleanGitCredentials()}) || ${cleanGitCredentials()}
 					${dockerBuildAndPush()}
 					"""
 	}
@@ -99,23 +99,23 @@ class SpringCloudPipelinesDeployBuildMaker implements SpringCloudNotification, J
 	private String syncDocs() {
 		return """git commit -a -m "Sync docs" && git push origin ${masterBranch()}"""
 	}
-	
+
 	private String buildNumber() {
 		return '${BUILD_NUMBER}'
 	}
-	
+
 	private String dockerBuildAndPush() {
 		return """
 			echo "Deploying image to DockerHub"
-			docker login --username=\$${dockerhubUserNameEnvVar()} --password=\$${dockerhubPasswordEnvVar()} 
-			echo "Docker images" 
-			docker images 
-			echo "Performing Docker Build" 
-			docker build -t springcloud/spring-cloud-pipeline-jenkins ./jenkins 
-			echo "Docker images post build" 
-			docker images 
-			echo "Pushing LATEST image to DockerHub" 
-			docker push springcloud/spring-cloud-pipeline-jenkins:latest 
+			docker login --username=\$${dockerhubUserNameEnvVar()} --password=\$${dockerhubPasswordEnvVar()}
+			echo "Docker images"
+			docker images
+			echo "Performing Docker Build"
+			docker build -t springcloud/spring-cloud-pipeline-jenkins ./jenkins
+			echo "Docker images post build"
+			docker images
+			echo "Pushing LATEST image to DockerHub"
+			docker push springcloud/spring-cloud-pipeline-jenkins:latest
 			echo "Removing all local images"
 			docker rmi -f springcloud/spring-cloud-pipeline-jenkins
 		"""
