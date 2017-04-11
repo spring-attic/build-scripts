@@ -1,5 +1,5 @@
 
-job('spring-cloud-stream-app-starters-seed') {
+job('scst-app-starters-seed') {
     scm {
         git {
             remote {
