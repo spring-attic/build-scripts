@@ -11,7 +11,7 @@ job('scst-app-starters-seed') {
     steps {
         gradle("clean build")
         dsl {
-            external('jobs/projects/scstappstarters/*.groovy')
+            external('jobs/scstappstarters/*.groovy')
             removeAction('DISABLE')
             removeViewAction('DELETE')
             ignoreExisting(false)

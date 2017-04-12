@@ -11,7 +11,7 @@ job('spring-cloud-stream-seed') {
     steps {
         gradle("clean build")
         dsl {
-            external('jobs/projects/springcloudstream/*.groovy')
+            external('jobs/springcloudstream/*.groovy')
             removeAction('DISABLE')
             removeViewAction('DELETE')
             ignoreExisting(false)
