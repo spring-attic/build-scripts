@@ -11,7 +11,7 @@ job('spring-cloud-task-app-starters-seed') {
     steps {
         gradle("clean build")
         dsl {
-            external('jobs/springcloudtaskappstarters/*.groovy')
+            external('jobs/projects/springcloudtaskappstarters/*.groovy')
             removeAction('DISABLE')
             removeViewAction('DELETE')
             ignoreExisting(false)

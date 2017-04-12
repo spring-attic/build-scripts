@@ -11,7 +11,7 @@ job('spring-io-seed') {
     steps {
         gradle("clean build")
         dsl {
-            external('jobs/springio/*.groovy')
+            external('jobs/projects/springio/*.groovy')
             removeAction('DISABLE')
             removeViewAction('DELETE')
             ignoreExisting(false)
