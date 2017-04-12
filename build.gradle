@@ -1,4 +1,14 @@
 apply plugin: 'groovy'
+apply plugin: 'docker-compose'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "com.avast.gradle:docker-compose-gradle-plugin:0.3.22"
+    }
+}
 
 sourceSets {
     jobs {
@@ -37,4 +47,76 @@ task workspace(type: Copy) {
 
 wrapper {
     gradleVersion '3.4.1'
+}
+
+// SCST
+task clearCodeForScst(type: Delete) {
+    group = "SCST"
+    description = "Removes unnecessary Groovy code"
+    delete fileTree('src/main/groovy/io/springframework') {
+        include '**/*'
+        exclude '**/io/springframework/common/**/*'
+        exclude '**/io/springframework/scstappstarters/**/*'
+    }
+}
+
+task clearJobsForScst(type: Delete) {
+    group = "SCST"
+    description = "Removes jobs that are not related to SCST"
+    delete fileTree('jobs') {
+        include '**/*'
+        exclude 'scstappstarters/**/*'
+    }
+}
+
+task clearSeedsForScst(type: Delete) {
+    group = "SCST"
+    description = "Removes seeds that are not related to SCST"
+    delete fileTree('seed') {
+        include '**/*'
+        exclude '**/scst-app-starters-seed.groovy'
+        exclude '**/init.groovy'
+    }
+}
+
+task changeUrlForSeedForScst(dependsOn: [clearSeedsForScst]) {
+    String repoUrlProp = "repoUrl"
+    group = "SCST"
+    description = "Updates the URL to point to the provided repository. The repo can be passed via the [${repoUrlProp}] property"
+    doLast {
+        if (project.hasProperty(repoUrlProp)) {
+            File seed = file('seed/projects/scst-app-starters-seed.groovy')
+            String text = seed.text
+            String repoUrl = project.property(repoUrlProp)
+            String replacedText = text.replace("github('spring-io/build-scripts')", "url('${repoUrl}')")
+            seed.text = replacedText
+        }
+    }
+}
+
+task setupForScst(dependsOn: [clearCodeForScst, clearJobsForScst, changeUrlForSeedForScst]) {
+    group = "SCST"
+    description = "Combines all tasks related to setting up code for SCST"
+}
+
+task composeUpForScst(dependsOn: [composeUp]) {
+    group = "SCST"
+    description = "Wrapps the `docker-compose up` task"
+    mustRunAfter setupForScst
+}
+
+task initializeAndStartScst(dependsOn: [setupForScst, composeUpForScst]) {
+    group = "SCST"
+    description = "Removes unnecessary code for SCST and starts Jenkins"
+}
+
+// Jenkins
+task startJenkins(dependsOn: [composeUpForScst]) {
+    group = "Jenkins"
+    description = "Starts Jenkins via Docker Compose"
+}
+
+task stopJenkins(dependsOn: [composeDown]) {
+    group = "Jenkins"
+    description = "Stops Jenkins via Docker Compose"
 }

@@ -1,18 +1,17 @@
 
-job('spring-cloud-seed') {
+job('spring-io-seed') {
     scm {
         git {
             remote {
                 github('spring-io/build-scripts')
             }
 			branch('master')
-            createTag(false)
         }
     }
     steps {
         gradle("clean build")
         dsl {
-            external('jobs/springcloud/*.groovy')
+            external('jobs/springboot/*.groovy')
             removeAction('DISABLE')
             removeViewAction('DELETE')
             ignoreExisting(false)
