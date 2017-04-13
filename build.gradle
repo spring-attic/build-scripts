@@ -75,7 +75,7 @@ task clearSeedsForScst(type: Delete) {
     delete fileTree('seed') {
         include '**/*'
         exclude '**/scst-app-starters-seed.groovy'
-        exclude '**/init.groovy'
+        exclude '**/init/*.groovy'
     }
 }
 
