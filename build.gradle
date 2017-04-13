@@ -79,17 +79,23 @@ task clearSeedsForScst(type: Delete) {
     }
 }
 
+// replaces the github build script url to the provided one
+String repoUrlProp = "repoUrl"
+Closure replaceUrl = { String path ->
+    File seed = file(path)
+    String text = seed.text
+    String repoUrl = project.property(repoUrlProp)
+    String replacedText = text.replace("github('spring-io/build-scripts')", "url('${repoUrl}')")
+    seed.text = replacedText
+}
+
 task changeUrlForSeedForScst(dependsOn: [clearSeedsForScst]) {
-    String repoUrlProp = "repoUrl"
     group = "SCST"
     description = "Updates the URL to point to the provided repository. The repo can be passed via the [${repoUrlProp}] property"
     doLast {
         if (project.hasProperty(repoUrlProp)) {
-            File seed = file('seed/projects/meta_seed.groovy')
-            String text = seed.text
-            String repoUrl = project.property(repoUrlProp)
-            String replacedText = text.replace("github('spring-io/build-scripts')", "url('${repoUrl}')")
-            seed.text = replacedText
+            replaceUrl('seed/init/meta_seed.groovy')
+            replaceUrl('seed/projects/scst_app_starters_seed.groovy')
         }
     }
 }
