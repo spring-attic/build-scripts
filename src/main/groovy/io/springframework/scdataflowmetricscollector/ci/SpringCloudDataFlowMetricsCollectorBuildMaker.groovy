@@ -28,6 +28,11 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
         this.project = project
     }
 
+    @Override
+    String projectSuffix() {
+        return ''
+    }
+
     void deploy(boolean checkTests = true, boolean githubPushTrigger = true) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             if (githubPushTrigger) {
