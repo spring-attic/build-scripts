@@ -7,7 +7,7 @@ FROM jenkins:2.0
 MAINTAINER Marcin Grzejszczak <mgrzejszczak@pivotal.io>
 
 COPY seed/init/init.groovy /usr/share/jenkins/ref/init.groovy
-COPY seed/projects/* /usr/share/jenkins/seeds/
+COPY seed/init/meta_seed.groovy /usr/share/jenkins/seeds/meta_seed.groovy
 
 # To print the list of plugins from a server
 #
