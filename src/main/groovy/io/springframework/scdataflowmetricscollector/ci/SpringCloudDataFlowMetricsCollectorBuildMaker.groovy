@@ -6,9 +6,6 @@ import io.springframework.common.job.Maven
 import io.springframework.common.job.TestPublisher
 import io.springframework.scstappstarters.common.SpringScstAppStarterJobs
 import javaposse.jobdsl.dsl.DslFactory
-
-import static io.springframework.common.job.Artifactory.artifactoryMavenBuild
-
 /**
  * @author Soby Chacko
  */
@@ -88,10 +85,10 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
 					""")
             }
             configure {
-                artifactoryMavenBuild(it as Node) {
-                    mavenVersion(maven33())
-                    //goals('clean install -U -Pfull -Pspring')
-                }
+//                artifactoryMavenBuild(it as Node) {
+//                    mavenVersion(maven33())
+//                    //goals('clean install -U -Pfull -Pspring')
+//                }
             }
 
             publishers {
