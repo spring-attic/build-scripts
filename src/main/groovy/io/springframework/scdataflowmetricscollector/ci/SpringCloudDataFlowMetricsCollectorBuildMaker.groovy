@@ -57,8 +57,9 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
                 maven {
                     mavenInstallation(maven33())
                     goals('clean deploy -U -Pspring -PgenerateApps')
+                }
 
-                    shell("""set -e
+                shell("""set -e
                     #!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
@@ -68,21 +69,18 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
 					${cleanGitCredentials()}
 					""")
 
-                    shell("""set -e
+                shell("""set -e
                     #!/bin/bash -x
 					export MAVEN_PATH=${mavenBin()}
 					${setupGitCredentials()}
 					echo "Pushing to Docker Hub"
                     cd apps
                     set +x
-                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${
-                        dockerHubUserNameEnvVar()
-                    }" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
+                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
 					set -x
 
 					${cleanGitCredentials()}
 					""")
-                }
             }
             configure {
                 artifactoryMavenBuild(it as Node) {
