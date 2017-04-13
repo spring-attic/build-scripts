@@ -1,11 +1,10 @@
-
-job('spring-io-seed') {
+job('spring-boot-seed') {
     scm {
         git {
             remote {
                 github('spring-io/build-scripts')
             }
-			branch('master')
+            branch('master')
         }
     }
     steps {
@@ -16,7 +15,7 @@ job('spring-io-seed') {
             removeViewAction('DELETE')
             ignoreExisting(false)
             additionalClasspath([
-                'src/main/groovy', 'src/main/resources'
+                    'src/main/groovy', 'src/main/resources'
             ].join("\n"))
         }
     }

@@ -74,7 +74,7 @@ task clearSeedsForScst(type: Delete) {
     description = "Removes seeds that are not related to SCST"
     delete fileTree('seed') {
         include '**/*'
-        exclude '**/scst-app-starters-seed.groovy'
+        exclude '**/scst_app_starters_seed.groovy'
         exclude '**/init/*.groovy'
     }
 }
@@ -85,7 +85,7 @@ task changeUrlForSeedForScst(dependsOn: [clearSeedsForScst]) {
     description = "Updates the URL to point to the provided repository. The repo can be passed via the [${repoUrlProp}] property"
     doLast {
         if (project.hasProperty(repoUrlProp)) {
-            File seed = file('seed/projects/scst-app-starters-seed.groovy')
+            File seed = file('seed/projects/scst_app_starters_seed.groovy')
             String text = seed.text
             String repoUrl = project.property(repoUrlProp)
             String replacedText = text.replace("github('spring-io/build-scripts')", "url('${repoUrl}')")
