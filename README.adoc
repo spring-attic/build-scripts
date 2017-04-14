@@ -63,8 +63,8 @@ Jenkins tasks
 startJenkins - Starts Jenkins via Docker Compose
 stopJenkins - Stops Jenkins via Docker Compose
 
-SCST tasks
-----------
+Spring Cloud Stream Tasks tasks
+----------g
 initializeAndStartScst - Removes unnecessary code for SCST and starts Jenkins
 ```
 
