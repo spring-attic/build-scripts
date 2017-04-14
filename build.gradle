@@ -51,7 +51,7 @@ wrapper {
 
 // SCST
 task clearCodeForScst(type: Delete) {
-    group = "SCST"
+    group = "Spring Cloud Stream Tasks"
     description = "Removes unnecessary Groovy code"
     delete fileTree('src/main/groovy/io/springframework') {
         include '**/*'
@@ -61,8 +61,8 @@ task clearCodeForScst(type: Delete) {
 }
 
 task clearJobsForScst(type: Delete) {
-    group = "SCST"
-    description = "Removes jobs that are not related to SCST"
+    group = "Spring Cloud Stream Tasks"
+    description = "Removes jobs that are not related to Spring Cloud Stream Tasks"
     delete fileTree('jobs') {
         include '**/*'
         exclude 'scstappstarters/**/*'
@@ -70,8 +70,8 @@ task clearJobsForScst(type: Delete) {
 }
 
 task clearSeedsForScst(type: Delete) {
-    group = "SCST"
-    description = "Removes seeds that are not related to SCST"
+    group = "Spring Cloud Stream Tasks"
+    description = "Removes seeds that are not related to Spring Cloud Stream Tasks"
     delete fileTree('seed') {
         include '**/*'
         exclude '**/scst_app_starters_seed.groovy'
@@ -90,7 +90,7 @@ Closure replaceUrl = { String path ->
 }
 
 task changeUrlForSeedForScst(dependsOn: [clearSeedsForScst]) {
-    group = "SCST"
+    group = "Spring Cloud Stream Tasks"
     description = "Updates the URL to point to the provided repository. The repo can be passed via the [${repoUrlProp}] property"
     doLast {
         if (project.hasProperty(repoUrlProp)) {
@@ -101,19 +101,19 @@ task changeUrlForSeedForScst(dependsOn: [clearSeedsForScst]) {
 }
 
 task setupForScst(dependsOn: [clearCodeForScst, clearJobsForScst, changeUrlForSeedForScst]) {
-    group = "SCST"
-    description = "Combines all tasks related to setting up code for SCST"
+    group = "Spring Cloud Stream Tasks"
+    description = "Combines all tasks related to setting up code for Spring Cloud Stream Tasks"
 }
 
 task composeUpForScst(dependsOn: [composeUp]) {
-    group = "SCST"
+    group = "Spring Cloud Stream Tasks"
     description = "Wrapps the `docker-compose up` task"
     mustRunAfter setupForScst
 }
 
 task initializeAndStartScst(dependsOn: [setupForScst, composeUpForScst]) {
-    group = "SCST"
-    description = "Removes unnecessary code for SCST and starts Jenkins"
+    group = "Spring Cloud Stream Tasks"
+    description = "Removes unnecessary code for Spring Cloud Stream Tasks and starts Jenkins"
 }
 
 // Jenkins
