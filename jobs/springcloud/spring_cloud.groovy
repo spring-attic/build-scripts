@@ -123,7 +123,10 @@ new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
 new SpringCloudKubernetesDeployBuildMaker(dsl).deploy()
 new SpringCloudGatewayDeployBuildMaker(dsl).deploy()
-new VaultSpringCloudDeployBuildMaker(dsl).deploy()
+new VaultSpringCloudDeployBuildMaker(dsl).with {
+	deploy(masterBranch())
+	deploy('1.0.x')
+}
 new SpringCloudDeployBuildMaker(dsl, "spring-cloud-incubator").deploy("spring-cloud-contract-raml")
 // CI BUILDS FOR SPRING CLOUD CONTRACTS
 new SpringCloudContractDeployBuildMaker(dsl).with {
