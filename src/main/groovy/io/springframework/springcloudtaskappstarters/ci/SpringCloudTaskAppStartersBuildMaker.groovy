@@ -22,14 +22,9 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
     final String branchToBuild = "master"
 
-    boolean isRelease = false;
+    boolean isRelease = false
 
-    String releaseVersion
-    String parentVersion
-
-    String releaseTrainVersion
-
-    String releaseType;
+    String releaseType
 
     SpringCloudTaskAppStartersBuildMaker(DslFactory dsl, String organization,
                                          String project) {
@@ -39,14 +34,9 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
     }
 
     SpringCloudTaskAppStartersBuildMaker(DslFactory dsl, String organization,
-                                         String project, boolean isRelease,
-                                         String releaseVersion, String parentVersion,
-                                         String releaseTrainVersion, String releaseType) {
+                                         String project, boolean isRelease, String releaseType) {
         this(dsl, organization, project)
         this.isRelease = isRelease
-        this.releaseVersion = releaseVersion
-        this.parentVersion = parentVersion
-        this.releaseTrainVersion = releaseTrainVersion
         this.releaseType = releaseType
     }
 
@@ -80,13 +70,13 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
             steps {
                 if (isRelease) {
                     if (docsBuild) {
-                        shell(cleanAndInstall(releaseTrainVersion, parentVersion))
+                        shell(cleanAndInstall())
                     }
                     else if (appsBuild) {
-                        shell(cleanAndDeployWithGenerateApps(project, releaseVersion, parentVersion))
+                        shell(cleanAndDeployWithGenerateApps())
                     }
                     else {
-                        shell(cleanAndDeploy(releaseVersion))
+                        shell(cleanAndDeploy())
                     }
                 }
                 else {

@@ -13,11 +13,9 @@ trait SpringCloudTaskAppStarterJobs extends SpringScstAppStarterJobs {
     }
 
     @Override
-    String cleanAndDeploy(String releaseVersion) {
+    String cleanAndDeploy() {
         return """
 					#!/bin/bash -x
-					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false
-					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false -pl :task-app-starters-core-dependencies
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring
@@ -29,13 +27,10 @@ trait SpringCloudTaskAppStarterJobs extends SpringScstAppStarterJobs {
     }
 
     @Override
-    String cleanAndDeployWithGenerateApps(String project, String releaseVersion, String parentVersion) {
+    String cleanAndDeployWithGenerateApps() {
         return """
 					#!/bin/bash -x
 					rm -rf apps
-					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false
-					./mvnw versions:set -DnewVersion=$releaseVersion -DgenerateBackupPoms=false -pl :$project"-task-app-dependencies"
-					./mvnw versions:update-parent -DparentVersion=$parentVersion -Pspring -DgenerateBackupPoms=false -pl \\!$project-task-app-dependencies
 					lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring -PgenerateApps

@@ -79,10 +79,10 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
             steps {
                 if (isRelease) {
                     if (docsBuild) {
-                        shell(cleanAndInstall(releaseTrainVersion, parentVersion))
+                        shell(cleanAndInstall())
                     }
                     else if (appsBuild) {
-                        shell(cleanAndDeployWithGenerateApps(project, releaseVersion, parentVersion))
+                        shell(cleanAndDeployWithGenerateApps())
                     }
                     else {
                         shell(cleanAndDeploy(releaseVersion))

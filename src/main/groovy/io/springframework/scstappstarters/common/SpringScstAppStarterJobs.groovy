@@ -74,7 +74,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 
 	}
 
-	String cleanAndDeployWithGenerateApps(String project, String releaseVersion, String parentVersion) {
+	String cleanAndDeployWithGenerateApps() {
 		return """
 					#!/bin/bash -x
 					rm -rf apps
@@ -88,7 +88,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 			   """
 	}
 
-	String cleanAndInstall(String releaseTrainVersion, String parentVersion) {
+	String cleanAndInstall() {
 
 		return """
 					#!/bin/bash -x
