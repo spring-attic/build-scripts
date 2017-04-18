@@ -62,6 +62,11 @@ class AllCloudJobs {
 																		'spring-cloud-zookeeper' : ['1.0.x'],
 																		'spring-cloud-bus': ['1.2.x'],
 																		'spring-cloud-build': ['1.2.x']]
+	/**
+	 * {@link AllCloudJobs#ALL_DEFAULT_JOBS} for some jobs we don't want to check whether their branches
+	 * compile properly against latest boot version. Here we provide a list of such jobs
+	 */
+	public static final List<String> IGNORED_PROJECT_BRANCHES_FOR_COMPATIBILITY_BUILD = ['spring-cloud-commons']
 
 	/**
 	 * List of default jobs. Default means that `./mvnw clean deploy` will be executed to publish artifacts
@@ -116,6 +121,10 @@ class AllCloudJobs {
 	 * Jobs with branches to be checked against latest boot versions. Defaults to latest branch of {@link AllCloudJobs#JOBS_WITH_BRANCHES}
 	 */
 	public static final Map<String, List<String>> JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD = JOBS_WITH_BRANCHES.collectEntries {
-		String project, List<String> branches -> return [(project) : [branches.last()]]
+		String project, List<String> branches ->
+			if (IGNORED_PROJECT_BRANCHES_FOR_COMPATIBILITY_BUILD.contains(project)) {
+				return [:]
+			}
+			return [(project) : [branches.last()]]
 	} as Map<String, List<String>>
 }
