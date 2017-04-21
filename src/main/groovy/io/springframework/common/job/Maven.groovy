@@ -10,6 +10,10 @@ import groovy.transform.CompileStatic
 @CompileStatic
 trait Maven {
 
+	String maven35() {
+		return "maven35"
+	}
+
 	String maven33() {
 		return "maven33"
 	}

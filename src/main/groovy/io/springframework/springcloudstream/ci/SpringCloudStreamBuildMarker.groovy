@@ -92,7 +92,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
                     shell(scriptToExecute(scriptDir, startScript))
                 }
                 maven {
-                    mavenInstallation(maven32())
+                    mavenInstallation(maven35())
                     goals(mvnGoals)
                 }
                 if (scriptDir != null && stopScript != null) {
@@ -102,7 +102,7 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
             configure {
                 if (docsBuild) {
                     artifactoryMavenBuild(it as Node) {
-                        mavenVersion(maven33())
+                        mavenVersion(maven35())
                         goals('clean install -U -Pfull -Pspring')
                     }
                     artifactoryMaven3Configurator(it as Node)
