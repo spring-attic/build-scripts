@@ -34,7 +34,43 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
         return ''
     }
 
-    void deploy(boolean checkTests = true, boolean githubPushTrigger = true) {
+    static String cleanAndDeployMileStone() {
+        return """
+					#!/bin/bash -x
+
+			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
+					if [ \$lines -eq 0 ]; then
+						./mvnw clean deploy -U -Pspring -PgenerateApps
+					else
+						echo "Snapshots found. Aborting the release build."
+					fi
+			   """
+
+    }
+
+    static String cleanAndDeployGA() {
+        return """
+					#!/bin/bash -x
+
+			   		lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
+					if [ \$lines -eq 0 ]; then
+						./mvnw clean deploy -U -Pspring -PgenerateApps
+					else
+						echo "Snapshots or RC/milestones found. Aborting the release build."
+					fi
+			   """
+    }
+
+    static String cleanAndDeploySnapshots() {
+        return """
+					#!/bin/bash -x
+
+			   		./mvnw clean deploy -U -Pspring -PgenerateApps
+			   """
+    }
+
+    void deploy(boolean checkTests = true, boolean githubPushTrigger = true, boolean isMilestoneOrRcRelease = false,
+                boolean isGARelease = false) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             if (githubPushTrigger) {
                 triggers {
@@ -60,9 +96,14 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
             }
 
             steps {
-                maven {
-                    mavenInstallation(maven33())
-                    goals('clean deploy -U -Pspring -PgenerateApps')
+                if (isMilestoneOrRcRelease) {
+                    shell(cleanAndDeployMileStone())
+                }
+                else if (isGARelease) {
+                    shell(cleanAndDeployGA())
+                }
+                else {
+                    shell(cleanAndDeploySnapshots())
                 }
 
                 shell("""set -e
@@ -91,9 +132,18 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
             configure {
                 artifactoryMavenBuild(it as Node) {
                     mavenVersion(maven33())
-                    goals('clean install -U -Pfull -Pspring')
+                    if (isMilestoneOrRcRelease) {
+                        goals('clean install -U -Pfull -Pspring -Pmilestone')
+                    }
+                    else {
+                        goals('clean install -U -Pfull -Pspring')
+                    }
                 }
-                artifactoryMaven3Configurator(it as Node)
+                artifactoryMaven3Configurator(it as Node){
+                    if (isMilestoneOrRcRelease) {
+                        deployReleaseRepository("libs-milestone-local")
+                    }
+                }
             }
 
             publishers {
