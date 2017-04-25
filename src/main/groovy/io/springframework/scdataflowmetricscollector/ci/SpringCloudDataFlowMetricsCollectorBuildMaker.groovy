@@ -37,6 +37,7 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
     static String cleanAndDeployMileStone() {
         return """
 					#!/bin/bash -x
+					rm -rf apps
 
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
@@ -51,6 +52,7 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
     static String cleanAndDeployGA() {
         return """
 					#!/bin/bash -x
+					rm -rf apps
 
 			   		lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
@@ -64,6 +66,7 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
     static String cleanAndDeploySnapshots() {
         return """
 					#!/bin/bash -x
+					rm -rf apps
 
 			   		./mvnw clean deploy -U -Pspring -PgenerateApps
 			   """
