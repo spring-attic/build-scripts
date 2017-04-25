@@ -136,10 +136,10 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
                 artifactoryMavenBuild(it as Node) {
                     mavenVersion(maven33())
                     if (isMilestoneOrRcRelease) {
-                        goals('clean install -U -Pfull -Pspring -Pmilestone')
+                        goals('clean install -U -Pfull -Pspring -Pmilestone -pl :spring-cloud-dataflow-collector-metrics-docs')
                     }
                     else {
-                        goals('clean install -U -Pfull -Pspring')
+                        goals('clean install -U -Pfull -Pspring -pl :spring-cloud-dataflow-collector-metrics-docs')
                     }
                 }
                 artifactoryMaven3Configurator(it as Node){
