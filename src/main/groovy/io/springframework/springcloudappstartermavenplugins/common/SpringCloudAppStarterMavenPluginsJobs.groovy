@@ -17,6 +17,7 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
             return isGaRelease ?
                     """
                         cd "${project}"
+                        rm -rf target
                         
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
                         if [ \$lines -eq 0 ]; then
@@ -34,6 +35,7 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
         else {
             return isGaRelease ?
                     '''
+                        rm -rf target
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
                         if [ \$lines -eq 0 ]; then
                             ./mvnw clean deploy -Pcentral -U
