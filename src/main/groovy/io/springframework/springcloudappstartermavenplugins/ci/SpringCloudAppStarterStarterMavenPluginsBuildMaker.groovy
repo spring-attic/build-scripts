@@ -34,7 +34,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
         this.project = project
     }
 
-    void deploy(boolean checkTests = false) {
+    void deploy(boolean checkTests = false, boolean isGaRelease = false) {
         String projectBranch
         if (project != null && !project.isEmpty()) {
             projectBranch = project + "-" + branchToBuild
@@ -61,7 +61,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
                 }
             }
             steps {
-                shell(cleanAndDeploy(project))
+                shell(cleanAndDeploy(project, isGaRelease))
             }
             if (checkTests) {
                 publishers {
