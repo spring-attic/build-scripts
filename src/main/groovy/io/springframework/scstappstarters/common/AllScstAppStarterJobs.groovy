@@ -26,17 +26,20 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE9_JOBS = ['trigger', 'triggertask', 'tasklaunchrequest-transform', 'transform', 'header-enricher']
 
+    public static final List<String> PHASE10_JOBS = ['tensorflow']
+
     public static final List<String> ALL_JOBS =
                                                 PHASE1_JOBS + PHASE2_JOBS +
                                                 PHASE3_JOBS + PHASE4_JOBS +
                                                 PHASE5_JOBS + PHASE6_JOBS +
-                                                PHASE7_JOBS + PHASE8_JOBS + PHASE9_JOBS;
+                                                PHASE7_JOBS + PHASE8_JOBS + PHASE9_JOBS + PHASE10_JOBS;
 
     public static final List<List<String>> PHASES = [
                                                     PHASE1_JOBS, PHASE2_JOBS,
                                                      PHASE3_JOBS, PHASE4_JOBS,
                                                      PHASE5_JOBS, PHASE6_JOBS,
-                                                     PHASE7_JOBS, PHASE8_JOBS, PHASE9_JOBS]
+                                                     PHASE7_JOBS, PHASE8_JOBS,
+                                                     PHASE9_JOBS, PHASE10_JOBS]
 
     public static final Map<String, String> RELEASE_PHASE1_JOBS = ['log':'1.2.0.M1', 'time':'1.2.0.M1', 'ftp':'1.2.0.M1', 'sftp':'1.2.0.M1', 'file':'1.2.0.M1']
 
