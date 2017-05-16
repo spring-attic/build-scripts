@@ -1,5 +1,8 @@
 
 job('meta-seed') {
+    triggers {
+        githubPush()
+    }
     scm {
         git {
             remote {

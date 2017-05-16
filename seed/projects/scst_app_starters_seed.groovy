@@ -1,5 +1,8 @@
 
 job('scst-app-starters-seed') {
+    triggers {
+        githubPush()
+    }
     scm {
         git {
             remote {

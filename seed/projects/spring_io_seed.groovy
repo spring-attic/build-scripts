@@ -1,4 +1,7 @@
 job('spring-io-seed') {
+    triggers {
+        githubPush()
+    }
     scm {
         git {
             remote {

@@ -1,4 +1,7 @@
 job('spring-boot-seed') {
+    triggers {
+        githubPush()
+    }
     scm {
         git {
             remote {

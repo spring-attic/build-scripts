@@ -1,5 +1,8 @@
 
 job('spring-cloud-task-app-starters-seed') {
+    triggers {
+        githubPush()
+    }
     scm {
         git {
             remote {

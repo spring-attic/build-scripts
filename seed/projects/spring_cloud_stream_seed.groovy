@@ -1,5 +1,8 @@
 
 job('spring-cloud-stream-seed') {
+    triggers {
+        githubPush()
+    }
     scm {
         git {
             remote {
