@@ -88,7 +88,7 @@ class EndToEndBuildMaker implements TestPublisher,
 				}
 			}
 			configure {
-				SpringCloudNotification.cloudSlack(it as Node)
+				customConfiguration(projectName, it as Node)
 			}
 			publishers {
 				if (withTests) {
@@ -103,4 +103,10 @@ class EndToEndBuildMaker implements TestPublisher,
 		}
 	}
 
+	protected void customConfiguration(String projectName, Node node) {
+		SlackPlugin.Slack slack = SpringCloudNotification.cloudSlack(node)
+		if (projectName.contains("stream")) {
+			slack.room([SpringCloudNotification.CLOUD_ROOM, SpringCloudNotification.STREAM_ROOM].join(","))
+		}
+	}
 }

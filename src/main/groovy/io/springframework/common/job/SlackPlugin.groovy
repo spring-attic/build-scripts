@@ -7,10 +7,11 @@ package io.springframework.common.job
  */
 class SlackPlugin {
 
-	static void slackNotification(Node rootNode, @DelegatesTo(Slack) Closure closure) {
+	static Slack slackNotification(Node rootNode, @DelegatesTo(Slack) Closure closure) {
 		Slack slack = new Slack(rootNode)
 		closure.delegate = slack
 		closure.call()
+		return slack
 	}
 
 	static class Slack {
