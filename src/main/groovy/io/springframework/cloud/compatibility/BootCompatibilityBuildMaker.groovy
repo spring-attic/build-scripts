@@ -1,8 +1,7 @@
 package io.springframework.cloud.compatibility
 
-import io.springframework.common.job.SlackPlugin
+import io.springframework.cloud.common.SpringCloudNotification
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
@@ -43,9 +42,7 @@ class BootCompatibilityBuildMaker extends CompatibilityBuildMaker {
 			}
 			steps checkTests ? defaultStepsWithTestsForBoot() : defaultStepsForBoot()
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 			if (checkTests) {
 				publishers {

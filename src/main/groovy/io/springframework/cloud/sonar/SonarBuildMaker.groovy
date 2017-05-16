@@ -1,17 +1,13 @@
 package io.springframework.cloud.sonar
 
 import io.springframework.cloud.common.SpringCloudNotification
-import io.springframework.common.job.Cron
-import io.springframework.common.job.JdkConfig
-import io.springframework.common.job.SlackPlugin
-import io.springframework.common.job.TestPublisher
-import io.springframework.common.job.SonarTrait
+import io.springframework.common.job.*
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.helpers.step.StepContext
 /**
  * @author Marcin Grzejszczak
  */
-class SonarBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, SonarTrait, Cron {
+class SonarBuildMaker implements JdkConfig, TestPublisher, SonarTrait, Cron {
 
 	private final DslFactory dsl
 
@@ -43,9 +39,7 @@ class SonarBuildMaker implements SpringCloudNotification, JdkConfig, TestPublish
 				archiveArtifacts mavenJUnitResults()
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 				appendSonar(it as Node)
 			}
 		}

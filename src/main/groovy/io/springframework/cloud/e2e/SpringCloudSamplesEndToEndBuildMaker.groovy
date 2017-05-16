@@ -2,17 +2,12 @@ package io.springframework.cloud.e2e
 
 import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
-import io.springframework.common.job.Cron
-import io.springframework.common.job.JdkConfig
-import io.springframework.common.job.Label
-import io.springframework.common.job.SlackPlugin
-import io.springframework.common.job.TestPublisher
+import io.springframework.common.job.*
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudSamplesEndToEndBuildMaker implements SpringCloudNotification, TestPublisher,
+class SpringCloudSamplesEndToEndBuildMaker implements TestPublisher,
 		JdkConfig, BreweryDefaults, Label, Cron, SpringCloudJobs {
 
 	private static final int MAX_EC2_EXECUTORS = 1
@@ -86,9 +81,7 @@ class SpringCloudSamplesEndToEndBuildMaker implements SpringCloudNotification, T
 				}
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 			publishers {
 				if (gradleTests) {

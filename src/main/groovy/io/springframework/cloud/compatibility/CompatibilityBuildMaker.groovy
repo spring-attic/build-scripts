@@ -1,14 +1,13 @@
 package io.springframework.cloud.compatibility
 
 import io.springframework.cloud.common.SpringCloudJobs
-import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.job.JdkConfig
 import io.springframework.common.job.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-abstract class CompatibilityBuildMaker extends CompatibilityTasks implements SpringCloudNotification, TestPublisher,
+abstract class CompatibilityBuildMaker extends CompatibilityTasks implements TestPublisher,
 		JdkConfig, SpringCloudJobs {
 	public static final String COMPATIBILITY_BUILD_DEFAULT_SUFFIX = 'compatibility-check'
 

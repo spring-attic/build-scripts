@@ -3,12 +3,11 @@ package io.springframework.cloud.ci
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.job.Cron
 import io.springframework.common.job.JdkConfig
-import io.springframework.common.job.SlackPlugin
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
+class SleuthMemoryBenchmarksBuildMaker implements JdkConfig, Cron {
 	private final DslFactory dsl
 
 	SleuthMemoryBenchmarksBuildMaker(DslFactory dsl) {
@@ -58,9 +57,7 @@ class SleuthMemoryBenchmarksBuildMaker implements SpringCloudNotification, JdkCo
 				}
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 			publishers {
 				numbers.each { int no ->

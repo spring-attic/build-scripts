@@ -7,7 +7,6 @@ import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.job.Cron
 import io.springframework.common.job.JdkConfig
 import io.springframework.common.job.Maven
-import io.springframework.common.job.SlackPlugin
 import io.springframework.common.job.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 
@@ -15,7 +14,7 @@ import javaposse.jobdsl.dsl.DslFactory
  * @author Marcin Grzejszczak
  */
 @PackageScope
-abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotification, JdkConfig, TestPublisher, HashicorpTrait,
+abstract class AbstractHashicorpDeployBuildMaker implements JdkConfig, TestPublisher, HashicorpTrait,
 		Cron, SpringCloudJobs, Maven {
 	protected final DslFactory dsl
 	protected final String organization
@@ -76,9 +75,7 @@ abstract class AbstractHashicorpDeployBuildMaker implements SpringCloudNotificat
 				shell postStep()
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()

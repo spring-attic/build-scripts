@@ -30,7 +30,9 @@ class SlackPlugin {
 			notifyFailure()
 			notifyBackToNormal()
 			notifyRepeatedFailure()
+			notifyRegression()
 			includeTestSummary()
+			includeFailedTests()
 			showCommitList()
 			commitInfoChoice()
 		}
@@ -71,8 +73,16 @@ class SlackPlugin {
 			(slack / 'notifyRepeatedFailure').setValue(value)
 		}
 
+		void notifyRegression(boolean value = true) {
+			(slack / 'notifyRegression').setValue(value)
+		}
+
 		void includeTestSummary(boolean value = true) {
 			(slack / 'includeTestSummary').setValue(value)
+		}
+
+		void includeFailedTests(boolean value = true) {
+			(slack / 'includeFailedTests').setValue(value)
 		}
 
 		void showCommitList(boolean value = true) {

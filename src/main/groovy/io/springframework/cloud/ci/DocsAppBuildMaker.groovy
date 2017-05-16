@@ -3,12 +3,11 @@ package io.springframework.cloud.ci
 import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.job.JdkConfig
-import io.springframework.common.job.SlackPlugin
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class DocsAppBuildMaker implements SpringCloudNotification, JdkConfig, SpringCloudJobs {
+class DocsAppBuildMaker implements JdkConfig, SpringCloudJobs {
 	private final DslFactory dsl
 
 	DocsAppBuildMaker(DslFactory dsl) {
@@ -48,9 +47,7 @@ class DocsAppBuildMaker implements SpringCloudNotification, JdkConfig, SpringClo
 			}
 
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 		}
 	}

@@ -5,14 +5,12 @@ import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.job.BashCloudFoundry
 import io.springframework.common.job.Cron
 import io.springframework.common.job.JdkConfig
-import io.springframework.common.job.SlackPlugin
 import io.springframework.common.job.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPublisher, JdkConfig, BreweryDefaults,
+class CloudFoundryBreweryTestExecutor implements TestPublisher, JdkConfig, BreweryDefaults,
 		BashCloudFoundry, Cron, SpringCloudJobs {
 
 	private final DslFactory dsl
@@ -69,9 +67,7 @@ class CloudFoundryBreweryTestExecutor implements SpringCloudNotification, TestPu
 				shell(cfScriptToExecute(script))
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 			publishers {
 				archiveArtifacts acceptanceTestReports()

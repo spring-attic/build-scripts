@@ -4,12 +4,11 @@ import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.job.Cron
 import io.springframework.common.job.JdkConfig
 import io.springframework.common.job.JmhPerformance
-import io.springframework.common.job.SlackPlugin
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class SleuthBenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, Cron {
+class SleuthBenchmarksBuildMaker implements JdkConfig, Cron {
 	private final DslFactory dsl
 
 	SleuthBenchmarksBuildMaker(DslFactory dsl) {
@@ -69,9 +68,7 @@ class SleuthBenchmarksBuildMaker implements SpringCloudNotification, JdkConfig, 
 				archiveArtifacts('results/jmh/target/benchmarks.log')
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 				JmhPerformance.benchmarkPublisher(it as Node) {
 
 				}

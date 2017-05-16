@@ -3,13 +3,12 @@ package io.springframework.cloud.f2f
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.job.Cron
 import io.springframework.common.job.JdkConfig
-import io.springframework.common.job.SlackPlugin
 import io.springframework.common.job.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudPipelinesMavenBuildMaker implements SpringCloudNotification, TestPublisher, JdkConfig, Cron {
+class SpringCloudPipelinesMavenBuildMaker implements TestPublisher, JdkConfig, Cron {
 	private final DslFactory dsl
 	private final String githubOrg = 'spring-cloud-samples'
 
@@ -41,9 +40,7 @@ class SpringCloudPipelinesMavenBuildMaker implements SpringCloudNotification, Te
 				shell('''./mvnw clean verify install''')
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()

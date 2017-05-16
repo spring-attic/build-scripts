@@ -2,17 +2,12 @@ package io.springframework.cloud.e2e
 
 import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
-import io.springframework.common.job.BashCloudFoundry
-import io.springframework.common.job.Cron
-import io.springframework.common.job.JdkConfig
-import io.springframework.common.job.SlackPlugin
-import io.springframework.common.job.TestPublisher
+import io.springframework.common.job.*
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPublisher, JdkConfig, BreweryDefaults,
+class CloudFoundryEndToEndBuildMaker implements TestPublisher, JdkConfig, BreweryDefaults,
 		BashCloudFoundry, Cron, SpringCloudJobs {
 
 	private final DslFactory dsl
@@ -67,9 +62,7 @@ class CloudFoundryEndToEndBuildMaker implements SpringCloudNotification, TestPub
 				shell(cfScriptToExecute(script))
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 			publishers {
 				archiveJunit gradleJUnitResults()

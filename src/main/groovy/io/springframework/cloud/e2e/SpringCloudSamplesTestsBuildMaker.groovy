@@ -4,14 +4,12 @@ import io.springframework.cloud.common.SpringCloudJobs
 import io.springframework.cloud.common.SpringCloudNotification
 import io.springframework.common.job.Cron
 import io.springframework.common.job.JdkConfig
-import io.springframework.common.job.SlackPlugin
 import io.springframework.common.job.TestPublisher
 import javaposse.jobdsl.dsl.DslFactory
-
 /**
  * @author Marcin Grzejszczak
  */
-class SpringCloudSamplesTestsBuildMaker implements SpringCloudNotification, TestPublisher,
+class SpringCloudSamplesTestsBuildMaker implements TestPublisher,
 		JdkConfig, BreweryDefaults, Cron, SpringCloudJobs {
 
 	private final DslFactory dsl
@@ -68,9 +66,7 @@ class SpringCloudSamplesTestsBuildMaker implements SpringCloudNotification, Test
 					""")
 			}
 			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(cloudRoom())
-				}
+				SpringCloudNotification.cloudSlack(it as Node)
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()
