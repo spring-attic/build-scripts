@@ -1,5 +1,6 @@
 package io.springframework.cloud.common
 
+import io.springframework.common.job.Slack
 import io.springframework.common.job.SlackPlugin
 
 /**
@@ -11,7 +12,7 @@ class SpringCloudNotification {
 	public static final String CLOUD_ROOM = "spring-cloud-firehose"
 	public static final String STREAM_ROOM = "s-c-stream-firehose"
 
-	static SlackPlugin.Slack cloudSlack(Node rootNode) {
+	static Slack cloudSlack(Node rootNode) {
 		return SlackPlugin.slackNotification(rootNode) {
 			room(CLOUD_ROOM)
 			notifySuccess(false)
@@ -27,8 +28,8 @@ class SpringCloudNotification {
 		}
 	}
 
-	static SlackPlugin.Slack cloudSlack(Node rootNode, @DelegatesTo(SlackPlugin.Slack) Closure closure) {
-		SlackPlugin.Slack slack = cloudSlack(rootNode)
+	static Slack cloudSlack(Node rootNode, @DelegatesTo(Slack) Closure closure) {
+		Slack slack = cloudSlack(rootNode)
 		closure.delegate = slack
 		closure.call()
 		return slack
