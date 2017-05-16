@@ -63,7 +63,7 @@ class Slack {
 		(slack / 'notifyRepeatedFailure').setValue(value)
 	}
 
-	void notifyRegression(boolean value = true) {
+	void notifyRegression(boolean value = false) {
 		(slack / 'notifyRegression').setValue(value)
 	}
 
