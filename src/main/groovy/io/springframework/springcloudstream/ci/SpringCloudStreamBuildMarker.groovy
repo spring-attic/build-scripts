@@ -20,12 +20,11 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
     final String organization
     final String project
 
-    String branchToBuild = "master"
+    String branchToBuild
 
     Map<String, Object> envVariables = new HashMap<>()
 
     boolean ghPushTrigger = true
-    boolean isRelease = false
 
     SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, String branchToBuild, Map<String, Object> envVariables) {
         this.dsl = dsl
@@ -35,33 +34,18 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
         this.envVariables = envVariables
     }
 
-    SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, String branchToBuild) {
+    SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, String branchToBuild = "master", boolean ghPushTrigger = true) {
         this.dsl = dsl
         this.organization = organization
         this.project = project
         this.branchToBuild = branchToBuild
-    }
-
-    SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, Map<String, Object> envVariables, boolean isRelease = false) {
-        this.dsl = dsl
-        this.organization = organization
-        this.project = project
-        this.envVariables = envVariables
-        this.isRelease = isRelease
-    }
-
-    SpringCloudStreamBuildMarker(DslFactory dsl, String organization, String project, boolean isRelease = false, boolean ghPushTrigger = true) {
-        this.dsl = dsl
-        this.organization = organization
-        this.project = project
-        this.isRelease = isRelease
         this.ghPushTrigger = ghPushTrigger
     }
 
     void deploy(boolean checkTests = true, boolean recurseSubmodules = false, String mvnGoals = "clean deploy -U -Pfull,spring",
                 String scriptDir = null, String startScript = null, String stopScript = null, boolean docsBuild = false) {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
-            if (ghPushTrigger && !isRelease) {
+            if (ghPushTrigger) {
                 triggers {
                     githubPush()
                 }
