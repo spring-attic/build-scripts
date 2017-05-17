@@ -10,10 +10,10 @@ DslFactory dsl = this
 new SpringCloudStreamPhasedBuildMaker(dsl).build()
 
 // Spring Cloud Stream core builds (1.2.x)
-new SpringCloudStreamPhasedBuildMaker(dsl).build("1.2.x", "1.2.x", "1.2.x", "Chelsea.x")
+new SpringCloudStreamPhasedBuildMaker(dsl).build("1.2.x", "1.2.x", "1.2.x", "Chelsea.x", "spring-cloud-stream-Chelsea-x-builds")
 
 // Spring Cloud Stream core builds (1.1.x)
-new SpringCloudStreamPhasedBuildMaker(dsl).build("1.1.x", "1.1.x", "1.1.x", "Brooklyn.x")
+new SpringCloudStreamPhasedBuildMaker(dsl).build("1.1.x", "1.1.x", "1.1.x", "Brooklyn.x", "spring-cloud-stream-Brooklyn-x-builds")
 
 //1.0.x builds
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream",

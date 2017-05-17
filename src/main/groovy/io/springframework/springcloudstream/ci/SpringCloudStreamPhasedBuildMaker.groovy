@@ -21,9 +21,9 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
     }
 
     void build(String coreBranch = 'master', String kafkaBinderBranch = 'master',
-               String rabbitBinderBranch = 'master', String releaseTrainBranch = 'master') {
+               String rabbitBinderBranch = 'master', String releaseTrainBranch = 'master', String groupName = 'spring-cloud-stream-builds') {
         buildAllRelatedJobs(coreBranch, kafkaBinderBranch, rabbitBinderBranch, releaseTrainBranch)
-        dsl.multiJob("spring-cloud-stream-builds") {
+        dsl.multiJob(groupName) {
             steps {
                 phase('spring-cloud-stream-core-phase') {
                     triggers {
