@@ -14,15 +14,21 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 
     private final DslFactory dsl
 
-    final String branchToBuild = "master"
+    //final String branchToBuild = "master"
 
     SpringCloudStreamPhasedBuildMaker(DslFactory dsl) {
         this.dsl = dsl
     }
 
-    void build(String coreBranch = 'master', String kafkaBinderBranch = 'master',
-               String rabbitBinderBranch = 'master', String releaseTrainBranch = 'master', String groupName = 'spring-cloud-stream-builds') {
-        buildAllRelatedJobs(coreBranch, kafkaBinderBranch, rabbitBinderBranch, releaseTrainBranch)
+//    void build(String coreBranch = 'master', String kafkaBinderBranch = 'master',
+//               String rabbitBinderBranch = 'master', String releaseTrainBranch = 'master', String groupName = 'spring-cloud-stream-builds') {
+//
+
+    void build(String coreBranch = 'master', String releaseTrainBranch = 'master',
+               String groupName = 'spring-cloud-stream-builds', Map<String, String> binders) {
+        def bindersCopy = [:]
+        bindersCopy << binders
+        buildAllRelatedJobs(coreBranch, bindersCopy, releaseTrainBranch)
         dsl.multiJob(groupName) {
             steps {
                 phase('spring-cloud-stream-core-phase') {
@@ -33,26 +39,29 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                         git {
                             remote {
                                 url "https://github.com/spring-cloud/spring-cloud-stream"
-                                branch branchToBuild
+                                branch coreBranch
                             }
                         }
                     }
                     String prefixedProjectName = prefixJob("spring-cloud-stream")
-                    phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                    phaseJob("${prefixedProjectName}-${coreBranch}-ci".toString()) {
                         currentJobParameters()
                     }
                 }
                 phase("spring-cloud-stream-binders-phase") {
                     BINDER_PHASE_JOBS.each { String project ->
-                        String prefixedProjectName = prefixJob(project)
-                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
-                            currentJobParameters()
+                        def branch = binders.find { it.key == project }?.value
+                        if (branch) {
+                            String prefixedProjectName = prefixJob(project)
+                            phaseJob("${prefixedProjectName}-${branch}-ci".toString()) {
+                                currentJobParameters()
+                            }
                         }
                     }
                 }
                 phase('spring-cloud-stream-starters-phase') {
                     String prefixedProjectName = prefixJob("spring-cloud-stream-starters")
-                    phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                    phaseJob("${prefixedProjectName}-${releaseTrainBranch}-ci".toString()) {
                         currentJobParameters()
                     }
                 }
@@ -60,19 +69,26 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         }
     }
 
-    void buildAllRelatedJobs(String coreBranch, String kafkaBinderBranch,
-                             String rabbitBinderBranch, String releaseTrainBranch) {
+    void buildAllRelatedJobs(String coreBranch, Map<String, String> binders, String releaseTrainBranch) {
         //core build
         new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream", coreBranch)
                 .deploy()
         //binder builds
-        new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
-                .deploy()
-        new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
-                .deploy(true, false,
-                "clean deploy -U -Pspring", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
-                "docker-compose-RABBITMQ-stop.sh")
-
+        def kafkaBinderBranch = binders.find{ it.key == "spring-cloud-stream-binder-kafka"}?.value
+        if (kafkaBinderBranch) {
+            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
+                    .deploy()
+            binders.remove('spring-cloud-stream-binder-kafka')
+        }
+        def rabbitBinderBranch = binders.find{ it.key == "spring-cloud-stream-binder-rabbit"}?.value
+        if (rabbitBinderBranch) {
+            new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
+                    .deploy(true, false,
+                    "clean deploy -U -Pspring", "ci-docker-compose", "docker-compose-RABBITMQ.sh",
+                    "docker-compose-RABBITMQ-stop.sh")
+            binders.remove('spring-cloud-stream-binder-rabbit')
+        }
+        binders.each {k,v -> new SpringCloudStreamBuildMarker(dsl, "spring-cloud", k, v).deploy()}
         //starter builds
         new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
                 .deploy(false, true, "clean package -Pspring", null, null, null, true)
