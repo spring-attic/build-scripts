@@ -8,21 +8,14 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
 
-    public static
-    final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit',
+    public static final List<String> BINDER_PHASE_JOBS = ['spring-cloud-stream-binder-kafka', 'spring-cloud-stream-binder-rabbit',
                                             'spring-cloud-stream-binder-jms']
 
     private final DslFactory dsl
 
-    //final String branchToBuild = "master"
-
     SpringCloudStreamPhasedBuildMaker(DslFactory dsl) {
         this.dsl = dsl
     }
-
-//    void build(String coreBranch = 'master', String kafkaBinderBranch = 'master',
-//               String rabbitBinderBranch = 'master', String releaseTrainBranch = 'master', String groupName = 'spring-cloud-stream-builds') {
-//
 
     void build(String coreBranch = 'master', String releaseTrainBranch = 'master',
                String groupName = 'spring-cloud-stream-builds', Map<String, String> binders) {
@@ -74,13 +67,13 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream", coreBranch)
                 .deploy()
         //binder builds
-        def kafkaBinderBranch = binders.find{ it.key == "spring-cloud-stream-binder-kafka"}?.value
+        def kafkaBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-kafka" }?.value
         if (kafkaBinderBranch) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-kafka", kafkaBinderBranch, [KAFKA_TIMEOUT_MULTIPLIER: '60'])
                     .deploy()
             binders.remove('spring-cloud-stream-binder-kafka')
         }
-        def rabbitBinderBranch = binders.find{ it.key == "spring-cloud-stream-binder-rabbit"}?.value
+        def rabbitBinderBranch = binders.find { it.key == "spring-cloud-stream-binder-rabbit" }?.value
         if (rabbitBinderBranch) {
             new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-rabbit", rabbitBinderBranch, [:])
                     .deploy(true, false,
@@ -88,10 +81,9 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                     "docker-compose-RABBITMQ-stop.sh")
             binders.remove('spring-cloud-stream-binder-rabbit')
         }
-        binders.each {k,v -> new SpringCloudStreamBuildMarker(dsl, "spring-cloud", k, v).deploy()}
+        binders.each { k, v -> new SpringCloudStreamBuildMarker(dsl, "spring-cloud", k, v).deploy() }
         //starter builds
         new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-starters", releaseTrainBranch)
                 .deploy(false, true, "clean package -Pspring", null, null, null, true)
-
     }
 }
