@@ -51,7 +51,7 @@ class SonarBuildMaker implements JdkConfig, TestPublisher, SonarTrait, Cron {
 			shell("""\
 				echo "Running sonar please wait..."
 				set +x
-				./mvnw \$SONAR_MAVEN_GOAL -Psonar -Dsonar.jdbc.driverClassName=org.postgresql.Driver -Dsonar.jdbc.url=\$SONAR_JDBC_URL -Dsonar.host.url=\$SONAR_HOST_URL -Dsonar.jdbc.username=\$SONAR_JDBC_USERNAME -Dsonar.jdbc.password=\$SONAR_JDBC_PASSWORD || ${postAction()}
+				./mvnw \$SONAR_MAVEN_GOAL -Psonar -Dsonar.host.url=\$SONAR_HOST_URL -Dsonar.login=\$SONAR_AUTH_TOKEN || ${postAction()}
 				set -x
 				""")
 		}
