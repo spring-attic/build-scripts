@@ -10,6 +10,10 @@ DslFactory dsl = this
 new SpringCloudStreamPhasedBuildMaker(dsl).build(['spring-cloud-stream-binder-kafka':'master',
                                                   'spring-cloud-stream-binder-rabbit':'master',
                                                   'spring-cloud-stream-binder-jms':'master'])
+// Spring Cloud Stream Chelsea builds (2.0.x)
+new SpringCloudStreamPhasedBuildMaker(dsl).build("2.0.x", "Elmhurst.x", "spring-cloud-stream-Elmhurst-x-builds",
+                                                ['spring-cloud-stream-binder-kafka':'2.0.x',
+                                                'spring-cloud-stream-binder-rabbit':'2.0.x'])
 // Spring Cloud Stream Chelsea builds (1.2.x)
 new SpringCloudStreamPhasedBuildMaker(dsl).build("1.2.x", "Chelsea.x", "spring-cloud-stream-Chelsea-x-builds",
                                                 ['spring-cloud-stream-binder-kafka':'1.2.x',
