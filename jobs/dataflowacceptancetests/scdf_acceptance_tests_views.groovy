@@ -14,17 +14,17 @@ dsl.listView('Seeds') {
     columns defaultColumns()
 }
 
-dsl.nestedView('SpringCloudStream') {
+dsl.nestedView('SpringCloudDataFlowAcceptanceTests') {
     views {
         listView('CI') {
             jobs {
-                regex('spring-cloud-stream.*-ci')
+                regex('spring-cloud-dataflow-acceptance-tests.*-ci')
             }
             columns defaultColumns()
         }
-        listView('Spring Cloud Stream') {
+        listView('Spring Cloud Data Flow Acceptance Tests') {
             jobs {
-                regex('spring-cloud-stream.*')
+                regex('spring-cloud-dataflow-acceptance-tests.*')
             }
             columns defaultColumns()
         }

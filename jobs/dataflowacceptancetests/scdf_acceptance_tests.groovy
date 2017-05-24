@@ -1,8 +1,6 @@
 package dataflowacceptancetests
 
 import io.springframework.dataflowacceptancetests.ci.ScdfAcceptanceTestsPhasedBuildMaker
-import io.springframework.springcloudstream.ci.SpringCloudStreamBuildMarker
-import io.springframework.springcloudstream.ci.SpringCloudStreamPhasedBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
@@ -18,4 +16,4 @@ run.sh -p local -b kafka
 run.sh -p local -b kafka
 run.sh -p local -b kafka
 run.sh -p local -b kafka*/
-new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build()
+new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build(['HttpSourceTests':'run.sh -p local -tests HttpSourceTests'])
