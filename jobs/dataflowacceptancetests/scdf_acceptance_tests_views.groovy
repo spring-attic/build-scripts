@@ -18,13 +18,13 @@ dsl.nestedView('SpringCloudDataFlowAcceptanceTests') {
     views {
         listView('CI') {
             jobs {
-                regex('spring-cloud-dataflow-acceptance-tests.*-ci')
+                regex('scdf-acceptance-tests.*-ci')
             }
             columns defaultColumns()
         }
         listView('Spring Cloud Data Flow Acceptance Tests') {
             jobs {
-                regex('spring-cloud-dataflow-acceptance-tests.*')
+                regex('scdf-acceptance-tests.*')
             }
             columns defaultColumns()
         }
