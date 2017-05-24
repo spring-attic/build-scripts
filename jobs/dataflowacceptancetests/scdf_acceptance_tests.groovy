@@ -5,24 +5,18 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-// Master builds
-/*
-run.sh -p local -b rabbit -tests=collectionOfTests1
-run.sh -p local -b rabbit -tests=collectionOfTests2
-run.sh -p local -b rabbit -tests=collectionOfTests3
-run.sh -p local -b rabbit -tests=collectionOfTests4
-
-run.sh -p local -b kafka
-run.sh -p local -b kafka
-run.sh -p local -b kafka
-run.sh -p local -b kafka*/
 new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build(
-        ['phase-1':['HttpSourceTests','TapTests'],
-         'phase-2':['TickTockTests','TimestampTaskTests'],
-         'phase-3':['TransformTests']],
+        ['phase-1-local-rabbit':['HttpSourceTestsLocalRabbit','TapTestsLocalRabbit','TickTockTestsLocalRabbit','TimestampTaskTestsLocalRabbit','TransformTestsLocalRabbit'],
+         'phase-1-local-kafka':['HttpSourceTestsLocalKafka','TapTestsLocalKafka', 'TickTockTestsLocalKafka','TimestampTaskTestsLocalKafka','TransformTestsLocalKafka']],
 
-        ['HttpSourceTests':'run.sh -p local -tests HttpSourceTests',
-         'TapTests':'run.sh -p local -tests TapTests',
-         'TickTockTests':'run.sh -p local -tests TickTockTests',
-         'TimestampTaskTests':'run.sh -p local -tests TimestampTaskTests',
-         'TransformTests':'run.sh -p local -tests TransformTests'])
+        ['HttpSourceTestsLocalRabbit':'run.sh -p local -tests HttpSourceTests',
+         'TapTestsLocalRabbit':'run.sh -p local -tests TapTests',
+         'TickTockTestsLocalRabbit':'run.sh -p local -tests TickTockTests',
+         'TimestampTaskTestsLocalRabbit':'run.sh -p local -tests TimestampTaskTests',
+         'TransformTestsLocalRabbit':'run.sh -p local -tests TransformTests',
+
+         'HttpSourceTestsLocalKafka':'run.sh -p local -b kafka -tests HttpSourceTests',
+         'TapTestsLocalKafka':'run.sh -p local -b kafka -tests TapTests',
+         'TickTockTestsLocalKafka':'run.sh -p local -b kafka -tests TickTockTests',
+         'TimestampTaskTestsLocalKafka':'run.sh -p local -b kafka -tests TimestampTaskTests',
+         'TransformTestsLocalKafka':'run.sh -p local -b kafka -tests TransformTests'])
