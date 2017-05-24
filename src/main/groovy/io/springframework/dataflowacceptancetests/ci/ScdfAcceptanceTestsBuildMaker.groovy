@@ -1,6 +1,5 @@
 package io.springframework.dataflowacceptancetests.ci
 
-import io.springframework.common.job.BuildAndDeploy
 import io.springframework.common.job.Cron
 import io.springframework.common.job.JdkConfig
 import io.springframework.common.job.Maven
@@ -9,8 +8,7 @@ import javaposse.jobdsl.dsl.DslFactory
 /**
  * @author Soby Chacko
  */
-class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher,
-        Cron, Maven, BuildAndDeploy {
+class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher, Cron, Maven {
 
     private final DslFactory dsl
     final String organization
@@ -24,11 +22,6 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher,
         this.project = project
     }
 
-    @Override
-    String projectSuffix() {
-        return 'spring-cloud-dataflow-acceptance-tests'
-    }
-
     static String scriptToExecute(String script) {
         return """
 						echo "Running script"
@@ -37,7 +30,7 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher,
     }
 
     void deploy(String ciName, String script) {
-        dsl.job("${prefixJob(project)}-${ciName}-ci") {
+        dsl.job("scdf-acceptance-tests-${ciName}-ci") {
             if (ghPushTrigger) {
                 triggers {
                     githubPush()
@@ -57,7 +50,6 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher,
                     remote {
                         url "https://github.com/${organization}/${project}"
                         branch branchToBuild
-
                     }
                 }
             }
@@ -66,13 +58,9 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher,
                     shell(scriptToExecute(script))
                 }
             }
-            configure {
-
-
-            }
             publishers {
                 mailer('schacko@pivotal.io', true, true)
-
+                archiveJunit mavenJUnitResults()
             }
         }
     }
