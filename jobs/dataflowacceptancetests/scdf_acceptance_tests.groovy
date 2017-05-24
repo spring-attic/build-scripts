@@ -16,4 +16,13 @@ run.sh -p local -b kafka
 run.sh -p local -b kafka
 run.sh -p local -b kafka
 run.sh -p local -b kafka*/
-new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build(['HttpSourceTests':'run.sh -p local -tests HttpSourceTests'])
+new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build(
+        ['phase-1':['HttpSourceTests','TapTests'],
+         'phase-2':['TickTockTests','TimestampTaskTests'],
+         'phase-3':['TransformTests']],
+
+        ['HttpSourceTests':'run.sh -p local -tests HttpSourceTests',
+         'TapTests':'run.sh -p local -tests TapTests',
+         'TickTockTests':'run.sh -p local -tests TickTockTests',
+         'TimestampTaskTests':'run.sh -p local -tests TimestampTaskTests',
+         'TransformTests':'run.sh -p local -tests TransformTests'])

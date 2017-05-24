@@ -19,17 +19,21 @@ class ScdfAcceptanceTestsPhasedBuildMaker implements BuildAndDeploy {
         return 'spring-cloud-dataflow-acceptance-tests'
     }
 
-    void build(Map<String, String> commands) {
+    void build(Map<String, List<String>> phasesInfo, Map<String, String> commands) {
         buildAllRelatedJobs(commands)
         dsl.multiJob("dataflow-acceptance-tests") {
             steps {
-                phase("phase-1") {
-                    String prefixedProjectName = prefixJob("spring-cloud-dataflow-acceptance-tests")
-                    commands.each { k, v ->
-                        phaseJob("${prefixedProjectName}-${k}-ci".toString()) {
-                            currentJobParameters()
+                String prefixedProjectName = prefixJob("spring-cloud-dataflow-acceptance-tests")
+                phasesInfo.each {
+                    k, v ->
+                        phase(k) {
+                          v.each {
+                              String test ->
+                                  phaseJob("${prefixedProjectName}-${test}-ci".toString()) {
+                                      currentJobParameters()
+                                  }
+                          }
                         }
-                    }
                 }
             }
         }
