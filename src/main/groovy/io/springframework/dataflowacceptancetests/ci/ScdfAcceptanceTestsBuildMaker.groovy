@@ -30,7 +30,7 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher, Cron, M
     }
 
     void deploy(String ciName, String script, Map<String, Object> envVariables) {
-        String k8sCredentials
+        String k8sCredentials = ""
         dsl.job("scdf-acceptance-tests-${ciName}-ci") {
             if (ghPushTrigger) {
                 triggers {
