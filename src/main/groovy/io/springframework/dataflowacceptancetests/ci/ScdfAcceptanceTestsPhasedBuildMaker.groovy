@@ -13,14 +13,14 @@ class ScdfAcceptanceTestsPhasedBuildMaker {
         this.dsl = dsl
     }
 
-    void build(Map<String, List<String>> phasesInfo, Map<String, String> commands) {
+    void build(Map<String, Map<String, String>> commands) {
         buildAllRelatedJobs(commands)
         dsl.multiJob("dataflow-acceptance-tests") {
             steps {
-                phasesInfo.each {
+                commands.each {
                     k, v -> phase(k) {
                         v.each {
-                            String test -> phaseJob("scdf-acceptance-tests-${test}-ci".toString()) {
+                            k1, v1 -> phaseJob("scdf-acceptance-tests-${k1}-ci".toString()) {
                                 currentJobParameters()
                             }
                         }
@@ -30,10 +30,13 @@ class ScdfAcceptanceTestsPhasedBuildMaker {
         }
     }
 
-    void buildAllRelatedJobs(Map<String, String> commands) {
+    void buildAllRelatedJobs(Map<String, Map<String, String>> commands) {
         commands.each { k, v ->
-            new ScdfAcceptanceTestsBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-acceptance-tests")
-                    .deploy(k, v)
+            v.each { k1, v1 ->
+                new ScdfAcceptanceTestsBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-acceptance-tests")
+                        .deploy(k1, v1)
+            }
+
         }
     }
 }
