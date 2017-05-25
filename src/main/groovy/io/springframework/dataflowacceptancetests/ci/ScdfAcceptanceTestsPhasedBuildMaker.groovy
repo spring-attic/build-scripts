@@ -13,8 +13,8 @@ class ScdfAcceptanceTestsPhasedBuildMaker {
         this.dsl = dsl
     }
 
-    void build(Map<String, Map<String, String>> commands) {
-        buildAllRelatedJobs(commands)
+    void build(Map<String, Map<String, String>> commands, Map<String, Object> envVariables) {
+        buildAllRelatedJobs(commands, envVariables)
         dsl.multiJob("dataflow-acceptance-tests") {
             steps {
                 commands.each {
@@ -30,11 +30,11 @@ class ScdfAcceptanceTestsPhasedBuildMaker {
         }
     }
 
-    void buildAllRelatedJobs(Map<String, Map<String, String>> commands) {
+    void buildAllRelatedJobs(Map<String, Map<String, String>> commands, Map<String, Object> envVariables) {
         commands.each { k, v ->
             v.each { k1, v1 ->
                 new ScdfAcceptanceTestsBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-acceptance-tests")
-                        .deploy(k1, v1)
+                        .deploy(k1, v1, envVariables)
             }
 
         }

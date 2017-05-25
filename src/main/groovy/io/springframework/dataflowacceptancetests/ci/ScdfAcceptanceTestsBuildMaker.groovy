@@ -29,7 +29,7 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher, Cron, M
 					"""
     }
 
-    void deploy(String ciName, String script) {
+    void deploy(String ciName, String script, Map<String, Object> envVariables) {
         dsl.job("scdf-acceptance-tests-${ciName}-ci") {
             if (ghPushTrigger) {
                 triggers {
@@ -39,6 +39,7 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher, Cron, M
             jdk jdk8()
             wrappers {
                 colorizeOutput()
+                environmentVariables(envVariables)
                 timeout {
                     noActivity(300)
                     failBuild()

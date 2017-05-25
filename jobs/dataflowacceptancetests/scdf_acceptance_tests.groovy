@@ -15,4 +15,6 @@ new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build(
                                 'TapTestsLocalKafka':'run.sh -p local -b kafka -tests TapTests',
                                 'TickTockTestsLocalKafka':'run.sh -p local -b kafka -tests TickTockTests',
                                 'TimestampTaskTestsLocalKafka':'run.sh -p local -b kafka -tests TimestampTaskTests',
-                                'TransformTestsLocalKafka':'run.sh -p local -b kafka -tests TransformTests']])
+                                'TransformTestsLocalKafka':'run.sh -p local -b kafka -tests TransformTests']],
+
+        [WAIT_TIME: '30'])
