@@ -27,4 +27,7 @@ new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build(
                                 'TimestampTaskTestsLocalKafka':'run.sh -p local -b kafka -tests TimestampTaskTests',
                                 'TransformTestsLocalKafka':'run.sh -p local -b kafka -tests TransformTests']],
 
-        [WAIT_TIME: '30'])
+        [WAIT_TIME: '30',
+         GCLOUD_PROJECT:'triple-rookery-118122',
+         GCLOUD_COMPUTE_ZONE:'us-central1-b',
+         GCLOUD_CONTAINER_CLUSTER:'ci-cluster-3'])
