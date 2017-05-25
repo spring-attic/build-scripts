@@ -30,6 +30,7 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher, Cron, M
     }
 
     void deploy(String ciName, String script, Map<String, Object> envVariables) {
+        String k8sCredentials
         dsl.job("scdf-acceptance-tests-${ciName}-ci") {
             if (ghPushTrigger) {
                 triggers {
@@ -40,6 +41,11 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher, Cron, M
             wrappers {
                 colorizeOutput()
                 environmentVariables(envVariables)
+                if (ciName.contains("Kubernetes")) {
+                    credentialsBinding {
+                        file(k8sCredentials, "scdf-acceptance-tests")
+                    }
+                }
                 timeout {
                     noActivity(300)
                     failBuild()
@@ -56,6 +62,9 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher, Cron, M
             }
             steps {
                 if (script != null) {
+                    if (ciName.contains("Kubernetes")) {
+                        shell(scriptToExecute("gcloud auth activate-service-account --key-file ${k8sCredentials}"))
+                    }
                     shell(scriptToExecute(script))
                 }
             }
