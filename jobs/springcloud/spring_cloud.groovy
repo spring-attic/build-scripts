@@ -118,6 +118,7 @@ JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 // TODO: Remove once Dalston is done
 //branchMaker.deploy('spring-cloud-release', 'Brixton', false)
 branchMaker.deploy('spring-cloud-release', 'Camden', false)
+branchMaker.deploy('spring-cloud-release', 'Dalston', false)
 
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
 // CI BUILDS FOR INCUBATOR
