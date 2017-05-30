@@ -24,7 +24,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
         buildAllRelatedJobs(coreBranch, bindersCopy, releaseTrainBranch)
         dsl.multiJob(groupName) {
             steps {
-                phase('spring-cloud-stream-core-phase') {
+                phase('spring-cloud-stream-core-phase', 'COMPLETED') {
                     triggers {
                         githubPush()
                     }
@@ -41,7 +41,7 @@ class SpringCloudStreamPhasedBuildMaker implements SpringCloudStreamJobs {
                         currentJobParameters()
                     }
                 }
-                phase("spring-cloud-stream-binders-phase") {
+                phase("spring-cloud-stream-binders-phase", 'COMPLETED') {
                     BINDER_PHASE_JOBS.each { String project ->
                         def branch = binders.find { it.key == project }?.value
                         if (branch) {

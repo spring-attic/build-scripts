@@ -22,7 +22,7 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
         dsl.multiJob("spring-cloud-task-app-starter-builds") {
             steps {
                 if (!isRelease) {
-                    phase('core-phase') {
+                    phase('core-phase', 'COMPLETED') {
                         triggers {
                             githubPush()
                         }
@@ -44,7 +44,7 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
 
                 int counter = 1
                 (AllSpringCloudTaskAppStarterJobs.PHASES).each { List<String> ph ->
-                    phase("task-app-starters-ci-group-${counter}") {
+                    phase("task-app-starters-ci-group-${counter}", 'COMPLETED') {
                         ph.each {
                             String projectName ->
                                 String prefixedProjectName = prefixJob(projectName)

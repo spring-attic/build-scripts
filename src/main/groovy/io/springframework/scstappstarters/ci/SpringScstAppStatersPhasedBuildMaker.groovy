@@ -22,7 +22,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
         dsl.multiJob("spring-scst-app-starter-builds") {
             steps {
                 if (!isRelease) {
-                    phase('core-phase') {
+                    phase('core-phase', 'COMPLETED') {
                         triggers {
                             githubPush()
                         }
@@ -44,7 +44,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
 
                 int counter = 1
                 (AllScstAppStarterJobs.PHASES).each { List<String> ph ->
-                    phase("app-starters-ci-group-${counter}") {
+                    phase("app-starters-ci-group-${counter}", 'COMPLETED') {
                         ph.each {
                             String projectName ->
                                 String prefixedProjectName = prefixJob(projectName)

@@ -18,7 +18,7 @@ class ScdfAcceptanceTestsPhasedBuildMaker {
         dsl.multiJob("dataflow-acceptance-tests") {
             steps {
                 commands.each {
-                    k, v -> phase(k) {
+                    k, v -> phase(k, 'COMPLETED') {
                         v.each {
                             k1, v1 -> phaseJob("scdf-acceptance-tests-${k1}-ci".toString()) {
                                 currentJobParameters()
