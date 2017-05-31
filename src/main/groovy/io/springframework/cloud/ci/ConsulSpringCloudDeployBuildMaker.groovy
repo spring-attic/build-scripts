@@ -7,7 +7,7 @@ import javaposse.jobdsl.dsl.DslFactory
  */
 class ConsulSpringCloudDeployBuildMaker extends AbstractHashicorpDeployBuildMaker {
 
-	private static final List<String> BRANCHES = ['master', '1.1.x', '1.0.x']
+	private static final List<String> BRANCHES = ['master', '2.0.x', '1.1.x', '1.0.x']
 
 	ConsulSpringCloudDeployBuildMaker(DslFactory dsl) {
 		super(dsl, 'spring-cloud', 'spring-cloud-consul')

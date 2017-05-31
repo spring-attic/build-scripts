@@ -60,8 +60,8 @@ class AllCloudJobs {
 																		'spring-cloud-commons' : ['1.0.x', '1.1.x', '2.0.x'],
 																		'spring-cloud-config' : ['1.1.x', '1.2.x', '2.0.x'],
 																		'spring-cloud-zookeeper' : ['1.0.x'],
-																		'spring-cloud-bus': ['1.2.x'],
-																		'spring-cloud-build': ['1.2.x'],
+																		'spring-cloud-bus': ['1.2.x', '2.0.x'],
+																		'spring-cloud-build': ['1.2.x', '2.0.x'],
 																		'spring-cloud-security': ['1.1.x']]
 	/**
 	 * {@link AllCloudJobs#ALL_DEFAULT_JOBS} for some jobs we don't want to check whether their branches
