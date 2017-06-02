@@ -8,7 +8,7 @@ DslFactory dsl = this
 new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build(
         ['phase-1-kubernetes-rabbit':['HttpSourceTestsKubernetesRabbit':'run.sh -p kubernetes -tests HttpSourceTests',
                                  'NamedChannelTestsKubernetesRabbit':'run.sh -p kubernetes -tests NamedChannelTests',
-                                 'TickTockTestsKubernetesRabbit':'run.sh -p local -kubernetes TickTockTests',
+                                 'TickTockTestsKubernetesRabbit':'run.sh -p kubernetes -tests TickTockTests',
                                  'TimestampTaskTestsKubernetesRabbit':'run.sh -p kubernetes -tests TimestampTaskTests',
                                  'TransformTestsKubernetesRabbit':'run.sh -p kubernetes -tests TransformTests'],
          'phase-2-kubernetes-kafka':['HttpSourceTestsKubernetesKafka':'run.sh -p kubernetes -b kafka -tests HttpSourceTests',
