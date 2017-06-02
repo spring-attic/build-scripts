@@ -99,10 +99,10 @@ class SpringCloudStreamBuildMarker implements JdkConfig, TestPublisher,
 
             }
             publishers {
-                mailer('scdf-ci@pivotal.io', true, true)
                 if (checkTests) {
                     archiveJunit mavenJUnitResults()
                 }
+                mailer('scdf-ci@pivotal.io', true, true)
             }
         }
     }
