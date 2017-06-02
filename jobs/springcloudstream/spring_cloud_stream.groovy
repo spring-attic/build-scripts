@@ -25,5 +25,9 @@ new SpringCloudStreamPhasedBuildMaker(dsl).build("1.1.x", "Brooklyn.x", "spring-
 // 1.0.x builds
 new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream",
         "1.0.x", [KAFKA_TIMEOUT_MULTIPLIER: '60']).deploy(true, false, "clean deploy -Pfull,spring")
-// Google PubSub binder builds
-new SpringCloudStreamBuildMarker(dsl, "spring-cloud", "spring-cloud-stream-binder-google-pubsub").deploy()
+// Google PubSub and AWS Kinesis Binders builds
+new SpringCloudStreamBuildMarker(dsl, 
+                                 "spring-cloud", 
+                                 "spring-cloud-stream-binder-google-pubsub",
+                                 "spring-cloud-stream-binder-aws-kinesis")
+                      .deploy()
