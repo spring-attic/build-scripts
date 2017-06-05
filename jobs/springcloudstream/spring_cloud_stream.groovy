@@ -1,7 +1,7 @@
 package springcloudstream
 
-import io.springframework.springcloudstream.ci.SpringCloudStreamBuildMarker
-import io.springframework.springcloudstream.ci.SpringCloudStreamPhasedBuildMaker
+import org.springframework.jenkins.springcloudstream.ci.SpringCloudStreamBuildMarker
+import org.springframework.jenkins.springcloudstream.ci.SpringCloudStreamPhasedBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this

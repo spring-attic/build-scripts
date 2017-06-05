@@ -53,10 +53,10 @@ wrapper {
 task clearCodeForScst(type: Delete) {
     group = "Spring Cloud Stream Tasks"
     description = "Removes unnecessary Groovy code"
-    delete fileTree('src/main/groovy/io/springframework') {
+    delete fileTree('src/main/groovy/org/springframework') {
         include '**/*'
-        exclude '**/io/springframework/common/**/*'
-        exclude '**/io/springframework/scstappstarters/**/*'
+        exclude '**/org/springframework/jenkins/common/**/*'
+        exclude '**/org/springframework/jenkins/scstappstarters/**/*'
     }
 }
 
