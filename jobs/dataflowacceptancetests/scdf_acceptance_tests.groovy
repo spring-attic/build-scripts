@@ -1,6 +1,6 @@
 package dataflowacceptancetests
 
-import io.springframework.dataflowacceptancetests.ci.ScdfAcceptanceTestsPhasedBuildMaker
+import org.springframework.jenkins.dataflowacceptancetests.ci.ScdfAcceptanceTestsPhasedBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this

@@ -1,46 +1,46 @@
 package springcloud
 
-import io.springframework.cloud.ci.ConsulSpringCloudDeployBuildMaker
-import io.springframework.cloud.ci.DocsAppBuildMaker
-import io.springframework.cloud.ci.SleuthBenchmarksBuildMaker
-import io.springframework.cloud.ci.SleuthMemoryBenchmarksBuildMaker
-import io.springframework.cloud.ci.SpringCloudBranchBuildMaker
-import io.springframework.cloud.ci.SpringCloudContractDeployBuildMaker
-import io.springframework.cloud.ci.SpringCloudDeployBuildMaker
-import io.springframework.cloud.ci.SpringCloudGatewayDeployBuildMaker
-import io.springframework.cloud.ci.SpringCloudKubernetesDeployBuildMaker
-import io.springframework.cloud.ci.SpringCloudPipelinesDeployBuildMaker
-import io.springframework.cloud.ci.SpringCloudReleaseToolsBuildMaker
-import io.springframework.cloud.ci.VaultSpringCloudDeployBuildMaker
-import io.springframework.cloud.compatibility.BootCompatibilityBuildMaker
-import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
-import io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker
-import io.springframework.cloud.compatibility.ManualSpringCompatibilityBuildMaker
-import io.springframework.cloud.compatibility.SpringCompatibilityBuildMaker
-import io.springframework.cloud.e2e.CloudFoundryBreweryTestExecutor
-import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
-import io.springframework.cloud.e2e.DalstonBreweryEndToEndBuildMaker
-import io.springframework.cloud.e2e.EndToEndBuildMaker
-import io.springframework.cloud.e2e.JoshEndToEndBuildMaker
-import io.springframework.cloud.e2e.NetflixEndToEndBuildMaker
-import io.springframework.cloud.e2e.SleuthEndToEndBuildMaker
-import io.springframework.cloud.e2e.SpringCloudSamplesEndToEndBuildMaker
-import io.springframework.cloud.e2e.SpringCloudSamplesTestsBuildMaker
-import io.springframework.cloud.f2f.SpringCloudPipelinesGradleBuildMaker
-import io.springframework.cloud.f2f.SpringCloudPipelinesMavenBuildMaker
-import io.springframework.cloud.sonar.ConsulSonarBuildMaker
-import io.springframework.cloud.sonar.SonarBuildMaker
+import org.springframework.jenkins.cloud.ci.ConsulSpringCloudDeployBuildMaker
+import org.springframework.jenkins.cloud.ci.DocsAppBuildMaker
+import org.springframework.jenkins.cloud.ci.SleuthBenchmarksBuildMaker
+import org.springframework.jenkins.cloud.ci.SleuthMemoryBenchmarksBuildMaker
+import org.springframework.jenkins.cloud.ci.SpringCloudBranchBuildMaker
+import org.springframework.jenkins.cloud.ci.SpringCloudContractDeployBuildMaker
+import org.springframework.jenkins.cloud.ci.SpringCloudDeployBuildMaker
+import org.springframework.jenkins.cloud.ci.SpringCloudGatewayDeployBuildMaker
+import org.springframework.jenkins.cloud.ci.SpringCloudKubernetesDeployBuildMaker
+import org.springframework.jenkins.cloud.ci.SpringCloudPipelinesDeployBuildMaker
+import org.springframework.jenkins.cloud.ci.SpringCloudReleaseToolsBuildMaker
+import org.springframework.jenkins.cloud.ci.VaultSpringCloudDeployBuildMaker
+import org.springframework.jenkins.cloud.compatibility.BootCompatibilityBuildMaker
+import org.springframework.jenkins.cloud.compatibility.ConsulCompatibilityBuildMaker
+import org.springframework.jenkins.cloud.compatibility.ManualBootCompatibilityBuildMaker
+import org.springframework.jenkins.cloud.compatibility.ManualSpringCompatibilityBuildMaker
+import org.springframework.jenkins.cloud.compatibility.SpringCompatibilityBuildMaker
+import org.springframework.jenkins.cloud.e2e.CloudFoundryBreweryTestExecutor
+import org.springframework.jenkins.cloud.e2e.CloudFoundryEndToEndBuildMaker
+import org.springframework.jenkins.cloud.e2e.DalstonBreweryEndToEndBuildMaker
+import org.springframework.jenkins.cloud.e2e.EndToEndBuildMaker
+import org.springframework.jenkins.cloud.e2e.JoshEndToEndBuildMaker
+import org.springframework.jenkins.cloud.e2e.NetflixEndToEndBuildMaker
+import org.springframework.jenkins.cloud.e2e.SleuthEndToEndBuildMaker
+import org.springframework.jenkins.cloud.e2e.SpringCloudSamplesEndToEndBuildMaker
+import org.springframework.jenkins.cloud.e2e.SpringCloudSamplesTestsBuildMaker
+import org.springframework.jenkins.cloud.f2f.SpringCloudPipelinesGradleBuildMaker
+import org.springframework.jenkins.cloud.f2f.SpringCloudPipelinesMavenBuildMaker
+import org.springframework.jenkins.cloud.sonar.ConsulSonarBuildMaker
+import org.springframework.jenkins.cloud.sonar.SonarBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 import static BootCompatibilityBuildMaker.COMPATIBILITY_BUILD_DEFAULT_SUFFIX
-import static io.springframework.cloud.common.AllCloudJobs.ALL_DEFAULT_JOBS
-import static io.springframework.cloud.common.AllCloudJobs.ALL_JOBS_WITH_TESTS
-import static io.springframework.cloud.common.AllCloudJobs.DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS
-import static io.springframework.cloud.common.AllCloudJobs.DEFAULT_SPRING_COMPATIBILITY_BUILD_JOBS
-import static io.springframework.cloud.common.AllCloudJobs.JOBS_WITHOUT_TESTS
-import static io.springframework.cloud.common.AllCloudJobs.JOBS_WITH_BRANCHES
-import static io.springframework.cloud.common.AllCloudJobs.JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD
-import static io.springframework.cloud.compatibility.SpringCompatibilityBuildMaker.COMPATIBILITY_BUILD_SPRING_SUFFIX
+import static org.springframework.jenkins.cloud.common.AllCloudJobs.ALL_DEFAULT_JOBS
+import static org.springframework.jenkins.cloud.common.AllCloudJobs.ALL_JOBS_WITH_TESTS
+import static org.springframework.jenkins.cloud.common.AllCloudJobs.DEFAULT_BOOT_COMPATIBILITY_BUILD_JOBS
+import static org.springframework.jenkins.cloud.common.AllCloudJobs.DEFAULT_SPRING_COMPATIBILITY_BUILD_JOBS
+import static org.springframework.jenkins.cloud.common.AllCloudJobs.JOBS_WITHOUT_TESTS
+import static org.springframework.jenkins.cloud.common.AllCloudJobs.JOBS_WITH_BRANCHES
+import static org.springframework.jenkins.cloud.common.AllCloudJobs.JOBS_WITH_BRANCHES_FOR_COMPATIBILITY_BUILD
+import static SpringCompatibilityBuildMaker.COMPATIBILITY_BUILD_SPRING_SUFFIX
 
 DslFactory dsl = this
 

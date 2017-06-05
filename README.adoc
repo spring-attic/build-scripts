@@ -29,15 +29,15 @@ If your job is a standard Spring Cloud job that:
  - is using `spring-cloud-build` thanks to which boot version is parametrized
  - the job resides under the `spring-cloud` organization
 
-you can just go to `io.springframework.cloud.common.AllCloudJobs` and add the name
+you can just go to `org.springframework.jenkins.cloud.common.AllCloudJobs` and add the name
 of the repo to `ALL_JOBS` list. That way the default CI jobs and views will be created for
 the master branch.
 
 If your job needs to be building other branches except for master just add your proper
-entries to the `JOBS_WITH_BRANCHES` map in `io.springframework.cloud.common.AllCloudJobs`.
+entries to the `JOBS_WITH_BRANCHES` map in `org.springframework.jenkins.cloud.common.AllCloudJobs`.
 
 If you have some custom builds just add the entry to `ALL_JOBS` and `CUSTOM_BUILD_JOBS`.
- Next you should just create your own implementation (check `io.springframework.cloud.ci.ConsulSpringCloudDeployBuildMaker`
+ Next you should just create your own implementation (check `org.springframework.jenkins.cloud.ci.ConsulSpringCloudDeployBuildMaker`
  for an example). Remember also to call it from the seed job (e.g. `springcloud/spring_cloud.groovy:29` for Consul).
 
 The views are automatically generated for you. They base on the name convention so check out
@@ -176,11 +176,11 @@ You have to provide the following values/plugin configuration for your Jenkins t
 |The instances have to have proper values for JDK / JAVA_HOME
 
 |Artifactory.DEFAULT_ARTIFACTORY_NAME
-|The id of the Artifactory Repo is hardcoded in `io.springframework.common.job.Artifactory.DEFAULT_ARTIFACTORY_NAME`.
+|The id of the Artifactory Repo is hardcoded in `org.springframework.jenkins.common.job.Artifactory.DEFAULT_ARTIFACTORY_NAME`.
 Most likely after a new installation it will change and the code will need to get updated.
 
 |Maven Trait
-|The trait io.springframework.common.job.Maven contains references to Maven installations. You have to have your
+|The trait Maven contains references to org.springframework.jenkins.common.job.Maven installations. You have to have your
 Jenkins Maven installations correspond to those entries.
 
 |===

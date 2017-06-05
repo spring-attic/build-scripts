@@ -1,9 +1,9 @@
 package springio
 
-import io.springframework.common.view.DashboardViewBuilder
-import io.springframework.common.view.DefaultDeliveryPipelineView
-import io.springframework.springio.ci.SpringInitializrBuildMaker
-import io.springframework.springio.common.AllSpringIoJobs
+import org.springframework.jenkins.common.view.DashboardViewBuilder
+import org.springframework.jenkins.common.view.DefaultDeliveryPipelineView
+import org.springframework.jenkins.springio.ci.SpringInitializrBuildMaker
+import org.springframework.jenkins.springio.common.AllSpringIoJobs
 import javaposse.jobdsl.dsl.DslFactory
 import javaposse.jobdsl.dsl.views.NestedViewsContext
 

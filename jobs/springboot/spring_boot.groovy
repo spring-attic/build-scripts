@@ -1,8 +1,8 @@
 package springboot
 
-import io.springframework.springboot.ci.SpringBootDeployBuildMaker
-import io.springframework.springboot.ci.SpringBootIntegrationBuildMaker
-import io.springframework.springboot.ci.SpringBootWindowsBuildMaker
+import org.springframework.jenkins.springboot.ci.SpringBootDeployBuildMaker
+import org.springframework.jenkins.springboot.ci.SpringBootIntegrationBuildMaker
+import org.springframework.jenkins.springboot.ci.SpringBootWindowsBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this

@@ -1,6 +1,6 @@
 package scdataflowmetricscollector
 
-import io.springframework.scdataflowmetricscollector.ci.SpringCloudDataFlowMetricsCollectorBuildMaker
+import org.springframework.jenkins.scdataflowmetricscollector.ci.SpringCloudDataFlowMetricsCollectorBuildMaker
 import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
