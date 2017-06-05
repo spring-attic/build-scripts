@@ -25,12 +25,12 @@ class SpringCloudSamplesTestsBuildMaker implements TestPublisher,
 		this.organization = organization
 	}
 
-	void buildForCamden() {
-		build("Camden.BUILD-SNAPSHOT", "tests-camden")
-	}
-
 	void buildForDalston() {
 		build("Dalston.BUILD-SNAPSHOT", "tests-dalston")
+	}
+
+	void buildForEdgware() {
+		build("Edgware.BUILD-SNAPSHOT", "tests-edgware")
 	}
 
 	private void build(String cloudTrainVersion, String projectName, String cronExpr = everySixHours(), String branchName = masterBranch()) {

@@ -17,9 +17,9 @@ import io.springframework.cloud.compatibility.ConsulCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ManualBootCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.ManualSpringCompatibilityBuildMaker
 import io.springframework.cloud.compatibility.SpringCompatibilityBuildMaker
-import io.springframework.cloud.e2e.CamdenBreweryEndToEndBuildMaker
 import io.springframework.cloud.e2e.CloudFoundryBreweryTestExecutor
 import io.springframework.cloud.e2e.CloudFoundryEndToEndBuildMaker
+import io.springframework.cloud.e2e.DalstonBreweryEndToEndBuildMaker
 import io.springframework.cloud.e2e.EndToEndBuildMaker
 import io.springframework.cloud.e2e.JoshEndToEndBuildMaker
 import io.springframework.cloud.e2e.NetflixEndToEndBuildMaker
@@ -114,10 +114,9 @@ JOBS_WITH_BRANCHES.each { String project, List<String> branches ->
 		branchMaker.deploy(project, branch, checkTests)
 	}
 }
-// Brixton and Camden branches for Spring Cloud Release
-// TODO: Remove once Dalston is done
-//branchMaker.deploy('spring-cloud-release', 'Brixton', false)
-branchMaker.deploy('spring-cloud-release', 'Camden', false)
+// Release branches for Spring Cloud Release
+// TODO: Remove once Edgware  is done
+//branchMaker.deploy('spring-cloud-release', 'Camden', false)
 branchMaker.deploy('spring-cloud-release', 'Dalston', false)
 
 new ConsulSpringCloudDeployBuildMaker(dsl).deploy()
@@ -155,10 +154,11 @@ new SleuthEndToEndBuildMaker(dsl).with {
 	buildSleuthStreamKafka(everySixHours())
 }
 // All jobs for e2e with Brewery
-// TODO: Remove once Dalston is done
-//new BrixtonBreweryEndToEndBuildMaker(dsl).build()
-new CamdenBreweryEndToEndBuildMaker(dsl).build()
-new CamdenBreweryEndToEndBuildMaker(dsl).buildForLatestBoot()
+// TODO: Remove once Edgware is done
+//new CamdenBreweryEndToEndBuildMaker(dsl).build()
+//new CamdenBreweryEndToEndBuildMaker(dsl).buildForLatestBoot()
+new DalstonBreweryEndToEndBuildMaker(dsl).build()
+new DalstonBreweryEndToEndBuildMaker(dsl).buildForLatestBoot()
 new SpringCloudSamplesEndToEndBuildMaker(dsl).with {
 	buildWithGradleAndMavenTests("spring-cloud-contract-samples", everySixHours())
 }
@@ -177,19 +177,19 @@ new CloudFoundryBreweryTestExecutor(dsl).buildBreweryForDocsTests()
 // CUSTOM E2E
 // Josh's CI APP
 new JoshEndToEndBuildMaker(dsl).with {
-	// TODO: Remove once Dalston is done
-//	build('bootiful-microservices-brixton',
-//			'scripts/scenario_brixton_tester.sh',
-//			everyThreeHours(),
-//			'scripts/kill_all.sh')
-	build('bootiful-microservices-camden',
-			'scripts/scenario_camden_tester.sh',
+	// TODO: Remove once Edgware is done
+	build('bootiful-microservices-dalston',
+			'scripts/scenario_dalston_tester.sh',
+			everyThreeHours(),
+			'scripts/kill_all.sh')
+	build('bootiful-microservices-edgware',
+			'scripts/scenario_edgware_tester.sh',
 			everyThreeHours(),
 			'scripts/kill_all.sh')
 }
 new SpringCloudSamplesTestsBuildMaker(dsl).with {
-	buildForCamden()
 	buildForDalston()
+	buildForEdgware()
 }
 /*
 new EndToEndBuildMaker(dsl, 'hecklerm').with {
