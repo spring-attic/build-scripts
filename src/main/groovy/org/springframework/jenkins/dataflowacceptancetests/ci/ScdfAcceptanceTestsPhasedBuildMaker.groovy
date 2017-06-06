@@ -13,11 +13,11 @@ class ScdfAcceptanceTestsPhasedBuildMaker {
         this.dsl = dsl
     }
 
-    void build(Map<String, Map<String, String>> commands, Map<String, Object> envVariables) {
-        buildAllRelatedJobs(commands, envVariables)
+    void build(Map<String, Map<String, Map<String, Object>>> phases, Map<String, Object> envVariables) {
+        buildAllRelatedJobs(phases, envVariables)
         dsl.multiJob("dataflow-acceptance-tests") {
             steps {
-                commands.each {
+                phases.each {
                     k, v -> phase(k, 'COMPLETED') {
                         v.each {
                             k1, v1 -> phaseJob("scdf-acceptance-tests-${k1}-ci".toString()) {
@@ -30,13 +30,23 @@ class ScdfAcceptanceTestsPhasedBuildMaker {
         }
     }
 
-    void buildAllRelatedJobs(Map<String, Map<String, String>> commands, Map<String, Object> envVariables) {
-        commands.each { k, v ->
-            v.each { k1, v1 ->
+    void buildAllRelatedJobs(Map<String, Map<String, Map<String, Object>>> phases, Map<String, Object> envVariables) {
+        String command
+        phases.each { phase, group ->
+            group.each { groupName, commands ->
+                commands.each {
+                    k, v ->
+                        switch (k) {
+                            case 'envVars':
+                                envVariables << (Map<String, Object>)v
+                                break
+                            case 'command':
+                                command = v
+                        }
+                }
                 new ScdfAcceptanceTestsBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-acceptance-tests")
-                        .deploy(k1, v1, envVariables)
+                        .deploy(groupName, command, envVariables)
             }
-
         }
     }
 }
