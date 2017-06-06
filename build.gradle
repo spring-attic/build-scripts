@@ -1,5 +1,6 @@
 apply plugin: 'groovy'
 apply plugin: 'docker-compose'
+apply from: 'libs.gradle'
 
 buildscript {
     repositories {
@@ -19,14 +20,11 @@ sourceSets {
 }
 
 repositories {
-    jcenter()
     mavenCentral()
-    maven { url 'http://repo.jenkins-ci.org/releases/' }
 }
 
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.4.3'
-    compile 'org.jenkins-ci.plugins:job-dsl-core:1.63'
     testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
         exclude module: 'groovy-all'
     }

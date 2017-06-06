@@ -18,7 +18,7 @@ job('spring-boot-seed') {
             removeViewAction('DELETE')
             ignoreExisting(false)
             additionalClasspath([
-                    'src/main/groovy', 'src/main/resources'
+                    'src/main/groovy', 'src/main/resources', 'build/lib/*.jar'
             ].join("\n"))
         }
     }

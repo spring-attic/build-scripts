@@ -19,7 +19,7 @@ job('spring-cloud-task-app-starters-seed') {
             removeViewAction('DELETE')
             ignoreExisting(false)
             additionalClasspath([
-                    'src/main/groovy', 'src/main/resources'
+                    'src/main/groovy', 'src/main/resources', 'build/lib/*.jar'
             ].join("\n"))
         }
     }
