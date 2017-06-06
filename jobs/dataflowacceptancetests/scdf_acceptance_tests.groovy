@@ -6,35 +6,24 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 new ScdfAcceptanceTestsPhasedBuildMaker(dsl).build(
-        ['phase-1-kubernetes-rabbit-setup':['KubernetesRabbitSetup':'run.sh -p kubernetes -b rabbit -t -c'],
-         'phase-2-kubernetes-rabbit':['HttpSourceTestsKubernetesRabbit':'run.sh -p kubernetes -b rabbit -s -c -tests HttpSourceTests',
-                                 'NamedChannelTestsKubernetesRabbit':'run.sh -p kubernetes -b rabbit -s -c -tests NamedChannelTests',
-                                 'TickTockTestsKubernetesRabbit':'run.sh -p kubernetes -b rabbit -s -c -tests TickTockTests',
-                                 'TimestampTaskTestsKubernetesRabbit':'run.sh -p kubernetes -b rabbit -s -c -tests TimestampTaskTests',
-                                 'TransformTestsKubernetesRabbit':'run.sh -p kubernetes -b rabbit -s -c -tests TransformTests'],
-         'phase-3-kubernetes-rabbit-cleanup':['KubernetesRabbitCleanup':'run.sh -p kubernetes -b rabbit -t -s'],
+        ['phase-1-kubernetes-rabbit':['TestsKubernetesRabbitGroup1':'KUBERNETES_NAMESPACE=jenkins-group1 DEPLOY_PAUSE_TIME=10 run.sh -p kubernetes -b rabbit -tests ApplicationTests,PlatformHelperTests,TimestampTaskTests,TickTockTests,HttpSourceTests,TransformTests',
+                                      'TestsKubernetesRabbitGroup2':'KUBERNETES_NAMESPACE=jenkins-group2 DEPLOY_PAUSE_TIME=10 run.sh -p kubernetes -b rabbit -tests TransformTests'],
 
-         'phase-4-kubernetes-kafka-setup':['KubernetesKafkaSetup':'run.sh -p kubernetes -b kafka -t -c'],
-         'phase-5-kubernetes-kafka':['HttpSourceTestsKubernetesKafka':'run.sh -p kubernetes -b kafka -s -c -tests HttpSourceTests',
-                                      'NamedChannelTestsKubernetesKafka':'run.sh -p kubernetes -b kafka -s -c -tests NamedChannelTests',
-                                      'TickTockTestsKubernetesKafka':'run.sh -p kubernetes -b kafka -s -c -tests TickTockTests',
-                                      'TimestampTaskTestsKubernetesKafka':'run.sh -p kubernetes -b kafka -s -c -tests TimestampTaskTests',
-                                      'TransformTestsKubernetesKafka':'run.sh -p kubernetes -b kafka -s -c -tests TransformTests'],
-         'phase-6-kubernetes-kafka-cleanup':['KubernetesKafkaCleanup':'run.sh -p kubernetes -b kafka -t -s'],
+         'phase-2-kubernetes-kafka':['TestsKubernetesKafkaGroup1':'KUBERNETES_NAMESPACE=jenkins-group1 DEPLOY_PAUSE_TIME=10 run.sh -p kubernetes -b kafka -tests ApplicationTests,PlatformHelperTests,TimestampTaskTests,TickTockTests,HttpSourceTests,TransformTests',
+                                     'TestsKubernetesKafkaGroup2':'KUBERNETES_NAMESPACE=jenkins-group2 DEPLOY_PAUSE_TIME=10 run.sh -p kubernetes -b kafka -tests TransformTests'],
 
-        'phase-7-local-rabbit':['HttpSourceTestsLocalRabbit':'run.sh -p local -tests HttpSourceTests',
+         'phase-3-local-rabbit':['HttpSourceTestsLocalRabbit':'run.sh -p local -tests HttpSourceTests',
                                  'NamedChannelTestsLocalRabbit':'run.sh -p local -tests NamedChannelTests',
                                  'TickTockTestsLocalRabbit':'run.sh -p local -tests TickTockTests',
                                  'TimestampTaskTestsLocalRabbit':'run.sh -p local -tests TimestampTaskTests',
                                  'TransformTestsLocalRabbit':'run.sh -p local -tests TransformTests'],
-         'phase-8-local-kafka':['HttpSourceTestsLocalKafka':'run.sh -p local -b kafka -tests HttpSourceTests',
+         'phase-4-local-kafka':['HttpSourceTestsLocalKafka':'run.sh -p local -b kafka -tests HttpSourceTests',
                                 'NamedChannelTestsLocalKafka':'run.sh -p local -b kafka -tests NamedChannelTests',
                                 'TickTockTestsLocalKafka':'run.sh -p local -b kafka -tests TickTockTests',
                                 'TimestampTaskTestsLocalKafka':'run.sh -p local -b kafka -tests TimestampTaskTests',
                                 'TransformTestsLocalKafka':'run.sh -p local -b kafka -tests TransformTests']],
 
         [WAIT_TIME: '30',
-         KUBERNETES_NAMESPACE:'jenkins',
          GCLOUD_PROJECT:'triple-rookery-118122',
          GCLOUD_COMPUTE_ZONE:'us-central1-b',
          GCLOUD_CONTAINER_CLUSTER:'ci-cluster-3'])
