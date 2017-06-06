@@ -1,4 +1,4 @@
-job('spring-io-seed') {
+job('spring-common-seed') {
     triggers {
         githubPush()
     }
@@ -13,7 +13,7 @@ job('spring-io-seed') {
     steps {
         gradle("clean build")
         dsl {
-            external('jobs/springio/*.groovy')
+            external('jobs/springcommon/*.groovy')
             removeAction('DISABLE')
             removeViewAction('DELETE')
             ignoreExisting(false)
