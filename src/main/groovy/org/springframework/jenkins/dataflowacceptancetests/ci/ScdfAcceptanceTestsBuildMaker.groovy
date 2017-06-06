@@ -70,7 +70,9 @@ class ScdfAcceptanceTestsBuildMaker implements JdkConfig, TestPublisher, Cron, M
             }
             publishers {
                 mailer('schacko@pivotal.io', true, true)
-                archiveJunit mavenJUnitResults()
+                if (script.contains("-tests")) {
+                    archiveJunit mavenJUnitResults()
+                }
             }
         }
     }
