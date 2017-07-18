@@ -42,8 +42,8 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
             }
             publishers {
                 mailer('schacko@pivotal.io', true, true)
-                archiveJunit mavenJUnitResults()
-                archiveJunit mavenJUnitFailsafeResults()
+                //archiveJunit mavenJUnitResults()
+                //archiveJunit mavenJUnitFailsafeResults()
             }
         }
     }
