@@ -122,7 +122,6 @@ ENVIRONMENTAL VARIABLES:
 [BLUE_APP_NAME]: The name of the blue instance. Defaults to (start-blue)
 [GREEN_APP_NAME]: The name of the green instance. Defaults to (start-green)
 [ROUTED_HOSTNAME]: The hostname to which the "production" traffic gets routed. Defaults to (start-staging)
-[APP_HOSTNAME_PREFIX]: The hostname prefix to which blue or green will get appended. Defaults to (start)
 [DOMAIN_NAME]: Domain of the deployed application. Defaults to (cfapps.io)
 [JAR_LOCATION]: Location of the JAR to be deployed. Defaults to (initializr-service/target/initializr-service.jar)
 [OLD_APP_INSTANCES]: Number of instances of the old instance. Defaults to (1)
@@ -148,7 +147,6 @@ EOF
 export BLUE_APP_NAME="${BLUE_APP_NAME:-start-blue}"
 export GREEN_APP_NAME="${GREEN_APP_NAME:-start-green}"
 export ROUTED_HOSTNAME="${ROUTED_HOSTNAME:-start-staging}"
-export APP_HOSTNAME_PREFIX="${APP_HOSTNAME_PREFIX:-start}"
 export DOMAIN_NAME="${DOMAIN_NAME:-cfapps.io}"
 export JAR_LOCATION="${JAR_LOCATION:-initializr-service/target/initializr-service.jar}"
 export OLD_APP_INSTANCES=${OLD_APP_INSTANCES:-1}
@@ -192,9 +190,9 @@ runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}"
 echo "Found the following application running on production [${runningApp}]"
 case ${runningApp} in
 blue)
-  deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${APP_HOSTNAME_PREFIX}-green"
+  deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
   ;;
 *)
-  deploy "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${APP_HOSTNAME_PREFIX}-blue"
+  deploy "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
   ;;
 esac
