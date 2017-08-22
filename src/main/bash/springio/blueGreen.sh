@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -x
 
 function logInToPaas() {
     local cfUsername="${CF_USERNAME}"
