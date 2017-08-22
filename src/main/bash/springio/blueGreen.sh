@@ -112,6 +112,23 @@ function deploy() {
     scaleApp "${oldAppName}" "${oldAppInstances}" "${oldAppMemory}"
 }
 
+function rollback() {
+    local brokenApp=${1}
+    local rolledBackToAppName=${2}
+    local newHostname=${3}
+    local domain="${DOMAIN_NAME}"
+    local routedHostname="${ROUTED_HOSTNAME}"
+    local oldAppInstances="${OLD_APP_INSTANCES}"
+    local newAppInstances="${NEW_APP_INSTANCES}"
+    local oldAppMemory="${OLD_APP_MEMORY}"
+    local newAppMemory="${NEW_APP_MEMORY}"
+    echo "Will rollback the app. Current app is [${brokenApp}], the app to which we revert is [${rolledBackToAppName}] with url [${newHostname}.${domain}]"
+    scaleApp "${rolledBackToAppName}" "${newAppInstances}" "${newAppMemory}"
+    mapRoute "${rolledBackToAppName}" "${routedHostname}" "${domain}"
+    unMapRoute "${brokenApp}" "${routedHostname}" "${domain}"
+    scaleApp "${brokenApp}" "${oldAppInstances}" "${oldAppMemory}"
+}
+
 function print_usage() {
 cat <<EOF
 
@@ -141,6 +158,11 @@ $ BLUE_APP_NAME=marcin-blue GREEN_APP_NAME=marcin-green ROUTED_HOSTNAME=marcin-s
 JAR_LOCATION=target/marcin-sample-0.0.1-SNAPSHOT.jar OLD_APP_INSTANCES=1 NEW_APP_INSTANCES=2 OLD_APP_MEMORY=1024m \
 NEW_APP_MEMORY=1024m CF_ORG=SomeOrg CF_SPACE=SomeSpace ./blueGreen.sh
 
+AVAILABLE SWITCHES
+
+-h | --help         - prints this help
+-r | --rollback     - doesn't deploy but performs a rollback step instead
+
 EOF
 }
 
@@ -158,6 +180,7 @@ export CF_PASSWORD=${CF_PASSWORD:-}
 export CF_ORG=${CF_ORG:-}
 export CF_SPACE=${CF_SPACE:-}
 export CF_API=${CF_API:-api.run.pivotal.io}
+export ROLLBACK=${ROLLBACK:-false}
 
 if [[ "${CF_ORG}" == "" ]]; then
     echo "REQUIRED ENV VAR NOT FOUND!!"
@@ -177,7 +200,10 @@ while [[ $# > 0 ]]
 do
 key="$1"
 case ${key} in
-    --help)
+    -r|--rollback)
+    ROLLBACK="true"
+    ;;
+    -h|--help)
     print_usage
     exit 0
     ;;
@@ -185,14 +211,44 @@ esac
 shift # past argument or value
 done
 
+if [[ "${ROLLBACK}" == "true" ]]; then
+
+    cat <<'EOF'
+  ___  ___  _    _    ___   _   ___ _  __
+ | _ \/ _ \| |  | |  | _ ) /_\ / __| |/ /
+ |   | (_) | |__| |__| _ \/ _ | (__| ' <
+ |_|_\\___/|____|____|___/_/ \_\___|_|\_\
+
+EOF
+
+else
+
+    cat <<'EOF'
+  ___  ___ ___ _    _____   __
+ |   \| __| _ | |  / _ \ \ / /
+ | |) | _||  _| |_| (_) \ V /
+ |___/|___|_| |____\___/ |_|
+
+EOF
+
+fi
+
 logInToPaas
 runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${ROUTED_HOSTNAME}.${DOMAIN_NAME}" )
 echo "Found the following application running on production [${runningApp}]"
 case ${runningApp} in
 blue)
-  deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
-  ;;
+    if [[ "${ROLLBACK}" == "true" ]]; then
+        rollback "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
+    else
+        deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
+    fi
+;;
 *)
-  deploy "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
-  ;;
+    if [[ "${ROLLBACK}" == "true" ]]; then
+        rollback "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
+    else
+        deploy "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
+    fi
+    ;;
 esac
