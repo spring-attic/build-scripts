@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 
 function logInToPaas() {
     local cfUsername="${CF_USERNAME}"
@@ -186,7 +187,7 @@ shift # past argument or value
 done
 
 logInToPaas
-runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${ROUTED_HOSTNAME}" )
+runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${ROUTED_HOSTNAME}.${DOMAIN_NAME}" )
 echo "Found the following application running on production [${runningApp}]"
 case ${runningApp} in
 blue)
