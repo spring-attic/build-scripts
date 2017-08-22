@@ -134,7 +134,7 @@ cat <<EOF
 
 Performs blue / green deployment of an application to production.
 
-ENVIRONMENTAL VARIABLES:
+>> ENVIRONMENTAL VARIABLES <<
 
 [BLUE_APP_NAME]: The name of the blue instance. Defaults to (start-blue)
 [GREEN_APP_NAME]: The name of the green instance. Defaults to (start-green)
@@ -151,14 +151,13 @@ ENVIRONMENTAL VARIABLES:
 [CF_SPACE]: Cloud Foundry space to which you would like to deploy the application. (REQUIRED)
 [CF_API]: Cloud Foundry API of the installation to which you would like to deploy the application. Defaults to (initializr-service/target/initializr-service.jar)
 
-
-EXAMPLE OF USAGE (running locally on a logged in CF client):
+>> EXAMPLE OF USAGE (running locally on a logged in CF client) <<
 
 $ BLUE_APP_NAME=marcin-blue GREEN_APP_NAME=marcin-green ROUTED_HOSTNAME=marcin-sample DOMAIN_NAME=cfapps.io \
 JAR_LOCATION=target/marcin-sample-0.0.1-SNAPSHOT.jar OLD_APP_INSTANCES=1 NEW_APP_INSTANCES=2 OLD_APP_MEMORY=1024m \
 NEW_APP_MEMORY=1024m CF_ORG=SomeOrg CF_SPACE=SomeSpace ./blueGreen.sh
 
-AVAILABLE SWITCHES
+>> AVAILABLE SWITCHES <<
 
 -h | --help         - prints this help
 -r | --rollback     - doesn't deploy but performs a rollback step instead
@@ -237,18 +236,18 @@ logInToPaas
 runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${ROUTED_HOSTNAME}.${DOMAIN_NAME}" )
 echo "Found the following application running on production [${runningApp}]"
 case ${runningApp} in
-blue)
-    if [[ "${ROLLBACK}" == "true" ]]; then
-        rollback "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
-    else
-        deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
-    fi
-;;
-*)
-    if [[ "${ROLLBACK}" == "true" ]]; then
-        rollback "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
-    else
-        deploy "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
-    fi
+    blue)
+        if [[ "${ROLLBACK}" == "true" ]]; then
+            rollback "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
+        else
+            deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
+        fi
+    ;;
+    *)
+        if [[ "${ROLLBACK}" == "true" ]]; then
+            rollback "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
+        else
+            deploy "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
+        fi
     ;;
 esac
