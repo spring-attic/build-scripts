@@ -3,6 +3,10 @@ package org.springframework.jenkins.springcloudgcp
 import javaposse.jobdsl.dsl.DslFactory
 import org.springframework.jenkins.common.job.*
 
+import static org.springframework.jenkins.common.job.Artifactory.artifactoryMaven3Configurator
+import static org.springframework.jenkins.common.job.Artifactory.artifactoryMavenBuild
+
+
 /**
  * @author Marcin Grzejszczak
  */
@@ -39,6 +43,16 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
                     mavenInstallation(maven33())
                     goals('clean deploy -U')
                 }
+            }
+            configure {
+
+                artifactoryMavenBuild(it as Node) {
+                    mavenVersion(maven35())
+                    goals('clean install -U -Pfull -Pspring')
+                }
+                artifactoryMaven3Configurator(it as Node)
+
+
             }
             publishers {
                 mailer('schacko@pivotal.io', true, true)
