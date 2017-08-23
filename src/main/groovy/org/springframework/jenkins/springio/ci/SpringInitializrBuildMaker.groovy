@@ -72,6 +72,27 @@ class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, Tes
 						echo "Removing the stored stubs"
 						rm -rf ~/.m2/repository/io/spring/initializr/initializr-web/
 				""")
+				shell('''
+						echo "Store parameters as a file"
+						mkdir -p target
+						rm -rf target/params.rc
+						cat <<EOT >> target/params.rc
+export BLUE_APP_NAME="${BLUE_APP_NAME:-start-blue}"
+export BLUE_APP_ROUTE="${BLUE_APP_ROUTE:-${BLUE_APP_NAME:-start-blue}}"
+export GREEN_APP_NAME="${GREEN_APP_NAME:-start-green}"
+export ROUTED_HOSTNAME="${ROUTED_HOSTNAME:-start-staging}"
+export DOMAIN_NAME="${DOMAIN_NAME:-cfapps.io}"
+export JAR_LOCATION="${JAR_LOCATION:-initializr-service/target/initializr-service.jar}"
+export OLD_APP_INSTANCES=${OLD_APP_INSTANCES:-1}
+export NEW_APP_INSTANCES=${NEW_APP_INSTANCES:-2}
+export OLD_APP_MEMORY=${OLD_APP_MEMORY:-}
+export NEW_APP_MEMORY=${NEW_APP_MEMORY:-}
+export CF_ORG=${CF_ORG:-}
+export CF_SPACE=${CF_SPACE:-}
+export CF_API=${CF_API:-api.run.pivotal.io}
+export ROLLBACK=${ROLLBACK:-false}
+EOT
+				''')
 			}
 			configure {
 				SlackPlugin.slackNotification(it as Node) {
@@ -86,12 +107,11 @@ class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, Tes
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()
-				downstreamParameterized {
-					trigger([SpringStarterProductionBuildMaker.jobName(),
-							 SpringStarterRollbackBuildMaker.jobName()]) {
-						parameters {
-							currentBuild()
-						}
+				buildPipelineTrigger([SpringStarterProductionBuildMaker.jobName(),
+									  SpringStarterRollbackBuildMaker.jobName()].join(",")) {
+					parameters {
+						sameNode()
+						setFailTriggerOnMissing(false)
 					}
 				}
 			}

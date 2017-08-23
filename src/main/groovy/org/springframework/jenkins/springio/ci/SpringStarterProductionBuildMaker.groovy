@@ -60,7 +60,7 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 			steps {
 				shell("""#!/bin/bash
 				set -e
-		
+				source target/params.rc 
 				${dsl.readFileFromWorkspace(scriptsDir + '/blueGreen.sh')}
 				""")
 			}
