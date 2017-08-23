@@ -29,7 +29,7 @@ function logInToPaas() {
 
     echo "Logging in to CF to org [${cfOrg}], space [${cfSpace}]"
     if [[ "${cfUsername}" != "" ]]; then
-        cf api --skip-ssl-validation "${apiUrl}"
+        cf api --skip-ssl-validation "https://${apiUrl}"
         cf login -u "${cfUsername}" -p "${cfPassword}" -o "${cfOrg}" -s "${cfSpace}"
     else
         cf target -o "${cfOrg}" -s "${cfSpace}"
@@ -158,7 +158,7 @@ Performs blue / green deployment of an application to production.
 [BLUE_APP_HOSTNAME]: The hostname of the green instance. Defaults to (start-staging-blue)
 [GREEN_APP_HOSTNAME]: The hostname of the green instance. Defaults to (start-staging-green)
 [ROUTED_HOSTNAME]: The hostname to which the "production" traffic gets routed. Defaults to (start-staging)
-[DOMAIN_NAME]: Domain of the deployed application. Defaults to (cfapps.io)
+[DOMAIN_NAME]: Domain of the deployed application. (REQUIRED)
 [JAR_LOCATION]: Location of the JAR to be deployed. Defaults to (initializr-service/target/initializr-service.jar)
 [OLD_APP_INSTANCES]: Number of instances of the old instance. If you pass [0] then the old instance will get stopped. Defaults to (1)
 [NEW_APP_INSTANCES]: Number of instances of the new instance. Defaults to (2)
@@ -189,7 +189,7 @@ export BLUE_APP_HOSTNAME="${BLUE_APP_HOSTNAME:-${BLUE_APP_NAME:-start-staging-bl
 export GREEN_APP_NAME="${GREEN_APP_NAME:-start-green}"
 export GREEN_APP_HOSTNAME="${GREEN_APP_HOSTNAME:-${GREEN_APP_NAME:-start-staging-green}}"
 export ROUTED_HOSTNAME="${ROUTED_HOSTNAME:-start-staging}"
-export DOMAIN_NAME="${DOMAIN_NAME:-cfapps.io}"
+export DOMAIN_NAME="${DOMAIN_NAME}"
 export JAR_LOCATION="${JAR_LOCATION:-initializr-service/target/initializr-service.jar}"
 export OLD_APP_INSTANCES=${OLD_APP_INSTANCES:-1}
 export NEW_APP_INSTANCES=${NEW_APP_INSTANCES:-2}
@@ -212,6 +212,13 @@ fi
 if [[ "${CF_SPACE}" == "" ]]; then
     echo "REQUIRED ENV VAR NOT FOUND!!"
     echo "[CF_SPACE] env var not passed!"
+    print_usage
+    exit 1
+fi
+
+if [[ "${DOMAIN_NAME}" == "" ]]; then
+    echo "REQUIRED ENV VAR NOT FOUND!!"
+    echo "[DOMAIN_NAME] env var not passed!"
     print_usage
     exit 1
 fi
@@ -263,6 +270,10 @@ case ${runningApp} in
         else
             deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_HOSTNAME}"
         fi
+    ;;
+    none)
+        echo "No running app was found - exiting the script"
+        exit 1
     ;;
     *)
         if [[ "${ROLLBACK}" == "true" ]]; then
