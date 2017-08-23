@@ -52,6 +52,11 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 				}
 			}
 			steps {
+				maven {
+					goals('clean package')
+					mavenInstallation(maven30())
+					rootPOM('initializr-service/pom.xml')
+				}
 				shell("""#!/bin/bash
 				set -e
 				 

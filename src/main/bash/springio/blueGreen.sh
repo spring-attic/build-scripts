@@ -23,18 +23,17 @@ function logInToPaas() {
         echo "CF is already installed"
     fi
 
-    export PATH_TO_CF=`pwd`
-    echo "Path to CF is [${PATH_TO_CF}]"
+    echo "Path to CF is [${CURRENT_DIR}]"
 
     echo "Cloud foundry version"
-    ${PATH_TO_CF}/cf --version
+    ${CURRENT_DIR}/cf --version
 
     echo "Logging in to CF to org [${cfOrg}], space [${cfSpace}]"
     if [[ "${cfUsername}" != "" ]]; then
-        ${PATH_TO_CF}/cf api --skip-ssl-validation "https://${apiUrl}"
-        ${PATH_TO_CF}/cf login -u "${cfUsername}" -p "${cfPassword}" -o "${cfOrg}" -s "${cfSpace}"
+        ${CURRENT_DIR}/cf api --skip-ssl-validation "https://${apiUrl}"
+        ${CURRENT_DIR}/cf login -u "${cfUsername}" -p "${cfPassword}" -o "${cfOrg}" -s "${cfSpace}"
     else
-        ${PATH_TO_CF}/cf target -o "${cfOrg}" -s "${cfSpace}"
+        ${CURRENT_DIR}/cf target -o "${cfOrg}" -s "${cfSpace}"
     fi
 
 }
@@ -44,8 +43,8 @@ function whichAppIsServingProduction() {
     local greenName=${2}
     local hostname=${3}
     local domain=${4}
-    local green="$( ${PATH_TO_CF}/cf routes | grep "${greenName}" | grep "${hostname}" | grep "${domain}" && echo "green" || echo "" )"
-    local blue="$( ${PATH_TO_CF}/cf routes | grep "${blueName}" | grep "${hostname}" | grep "${domain}" && echo "blue" || echo "" )"
+    local green="$( ${CURRENT_DIR}/cf routes | grep "${greenName}" | grep "${hostname}" | grep "${domain}" && echo "green" || echo "" )"
+    local blue="$( ${CURRENT_DIR}/cf routes | grep "${blueName}" | grep "${hostname}" | grep "${domain}" && echo "blue" || echo "" )"
     local tailedGreen="$( echo "${green}" | tail -1 )"
     local tailedBlue="$( echo "${blue}" | tail -1 )"
     if [[ "${tailedGreen}" == "green" ]]; then
@@ -64,9 +63,9 @@ function pushApp() {
     local jarLocation=${JAR_LOCATION}
     echo "Pushing app [${appName}] with jar location [${jarLocation}], memory [${memory}] and hostname [${hostname}]"
     if [[ "${memory}" != "" ]]; then
-        ${PATH_TO_CF}/cf push "${appName}" -p "${jarLocation}" -m "${memory}" -n "${hostname}"
+        ${CURRENT_DIR}/cf push "${appName}" -p "${jarLocation}" -m "${memory}" -n "${hostname}"
     else
-        ${PATH_TO_CF}/cf push "${appName}" -p "${jarLocation}" -n "${hostname}"
+        ${CURRENT_DIR}/cf push "${appName}" -p "${jarLocation}" -n "${hostname}"
     fi
 }
 
@@ -76,36 +75,36 @@ function scaleApp() {
     local memory=${3:-}
     echo "Scaling app [${appName}] with instances [${instances}] and memory [${memory}]"
     if [[ "${memory}" != "" ]]; then
-        yes | ${PATH_TO_CF}/cf scale "${appName}" -i "${instances}" -m "${memory}" || echo "Failed to scale the app. Continuing with the script"
+        yes | ${CURRENT_DIR}/cf scale "${appName}" -i "${instances}" -m "${memory}" || echo "Failed to scale the app. Continuing with the script"
     else
-        yes | ${PATH_TO_CF}/cf scale "${appName}" -i "${instances}" || echo "Failed to scale the app. Continuing with the script"
+        yes | ${CURRENT_DIR}/cf scale "${appName}" -i "${instances}" || echo "Failed to scale the app. Continuing with the script"
     fi
 }
 
 function startApp() {
     local appName=${1}
     echo "Starting application with name [${appName}]"
-    ${PATH_TO_CF}/cf start "${appName}"
+    ${CURRENT_DIR}/cf start "${appName}"
 }
 
 function stopApp() {
     local appName=${1}
     echo "Stopping application with name [${appName}]"
-    ${PATH_TO_CF}/cf stop "${appName}"
+    ${CURRENT_DIR}/cf stop "${appName}"
 }
 
 function mapRoute() {
     local appName=${1}
     local hostname=${2}
     local domain=${3}
-    yes | ${PATH_TO_CF}/cf map-route "${appName}" "${domain}" --hostname ${hostname}
+    yes | ${CURRENT_DIR}/cf map-route "${appName}" "${domain}" --hostname ${hostname}
 }
 
 function unMapRoute() {
     local appName=${1}
     local hostname=${2}
     local domain=${3}
-    yes | ${PATH_TO_CF}/cf unmap-route "${appName}" "${domain}" --hostname ${hostname}
+    yes | ${CURRENT_DIR}/cf unmap-route "${appName}" "${domain}" --hostname ${hostname}
 }
 
 function deploy() {
@@ -204,6 +203,7 @@ export CF_ORG=${CF_ORG:-}
 export CF_SPACE=${CF_SPACE:-}
 export CF_API=${CF_API:-api.run.pivotal.io}
 export ROLLBACK=${ROLLBACK:-false}
+export CURRENT_DIR=`pwd`
 
 if [[ "${CF_ORG}" == "" ]]; then
     echo "REQUIRED ENV VAR NOT FOUND!!"
