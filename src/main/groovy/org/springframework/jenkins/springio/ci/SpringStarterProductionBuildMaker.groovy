@@ -13,8 +13,6 @@ import org.springframework.jenkins.springio.common.AllSpringIoJobs
 import org.springframework.jenkins.springio.common.SpringIoJobs
 import org.springframework.jenkins.springio.common.SpringIoNotification
 
-import static org.springframework.jenkins.common.job.CloudFoundryPlugin.pushToCloudFoundry
-
 /**
  * @author Marcin Grzejszczak
  */
@@ -24,19 +22,14 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 	private final String scriptsDir
 	private final String organization
 	private final String branchName
+	private final Map<String, String> variables
 
-	SpringStarterProductionBuildMaker(DslFactory dsl, String scriptsDir) {
+	SpringStarterProductionBuildMaker(DslFactory dsl, String scriptsDir, Map<String, String> variables) {
 		this.dsl = dsl
 		this.organization = 'spring-io'
 		this.branchName = 'master'
 		this.scriptsDir = scriptsDir
-	}
-
-	SpringStarterProductionBuildMaker(DslFactory dsl, String scriptsDir, String organization, String branchName) {
-		this.dsl = dsl
-		this.organization = organization
-		this.branchName = branchName
-		this.scriptsDir = scriptsDir
+		this.variables = variables
 	}
 
 	void deploy() {
@@ -47,6 +40,7 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 				credentialsBinding {
 					usernamePassword('CF_USERNAME', 'CF_PASSWORD', cfCredentialsId())
 				}
+				environmentVariables(PipelineDefaults.envVars(variables))
 			}
 			jdk jdk8()
 			scm {
@@ -60,7 +54,7 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 			steps {
 				shell("""#!/bin/bash
 				set -e
-				source target/params.rc 
+				 
 				${dsl.readFileFromWorkspace(scriptsDir + '/blueGreen.sh')}
 				""")
 			}
