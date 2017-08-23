@@ -59,7 +59,7 @@ function pushApp() {
     local hostname=${2}
     local memory=${3:-}
     local jarLocation=${JAR_LOCATION}
-    echo "Pushing app [${appName}] with jar location [${jarLocation}] and memory [${memory}]"
+    echo "Pushing app [${appName}] with jar location [${jarLocation}], memory [${memory}] and hostname [${hostname}]"
     if [[ "${memory}" != "" ]]; then
         cf push "${appName}" -p "${jarLocation}" -m "${memory}" -n "${hostname}"
     else
@@ -184,6 +184,7 @@ EOF
 }
 
 export BLUE_APP_NAME="${BLUE_APP_NAME:-start-blue}"
+export BLUE_APP_ROUTE="${BLUE_APP_ROUTE:-${BLUE_APP_NAME:-start-blue}}"
 export GREEN_APP_NAME="${GREEN_APP_NAME:-start-green}"
 export ROUTED_HOSTNAME="${ROUTED_HOSTNAME:-start-staging}"
 export DOMAIN_NAME="${DOMAIN_NAME:-cfapps.io}"
