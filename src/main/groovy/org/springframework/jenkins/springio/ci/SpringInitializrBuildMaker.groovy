@@ -40,6 +40,7 @@ class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, Tes
 			deliveryPipelineConfiguration('Build', 'Build')
 			wrappers {
 				defaultDeliveryPipelineVersion()
+				colorizeOutput()
 			}
 			triggers {
 				githubPush()

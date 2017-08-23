@@ -41,6 +41,7 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 					usernamePassword('CF_USERNAME', 'CF_PASSWORD', cfCredentialsId())
 				}
 				environmentVariables(PipelineDefaults.envVars(variables))
+				colorizeOutput()
 			}
 			jdk jdk8()
 			scm {

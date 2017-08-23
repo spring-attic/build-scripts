@@ -43,6 +43,7 @@ class SpringStarterRollbackBuildMaker implements SpringIoNotification, JdkConfig
 				environmentVariables(PipelineDefaults.envVars(variables)) {
 					env("ROLLBACK", "true")
 				}
+				colorizeOutput()
 			}
 			jdk jdk8()
 			scm {
