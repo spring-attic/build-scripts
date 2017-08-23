@@ -7,10 +7,9 @@ function logInToPaas() {
     local cfOrg="${CF_ORG}"
     local cfSpace="${CF_SPACE}"
     local apiUrl="${CF_API:-api.run.pivotal.io}"
-    local CF_INSTALLED="$( cf --version || echo "false" )"
     local CF_DOWNLOADED="$( test -r cf && echo "true" || echo "false" )"
-    echo "CF Installed? [${CF_INSTALLED}], CF Downloaded? [${CF_DOWNLOADED}]"
-    if [[ ${CF_INSTALLED} == "false" && ${CF_DOWNLOADED} == "false" ]]; then
+    echo "CF Downloaded? [${CF_DOWNLOADED}]"
+    if [[ ${CF_DOWNLOADED} == "false" ]]; then
         echo "Downloading Cloud Foundry"
         curl -L "https://cli.run.pivotal.io/stable?release=linux64-binary&source=github" --fail | tar -zx
         CF_DOWNLOADED="true"
