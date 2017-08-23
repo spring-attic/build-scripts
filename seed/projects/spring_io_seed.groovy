@@ -14,6 +14,8 @@ job('spring-io-seed') {
         parameters {
             stringParam('BLUE_APP_NAME', 'start-blue', 'The name of the blue instance')
             stringParam('GREEN_APP_NAME', 'start-green', 'The name of the green instance')
+            stringParam('BLUE_APP_HOSTNAME', 'start-staging-blue', 'The hostname of the blue instance')
+            stringParam('GREEN_APP_HOSTNAME', 'start-staging-green', 'The hostname of the green instance')
             stringParam('ROUTED_HOSTNAME', 'start-staging', 'The hostname to which the "production" traffic gets routed')
             stringParam('DOMAIN_NAME', 'cfapps.io', 'Domain of the deployed application')
             stringParam('JAR_LOCATION', 'initializr-service/target/initializr-service.jar', 'Location of the JAR to be deployed')

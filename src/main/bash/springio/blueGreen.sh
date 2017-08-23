@@ -155,6 +155,8 @@ Performs blue / green deployment of an application to production.
 
 [BLUE_APP_NAME]: The name of the blue instance. Defaults to (start-blue)
 [GREEN_APP_NAME]: The name of the green instance. Defaults to (start-green)
+[BLUE_APP_HOSTNAME]: The hostname of the green instance. Defaults to (start-staging-blue)
+[GREEN_APP_HOSTNAME]: The hostname of the green instance. Defaults to (start-staging-green)
 [ROUTED_HOSTNAME]: The hostname to which the "production" traffic gets routed. Defaults to (start-staging)
 [DOMAIN_NAME]: Domain of the deployed application. Defaults to (cfapps.io)
 [JAR_LOCATION]: Location of the JAR to be deployed. Defaults to (initializr-service/target/initializr-service.jar)
@@ -183,8 +185,9 @@ EOF
 }
 
 export BLUE_APP_NAME="${BLUE_APP_NAME:-start-blue}"
-export BLUE_APP_ROUTE="${BLUE_APP_ROUTE:-${BLUE_APP_NAME:-start-blue}}"
+export BLUE_APP_HOSTNAME="${BLUE_APP_HOSTNAME:-${BLUE_APP_NAME:-start-staging-blue}}"
 export GREEN_APP_NAME="${GREEN_APP_NAME:-start-green}"
+export GREEN_APP_HOSTNAME="${GREEN_APP_HOSTNAME:-${GREEN_APP_NAME:-start-staging-green}}"
 export ROUTED_HOSTNAME="${ROUTED_HOSTNAME:-start-staging}"
 export DOMAIN_NAME="${DOMAIN_NAME:-cfapps.io}"
 export JAR_LOCATION="${JAR_LOCATION:-initializr-service/target/initializr-service.jar}"
@@ -256,16 +259,16 @@ echo "Found the following application running on production [${runningApp}]"
 case ${runningApp} in
     blue)
         if [[ "${ROLLBACK}" == "true" ]]; then
-            rollback "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
+            rollback "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_HOSTNAME}"
         else
-            deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_NAME}"
+            deploy "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${GREEN_APP_HOSTNAME}"
         fi
     ;;
     *)
         if [[ "${ROLLBACK}" == "true" ]]; then
-            rollback "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
+            rollback "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_HOSTNAME}"
         else
-            deploy "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_NAME}"
+            deploy "${GREEN_APP_NAME}" "${BLUE_APP_NAME}" "${BLUE_APP_HOSTNAME}"
         fi
     ;;
 esac
