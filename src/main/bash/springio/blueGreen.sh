@@ -38,9 +38,9 @@ function logInToPaas() {
 }
 
 function whichAppIsServingProduction() {
-    local blueName=${1:-start-blue}
-    local greenName=${2:-start-green}
-    local route=${3:-start.cfapps.io}
+    local blueName=${1}
+    local greenName=${2}
+    local route=${3}
     local green="$( cf app "${greenName}" | grep routes | grep "${route}" && echo "green" || echo "" )"
     local blue="$( cf app "${blueName}" | grep routes | grep "${route}" && echo "blue" || echo "" )"
     local tailedGreen="$( echo "${green}" | tail -1 )"
@@ -55,8 +55,8 @@ function whichAppIsServingProduction() {
 }
 
 function pushApp() {
-    local appName=${1:-start-blue}
-    local hostname=${2:-start}
+    local appName=${1}
+    local hostname=${2}
     local memory=${3:-}
     local jarLocation=${JAR_LOCATION}
     echo "Pushing app [${appName}] with jar location [${jarLocation}] and memory [${memory}]"
@@ -68,8 +68,8 @@ function pushApp() {
 }
 
 function scaleApp() {
-    local appName=${1:-start-blue}
-    local instances=${2:-2}
+    local appName=${1}
+    local instances=${2}
     local memory=${3:-}
     echo "Scaling app [${appName}] with instances [${instances}] and memory [${memory}]"
     if [[ "${memory}" != "" ]]; then
@@ -79,18 +79,30 @@ function scaleApp() {
     fi
 }
 
+function startApp() {
+    local appName=${1}
+    echo "Starting application with name [${appName}]"
+    cf start "${appName}"
+}
+
+function stopApp() {
+    local appName=${1}
+    echo "Stopping application with name [${appName}]"
+    cf stop "${appName}"
+}
+
 function mapRoute() {
-    local appName=${1:-start-blue}
-    local hostname=${2:-start-staging}
-    local domain=${3:-cfapps.io}
+    local appName=${1}
+    local hostname=${2}
+    local domain=${3}
     yes | cf map-route "${appName}" "${domain}" --hostname ${hostname}
 }
 
 
 function unMapRoute() {
-    local appName=${1:-start-blue}
-    local hostname=${2:-start-staging}
-    local domain=${3:-cfapps.io}
+    local appName=${1}
+    local hostname=${2}
+    local domain=${3}
     yes | cf unmap-route "${appName}" "${domain}" --hostname ${hostname}
 }
 
@@ -109,7 +121,12 @@ function deploy() {
     scaleApp "${newAppName}" "${newAppInstances}" "${newAppMemory}"
     mapRoute "${newAppName}" "${routedHostname}" "${domain}"
     unMapRoute "${oldAppName}" "${routedHostname}" "${domain}"
-    scaleApp "${oldAppName}" "${oldAppInstances}" "${oldAppMemory}"
+    if [[ "${oldAppInstances}" == "0" ]]; then
+        echo "[0] instances passed - will stop the old app with name [${oldAppName}]"
+        stopApp "${oldAppName}"
+    else
+        scaleApp "${oldAppName}" "${oldAppInstances}" "${oldAppMemory}"
+    fi
 }
 
 function rollback() {
@@ -123,6 +140,7 @@ function rollback() {
     local oldAppMemory="${OLD_APP_MEMORY}"
     local newAppMemory="${NEW_APP_MEMORY}"
     echo "Will rollback the app. Current app is [${brokenApp}], the app to which we revert is [${rolledBackToAppName}] with url [${newHostname}.${domain}]"
+    startApp "${rolledBackToAppName}"
     scaleApp "${rolledBackToAppName}" "${newAppInstances}" "${newAppMemory}"
     mapRoute "${rolledBackToAppName}" "${routedHostname}" "${domain}"
     unMapRoute "${brokenApp}" "${routedHostname}" "${domain}"
@@ -157,7 +175,7 @@ $ BLUE_APP_NAME=marcin-blue GREEN_APP_NAME=marcin-green ROUTED_HOSTNAME=marcin-s
 JAR_LOCATION=target/marcin-sample-0.0.1-SNAPSHOT.jar OLD_APP_INSTANCES=1 NEW_APP_INSTANCES=2 OLD_APP_MEMORY=1024m \
 NEW_APP_MEMORY=1024m CF_ORG=SomeOrg CF_SPACE=SomeSpace ./blueGreen.sh
 
->> AVAILABLE SWITCHES <<
+>> AVAILABLE SWITCHES
 
 -h | --help         - prints this help
 -r | --rollback     - doesn't deploy but performs a rollback step instead
