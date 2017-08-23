@@ -159,7 +159,7 @@ Performs blue / green deployment of an application to production.
 [ROUTED_HOSTNAME]: The hostname to which the "production" traffic gets routed. Defaults to (start-staging)
 [DOMAIN_NAME]: Domain of the deployed application. Defaults to (cfapps.io)
 [JAR_LOCATION]: Location of the JAR to be deployed. Defaults to (initializr-service/target/initializr-service.jar)
-[OLD_APP_INSTANCES]: Number of instances of the old instance. Defaults to (1)
+[OLD_APP_INSTANCES]: Number of instances of the old instance. If you pass [0] then the old instance will get stopped. Defaults to (1)
 [NEW_APP_INSTANCES]: Number of instances of the new instance. Defaults to (2)
 [OLD_APP_MEMORY]: Memory to be used by the old instance. (OPTIONAL)
 [NEW_APP_MEMORY]: Memory to be used by the new instance. (OPTIONAL)
