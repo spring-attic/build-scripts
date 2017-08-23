@@ -16,6 +16,10 @@ class JobScriptsSpec extends Specification {
         given:
 
         MemoryJobManagement jm = new MemoryJobManagement()
+        jm.availableFiles['foo/blueGreen.sh'] = new File("src/main/bash/springio/blueGreen.sh").text
+        jm.parameters << [
+                SCRIPTS_DIR: 'foo'
+        ]
         DslScriptLoader loader = new DslScriptLoader(jm)
 
         when:
