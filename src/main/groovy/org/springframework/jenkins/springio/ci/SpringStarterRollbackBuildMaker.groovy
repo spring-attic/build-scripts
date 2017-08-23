@@ -40,8 +40,7 @@ class SpringStarterRollbackBuildMaker implements SpringIoNotification, JdkConfig
 				credentialsBinding {
 					usernamePassword('CF_USERNAME', 'CF_PASSWORD', cfCredentialsId())
 				}
-				environmentVariables(PipelineDefaults.envVars(variables))
-				environmentVariables {
+				environmentVariables(PipelineDefaults.envVars(variables)) {
 					env("ROLLBACK", "true")
 				}
 			}
