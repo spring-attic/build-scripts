@@ -72,6 +72,19 @@ class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, Tes
 						echo "Removing the stored stubs"
 						rm -rf ~/.m2/repository/io/spring/initializr/initializr-web/
 				""")
+			}
+			configure {
+				SlackPlugin.slackNotification(it as Node) {
+					room(springRoom())
+					notifySuccess(true)
+				}
+				artifactoryMavenBuild(it as Node) {
+					mavenVersion(maven33())
+					goals('clean install -Pdocs')
+				}
+				artifactoryMaven3Configurator(it as Node)
+			}
+			steps {
 				shell('''
 						echo "Store parameters as a file"
 						mkdir -p target
@@ -93,17 +106,6 @@ export CF_API=${CF_API:-api.run.pivotal.io}
 export ROLLBACK=${ROLLBACK:-false}
 EOT
 				''')
-			}
-			configure {
-				SlackPlugin.slackNotification(it as Node) {
-					room(springRoom())
-					notifySuccess(true)
-				}
-				artifactoryMavenBuild(it as Node) {
-					mavenVersion(maven33())
-					goals('clean install -Pdocs')
-				}
-				artifactoryMaven3Configurator(it as Node)
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()
