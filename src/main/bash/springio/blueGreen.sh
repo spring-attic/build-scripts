@@ -40,9 +40,10 @@ function logInToPaas() {
 function whichAppIsServingProduction() {
     local blueName=${1}
     local greenName=${2}
-    local route=${3}
-    local green="$( cf app "${greenName}" | grep routes | grep "${route}" && echo "green" || echo "" )"
-    local blue="$( cf app "${blueName}" | grep routes | grep "${route}" && echo "blue" || echo "" )"
+    local hostname=${3}
+    local domain=${4}
+    local green="$( cf routes | grep "${greenName}" | grep "${hostname}" | grep "${domain}" && echo "green" || echo "" )"
+    local blue="$( cf routes | grep "${blueName}" | grep "${hostname}" | grep "${domain}" && echo "blue" || echo "" )"
     local tailedGreen="$( echo "${green}" | tail -1 )"
     local tailedBlue="$( echo "${blue}" | tail -1 )"
     if [[ "${tailedGreen}" == "green" ]]; then
@@ -261,9 +262,8 @@ EOF
 fi
 
 logInToPaas
-PRODUCTION_ROUTE="${ROUTED_HOSTNAME}.${DOMAIN_NAME}"
-echo "Searching for running apps. Blue is [${BLUE_APP_NAME}], Green is [${GREEN_APP_NAME}], production route [${PRODUCTION_ROUTE}]"
-runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${PRODUCTION_ROUTE}" )
+echo "Searching for running apps. Blue is [${BLUE_APP_NAME}], Green is [${GREEN_APP_NAME}], prod hostname [${ROUTED_HOSTNAME}] prod domain [${DOMAIN_NAME}]"
+runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${ROUTED_HOSTNAME}" "${DOMAIN_NAME}" )
 echo "Found the following application running on production [${runningApp}]"
 case ${runningApp} in
     blue)
