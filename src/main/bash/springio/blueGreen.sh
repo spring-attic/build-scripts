@@ -261,7 +261,9 @@ EOF
 fi
 
 logInToPaas
-runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${ROUTED_HOSTNAME}.${DOMAIN_NAME}" )
+PRODUCTION_ROUTE="${ROUTED_HOSTNAME}.${DOMAIN_NAME}"
+echo "Searching for running apps. Blue is [${BLUE_APP_NAME}], Green is [${GREEN_APP_NAME}], production route [${PRODUCTION_ROUTE}]"
+runningApp=$( whichAppIsServingProduction "${BLUE_APP_NAME}" "${GREEN_APP_NAME}" "${PRODUCTION_ROUTE}" )
 echo "Found the following application running on production [${runningApp}]"
 case ${runningApp} in
     blue)
