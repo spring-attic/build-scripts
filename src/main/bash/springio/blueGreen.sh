@@ -11,27 +11,30 @@ function logInToPaas() {
     echo "CF Downloaded? [${CF_DOWNLOADED}]"
     if [[ ${CF_DOWNLOADED} == "false" ]]; then
         echo "Downloading Cloud Foundry"
-        curl -L "https://cli.run.pivotal.io/stable?release=linux64-binary&source=github" --fail | tar -zx
+        unameOut="$(uname -s)"
+        case "${unameOut}" in
+            Linux*)     machine=linux;;
+            Darwin*)    machine=macosx;;
+            *)          echo "unknown client" && exit 1
+        esac
+        curl -L "https://cli.run.pivotal.io/stable?release=${machine}64-binary&source=github" --fail | tar -zx
         CF_DOWNLOADED="true"
     else
         echo "CF is already installed"
     fi
 
-    if [[ ${CF_DOWNLOADED} == "true" ]]; then
-        echo "Adding CF to PATH"
-        PATH=${PATH}:`pwd`
-        chmod +x cf
-    fi
+    export PATH_TO_CF=`pwd`
+    echo "Path to CF is [${PATH_TO_CF}]"
 
     echo "Cloud foundry version"
-    cf --version
+    ${PATH_TO_CF}/cf --version
 
     echo "Logging in to CF to org [${cfOrg}], space [${cfSpace}]"
     if [[ "${cfUsername}" != "" ]]; then
-        cf api --skip-ssl-validation "https://${apiUrl}"
-        cf login -u "${cfUsername}" -p "${cfPassword}" -o "${cfOrg}" -s "${cfSpace}"
+        ${PATH_TO_CF}/cf api --skip-ssl-validation "https://${apiUrl}"
+        ${PATH_TO_CF}/cf login -u "${cfUsername}" -p "${cfPassword}" -o "${cfOrg}" -s "${cfSpace}"
     else
-        cf target -o "${cfOrg}" -s "${cfSpace}"
+        ${PATH_TO_CF}/cf target -o "${cfOrg}" -s "${cfSpace}"
     fi
 
 }
@@ -41,8 +44,8 @@ function whichAppIsServingProduction() {
     local greenName=${2}
     local hostname=${3}
     local domain=${4}
-    local green="$( cf routes | grep "${greenName}" | grep "${hostname}" | grep "${domain}" && echo "green" || echo "" )"
-    local blue="$( cf routes | grep "${blueName}" | grep "${hostname}" | grep "${domain}" && echo "blue" || echo "" )"
+    local green="$( ${PATH_TO_CF}/cf routes | grep "${greenName}" | grep "${hostname}" | grep "${domain}" && echo "green" || echo "" )"
+    local blue="$( ${PATH_TO_CF}/cf routes | grep "${blueName}" | grep "${hostname}" | grep "${domain}" && echo "blue" || echo "" )"
     local tailedGreen="$( echo "${green}" | tail -1 )"
     local tailedBlue="$( echo "${blue}" | tail -1 )"
     if [[ "${tailedGreen}" == "green" ]]; then
@@ -61,9 +64,9 @@ function pushApp() {
     local jarLocation=${JAR_LOCATION}
     echo "Pushing app [${appName}] with jar location [${jarLocation}], memory [${memory}] and hostname [${hostname}]"
     if [[ "${memory}" != "" ]]; then
-        cf push "${appName}" -p "${jarLocation}" -m "${memory}" -n "${hostname}"
+        ${PATH_TO_CF}/cf push "${appName}" -p "${jarLocation}" -m "${memory}" -n "${hostname}"
     else
-        cf push "${appName}" -p "${jarLocation}" -n "${hostname}"
+        ${PATH_TO_CF}/cf push "${appName}" -p "${jarLocation}" -n "${hostname}"
     fi
 }
 
@@ -73,36 +76,36 @@ function scaleApp() {
     local memory=${3:-}
     echo "Scaling app [${appName}] with instances [${instances}] and memory [${memory}]"
     if [[ "${memory}" != "" ]]; then
-        yes | cf scale "${appName}" -i "${instances}" -m "${memory}" || echo "Failed to scale the app. Continuing with the script"
+        yes | ${PATH_TO_CF}/cf scale "${appName}" -i "${instances}" -m "${memory}" || echo "Failed to scale the app. Continuing with the script"
     else
-        yes | cf scale "${appName}" -i "${instances}" || echo "Failed to scale the app. Continuing with the script"
+        yes | ${PATH_TO_CF}/cf scale "${appName}" -i "${instances}" || echo "Failed to scale the app. Continuing with the script"
     fi
 }
 
 function startApp() {
     local appName=${1}
     echo "Starting application with name [${appName}]"
-    cf start "${appName}"
+    ${PATH_TO_CF}/cf start "${appName}"
 }
 
 function stopApp() {
     local appName=${1}
     echo "Stopping application with name [${appName}]"
-    cf stop "${appName}"
+    ${PATH_TO_CF}/cf stop "${appName}"
 }
 
 function mapRoute() {
     local appName=${1}
     local hostname=${2}
     local domain=${3}
-    yes | cf map-route "${appName}" "${domain}" --hostname ${hostname}
+    yes | ${PATH_TO_CF}/cf map-route "${appName}" "${domain}" --hostname ${hostname}
 }
 
 function unMapRoute() {
     local appName=${1}
     local hostname=${2}
     local domain=${3}
-    yes | cf unmap-route "${appName}" "${domain}" --hostname ${hostname}
+    yes | ${PATH_TO_CF}/cf unmap-route "${appName}" "${domain}" --hostname ${hostname}
 }
 
 function deploy() {
