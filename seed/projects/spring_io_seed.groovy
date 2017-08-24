@@ -16,17 +16,17 @@ job('spring-io-seed') {
         environmentVariables([
             BLUE_APP_NAME: 'start-blue',
             GREEN_APP_NAME: 'start-green',
-            BLUE_APP_HOSTNAME: 'start-staging-blue',
-            GREEN_APP_HOSTNAME: 'start-staging-green',
+            BLUE_APP_HOSTNAME: 'start-production-blue',
+            GREEN_APP_HOSTNAME: 'start-production-green',
             DOMAIN_NAME: 'spring.io',
-            ROUTED_HOSTNAME: 'start-staging',
+            ROUTED_HOSTNAME: 'start',
             JAR_LOCATION: 'initializr-service/target/initializr-service.jar',
             OLD_APP_INSTANCES: '1',
             NEW_APP_INSTANCES: '2',
             OLD_APP_MEMORY: '',
             NEW_APP_MEMORY: '',
             CF_ORG: 'spring.io',
-            CF_SPACE: 'staging',
+            CF_SPACE: 'production',
             CF_API: 'api.run.pivotal.io'
         ])
     }
