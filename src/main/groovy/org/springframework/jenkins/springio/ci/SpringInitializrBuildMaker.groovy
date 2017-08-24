@@ -73,8 +73,12 @@ class SpringInitializrBuildMaker implements SpringIoNotification, JdkConfig, Tes
 			}
 			publishers {
 				archiveJunit mavenJUnitResults()
-				buildPipelineTrigger([SpringStarterProductionBuildMaker.jobName(),
-									  SpringStarterRollbackBuildMaker.jobName()].join(",")) {
+				downstreamParameterized {
+					trigger(SpringStarterProductionBuildMaker.jobName()) {
+						triggerWithNoParameters()
+					}
+				}
+				buildPipelineTrigger(SpringStarterRollbackBuildMaker.jobName()) {
 					parameters {
 						setFailTriggerOnMissing(false)
 					}
