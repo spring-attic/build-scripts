@@ -111,17 +111,17 @@ function deploy() {
     local oldAppName=${1}
     local newAppName=${2}
     local newHostname=${3}
-    local domain="${DOMAIN_NAME}"
-    local routedHostname="${ROUTED_HOSTNAME}"
+    local productionTrafficDomain="${DOMAIN_NAME}"
+    local productionTrafficHostname="${ROUTED_HOSTNAME}"
     local oldAppInstances="${OLD_APP_INSTANCES}"
     local newAppInstances="${NEW_APP_INSTANCES}"
     local oldAppMemory="${OLD_APP_MEMORY}"
     local newAppMemory="${NEW_APP_MEMORY}"
-    echo "Will deploy the app. Old app is [${oldAppName}], new app is [${newAppName}] with url [${newHostname}.${domain}]"
+    echo "Will deploy the app. Old app is [${oldAppName}], new app is [${newAppName}]. Production route is [${newHostname}.${productionTrafficDomain}]"
     pushApp "${newAppName}" "${newHostname}" "${newAppMemory}"
     scaleApp "${newAppName}" "${newAppInstances}" "${newAppMemory}"
-    mapRoute "${newAppName}" "${routedHostname}" "${domain}"
-    unMapRoute "${oldAppName}" "${routedHostname}" "${domain}"
+    mapRoute "${newAppName}" "${productionTrafficHostname}" "${productionTrafficDomain}"
+    unMapRoute "${oldAppName}" "${productionTrafficHostname}" "${productionTrafficDomain}"
     if [[ "${oldAppInstances}" == "0" ]]; then
         echo "[0] instances passed - will stop the old app with name [${oldAppName}]"
         stopApp "${oldAppName}"
@@ -134,17 +134,17 @@ function rollback() {
     local brokenApp=${1}
     local rolledBackToAppName=${2}
     local newHostname=${3}
-    local domain="${DOMAIN_NAME}"
-    local routedHostname="${ROUTED_HOSTNAME}"
+    local productionTrafficDomain="${DOMAIN_NAME}"
+    local productionTrafficHostname="${ROUTED_HOSTNAME}"
     local oldAppInstances="${OLD_APP_INSTANCES}"
     local newAppInstances="${NEW_APP_INSTANCES}"
     local oldAppMemory="${OLD_APP_MEMORY}"
     local newAppMemory="${NEW_APP_MEMORY}"
-    echo "Will rollback the app. Current app is [${brokenApp}], the app to which we revert is [${rolledBackToAppName}] with url [${newHostname}.${domain}]"
+    echo "Will rollback the app. Current app is [${brokenApp}], the app to which we revert is [${rolledBackToAppName}] with url [${newHostname}.${productionTrafficDomain}]"
     startApp "${rolledBackToAppName}"
     scaleApp "${rolledBackToAppName}" "${newAppInstances}" "${newAppMemory}"
-    mapRoute "${rolledBackToAppName}" "${routedHostname}" "${domain}"
-    unMapRoute "${brokenApp}" "${routedHostname}" "${domain}"
+    mapRoute "${rolledBackToAppName}" "${productionTrafficHostname}" "${productionTrafficDomain}"
+    unMapRoute "${brokenApp}" "${productionTrafficHostname}" "${productionTrafficDomain}"
     scaleApp "${brokenApp}" "${oldAppInstances}" "${oldAppMemory}"
 }
 
@@ -155,22 +155,22 @@ Performs blue / green deployment of an application to production.
 
 >> ENVIRONMENTAL VARIABLES <<
 
-[BLUE_APP_NAME]: The name of the blue instance. Defaults to (start-blue)
-[GREEN_APP_NAME]: The name of the green instance. Defaults to (start-green)
-[BLUE_APP_HOSTNAME]: The hostname of the green instance. Defaults to (start-staging-blue)
-[GREEN_APP_HOSTNAME]: The hostname of the green instance. Defaults to (start-staging-green)
-[ROUTED_HOSTNAME]: The hostname to which the "production" traffic gets routed. Defaults to (start-staging)
-[DOMAIN_NAME]: Domain of the deployed application. (REQUIRED)
-[JAR_LOCATION]: Location of the JAR to be deployed. Defaults to (initializr-service/target/initializr-service.jar)
-[OLD_APP_INSTANCES]: Number of instances of the old instance. If you pass [0] then the old instance will get stopped. Defaults to (1)
-[NEW_APP_INSTANCES]: Number of instances of the new instance. Defaults to (2)
+[BLUE_APP_NAME]: The name of the blue instance. (REQUIRED)
+[GREEN_APP_NAME]: The name of the green instance. (REQUIRED)
+[BLUE_APP_HOSTNAME]: The hostname of the green instance. (REQUIRED)
+[GREEN_APP_HOSTNAME]: The hostname of the green instance. (REQUIRED)
+[ROUTED_HOSTNAME]: The hostname to which the "production" traffic gets routed. (REQUIRED)
+[DOMAIN_NAME]: Domain of the "production" traffic. (REQUIRED)
+[JAR_LOCATION]: Location of the JAR to be deployed. Defaults to ("")
+[OLD_APP_INSTANCES]: Number of instances of the old instance. If you pass [0] then the old instance will get stopped. (REQUIRED)
+[NEW_APP_INSTANCES]: Number of instances of the new instance. (REQUIRED)
 [OLD_APP_MEMORY]: Memory to be used by the old instance. (OPTIONAL)
 [NEW_APP_MEMORY]: Memory to be used by the new instance. (OPTIONAL)
 [CF_USERNAME]: Will reuse your current logged in user if not provided. (OPTIONAL)
 [CF_PASSWORD]: Will reuse your current logged in user if not provided. (OPTIONAL)
 [CF_ORG]: Cloud Foundry organization to which you would like to deploy the application. (REQUIRED)
 [CF_SPACE]: Cloud Foundry space to which you would like to deploy the application. (REQUIRED)
-[CF_API]: Cloud Foundry API of the installation to which you would like to deploy the application. Defaults to (api.run.pivotal.io)
+[CF_API]: Cloud Foundry API of the installation to which you would like to deploy the application. (REQUIRED)
 
 >> EXAMPLE OF USAGE (running locally on a logged in CF client) <<
 
@@ -186,45 +186,24 @@ NEW_APP_MEMORY=1024m CF_ORG=SomeOrg CF_SPACE=SomeSpace ./blueGreen.sh
 EOF
 }
 
-export BLUE_APP_NAME="${BLUE_APP_NAME:-start-blue}"
-export BLUE_APP_HOSTNAME="${BLUE_APP_HOSTNAME:-${BLUE_APP_NAME:-start-staging-blue}}"
-export GREEN_APP_NAME="${GREEN_APP_NAME:-start-green}"
-export GREEN_APP_HOSTNAME="${GREEN_APP_HOSTNAME:-${GREEN_APP_NAME:-start-staging-green}}"
-export ROUTED_HOSTNAME="${ROUTED_HOSTNAME:-start-staging}"
-export DOMAIN_NAME="${DOMAIN_NAME:-}"
-export JAR_LOCATION="${JAR_LOCATION:-initializr-service/target/initializr-service.jar}"
-export OLD_APP_INSTANCES=${OLD_APP_INSTANCES:-1}
-export NEW_APP_INSTANCES=${NEW_APP_INSTANCES:-2}
-export OLD_APP_MEMORY=${OLD_APP_MEMORY:-}
-export NEW_APP_MEMORY=${NEW_APP_MEMORY:-}
-export CF_USERNAME=${CF_USERNAME:-}
-export CF_PASSWORD=${CF_PASSWORD:-}
-export CF_ORG=${CF_ORG:-}
-export CF_SPACE=${CF_SPACE:-}
-export CF_API=${CF_API:-api.run.pivotal.io}
-export ROLLBACK=${ROLLBACK:-false}
+export BLUE_APP_NAME="${BLUE_APP_NAME:?You must set the blue app name}"
+export BLUE_APP_HOSTNAME="${BLUE_APP_HOSTNAME:-${BLUE_APP_NAME:?You must set the blue app hostname}}"
+export GREEN_APP_NAME="${GREEN_APP_NAME:?You must set the green app name}"
+export GREEN_APP_HOSTNAME="${GREEN_APP_HOSTNAME:-${GREEN_APP_NAME:?You must set the green app hostname}}"
+export ROUTED_HOSTNAME="${ROUTED_HOSTNAME:?You must set the 'production' traffic hostname}"
+export DOMAIN_NAME="${DOMAIN_NAME:?You must set the 'production' traffic domain}"
+export JAR_LOCATION="${JAR_LOCATION:?You must set the location of the JAR}"
+export OLD_APP_INSTANCES="${OLD_APP_INSTANCES:?You must set the number of old instances}"
+export NEW_APP_INSTANCES="${NEW_APP_INSTANCES:?You must set the number of new instances}"
+export OLD_APP_MEMORY="${OLD_APP_MEMORY:?You must set the old app memory}"
+export NEW_APP_MEMORY="${NEW_APP_MEMORY:?You must set the new app memory}"
+export CF_USERNAME="${CF_USERNAME:-}"
+export CF_PASSWORD="${CF_PASSWORD:-}"
+export CF_ORG="${CF_ORG:?You must set the CF organization}"
+export CF_SPACE="${CF_SPACE:?You must set the CF space}"
+export CF_API="${CF_API:-?You must set the CF api}"
+export ROLLBACK="${ROLLBACK:-false}"
 export CURRENT_DIR=`pwd`
-
-if [[ "${CF_ORG}" == "" ]]; then
-    echo "REQUIRED ENV VAR NOT FOUND!!"
-    echo "[CF_ORG] env var not passed!"
-    print_usage
-    exit 1
-fi
-
-if [[ "${CF_SPACE}" == "" ]]; then
-    echo "REQUIRED ENV VAR NOT FOUND!!"
-    echo "[CF_SPACE] env var not passed!"
-    print_usage
-    exit 1
-fi
-
-if [[ "${DOMAIN_NAME}" == "" ]]; then
-    echo "REQUIRED ENV VAR NOT FOUND!!"
-    echo "[DOMAIN_NAME] env var not passed!"
-    print_usage
-    exit 1
-fi
 
 while [[ $# > 0 ]]
 do
