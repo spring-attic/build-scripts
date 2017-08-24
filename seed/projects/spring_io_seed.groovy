@@ -1,5 +1,3 @@
-import org.springframework.jenkins.springio.ci.PipelineDefaults
-
 job('spring-io-seed') {
     triggers {
         githubPush()
