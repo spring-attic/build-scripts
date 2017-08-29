@@ -8,38 +8,31 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AllScstAppStarterJobs {
 
-    public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp', 'sftp', 'file']
+    public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp', 'sftp', 'file', 'jms', 'http']
 
-    public static final List<String> PHASE2_JOBS = ['jms', 'http', 'jdbc', 'twitter', 'rabbit']
+    public static final List<String> PHASE2_JOBS = ['jdbc', 'twitter', 'rabbit', 'gemfire', 'cassandra', 'hdfs', 'websocket']
 
-    public static final List<String> PHASE3_JOBS = ['gemfire', 'cassandra', 'hdfs', 'websocket', 'router']
+    public static final List<String> PHASE3_JOBS = [ 'router','counter', 'aggregate-counter', 'field-value-counter', 'bridge', 'gpfdist', 'throughput']
 
-    public static final List<String> PHASE4_JOBS = ['counter', 'aggregate-counter', 'field-value-counter', 'bridge', 'gpfdist']
+    public static final List<String> PHASE4_JOBS = ['tasklauncher-local', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'aws-s3', 'filter', 'groovy-filter', 'groovy-transform']
 
-    public static final List<String> PHASE5_JOBS = ['tasklauncher-local', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'throughput', 'aws-s3']
+    public static final List<String> PHASE5_JOBS = ['load-generator', 'loggregator', 'mail', 'mongodb', 'pmml', 'httpclient', 'aggregator']
 
-    public static final List<String> PHASE6_JOBS = ['filter', 'groovy-filter', 'groovy-transform', 'httpclient', 'aggregator']
+    public static final List<String> PHASE6_JOBS = ['redis-pubsub', 'scriptable-transform', 'splitter', 'syslog', 'tcp', 'transform', 'header-enricher']
 
-    public static final List<String> PHASE7_JOBS = ['load-generator', 'loggregator', 'mail', 'mongodb', 'pmml']
-
-    public static final List<String> PHASE8_JOBS = ['redis-pubsub', 'scriptable-transform', 'splitter', 'syslog', 'tcp']
-
-    public static final List<String> PHASE9_JOBS = ['trigger', 'triggertask', 'tasklaunchrequest-transform', 'transform', 'header-enricher']
-
-    public static final List<String> PHASE10_JOBS = ['tensorflow', 'mqtt']
+    public static final List<String> PHASE7_JOBS = ['trigger', 'triggertask', 'tasklaunchrequest-transform', 'tensorflow', 'mqtt']
 
     public static final List<String> ALL_JOBS =
-                                                PHASE1_JOBS + PHASE2_JOBS +
-                                                PHASE3_JOBS + PHASE4_JOBS +
-                                                PHASE5_JOBS + PHASE6_JOBS +
-                                                PHASE7_JOBS + PHASE8_JOBS + PHASE9_JOBS + PHASE10_JOBS
+            PHASE1_JOBS + PHASE2_JOBS +
+                    PHASE3_JOBS + PHASE4_JOBS +
+                    PHASE5_JOBS + PHASE6_JOBS +
+                    PHASE7_JOBS
 
     public static final List<List<String>> PHASES = [
-                                                    PHASE1_JOBS, PHASE2_JOBS,
-                                                     PHASE3_JOBS, PHASE4_JOBS,
-                                                     PHASE5_JOBS, PHASE6_JOBS,
-                                                     PHASE7_JOBS, PHASE8_JOBS,
-                                                     PHASE9_JOBS, PHASE10_JOBS]
+            PHASE1_JOBS, PHASE2_JOBS,
+            PHASE3_JOBS, PHASE4_JOBS,
+            PHASE5_JOBS, PHASE6_JOBS,
+            PHASE7_JOBS]
 
     public static final Map<String, String> RELEASE_PHASE1_JOBS = ['log':'1.2.0.M1', 'time':'1.2.0.M1', 'ftp':'1.2.0.M1', 'sftp':'1.2.0.M1', 'file':'1.2.0.M1']
 
@@ -61,8 +54,8 @@ class AllScstAppStarterJobs {
 
     public static final Map<String, String> RELEASE_ALL_JOBS =
             RELEASE_PHASE1_JOBS + RELEASE_PHASE2_JOBS +
-            RELEASE_PHASE3_JOBS + RELEASE_PHASE4_JOBS +
-            RELEASE_PHASE5_JOBS + RELEASE_PHASE6_JOBS +
-            RELEASE_PHASE7_JOBS + RELEASE_PHASE8_JOBS + RELEASE_PHASE9_JOBS;
+                    RELEASE_PHASE3_JOBS + RELEASE_PHASE4_JOBS +
+                    RELEASE_PHASE5_JOBS + RELEASE_PHASE6_JOBS +
+                    RELEASE_PHASE7_JOBS + RELEASE_PHASE8_JOBS + RELEASE_PHASE9_JOBS;
 
 }
