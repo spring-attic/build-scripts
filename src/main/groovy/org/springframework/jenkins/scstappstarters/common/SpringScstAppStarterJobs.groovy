@@ -88,6 +88,15 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
 			   """
 	}
 
+	String cleanAndDeployWithGenerateAppsForSnapshots() {
+		return """
+					#!/bin/bash -x
+					rm -rf apps
+
+					./mvnw clean deploy -U -Pspring -PgenerateApps
+			   """
+	}
+
 	String cleanAndInstall() {
 
 		return """
