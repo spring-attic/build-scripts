@@ -8,17 +8,17 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AllScstAppStarterJobs {
 
-    public static final List<String> PHASE1_JOBS = ['log', 'time', 'ftp', 'sftp', 'file', 'jms', 'http', 'jdbc']
+    public static final List<String> PHASE1_JOBS = ['log', 'time', 'throughput', 'bridge', 'groovy-transform', 'tasklauncher-local',  'transform', 'header-enricher']
 
-    public static final List<String> PHASE2_JOBS = ['twitter', 'rabbit', 'gemfire', 'cassandra', 'hdfs', 'websocket', 'router', 'counter']
+    public static final List<String> PHASE2_JOBS = ['router', 'trigger', 'loggregator', 'load-generator', 'mail', 'field-value-counter', 'pmml', 'tasklaunchrequest-transform']
 
-    public static final List<String> PHASE3_JOBS = ['aggregate-counter', 'field-value-counter', 'bridge', 'gpfdist', 'throughput', 'aws-s3', 'filter', 'loggregator']
+    public static final List<String> PHASE3_JOBS = ['triggertask', 'websocket', 'http', 'syslog', 'filter', 'gpfdist', 'splitter', 'jms']
 
-    public static final List<String> PHASE4_JOBS = ['tasklauncher-local', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'groovy-filter', 'groovy-transform', 'load-generator', 'mail', 'mongodb']
+    public static final List<String> PHASE4_JOBS = ['groovy-filter', 'redis-pubsub', 'aggregate-counter', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'httpclient', 'twitter', 'counter']
 
-    public static final List<String> PHASE5_JOBS = ['pmml', 'httpclient', 'aggregator', 'redis-pubsub', 'scriptable-transform', 'splitter', 'syslog', 'tcp']
+    public static final List<String> PHASE5_JOBS = ['cassandra', 'aggregator', 'mqtt', 'rabbit', 'scriptable-transform', 'ftp', 'file', 'aws-s3']
 
-    public static final List<String> PHASE6_JOBS = ['transform', 'header-enricher', 'trigger', 'triggertask', 'tasklaunchrequest-transform', 'tensorflow', 'mqtt', 'python']
+    public static final List<String> PHASE6_JOBS = ['sftp', 'tensorflow', 'mongodb', 'hdfs', 'jdbc', 'gemfire', 'tcp', 'python']
 
     public static final List<String> ALL_JOBS =
             PHASE1_JOBS + PHASE2_JOBS +
