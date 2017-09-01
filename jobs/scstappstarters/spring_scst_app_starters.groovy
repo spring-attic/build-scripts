@@ -6,4 +6,4 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 // CI
-new SpringScstAppStatersPhasedBuildMaker(dsl).build(false)
+new SpringScstAppStatersPhasedBuildMaker(dsl).build(true)

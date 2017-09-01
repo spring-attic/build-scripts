@@ -29,29 +29,23 @@ class AllScstAppStarterJobs {
             PHASE1_JOBS, PHASE2_JOBS,
             PHASE3_JOBS, PHASE4_JOBS,
             PHASE5_JOBS, PHASE6_JOBS]
+    
 
-    public static final Map<String, String> RELEASE_PHASE1_JOBS = ['log':'1.2.0.M1', 'time':'1.2.0.M1', 'ftp':'1.2.0.M1', 'sftp':'1.2.0.M1', 'file':'1.2.0.M1']
+    public static final Map<String, String> RELEASE_PHASE1_JOBS = ['log':'1.3.0.M1', 'time':'1.3.0.M1', 'throughput':'1.3.0.M1', 'bridge':'1.3.0.M1', 'groovy-transform':'1.3.0.M1', 'tasklauncher-local':'1.3.0.M1', 'transform':'1.3.0.M1', 'header-enricher':'1.3.0.M1']
 
-    public static final Map<String, String> RELEASE_PHASE2_JOBS = ['jms':'1.2.0.M1', 'http':'1.1.3.M1', 'jdbc':'1.2.0.M1', 'twitter':'1.2.0.M1', 'rabbit':'1.2.0.M1']
+    public static final Map<String, String> RELEASE_PHASE2_JOBS = ['router':'1.3.0.M1', 'trigger':'1.1.3.M1', 'loggregator':'1.3.0.M1', 'load-generator':'1.3.0.M1', 'mail':'1.3.0.M1', 'field-value-counter':'1.3.0.M1', 'pmml':'1.3.0.M1', 'tasklaunchrequest-transform':'1.3.0.M1']
 
-    public static final Map<String, String> RELEASE_PHASE3_JOBS = ['gemfire':'1.2.0.M1', 'cassandra':'1.2.0.M1', 'hdfs':'1.2.0.M1', 'websocket':'1.2.0.M1', 'router':'1.2.0.M1']
+    public static final Map<String, String> RELEASE_PHASE3_JOBS = ['triggertask':'1.3.0.M1', 'websocket':'1.3.0.M1', 'http':'1.3.0.M1', 'syslog':'1.3.0.M1', 'filter':'1.3.0.M1', 'gpfdist':'1.3.0.M1', 'splitter':'1.3.0.M1', 'jms':'1.3.0.M1']
 
-    public static final Map<String, String> RELEASE_PHASE4_JOBS = ['counter':'1.2.0.M1', 'aggregate-counter':'1.2.0.M1', 'field-value-counter':'1.2.0.M1', 'bridge':'1.2.0.M1', 'gpfdist':'1.2.0.M1']
+    public static final Map<String, String> RELEASE_PHASE4_JOBS = ['groovy-filter':'1.3.0.M1', 'redis-pubsub':'1.3.0.M1', 'aggregate-counter':'1.3.0.M1', 'tasklauncher-yarn':'1.3.0.M1', 'tasklauncher-cloudfoundry':'1.3.0.M1', 'httpclient':'1.3.0.M1', 'twitter':'1.3.0.M1', 'counter':'1.3.0.M1']
 
-    public static final Map<String, String> RELEASE_PHASE5_JOBS = ['tasklauncher-local':'1.2.0.M1', 'tasklauncher-yarn':'1.2.0.M1', 'tasklauncher-cloudfoundry':'1.2.0.M1', 'throughput':'1.2.0.M1', 'aws-s3':'1.2.0.M1']
+    public static final Map<String, String> RELEASE_PHASE5_JOBS = ['cassandra':'1.3.0.M1', 'aggregator':'1.3.0.M1', 'mqtt':'1.3.0.M1', 'rabbit':'1.3.0.M1', 'scriptable-transform':'1.0.0.M1', 'ftp':'1.3.0.M1','file':'1.3.0.M1','aws-s3':'1.3.0.M1']
 
-    public static final Map<String, String> RELEASE_PHASE6_JOBS = ['filter':'1.2.0.M1', 'groovy-filter':'1.2.0.M1', 'groovy-transform':'1.2.0.M1', 'httpclient':'1.2.0.M1', 'aggregator':'1.0.0.M1']
-
-    public static final Map<String, String> RELEASE_PHASE7_JOBS = ['load-generator':'1.2.0.M1', 'loggregator':'1.2.0.M1', 'mail':'1.2.0.M1', 'mongodb':'1.2.0.M1', 'pmml':'1.2.0.M1']
-
-    public static final Map<String, String> RELEASE_PHASE8_JOBS = ['redis-pubsub':'1.2.0.M1', 'scriptable-transform':'1.2.0.M1', 'splitter':'1.2.0.M1', 'syslog':'1.2.0.M1', 'tcp':'1.2.0.M1']
-
-    public static final Map<String, String> RELEASE_PHASE9_JOBS = ['trigger':'1.2.0.M1', 'triggertask':'1.2.0.M1', 'tasklaunchrequest-transform':'1.2.0.M1', 'transform':'1.2.0.M1', 'header-enricher':'1.0.0.M1']
+    public static final Map<String, String> RELEASE_PHASE6_JOBS = ['sftp':'1.3.0.M1', 'tensorflow':'1.3.0.M1', 'mongodb':'1.3.0.M1', 'hdfs':'1.3.0.M1', 'jdbc':'1.0.0.M1', 'gemfire':'1.3.0.M1','tcp':'1.3.0.M1','python':'1.3.0.M1']
 
     public static final Map<String, String> RELEASE_ALL_JOBS =
             RELEASE_PHASE1_JOBS + RELEASE_PHASE2_JOBS +
                     RELEASE_PHASE3_JOBS + RELEASE_PHASE4_JOBS +
-                    RELEASE_PHASE5_JOBS + RELEASE_PHASE6_JOBS +
-                    RELEASE_PHASE7_JOBS + RELEASE_PHASE8_JOBS + RELEASE_PHASE9_JOBS;
+                    RELEASE_PHASE5_JOBS + RELEASE_PHASE6_JOBS;
 
 }
