@@ -8,9 +8,9 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AllSpringCloudTaskAppStarterJobs {
 
-    public static final List<String> PHASE1_JOBS = ['timestamp', 'spark-client', 'spark-cluster', 'spark-yarn', 'composed-task-runner', 'timestamp-batch']
+    public static final List<String> PHASE1_JOBS = ['timestamp', 'spark-client', 'spark-cluster', 'spark-yarn', 'jdbchdfs-local', 'composed-task-runner', 'timestamp-batch']
     //Sqoop apps are not released and disabling the builds
-    //public static final List<String> PHASE2_JOBS = ['sqoop-job', 'jdbchdfs-local']
+    //public static final List<String> PHASE2_JOBS = ['sqoop-job']
 
     public static final List<String> ALL_JOBS = PHASE1_JOBS;
 
