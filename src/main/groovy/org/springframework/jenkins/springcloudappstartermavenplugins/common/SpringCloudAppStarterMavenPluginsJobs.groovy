@@ -21,8 +21,10 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
                         
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
                         if [ \$lines -eq 0 ]; then
+                            set +x
                             ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
                         gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -Pcentral -U
+                            set -x
                         else
                             echo "Non release versions found. Aborting build"
                         fi
@@ -39,8 +41,10 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
                         rm -rf target
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
                         if [ \$lines -eq 0 ]; then
+                            set +x
                             ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
                         gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -Pcentral -U
+                            set -x
                         else
                             echo "Non release versions found. Aborting build"
                         fi
