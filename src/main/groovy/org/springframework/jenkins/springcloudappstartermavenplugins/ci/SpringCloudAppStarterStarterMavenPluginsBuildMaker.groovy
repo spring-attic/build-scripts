@@ -46,12 +46,17 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
 
         dsl.job("${prefixJob(repo)}-${projectBranch}-ci") {
             triggers {
-                githubPush()
+                //githubPush()
             }
             jdk jdk8()
             wrappers {
                 colorizeOutput()
                 environmentVariables(envVariables)
+                credentialsBinding {
+                    file('FOO_SEC', "spring-signing-secring.gpg")
+                    file('FOO_PUB', "spring-signing-pubring.gpg")
+                    string('FOO_PASSPHRASE', "spring-gpg-passphrase")
+                }
             }
             scm {
                 git {

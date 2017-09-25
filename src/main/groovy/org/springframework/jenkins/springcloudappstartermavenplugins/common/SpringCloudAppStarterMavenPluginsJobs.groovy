@@ -21,7 +21,8 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
                         
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
                         if [ \$lines -eq 0 ]; then
-                            ./mvnw clean deploy -Pcentral -U
+                            ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                        gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -Pcentral -U
                         else
                             echo "Non release versions found. Aborting build"
                         fi
@@ -34,19 +35,31 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
         }
         else {
             return isGaRelease ?
-                    '''
+                    """
                         rm -rf target
                         lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | wc -l)
                         if [ \$lines -eq 0 ]; then
-                            ./mvnw clean deploy -Pcentral -U
+                            ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
+                        gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -Pcentral -U
                         else
                             echo "Non release versions found. Aborting build"
                         fi
-                    ''' :
-                    '''
+                    """ :
+                    """
                         ./mvnw clean deploy -U
-                    '''
+                    """
         }
     }
 
+    String gpgSecRing() {
+        return 'FOO_SEC'
+    }
+
+    String gpgPubRing() {
+        return 'FOO_PUB'
+    }
+
+    String gpgPassphrase() {
+        return 'FOO_PASSPHRASE'
+    }
 }
