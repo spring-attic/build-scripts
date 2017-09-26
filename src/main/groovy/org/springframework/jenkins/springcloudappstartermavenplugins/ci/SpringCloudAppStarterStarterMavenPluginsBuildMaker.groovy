@@ -46,7 +46,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
 
         dsl.job("${prefixJob(repo)}-${projectBranch}-ci") {
             triggers {
-                //githubPush()
+                githubPush()
             }
             jdk jdk8()
             wrappers {
