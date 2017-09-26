@@ -56,6 +56,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
                     file('FOO_SEC', "spring-signing-secring.gpg")
                     file('FOO_PUB', "spring-signing-pubring.gpg")
                     string('FOO_PASSPHRASE', "spring-gpg-passphrase")
+                    usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
                 }
             }
             scm {

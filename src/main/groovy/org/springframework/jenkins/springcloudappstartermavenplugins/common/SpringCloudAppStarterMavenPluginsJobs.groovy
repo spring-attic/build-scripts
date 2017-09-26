@@ -23,7 +23,7 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
                         if [ \$lines -eq 0 ]; then
                             set +x
                             ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
-                        gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -Pcentral -U
+                        gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                             set -x
                         else
                             echo "Non release versions found. Aborting build"
@@ -43,7 +43,7 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
                         if [ \$lines -eq 0 ]; then
                             set +x
                             ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\\\$${
-                        gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -Pcentral -U
+                        gpgPubRing()}" -Dgpg.passphrase="\\\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                             set -x
                         else
                             echo "Non release versions found. Aborting build"
@@ -65,5 +65,13 @@ trait SpringCloudAppStarterMavenPluginsJobs extends BuildAndDeploy {
 
     String gpgPassphrase() {
         return 'FOO_PASSPHRASE'
+    }
+
+    String sonatypeUser() {
+        return 'SONATYPE_USER'
+    }
+
+    String sonatypePassword() {
+        return 'SONATYPE_PASSWORD'
     }
 }
