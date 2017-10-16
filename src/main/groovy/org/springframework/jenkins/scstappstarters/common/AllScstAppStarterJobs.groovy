@@ -8,7 +8,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AllScstAppStarterJobs {
 
-    public static final List<String> PHASE1_JOBS = ['log', 'time', 'throughput', 'bridge', 'groovy-transform', 'tasklauncher-local',  'transform', 'header-enricher']
+    public static final List<String> PHASE1_JOBS = ['log', 'time', 'throughput', 'bridge', 'groovy-transform', 'tasklauncher-local', 'header-enricher', 'function']
 
     public static final List<String> PHASE2_JOBS = ['router', 'trigger', 'loggregator', 'load-generator', 'mail', 'field-value-counter', 'pmml', 'tasklaunchrequest-transform']
 
@@ -18,7 +18,7 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE5_JOBS = ['cassandra', 'aggregator', 'mqtt', 'rabbit', 'scriptable-transform', 'ftp', 'file', 'aws-s3']
 
-    public static final List<String> PHASE6_JOBS = ['sftp', 'tensorflow', 'mongodb', 'hdfs', 'jdbc', 'gemfire', 'tcp', 'python']
+    public static final List<String> PHASE6_JOBS = ['sftp', 'tensorflow', 'mongodb', 'hdfs', 'jdbc', 'gemfire', 'tcp', 'transform', 'python']
 
     public static final List<String> ALL_JOBS =
             PHASE1_JOBS + PHASE2_JOBS +
