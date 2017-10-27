@@ -6,4 +6,4 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 // CI builds for spring cloud task app starters
-new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(false)
+new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(true)
