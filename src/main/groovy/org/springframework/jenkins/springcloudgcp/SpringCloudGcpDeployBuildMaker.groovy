@@ -23,11 +23,13 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
         this.organization = 'spring-cloud'
     }
 
-    void deploy(String releaseType) {
+    void deploy(boolean isRelease = false, String releaseType) {
         String project = 'spring-cloud-gcp'
         dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
             triggers {
-                githubPush()
+                if (!isRelease){
+                    githubPush()
+                }
             }
             jdk jdk8()
             scm {
