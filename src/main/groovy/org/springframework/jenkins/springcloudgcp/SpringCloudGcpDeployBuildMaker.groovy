@@ -23,6 +23,20 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
         this.organization = 'spring-cloud'
     }
 
+    String cleanAndDeploy() {
+        return """
+					#!/bin/bash -x
+
+			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
+					if [ \$lines -eq 0 ]; then
+						./mvnw clean deploy -U -Pspring
+					else
+						echo "Snapshots found. Aborting the release build."
+					fi
+			   """
+
+    }
+
     void deploy(boolean isRelease = false, String releaseType) {
         String project = 'spring-cloud-gcp'
         dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
@@ -41,10 +55,7 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
                 }
             }
             steps {
-                maven {
-                    mavenInstallation(maven33())
-                    goals('clean deploy -U')
-                }
+                shell(cleanAndDeploy())
             }
             configure {
 
