@@ -23,7 +23,7 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
         this.organization = 'spring-cloud'
     }
 
-    void deploy() {
+    void deploy(String releaseType) {
         String project = 'spring-cloud-gcp'
         dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
             triggers {
@@ -47,10 +47,30 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
             configure {
 
                 artifactoryMavenBuild(it as Node) {
-                    mavenVersion(maven35())
-                    goals('clean install -U -Pfull -Pspring')
+                    mavenVersion(maven33())
+                    if (releaseType != null && releaseType.equals("milestone")) {
+                        goals('clean install -U -Pfull -Pspring -Pmilestone -pl :spring-cloud-gcp-docs')
+                    }
+                    else {
+                        goals('clean install -U -Pfull -Pspring -pl :spring-cloud-gcp-docs')
+                    }
                 }
-                artifactoryMaven3Configurator(it as Node)
+                artifactoryMaven3Configurator(it as Node) {
+                    if (releaseType != null && releaseType.equals("milestone")) {
+                        deployReleaseRepository("libs-milestone-local")
+                    }
+                }
+
+
+
+
+
+
+//                artifactoryMavenBuild(it as Node) {
+//                    mavenVersion(maven35())
+//                    goals('clean install -U -Pfull -Pspring')
+//                }
+//                artifactoryMaven3Configurator(it as Node)
 
 
             }
