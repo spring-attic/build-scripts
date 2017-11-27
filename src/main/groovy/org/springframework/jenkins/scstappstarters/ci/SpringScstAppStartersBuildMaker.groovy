@@ -21,14 +21,9 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
     final String branchToBuild = "master"
 
-    boolean isRelease = false
-
-    String releaseVersion
     String parentVersion
 
     String releaseTrainVersion
-
-    String releaseType
 
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
                                     String project) {
@@ -38,20 +33,17 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
     }
 
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
-                                    String project, boolean isRelease,
-                                    String releaseVersion, String parentVersion,
-                                    String releaseTrainVersion, String releaseType) {
+                                    String project, String parentVersion,
+                                    String releaseTrainVersion) {
         this(dsl, organization, project)
-        this.isRelease = isRelease
-        this.releaseVersion = releaseVersion
         this.parentVersion = parentVersion
         this.releaseTrainVersion = releaseTrainVersion
-        this.releaseType = releaseType
     }
 
     void deploy(boolean appsBuild = true, boolean checkTests = true,
                 boolean dockerHubPush = true, boolean githubPushTrigger = true,
-                boolean docsBuild = false) {
+                boolean docsBuild = false, boolean isRelease = false,
+                String releaseType = "") {
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             if (githubPushTrigger && !isRelease) {
                 triggers {
@@ -82,13 +74,13 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 }
                 if (isRelease) {
                     if (docsBuild) {
-                        shell(cleanAndInstall())
+                        shell(cleanAndInstall(isRelease, releaseType))
                     }
                     else if (appsBuild) {
-                        shell(cleanAndDeployWithGenerateApps())
+                        shell(cleanAndDeployWithGenerateApps(isRelease, releaseType))
                     }
                     else {
-                        shell(cleanAndDeploy(releaseVersion))
+                        shell(cleanAndDeploy(isRelease, releaseType))
                     }
                 }
                 else {
@@ -107,15 +99,29 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 }
 
                 if (appsBuild) {
-                    shell("""set -e
-                    #!/bin/bash -x
-					export MAVEN_PATH=${mavenBin()}
-					${setupGitCredentials()}
-					echo "Building apps"
-                    cd apps
-                    ../mvnw clean deploy -U
-					${cleanGitCredentials()}
-					""")
+                    if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
+                        shell("""set -e
+                        #!/bin/bash -x
+                        export MAVEN_PATH=${mavenBin()}
+                        ${setupGitCredentials()}
+                        echo "Building apps"
+                        cd apps
+                        ../mvnw clean deploy -U -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                            gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                        ${cleanGitCredentials()}
+                        """)
+                    }
+                    else {
+                        shell("""set -e
+                        #!/bin/bash -x
+                        export MAVEN_PATH=${mavenBin()}
+                        ${setupGitCredentials()}
+                        echo "Building apps"
+                        cd apps
+                        ../mvnw clean deploy -U
+                        ${cleanGitCredentials()}
+                        """)
+                    }
                 }
                 if (dockerHubPush) {
                     shell("""set -e
@@ -136,17 +142,22 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
                 if (docsBuild) {
                     artifactoryMavenBuild(it as Node) {
-                        mavenVersion(maven33())
-                        if (releaseType != null && releaseType.equals("milestone")) {
-                            goals('clean install -U -Pfull -Pspring -Pmilestone')
-                        }
-                        else {
-                            goals('clean install -U -Pfull -Pspring')
-                        }
+//                        mavenVersion(maven33())
+//                        if (releaseType != null && releaseType.equals("milestone")) {
+//                            goals('clean install -U -Pfull -Pspring -Pmilestone')
+//                        }
+//                        else {
+//                            goals('clean install -U -Pfull -Pspring')
+//                        }
+                        mavenVersion(maven35())
+                        goals('clean install -U -Pfull -Pspring')
                     }
                     artifactoryMaven3Configurator(it as Node) {
-                        if (releaseType != null && releaseType.equals("milestone")) {
+                        if (isRelease && releaseType != null && releaseType.equals("milestone")) {
                             deployReleaseRepository("libs-milestone-local")
+                        }
+                        else if (isRelease) {
+                            deployReleaseRepository("libs-release-local")
                         }
                     }
                 }

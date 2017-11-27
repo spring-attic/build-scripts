@@ -17,8 +17,8 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
         this.dsl = dsl
     }
 
-    void build(boolean isRelease) {
-        buildAllRelatedJobs(isRelease)
+    void build(boolean isRelease, String releaseType) {
+        buildAllRelatedJobs(isRelease, releaseType)
         dsl.multiJob("spring-scst-app-starter-builds") {
             steps {
                 if (!isRelease) {
@@ -68,25 +68,27 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
         }
     }
 
-    void buildAllRelatedJobs(boolean isRelease) {
+    void buildAllRelatedJobs(boolean isRelease, String releaseType) {
         if (isRelease) {
-            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core", isRelease,
-                    "1.3.0.M1", null, null, "milestone")
-                    .deploy(false, false, false, false)
-            AllScstAppStarterJobs.RELEASE_ALL_JOBS.each { k, v -> new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "${k}", isRelease,
-                    "${v}", "1.3.0.M1", null, "milestone").deploy()}
-            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release", isRelease,
-                    null, "1.2.0.M1", "Bacon.M1", "milestone")
-                    .deploy(false, false, false, true, true)
+            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core",
+                    "1.3.0.M1", null)
+                    .deploy(false, false, false, false, false, isRelease, releaseType)
+            AllScstAppStarterJobs.RELEASE_ALL_JOBS.each { k, v -> new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "${k}",
+                    "1.3.0.M1", null).deploy(true, true,
+                    true, false, false, isRelease, releaseType)}
+            new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release",
+                    "1.2.0.M1", "Bacon.M1")
+                    .deploy(false, false, false, false, true, isRelease, releaseType)
         }
         else {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core")
-                    .deploy(false, false, false, false)
+                    .deploy(false, false, false, true, false, isRelease, releaseType)
             AllScstAppStarterJobs.ALL_JOBS.each {
-                new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it).deploy()
+                new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it).deploy(true, true,
+                true, true, false, isRelease, releaseType)
             }
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release")
-                    .deploy(false, false, false, true, true)
+                    .deploy(false, false, false, true, true, isRelease, releaseType)
         }
 
 

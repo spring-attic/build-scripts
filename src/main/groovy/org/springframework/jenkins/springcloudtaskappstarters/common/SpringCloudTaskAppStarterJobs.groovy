@@ -12,7 +12,7 @@ trait SpringCloudTaskAppStarterJobs extends SpringScstAppStarterJobs {
         return 'spring-cloud-task-app-starters'
     }
 
-    @Override
+//    @Override
     String cleanAndDeploy() {
         return """
 					#!/bin/bash -x
@@ -26,7 +26,7 @@ trait SpringCloudTaskAppStarterJobs extends SpringScstAppStarterJobs {
 
     }
 
-    @Override
+//    @Override
     String cleanAndDeployWithGenerateApps() {
         return """
 					#!/bin/bash -x
