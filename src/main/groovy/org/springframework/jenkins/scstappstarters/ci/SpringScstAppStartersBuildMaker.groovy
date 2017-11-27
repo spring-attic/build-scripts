@@ -72,6 +72,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         file('FOO_PUB', "spring-signing-pubring.gpg")
                         string('FOO_PASSPHRASE', "spring-gpg-passphrase")
                         usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
+                        usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
                     }
                 }
             }
