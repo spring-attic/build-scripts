@@ -66,6 +66,14 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 credentialsBinding {
                     usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
                 }
+                if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
+                    credentialsBinding {
+                        file('FOO_SEC', "spring-signing-secring.gpg")
+                        file('FOO_PUB', "spring-signing-pubring.gpg")
+                        string('FOO_PASSPHRASE', "spring-gpg-passphrase")
+                        usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
+                    }
+                }
             }
 
             steps {
@@ -106,8 +114,10 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         ${setupGitCredentials()}
                         echo "Building apps"
                         cd apps
+                        set +x
                         ../mvnw clean deploy -U -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
                             gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                        set -x
                         ${cleanGitCredentials()}
                         """)
                     }
