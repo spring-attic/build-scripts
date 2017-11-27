@@ -116,7 +116,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         echo "Building apps"
                         cd apps
                         set +x
-                        ../mvnw clean deploy -U -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                        ../mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
                             gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                         set -x
                         ${cleanGitCredentials()}
