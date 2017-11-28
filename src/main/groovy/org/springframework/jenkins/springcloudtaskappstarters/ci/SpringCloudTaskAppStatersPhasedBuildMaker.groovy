@@ -17,8 +17,8 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
         this.dsl = dsl
     }
 
-    void build(boolean isRelease) {
-        buildAllRelatedJobs(isRelease)
+    void build(boolean isRelease, String releaseType) {
+        buildAllRelatedJobs(isRelease, releaseType)
         dsl.multiJob("spring-cloud-task-app-starter-builds") {
             steps {
                 if (!isRelease) {
@@ -68,16 +68,14 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
         }
     }
 
-    void buildAllRelatedJobs(boolean isRelease) {
+    void buildAllRelatedJobs(boolean isRelease, String releaseType) {
         if (isRelease) {
-            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core", isRelease,
-                    "milestone")
-                    .deploy(false, true, false, false)
-            AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each { new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, isRelease,
-                    "milestone").deploy(true, true, true, false)}
-            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release", isRelease,
-                    "milestone")
-                    .deploy(false, false, false, false, true)
+            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core")
+                    .deploy(false, true, false, false, false, isRelease, releaseType)
+            AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each { new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it)
+                    .deploy(true, true, true, false, false, isRelease, releaseType)}
+            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release")
+                    .deploy(false, false, false, false, true, isRelease, releaseType)
         }
         else {
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core")
