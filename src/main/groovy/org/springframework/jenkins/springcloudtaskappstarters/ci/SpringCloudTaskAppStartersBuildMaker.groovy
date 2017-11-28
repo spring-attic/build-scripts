@@ -98,7 +98,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
                 if (appsBuild) {
                     if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
-                        shell("""set -e
+                        shell("""
                         #!/bin/bash -x
                         export MAVEN_PATH=${mavenBin()}
                         ${setupGitCredentials()}
