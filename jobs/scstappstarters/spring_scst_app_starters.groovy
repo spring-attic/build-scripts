@@ -8,4 +8,4 @@ DslFactory dsl = this
 String releaseType = "" // possible values are - "", milestone or ga
 
 // CI
-new SpringScstAppStatersPhasedBuildMaker(dsl).build(true, releaseType)
+new SpringScstAppStatersPhasedBuildMaker(dsl).build(false, releaseType)
