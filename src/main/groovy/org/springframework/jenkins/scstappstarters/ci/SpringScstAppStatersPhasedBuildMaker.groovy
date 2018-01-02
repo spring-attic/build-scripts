@@ -11,7 +11,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
 
     private final DslFactory dsl
 
-    final String branchToBuild = "master"
+    String branchToBuild = "1.3.x"
 
     SpringScstAppStatersPhasedBuildMaker(DslFactory dsl) {
         this.dsl = dsl
@@ -41,12 +41,16 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                     }
                 }
 
-
                 int counter = 1
                 (AllScstAppStarterJobs.PHASES).each { List<String> ph ->
                     phase("app-starters-ci-group-${counter}", 'COMPLETED') {
                         ph.each {
                             String projectName ->
+                                if (projectName.equals("tensorflow") ||
+                                projectName.equals(("python")) ||
+                                projectName.equals("mqtt")) {
+                                    branchToBuild = "1.0.x"
+                                }
                                 String prefixedProjectName = prefixJob(projectName)
                                 phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                                     currentJobParameters()
@@ -59,6 +63,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                 if (!isRelease) {
                     phase('app-starters-release-phase') {
                         String prefixedProjectName = prefixJob("app-starters-release")
+                        branchToBuild = "Celsius"
                         phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                             currentJobParameters()
                         }
