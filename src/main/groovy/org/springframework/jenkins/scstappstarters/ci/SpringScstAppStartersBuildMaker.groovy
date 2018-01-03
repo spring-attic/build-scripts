@@ -49,6 +49,9 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 project.equals("mqtt")) {
             branchToBuild = "1.0.x"
         }
+        else if(project.equals("app-starters-release")) {
+            branchToBuild = "Celsius"
+        }
 
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             if (githubPushTrigger && !isRelease) {
