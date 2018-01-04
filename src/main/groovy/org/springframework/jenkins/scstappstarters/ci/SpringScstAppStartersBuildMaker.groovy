@@ -19,7 +19,7 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
     final String organization
     final String project
 
-    String branchToBuild = "1.3.x"
+    String branchToBuild = "master"
 
     String parentVersion
 
@@ -44,14 +44,14 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 boolean dockerHubPush = true, boolean githubPushTrigger = true,
                 boolean docsBuild = false, boolean isRelease = false,
                 String releaseType = "") {
-        if (project.equals("tensorflow") ||
-                project.equals(("python")) ||
-                project.equals("mqtt")) {
-            branchToBuild = "1.0.x"
-        }
-        else if(project.equals("app-starters-release")) {
-            branchToBuild = "Celsius"
-        }
+//        if (project.equals("tensorflow") ||
+//                project.equals(("python")) ||
+//                project.equals("mqtt")) {
+//            branchToBuild = "1.0.x"
+//        }
+//        else if(project.equals("app-starters-release")) {
+//            branchToBuild = "Celsius"
+//        }
 
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             if (githubPushTrigger && !isRelease) {
