@@ -51,6 +51,9 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                                 projectName.equals("mqtt")) {
                                     branchToBuild = "1.0.x"
                                 }
+                                else {
+                                    branchToBuild = "1.3.x"
+                                }
                                 String prefixedProjectName = prefixJob(projectName)
                                 phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                                     currentJobParameters()
