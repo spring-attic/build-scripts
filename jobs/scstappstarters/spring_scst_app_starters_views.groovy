@@ -16,6 +16,18 @@ dsl.listView('Seeds') {
 
 dsl.nestedView('SpringScstAppStarters') {
 	views {
+		listView('Master-CI') {
+			jobs {
+				regex('spring-scst-app-starters.*master-ci')
+			}
+			columns defaultColumns()
+		}
+		listView('1.3.x-CI') {
+			jobs {
+				regex('spring-scst-app-starters.*1.3.x-ci')
+			}
+			columns defaultColumns()
+		}
 		listView('CI') {
 			jobs {
 				regex('spring-scst-app-starters.*-ci')
