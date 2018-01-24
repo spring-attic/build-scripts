@@ -44,16 +44,25 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                     phase("app-starters-ci-group-${counter}", 'COMPLETED') {
                         ph.each {
                             String projectName ->
-                                if (branchToBuild.equals("1.3.x")) {
-                                    if (projectName.equals("tensorflow") ||
-                                            projectName.equals(("python")) ||
-                                            projectName.equals("mqtt")) {
-                                        branchToBuild = "1.0.x"
+                                String prefixedProjectName = prefixJob(projectName)
+                                if (projectName.equals("tensorflow") ||
+                                        projectName.equals(("python")) ||
+                                        projectName.equals("mqtt")) {
+                                    if (branchToBuild.equals("1.3.x")) {
+                                        phaseJob("${prefixedProjectName}-1.0.x-ci".toString()) {
+                                            currentJobParameters()
+                                        }
+                                    }
+                                    else {
+                                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                                            currentJobParameters()
+                                        }
                                     }
                                 }
-                                String prefixedProjectName = prefixJob(projectName)
-                                phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
-                                    currentJobParameters()
+                                else {
+                                    phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                                        currentJobParameters()
+                                    }
                                 }
                         }
                     }
