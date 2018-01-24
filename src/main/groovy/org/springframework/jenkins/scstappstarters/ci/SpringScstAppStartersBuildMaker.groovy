@@ -26,32 +26,35 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
     String releaseTrainVersion
 
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
-                                    String project) {
+                                    String project, String branchToBuild) {
         this.dsl = dsl
         this.organization = organization
         this.project = project
+        this.branchToBuild = branchToBuild
     }
 
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
                                     String project, String parentVersion,
-                                    String releaseTrainVersion) {
-        this(dsl, organization, project)
+                                    String releaseTrainVersion, String branchToBuild) {
+        this(dsl, organization, project, branchToBuild)
         this.parentVersion = parentVersion
         this.releaseTrainVersion = releaseTrainVersion
+        this.branchToBuild = branchToBuild
     }
 
     void deploy(boolean appsBuild = true, boolean checkTests = true,
                 boolean dockerHubPush = true, boolean githubPushTrigger = true,
                 boolean docsBuild = false, boolean isRelease = false,
                 String releaseType = "") {
-//        if (project.equals("tensorflow") ||
-//                project.equals(("python")) ||
-//                project.equals("mqtt")) {
-//            branchToBuild = "1.0.x"
-//        }
-//        else if(project.equals("app-starters-release")) {
-//            branchToBuild = "Celsius"
-//        }
+        if (branchToBuild.equals("1.3.x")) {
+            if (project.equals("tensorflow") ||
+                    project.equals(("python")) ||
+                    project.equals("mqtt")) {
+                branchToBuild = "1.0.x"
+            } else if (project.equals("app-starters-release")) {
+                branchToBuild = "Celsius"
+            }
+        }
 
         dsl.job("${prefixJob(project)}-${branchToBuild}-ci") {
             if (githubPushTrigger && !isRelease) {
