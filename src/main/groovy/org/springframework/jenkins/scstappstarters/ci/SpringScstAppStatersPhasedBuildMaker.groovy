@@ -17,7 +17,7 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
 
     void build(boolean isRelease, String releaseType, String branchToBuild = "master") {
         buildAllRelatedJobs(isRelease, releaseType, branchToBuild)
-        dsl.multiJob("spring-scst-app-starter-builds") {
+        dsl.multiJob("spring-scst-app-starter-builds" + "-" + branchToBuild) {
             steps {
                 if (!isRelease) {
                     phase('core-phase', 'COMPLETED') {
