@@ -53,6 +53,12 @@ class SpringStarterProductionBuildMaker implements SpringIoNotification, JdkConf
 				}
 			}
 			steps {
+				shell("""#!/bin/bash
+				set -e
+				 
+				echo "Clearing old snapshots"
+				rm -rf ~/.m2/repository/io/spring/initializr/
+				""")
 				maven {
 					goals('clean package')
 					mavenInstallation(maven30())
