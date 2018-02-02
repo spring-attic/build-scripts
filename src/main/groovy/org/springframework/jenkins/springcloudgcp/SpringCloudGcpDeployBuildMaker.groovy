@@ -23,8 +23,8 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
         this.organization = 'spring-cloud'
     }
 
-    String cleanAndDeploy() {
-        return """
+    String cleanAndDeploy(boolean isRelease) {
+        return isRelease ? """
 					#!/bin/bash -x
 
 			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
@@ -34,6 +34,10 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
 						echo "Snapshots found. Aborting the release build."
 					fi
 			   """
+                    :
+                """
+                    ./mvnw clean deploy -U
+                """
 
     }
 
