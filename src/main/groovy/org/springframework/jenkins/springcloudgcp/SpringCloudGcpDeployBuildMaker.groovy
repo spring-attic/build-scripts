@@ -59,7 +59,7 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
                 }
             }
             steps {
-                shell(cleanAndDeploy())
+                shell(cleanAndDeploy(isRelease))
             }
             configure {
 
