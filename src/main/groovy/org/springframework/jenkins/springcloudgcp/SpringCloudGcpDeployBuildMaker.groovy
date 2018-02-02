@@ -66,10 +66,10 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
                 artifactoryMavenBuild(it as Node) {
                     mavenVersion(maven33())
                     if (releaseType != null && releaseType.equals("milestone")) {
-                        goals('clean install -U -Pfull -Pspring -Pmilestone -pl :spring-cloud-gcp-docs')
+                        goals('clean install -U -Pfull -Pspring -Pmilestone -pl :docs')
                     }
                     else {
-                        goals('clean install -U -Pfull -Pspring -pl :spring-cloud-gcp-docs')
+                        goals('clean install -U -Pfull -Pspring -pl :docs')
                     }
                 }
                 artifactoryMaven3Configurator(it as Node) {
