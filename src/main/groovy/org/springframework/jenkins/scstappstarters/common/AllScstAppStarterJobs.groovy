@@ -10,7 +10,7 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE0_JOBS = ['log', 'time']
 
-    public static final List<String> PHASE1_JOBS = ['throughput', 'bridge', 'groovy-transform', 'tasklauncher-local', 'header-enricher', 'function']
+    public static final List<String> PHASE1_JOBS = ['throughput', 'bridge', 'groovy-transform', 'tasklauncher-local', 'header-enricher', 'function', 'grpc']
 
     public static final List<String> PHASE2_JOBS = ['router', 'trigger', 'loggregator', 'load-generator', 'mail', 'field-value-counter', 'pmml', 'tasklaunchrequest-transform']
 
@@ -34,7 +34,7 @@ class AllScstAppStarterJobs {
             PHASE5_JOBS, PHASE6_JOBS]
 
 
-    public static final Map<String, String> RELEASE_PHASE1_JOBS = ['log':'1.3.0.M1', 'time':'1.3.0.M1', 'throughput':'1.3.0.M1', 'bridge':'1.3.0.M1', 'groovy-transform':'1.3.0.M1', 'tasklauncher-local':'1.3.0.M1', 'transform':'1.3.0.M1', 'header-enricher':'1.3.0.M1', 'function':'1.0.0.M1']
+    public static final Map<String, String> RELEASE_PHASE1_JOBS = ['log':'1.3.0.M1', 'time':'1.3.0.M1', 'throughput':'1.3.0.M1', 'bridge':'1.3.0.M1', 'groovy-transform':'1.3.0.M1', 'tasklauncher-local':'1.3.0.M1', 'transform':'1.3.0.M1', 'header-enricher':'1.3.0.M1', 'function':'1.0.0.M1', 'grpc':'1.0.0.M1']
 
     public static final Map<String, String> RELEASE_PHASE2_JOBS = ['router':'1.3.0.M1', 'trigger':'1.1.3.M1', 'loggregator':'1.3.0.M1', 'load-generator':'1.3.0.M1', 'mail':'1.3.0.M1', 'field-value-counter':'1.3.0.M1', 'pmml':'1.3.0.M1', 'tasklaunchrequest-transform':'1.3.0.M1']
 
