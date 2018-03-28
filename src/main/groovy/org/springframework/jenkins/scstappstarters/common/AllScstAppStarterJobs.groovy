@@ -16,7 +16,7 @@ class AllScstAppStarterJobs {
 
     public static final List<String> PHASE3_JOBS = ['triggertask', 'websocket', 'http', 'syslog', 'filter', 'gpfdist', 'splitter', 'jms']
 
-    public static final List<String> PHASE4_JOBS = ['groovy-filter', 'redis-pubsub', 'aggregate-counter', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'httpclient', 'twitter', 'counter']
+    public static final List<String> PHASE4_JOBS = ['groovy-filter', 'redis-pubsub', 'aggregate-counter', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'tasklauncher-kubernetes', 'httpclient', 'twitter', 'counter']
 
     public static final List<String> PHASE5_JOBS = ['cassandra', 'aggregator', 'mqtt', 'rabbit', 'scriptable-transform', 'ftp', 'file', 'aws-s3']
 
@@ -40,7 +40,7 @@ class AllScstAppStarterJobs {
 
     public static final Map<String, String> RELEASE_PHASE3_JOBS = ['triggertask':'1.3.0.M1', 'websocket':'1.3.0.M1', 'http':'1.3.0.M1', 'syslog':'1.3.0.M1', 'filter':'1.3.0.M1', 'gpfdist':'1.3.0.M1', 'splitter':'1.3.0.M1', 'jms':'1.3.0.M1']
 
-    public static final Map<String, String> RELEASE_PHASE4_JOBS = ['groovy-filter':'1.3.0.M1', 'redis-pubsub':'1.3.0.M1', 'aggregate-counter':'1.3.0.M1', 'tasklauncher-yarn':'1.3.0.M1', 'tasklauncher-cloudfoundry':'1.3.0.M1', 'httpclient':'1.3.0.M1', 'twitter':'1.3.0.M1', 'counter':'1.3.0.M1']
+    public static final Map<String, String> RELEASE_PHASE4_JOBS = ['groovy-filter':'1.3.0.M1', 'redis-pubsub':'1.3.0.M1', 'aggregate-counter':'1.3.0.M1', 'tasklauncher-yarn':'1.3.0.M1', 'tasklauncher-cloudfoundry':'1.3.0.M1', 'tasklauncher-kubernetes':'1.0.0.M1', 'httpclient':'1.3.0.M1', 'twitter':'1.3.0.M1', 'counter':'1.3.0.M1']
 
     public static final Map<String, String> RELEASE_PHASE5_JOBS = ['cassandra':'1.3.0.M1', 'aggregator':'1.3.0.M1', 'mqtt':'1.3.0.M1', 'rabbit':'1.3.0.M1', 'scriptable-transform':'1.0.0.M1', 'ftp':'1.3.0.M1','file':'1.3.0.M1','aws-s3':'1.3.0.M1']
 
