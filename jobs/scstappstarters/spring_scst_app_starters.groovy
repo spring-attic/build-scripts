@@ -5,10 +5,10 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-String releaseType = "" // possible values are - "", milestone or ga
+String releaseType = "milestone" // possible values are - "", milestone or ga
 
 // Master CI
-new SpringScstAppStatersPhasedBuildMaker(dsl).build(false, releaseType)
+new SpringScstAppStatersPhasedBuildMaker(dsl).build(true, releaseType)
 
 // 1.3.x CI
 new SpringScstAppStatersPhasedBuildMaker(dsl).build(false, "", "1.3.x")
