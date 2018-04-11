@@ -27,7 +27,7 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
         return isRelease ? """
 					#!/bin/bash -x
 
-			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
+			   		lines=\$(find . -path ./spring-cloud-gcp-samples -prune -o -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean deploy -U -Pspring
 					else
