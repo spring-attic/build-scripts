@@ -5,8 +5,19 @@ import javaposse.jobdsl.dsl.DslFactory
 
 DslFactory dsl = this
 
-// CI
-new SpringCloudDataFlowMetricsCollectorBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-metrics-collector")
-        .deploy()
+// Snapshots CI
+enableSnapshots(dsl)
+
+// Milestone CI
+//enableMilestoneRcRelease(dsl)
 
 
+void enableSnapshots(DslFactory dsl) {
+    new SpringCloudDataFlowMetricsCollectorBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-metrics-collector")
+            .deploy()
+}
+
+void enableMilestoneRcRelease(DslFactory dsl) {
+    new SpringCloudDataFlowMetricsCollectorBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-metrics-collector")
+            .deploy(true, false, true, false)
+}

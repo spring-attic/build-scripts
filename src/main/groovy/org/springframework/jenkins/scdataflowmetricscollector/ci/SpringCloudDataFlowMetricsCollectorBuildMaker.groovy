@@ -93,6 +93,7 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
             wrappers {
                 colorizeOutput()
                 maskPasswords()
+
                 credentialsBinding {
                     usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
                 }
