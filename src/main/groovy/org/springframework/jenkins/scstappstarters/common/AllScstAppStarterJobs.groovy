@@ -9,9 +9,10 @@ import groovy.transform.CompileStatic
 class AllScstAppStarterJobs {
 
     //Removed builds for 2.0, cassnadra and gpfdist
+    //temporarily removed function
 
     public static final List<String> PHASE1_JOBS = ['log', 'time', 'throughput', 'bridge', 'groovy-transform', 'tasklauncher-local',
-                                                    'header-enricher', 'function', 'router']
+                                                    'header-enricher', 'router']
 
     public static final List<String> PHASE2_JOBS = ['grpc', 'trigger', 'loggregator', 'load-generator', 'mail', 'field-value-counter',
                                                     'pmml', 'tasklaunchrequest-transform', 'triggertask', 'transform']
