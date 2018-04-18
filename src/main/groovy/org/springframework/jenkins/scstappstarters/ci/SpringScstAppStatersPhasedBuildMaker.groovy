@@ -88,16 +88,16 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
     void buildAllRelatedJobs(boolean isRelease, String releaseType, String branchToBuild) {
         if (isRelease) {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core",
-                    "1.3.0.M1", null, branchToBuild)
+                    "2.0.0.M1", null, branchToBuild)
                     .deploy(false, false, false, false, false, isRelease, releaseType)
-            AllScstAppStarterJobs.RELEASE_ALL_JOBS.each { k, v -> new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "${k}",
-                    "1.3.0.M1", null, branchToBuild).deploy(true, true,
+            AllScstAppStarterJobs.ALL_JOBS.each { new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it,
+                    "2.0.0.M1", null, branchToBuild).deploy(true, true,
                     true, false, false, isRelease, releaseType)}
             if (branchToBuild.equals("1.3.x")){
                 branchToBuild = "Celsius"
             }
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release",
-                    "1.2.0.M1", "Bacon.M1", branchToBuild)
+                    "2.0.0.M1", "Bacon.M1", branchToBuild)
                     .deploy(false, false, false, false, true, isRelease, releaseType)
         }
         else {
@@ -110,8 +110,5 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release", branchToBuild)
                     .deploy(false, false, false, true, true, isRelease, releaseType)
         }
-
-
     }
-
 }
