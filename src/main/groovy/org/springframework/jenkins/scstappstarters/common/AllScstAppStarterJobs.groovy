@@ -20,7 +20,8 @@ class AllScstAppStarterJobs {
     public static final List<String> PHASE3_JOBS = ['websocket', 'http', 'syslog', 'filter', 'splitter', 'jms', 'groovy-filter',
                                                     'redis-pubsub', 'aggregate-counter', 'tcp']
 
-    public static final List<String> PHASE4_JOBS = ['tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'tasklauncher-kubernetes',
+    //takkng 'tasklauncher-kubernetes', out
+    public static final List<String> PHASE4_JOBS = ['tasklauncher-yarn', 'tasklauncher-cloudfoundry',
                                                     'httpclient', 'twitter', 'counter', 'aggregator', 'mqtt', 'rabbit', 'gemfire']
 
     public static final List<String> PHASE5_JOBS = ['scriptable-transform', 'ftp', 'file', 'aws-s3', 'sftp',
