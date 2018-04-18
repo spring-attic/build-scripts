@@ -8,17 +8,19 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AllScstAppStarterJobs {
 
+    //Removed builds for 2.0, cassnadra and gpfdist
+
     public static final List<String> PHASE0_JOBS = ['log', 'time']
 
     public static final List<String> PHASE1_JOBS = ['throughput', 'bridge', 'groovy-transform', 'tasklauncher-local', 'header-enricher', 'function', 'grpc']
 
     public static final List<String> PHASE2_JOBS = ['router', 'trigger', 'loggregator', 'load-generator', 'mail', 'field-value-counter', 'pmml', 'tasklaunchrequest-transform']
 
-    public static final List<String> PHASE3_JOBS = ['triggertask', 'websocket', 'http', 'syslog', 'filter', 'gpfdist', 'splitter', 'jms']
+    public static final List<String> PHASE3_JOBS = ['triggertask', 'websocket', 'http', 'syslog', 'filter', 'splitter', 'jms']
 
     public static final List<String> PHASE4_JOBS = ['groovy-filter', 'redis-pubsub', 'aggregate-counter', 'tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'tasklauncher-kubernetes', 'httpclient', 'twitter', 'counter']
 
-    public static final List<String> PHASE5_JOBS = ['cassandra', 'aggregator', 'mqtt', 'rabbit', 'scriptable-transform', 'ftp', 'file', 'aws-s3']
+    public static final List<String> PHASE5_JOBS = ['aggregator', 'mqtt', 'rabbit', 'scriptable-transform', 'ftp', 'file', 'aws-s3']
 
     public static final List<String> PHASE6_JOBS = ['sftp', 'tensorflow', 'mongodb', 'hdfs', 'jdbc', 'gemfire', 'tcp', 'transform', 'python']
 
@@ -38,11 +40,11 @@ class AllScstAppStarterJobs {
 
     public static final Map<String, String> RELEASE_PHASE2_JOBS = ['router':'1.3.0.M1', 'trigger':'1.1.3.M1', 'loggregator':'1.3.0.M1', 'load-generator':'1.3.0.M1', 'mail':'1.3.0.M1', 'field-value-counter':'1.3.0.M1', 'pmml':'1.3.0.M1', 'tasklaunchrequest-transform':'1.3.0.M1']
 
-    public static final Map<String, String> RELEASE_PHASE3_JOBS = ['triggertask':'1.3.0.M1', 'websocket':'1.3.0.M1', 'http':'1.3.0.M1', 'syslog':'1.3.0.M1', 'filter':'1.3.0.M1', 'gpfdist':'1.3.0.M1', 'splitter':'1.3.0.M1', 'jms':'1.3.0.M1']
+    public static final Map<String, String> RELEASE_PHASE3_JOBS = ['triggertask':'1.3.0.M1', 'websocket':'1.3.0.M1', 'http':'1.3.0.M1', 'syslog':'1.3.0.M1', 'filter':'1.3.0.M1', 'splitter':'1.3.0.M1', 'jms':'1.3.0.M1']
 
     public static final Map<String, String> RELEASE_PHASE4_JOBS = ['groovy-filter':'1.3.0.M1', 'redis-pubsub':'1.3.0.M1', 'aggregate-counter':'1.3.0.M1', 'tasklauncher-yarn':'1.3.0.M1', 'tasklauncher-cloudfoundry':'1.3.0.M1', 'tasklauncher-kubernetes':'1.0.0.M1', 'httpclient':'1.3.0.M1', 'twitter':'1.3.0.M1', 'counter':'1.3.0.M1']
 
-    public static final Map<String, String> RELEASE_PHASE5_JOBS = ['cassandra':'1.3.0.M1', 'aggregator':'1.3.0.M1', 'mqtt':'1.3.0.M1', 'rabbit':'1.3.0.M1', 'scriptable-transform':'1.0.0.M1', 'ftp':'1.3.0.M1','file':'1.3.0.M1','aws-s3':'1.3.0.M1']
+    public static final Map<String, String> RELEASE_PHASE5_JOBS = ['aggregator':'1.3.0.M1', 'mqtt':'1.3.0.M1', 'rabbit':'1.3.0.M1', 'scriptable-transform':'1.0.0.M1', 'ftp':'1.3.0.M1','file':'1.3.0.M1','aws-s3':'1.3.0.M1']
 
     public static final Map<String, String> RELEASE_PHASE6_JOBS = ['sftp':'1.3.0.M1', 'tensorflow':'1.3.0.M1', 'mongodb':'1.3.0.M1', 'hdfs':'1.3.0.M1', 'jdbc':'1.0.0.M1', 'gemfire':'1.3.0.M1','tcp':'1.3.0.M1','python':'1.3.0.M1']
 
