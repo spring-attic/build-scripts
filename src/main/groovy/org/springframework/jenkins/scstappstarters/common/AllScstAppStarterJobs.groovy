@@ -8,11 +8,10 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class AllScstAppStarterJobs {
 
-    //Removed builds for 2.0, cassnadra and gpfdist
-    //temporarily removed function
+    //Removed cassandra and gpfdist from Darwin builds
 
     public static final List<String> PHASE1_JOBS = ['log', 'time', 'throughput', 'bridge', 'groovy-transform', 'tasklauncher-local',
-                                                    'header-enricher', 'router']
+                                                    'header-enricher', 'router', 'function']
 
     public static final List<String> PHASE2_JOBS = ['grpc', 'trigger', 'loggregator', 'load-generator', 'mail', 'field-value-counter',
                                                     'pmml', 'tasklaunchrequest-transform', 'triggertask', 'transform']
@@ -20,8 +19,7 @@ class AllScstAppStarterJobs {
     public static final List<String> PHASE3_JOBS = ['websocket', 'http', 'syslog', 'filter', 'splitter', 'jms', 'groovy-filter',
                                                     'redis-pubsub', 'aggregate-counter', 'tcp']
 
-    //takkng 'tasklauncher-kubernetes', out
-    public static final List<String> PHASE4_JOBS = ['tasklauncher-yarn', 'tasklauncher-cloudfoundry',
+    public static final List<String> PHASE4_JOBS = ['tasklauncher-yarn', 'tasklauncher-cloudfoundry', 'tasklauncher-kubernetes',
                                                     'httpclient', 'twitter', 'counter', 'aggregator', 'mqtt', 'rabbit', 'gemfire']
 
     public static final List<String> PHASE5_JOBS = ['scriptable-transform', 'ftp', 'file', 'aws-s3', 'sftp',

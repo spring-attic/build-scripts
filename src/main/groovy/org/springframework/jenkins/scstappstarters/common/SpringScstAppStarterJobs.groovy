@@ -149,7 +149,7 @@ trait SpringScstAppStarterJobs extends BuildAndDeploy {
             return """
 					#!/bin/bash -x
 
-			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | wc -l)
+			   		lines=\$(find . -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
 						./mvnw clean install -U -Pspring
 					else
