@@ -106,7 +106,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         cd apps
                         cd ${appDir}
                         set +x
-                        ../mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                        ../../mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
                             gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
                         set -x
                         ${cleanGitCredentials()}
@@ -119,7 +119,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         echo "Building apps"
                         cd apps
                         cd ${appDir}
-                        ../mvnw clean deploy
+                        ../../mvnw clean deploy
                         ${cleanGitCredentials()}
                         """)
                     }
@@ -132,7 +132,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                     cd apps
                     cd ${appDir}
                     set +x
-                    ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
+                    ../../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
 					set -x
 
 					${cleanGitCredentials()}
