@@ -95,7 +95,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         }
                     }
                 }
-
+                String appDir = project.equals("composed-task-runner") ? "composedtaskrunner-task" : project + "-task"
                 if (appsBuild) {
                     if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
                         shell("""
@@ -104,6 +104,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         ${setupGitCredentials()}
                         echo "Building apps"
                         cd apps
+                        cd ${appDir}
                         set +x
                         ../mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
                             gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
@@ -117,6 +118,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         ${setupGitCredentials()}
                         echo "Building apps"
                         cd apps
+                        cd ${appDir}
                         ../mvnw clean deploy
                         ${cleanGitCredentials()}
                         """)
@@ -128,6 +130,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
 					${setupGitCredentials()}
 					echo "Pushing to Docker Hub"
                     cd apps
+                    cd ${appDir}
                     set +x
                     ../mvnw -U --batch-mode clean package docker:build docker:push -DskipTests -Ddocker.username="\$${dockerHubUserNameEnvVar()}" -Ddocker.password="\$${dockerHubPasswordEnvVar()}"
 					set -x
