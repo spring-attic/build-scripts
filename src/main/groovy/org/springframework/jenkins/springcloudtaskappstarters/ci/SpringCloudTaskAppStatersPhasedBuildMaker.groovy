@@ -71,7 +71,7 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
     void buildAllRelatedJobs(boolean isRelease, String releaseType) {
         if (isRelease) {
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core")
-                    .deploy(false, true, false, false, false, isRelease, releaseType)
+                    .deploy(false, false, false, false, false, isRelease, releaseType)
             AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each { new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it)
                     .deploy(true, true, true, false, false, isRelease, releaseType)}
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release")
@@ -79,7 +79,7 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
         }
         else {
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core")
-                    .deploy(false, true, false, false)
+                    .deploy(false, false, false, false)
             AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each {
                 new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it).deploy()
             }
