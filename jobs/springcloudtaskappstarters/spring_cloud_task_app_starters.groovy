@@ -8,4 +8,4 @@ DslFactory dsl = this
 String releaseType = "" // possible values are - milestone or ga
 
 // CI builds for spring cloud task app starters
-new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(true, "milestone")
+new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(false, "")
