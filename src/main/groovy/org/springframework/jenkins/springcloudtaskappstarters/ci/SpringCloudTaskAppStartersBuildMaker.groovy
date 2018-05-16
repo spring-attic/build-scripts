@@ -23,10 +23,11 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
     final String branchToBuild = "master"
 
     SpringCloudTaskAppStartersBuildMaker(DslFactory dsl, String organization,
-                                         String project) {
+                                         String project, String branchToBuild = "master") {
         this.dsl = dsl
         this.organization = organization
         this.project = project
+        this.branchToBuild = branchToBuild
     }
 
     void deploy(boolean appsBuild = true, boolean checkTests = true,

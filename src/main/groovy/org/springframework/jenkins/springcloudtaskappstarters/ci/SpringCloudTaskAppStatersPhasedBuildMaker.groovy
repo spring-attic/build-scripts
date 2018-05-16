@@ -11,14 +11,12 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
 
     private final DslFactory dsl
 
-    final String branchToBuild = "master"
-
     SpringCloudTaskAppStatersPhasedBuildMaker(DslFactory dsl) {
         this.dsl = dsl
     }
 
-    void build(boolean isRelease, String releaseType) {
-        buildAllRelatedJobs(isRelease, releaseType)
+    void build(boolean isRelease, String releaseType, String branchToBuild = "master") {
+        buildAllRelatedJobs(isRelease, releaseType, branchToBuild)
         dsl.multiJob("spring-cloud-task-app-starter-builds") {
             steps {
                 if (!isRelease) {
@@ -68,22 +66,22 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
         }
     }
 
-    void buildAllRelatedJobs(boolean isRelease, String releaseType) {
+    void buildAllRelatedJobs(boolean isRelease, String releaseType, String branchToBuild) {
         if (isRelease) {
-            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core")
+            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core", branchToBuild)
                     .deploy(false, false, false, false, false, isRelease, releaseType)
-            AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each { new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it)
+            AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each { new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, branchToBuild)
                     .deploy(true, true, true, false, false, isRelease, releaseType)}
-            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release")
+            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release", branchToBuild)
                     .deploy(false, false, false, false, true, isRelease, releaseType)
         }
         else {
-            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core")
+            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core", branchToBuild)
                     .deploy(false, false, false, false)
             AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each {
-                new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it).deploy()
+                new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, branchToBuild).deploy()
             }
-            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release")
+            new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release", branchToBuild)
                     .deploy(false, false, false, true, true)
         }
     }
