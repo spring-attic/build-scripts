@@ -8,7 +8,13 @@ DslFactory dsl = this
 String releaseType = "" // possible values are - milestone or ga
 
 // CI builds for spring cloud task app starters
-// for a single build like CTR 1.1.2.RELEASE, do the follwoing
-new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(true, "ga", "Clark")
 
-//new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(false, "")
+// for a single build like CTR 1.1.2.RELEASE, do the follwoing -
+// this will make the other builds go stale, but thats ok as this is temporary for the release.
+//new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(true, "ga", "1.3.x")
+
+// for release train one off - this will make the other builds go stale, but thats ok as this is temporary for the release.
+//new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(true, "ga", "Clark")
+
+// master builds
+new SpringCloudTaskAppStatersPhasedBuildMaker(dsl).build(false, "")
