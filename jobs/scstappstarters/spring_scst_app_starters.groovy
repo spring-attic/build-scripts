@@ -11,4 +11,4 @@ String releaseType = "" // possible values are - "", milestone or ga
 new SpringScstAppStatersPhasedBuildMaker(dsl).build(false, "")
 
 // 1.3.x CI
-new SpringScstAppStatersPhasedBuildMaker(dsl).build(false, "", "1.3.x")
+new SpringScstAppStatersPhasedBuildMaker(dsl).build(true, "ga", "1.3.x")
