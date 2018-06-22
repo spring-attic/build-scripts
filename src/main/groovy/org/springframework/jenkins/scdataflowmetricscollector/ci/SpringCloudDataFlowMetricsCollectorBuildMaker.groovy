@@ -30,7 +30,7 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
         return ''
     }
 
-    static String cleanAndDeployMileStone() {
+    String cleanAndDeployMileStone() {
         return """
 					#!/bin/bash -x
 					rm -rf apps
@@ -45,7 +45,7 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
 
     }
 
-    static String cleanAndDeployGA() {
+    String cleanAndDeployGA() {
         return """
                     #!/bin/bash -x
                     rm -rf apps
@@ -62,7 +62,7 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
                 """
     }
 
-    static String cleanAndDeploySnapshots() {
+    String cleanAndDeploySnapshots() {
         return """
 					#!/bin/bash -x
 					rm -rf apps
