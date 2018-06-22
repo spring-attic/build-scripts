@@ -6,8 +6,8 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 // Snapshots CI
-//enableSnapshots(dsl)
-enablGARelease(dsl)
+enableSnapshots(dsl)
+//enablGARelease(dsl)
 
 // Milestone CI
 //enableMilestoneRcRelease(dsl)
