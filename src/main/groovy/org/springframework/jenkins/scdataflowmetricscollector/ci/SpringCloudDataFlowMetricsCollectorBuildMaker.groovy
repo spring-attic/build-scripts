@@ -6,10 +6,6 @@ import org.springframework.jenkins.common.job.JdkConfig
 import org.springframework.jenkins.common.job.Maven
 import org.springframework.jenkins.common.job.TestPublisher
 import org.springframework.jenkins.scstappstarters.common.SpringScstAppStarterJobs
-
-import static org.springframework.jenkins.common.job.Artifactory.artifactoryMaven3Configurator
-import static org.springframework.jenkins.common.job.Artifactory.artifactoryMavenBuild
-
 /**
  * @author Soby Chacko
  */
@@ -51,16 +47,19 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
 
     static String cleanAndDeployGA() {
         return """
-					#!/bin/bash -x
-					rm -rf apps
+                    #!/bin/bash -x
+                    rm -rf apps
 
-			   		lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
-					if [ \$lines -eq 0 ]; then
-						./mvnw clean deploy -U -Pspring -PgenerateApps
-					else
-						echo "Snapshots or RC/milestones found. Aborting the release build."
-					fi
-			   """
+                    lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
+                    if [ \$lines -eq 0 ]; then
+                        set +x
+                        ./mvnw clean deploy -Pspring -PgenerateApps -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+            gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                        set -x
+                    else
+                        echo "Non release versions found. Aborting build"
+                    fi
+                """
     }
 
     static String cleanAndDeploySnapshots() {
@@ -97,6 +96,15 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
                 credentialsBinding {
                     usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
                 }
+                if (isGARelease) {
+                    credentialsBinding {
+                        file('FOO_SEC', "spring-signing-secring.gpg")
+                        file('FOO_PUB', "spring-signing-pubring.gpg")
+                        string('FOO_PASSPHRASE', "spring-gpg-passphrase")
+                        usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
+                        usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
+                    }
+                }
             }
 
             steps {
@@ -110,15 +118,31 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
                     shell(cleanAndDeploySnapshots())
                 }
 
-                shell("""set -e
-                    #!/bin/bash -x
-					export MAVEN_PATH=${mavenBin()}
-					${setupGitCredentials()}
-					echo "Building apps"
-                    cd apps
-                    ../mvnw clean deploy -U
-					${cleanGitCredentials()}
-					""")
+                if (isGARelease) {
+                    shell("""set -e
+                        #!/bin/bash -x
+                        export MAVEN_PATH=${mavenBin()}
+                        ${setupGitCredentials()}
+                        echo "Building apps"
+                        cd apps
+                        set +x
+                        ../mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                        gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                        set -x
+                        ${cleanGitCredentials()}
+                        """)
+                }
+                else {
+                    shell("""set -e
+                        #!/bin/bash -x
+                        export MAVEN_PATH=${mavenBin()}
+                        ${setupGitCredentials()}
+                        echo "Building apps"
+                        cd apps
+                        ../mvnw clean deploy -U
+                        ${cleanGitCredentials()}
+                        """)
+                }
 
                 shell("""set -e
                     #!/bin/bash -x
@@ -134,20 +158,18 @@ class SpringCloudDataFlowMetricsCollectorBuildMaker implements JdkConfig, TestPu
 					""")
             }
             configure {
-                artifactoryMavenBuild(it as Node) {
-                    mavenVersion(maven33())
-                    if (isMilestoneOrRcRelease) {
-                        goals('clean install -U -Pfull -Pspring -Pmilestone -pl :spring-cloud-dataflow-collector-metrics-docs')
-                    }
-                    else {
-                        goals('clean install -U -Pfull -Pspring -pl :spring-cloud-dataflow-collector-metrics-docs')
-                    }
-                }
-                artifactoryMaven3Configurator(it as Node){
-                    if (isMilestoneOrRcRelease) {
-                        deployReleaseRepository("libs-milestone-local")
-                    }
-                }
+//                artifactoryMavenBuild(it as Node) {
+//                    mavenVersion(maven35())
+//                    goals('clean install -U -Pfull -Pspring -pl :spring-cloud-dataflow-collector-metrics-docs')
+//                }
+//                artifactoryMaven3Configurator(it as Node) {
+//                    if (isMilestoneOrRcRelease) {
+//                        deployReleaseRepository("libs-milestone-local")
+//                    }
+//                    else if (isGARelease) {
+//                        deployReleaseRepository("libs-release-local")
+//                    }
+//                }
             }
 
             publishers {

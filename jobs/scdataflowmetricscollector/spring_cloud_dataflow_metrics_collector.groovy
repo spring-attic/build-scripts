@@ -6,7 +6,8 @@ import javaposse.jobdsl.dsl.DslFactory
 DslFactory dsl = this
 
 // Snapshots CI
-enableSnapshots(dsl)
+//enableSnapshots(dsl)
+enablGARelease(dsl)
 
 // Milestone CI
 //enableMilestoneRcRelease(dsl)
@@ -20,4 +21,9 @@ void enableSnapshots(DslFactory dsl) {
 void enableMilestoneRcRelease(DslFactory dsl) {
     new SpringCloudDataFlowMetricsCollectorBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-metrics-collector")
             .deploy(true, false, true, false)
+}
+
+void enablGARelease(DslFactory dsl) {
+    new SpringCloudDataFlowMetricsCollectorBuildMaker(dsl, "spring-cloud", "spring-cloud-dataflow-metrics-collector")
+            .deploy(true, false, false, true)
 }
