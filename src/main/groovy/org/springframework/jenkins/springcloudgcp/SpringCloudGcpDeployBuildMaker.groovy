@@ -13,8 +13,6 @@ import static org.springframework.jenkins.common.job.Artifactory.artifactoryMave
 class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
         Cron, SpringCloudGcpJobs, Maven {
 
-    private final String branchToBuild = "1.0.x"
-
     private final DslFactory dsl
     final String organization
 
@@ -41,7 +39,7 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
 
     }
 
-    void deploy(boolean isRelease = false, String releaseType) {
+    void deploy(boolean isRelease = false, String releaseType, String branchToBuild = "master") {
         String project = 'spring-cloud-gcp'
         dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
             triggers {
