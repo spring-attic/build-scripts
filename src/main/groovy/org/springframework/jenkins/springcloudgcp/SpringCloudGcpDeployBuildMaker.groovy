@@ -25,14 +25,14 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
 
 			   		lines=\$(find . -path ./spring-cloud-gcp-samples -prune -o -type f -name pom.xml | xargs grep SNAPSHOT | grep -v ".contains(" | grep -v regex | wc -l)
 					if [ \$lines -eq 0 ]; then
-						./mvnw clean deploy -U -Pspring -Pfull
+						./mvnw clean deploy -U -Pspring
 					else
 						echo "Snapshots found. Aborting the release build."
 					fi
 			   """
                     :
                 """
-                    ./mvnw clean deploy -U -Pspring -Pfull
+                    ./mvnw clean deploy -U -Pspring
                 """
 
     }
@@ -59,20 +59,20 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
             }
             configure {
 
-//                artifactoryMavenBuild(it as Node) {
-//                    mavenVersion(maven33())
-//                    if (releaseType != null && releaseType.equals("milestone")) {
-//                        goals('clean install -U -Pfull -Pspring -Pmilestone -pl :spring-cloud-gcp-docs')
-//                    }
-//                    else {
-//                        goals('clean install -U -Pfull -Pspring -pl :spring-cloud-gcp-docs')
-//                    }
-//                }
-//                artifactoryMaven3Configurator(it as Node) {
-//                    if (releaseType != null && releaseType.equals("milestone")) {
-//                        deployReleaseRepository("libs-milestone-local")
-//                    }
-//                }
+                artifactoryMavenBuild(it as Node) {
+                    mavenVersion(maven33())
+                    if (releaseType != null && releaseType.equals("milestone")) {
+                        goals('clean install -U -Pfull -Pspring -Pmilestone -pl :spring-cloud-gcp-docs')
+                    }
+                    else {
+                        goals('clean install -U -Pfull -Pspring -pl :spring-cloud-gcp-docs')
+                    }
+                }
+                artifactoryMaven3Configurator(it as Node) {
+                    if (releaseType != null && releaseType.equals("milestone")) {
+                        deployReleaseRepository("libs-milestone-local")
+                    }
+                }
 
 
 
