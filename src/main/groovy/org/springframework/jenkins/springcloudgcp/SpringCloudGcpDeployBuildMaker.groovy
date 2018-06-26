@@ -32,7 +32,7 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
 			   """
                     :
                 """
-                    ./mvnw clean deploy -U
+                    ./mvnw clean deploy -U -Pspring -Pfull
                 """
 
     }
