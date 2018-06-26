@@ -13,7 +13,7 @@ import static org.springframework.jenkins.common.job.Artifactory.artifactoryMave
 class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
         Cron, SpringCloudGcpJobs, Maven {
 
-    private final String branchToBuild = "master"
+    private final String branchToBuild = "1.0.x"
 
     private final DslFactory dsl
     final String organization
