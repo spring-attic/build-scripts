@@ -37,7 +37,7 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
 
     }
 
-    void deploy(boolean isRelease = false, String releaseType, String branchToBuild = "master") {
+    void deploy(boolean isRelease = false, String releaseType = "", String branchToBuild = "master") {
         String project = 'spring-cloud-gcp'
         dsl.job("${prefixJob(project)}-$branchToBuild-ci") {
             triggers {
