@@ -5,6 +5,10 @@ import org.springframework.jenkins.common.job.Cron
 import org.springframework.jenkins.common.job.JdkConfig
 import org.springframework.jenkins.common.job.Maven
 import org.springframework.jenkins.common.job.TestPublisher
+
+import static org.springframework.jenkins.common.job.Artifactory.artifactoryMaven3Configurator
+import static org.springframework.jenkins.common.job.Artifactory.artifactoryMavenBuild
+
 /**
  * @author Marcin Grzejszczak
  */
