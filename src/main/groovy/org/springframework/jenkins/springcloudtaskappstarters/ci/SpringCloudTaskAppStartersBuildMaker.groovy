@@ -120,7 +120,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         echo "Building apps"
                         cd apps
                         cd ${appDir}
-                        ./mvnw clean deploy
+                        ./mvnw clean deploy -Pspring
                         ${cleanGitCredentials()}
                         """)
                     }
