@@ -98,20 +98,33 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 }
                 String appDir = project.equals("composed-task-runner") ? "composedtaskrunner-task" : project + "-task"
                 if (appsBuild) {
-                    if (isRelease && releaseType != null && !releaseType.equals("milestone")) {
-                        shell("""
-                        #!/bin/bash -x
-                        export MAVEN_PATH=${mavenBin()}
-                        ${setupGitCredentials()}
-                        echo "Building apps"
-                        cd apps
-                        cd ${appDir}
-                        set +x
-                        ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
-                            gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
-                        set -x
-                        ${cleanGitCredentials()}
-                        """)
+                    if (isRelease && releaseType != null) {
+                        if (!releaseType.equals("milestone")) {
+                            shell("""
+                            #!/bin/bash -x
+                            export MAVEN_PATH=${mavenBin()}
+                            ${setupGitCredentials()}
+                            echo "Building apps"
+                            cd apps
+                            cd ${appDir}
+                            set +x
+                            ./mvnw clean deploy -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+                                    gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                            set -x
+                            ${cleanGitCredentials()}
+                            """)
+                        }
+                        else {
+                            shell("""#!/bin/bash -x
+                            export MAVEN_PATH=${mavenBin()}
+                            ${setupGitCredentials()}
+                            echo "Building apps"
+                            cd apps
+                            cd ${appDir}
+                            ./mvnw clean deploy -Pmilestone
+                            ${cleanGitCredentials()}
+                            """)
+                        }
                     }
                     else {
                         shell("""#!/bin/bash -x
@@ -120,7 +133,7 @@ class SpringCloudTaskAppStartersBuildMaker implements JdkConfig, TestPublisher,
                         echo "Building apps"
                         cd apps
                         cd ${appDir}
-                        ./mvnw clean deploy -Pspring
+                        ./mvnw clean deploy -U
                         ${cleanGitCredentials()}
                         """)
                     }
