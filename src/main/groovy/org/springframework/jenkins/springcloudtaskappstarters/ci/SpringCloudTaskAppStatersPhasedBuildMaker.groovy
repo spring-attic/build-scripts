@@ -77,7 +77,7 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
         }
         else {
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "core", branchToBuild)
-                    .deploy(false, false, false, false)
+                    .deploy(false, false, false, true)
             AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each {
                 new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, branchToBuild).deploy()
             }
