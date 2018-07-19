@@ -6,7 +6,7 @@ import org.springframework.jenkins.springcloudgcp.SpringCloudGcpDeployBuildMaker
 DslFactory dsl = this
 
 // CI for master
-new SpringCloudGcpDeployBuildMaker(dsl).deploy(true, "milestone", "master")
+new SpringCloudGcpDeployBuildMaker(dsl).deploy(false, "", "master")
 
 // CI for 1.0.x
 new SpringCloudGcpDeployBuildMaker(dsl).deploy(false, "", "1.0.x")
