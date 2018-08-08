@@ -67,6 +67,20 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
                 }
             }
             jdk jdk8()
+            wrappers {
+                colorizeOutput()
+                maskPasswords()
+
+                if (releaseType.equals("ga")) {
+                    credentialsBinding {
+                        file('FOO_SEC', "spring-signing-secring.gpg")
+                        file('FOO_PUB', "spring-signing-pubring.gpg")
+                        string('FOO_PASSPHRASE', "spring-gpg-passphrase")
+                        usernamePassword('SONATYPE_USER', 'SONATYPE_PASSWORD', "oss-token")
+                        usernamePassword('DOCKER_HUB_USERNAME', 'DOCKER_HUB_PASSWORD', "hub.docker.com-springbuildmaster")
+                    }
+                }
+            }
             scm {
                 git {
                     remote {
