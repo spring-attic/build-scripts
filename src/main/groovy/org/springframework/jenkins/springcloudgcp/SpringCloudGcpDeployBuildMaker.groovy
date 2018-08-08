@@ -28,7 +28,7 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
                     #!/bin/bash -x
                     rm -rf apps
 
-                    lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
+                    lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | grep -v spring-cloud-gcp-samples | wc -l)
                     if [ \$lines -eq 0 ]; then
                         set +x
                         ./mvnw clean deploy -Pspring -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
