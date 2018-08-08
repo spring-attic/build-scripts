@@ -12,4 +12,24 @@ trait SpringCloudGcpJobs extends BuildAndDeploy {
 		return 'spring-cloud-gcp'
 	}
 
+	String gpgSecRing() {
+		return 'FOO_SEC'
+	}
+
+	String gpgPubRing() {
+		return 'FOO_PUB'
+	}
+
+	String gpgPassphrase() {
+		return 'FOO_PASSPHRASE'
+	}
+
+	String sonatypeUser() {
+		return 'SONATYPE_USER'
+	}
+
+	String sonatypePassword() {
+		return 'SONATYPE_PASSWORD'
+	}
+
 }

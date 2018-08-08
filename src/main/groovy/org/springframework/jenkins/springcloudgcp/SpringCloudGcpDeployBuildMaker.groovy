@@ -23,6 +23,23 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
         this.organization = 'spring-cloud'
     }
 
+    String cleanAndDeployGA() {
+        return """
+                    #!/bin/bash -x
+                    rm -rf apps
+
+                    lines=\$(find . -type f -name pom.xml | xargs egrep "SNAPSHOT|M[0-9]|RC[0-9]" | grep -v regex | wc -l)
+                    if [ \$lines -eq 0 ]; then
+                        set +x
+                        ./mvnw clean deploy -Pspring -PgenerateApps -Dgpg.secretKeyring="\$${gpgSecRing()}" -Dgpg.publicKeyring="\$${
+            gpgPubRing()}" -Dgpg.passphrase="\$${gpgPassphrase()}" -DSONATYPE_USER="\$${sonatypeUser()}" -DSONATYPE_PASSWORD="\$${sonatypePassword()}" -Pcentral -U
+                        set -x
+                    else
+                        echo "Non release versions found. Aborting build"
+                    fi
+                """
+    }
+
     String cleanAndDeploy(boolean isRelease) {
         return isRelease ? """
 					#!/bin/bash -x
@@ -59,7 +76,12 @@ class SpringCloudGcpDeployBuildMaker implements JdkConfig, TestPublisher,
                 }
             }
             steps {
-                shell(cleanAndDeploy(isRelease))
+                if (isRelease && releaseType.equals("ga")){
+                    shell(cleanAndDeployGA())
+                }
+                else {
+                    shell(cleanAndDeploy(isRelease))
+                }
             }
             configure {
 
