@@ -9,4 +9,4 @@ DslFactory dsl = this
 new SpringCloudGcpDeployBuildMaker(dsl).deploy(false, "", "master")
 
 // CI for 1.0.x
-new SpringCloudGcpDeployBuildMaker(dsl).deploy(false, "", "1.0.x")
+new SpringCloudGcpDeployBuildMaker(dsl).deploy(true, "", "1.0.x")
