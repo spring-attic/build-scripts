@@ -40,42 +40,78 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
                 }
 
                 int counter = 1
-                (AllScstAppStarterJobs.PHASES).each { List<String> ph ->
-                    phase("app-starters-ci-group-${counter}", 'COMPLETED') {
-                        ph.each {
-                            String projectName ->
-                                String prefixedProjectName = prefixJob(projectName)
-                                if (projectName.equals("tensorflow") ||
-                                        projectName.equals(("python")) ||
-                                        projectName.equals("mqtt")) {
-                                    if (branchToBuild.equals("1.3.x")) {
+                if (branchToBuild.equals("1.3.x")) {
+                    (AllScstAppStarterJobs.CELSIUS_PHASES).each { List<String> ph ->
+                        phase("app-starters-ci-group-${counter}", 'COMPLETED') {
+                            ph.each {
+                                String projectName ->
+                                    String prefixedProjectName = prefixJob(projectName)
+                                    if (projectName.equals("tensorflow") ||
+                                            projectName.equals(("python")) ||
+                                            projectName.equals("mqtt")) {
                                         phaseJob("${prefixedProjectName}-1.0.x-ci".toString()) {
                                             currentJobParameters()
                                         }
-                                    }
-                                    else {
+
+                                    } else {
                                         phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                                             currentJobParameters()
                                         }
                                     }
-                                }
-                                else {
+                            }
+                        }
+                        counter++;
+                    }
+                }
+                else if (branchToBuild.equals("2.0.x")) {
+                    (AllScstAppStarterJobs.DARWIN_PHASES).each { List<String> ph ->
+                        phase("app-starters-ci-group-${counter}", 'COMPLETED') {
+                            ph.each {
+                                String projectName ->
+                                    String prefixedProjectName = prefixJob(projectName)
                                     phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                                         currentJobParameters()
                                     }
-                                }
+                            }
                         }
+                        counter++;
                     }
-                    counter++;
+                }
+                else {
+                    (AllScstAppStarterJobs.PHASES).each { List<String> ph ->
+                        phase("app-starters-ci-group-${counter}", 'COMPLETED') {
+                            ph.each {
+                                String projectName ->
+                                    String prefixedProjectName = prefixJob(projectName)
+                                    if (projectName.equals("tensorflow") ||
+                                            projectName.equals(("python")) ||
+                                            projectName.equals("mqtt")) {
+                                        if (branchToBuild.equals("1.3.x")) {
+                                            phaseJob("${prefixedProjectName}-1.0.x-ci".toString()) {
+                                                currentJobParameters()
+                                            }
+                                        } else {
+                                            phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                                                currentJobParameters()
+                                            }
+                                        }
+                                    } else {
+                                        phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
+                                            currentJobParameters()
+                                        }
+                                    }
+                            }
+                        }
+                        counter++;
+                    }
                 }
 
                 if (!isRelease) {
                     phase('app-starters-release-phase') {
                         String prefixedProjectName = prefixJob("app-starters-release")
-                        if (branchToBuild.equals("1.3.x")){
+                        if (branchToBuild.equals("1.3.x")) {
                             branchToBuild = "Celsius"
-                        }
-                        else if (branchToBuild.equals("2.0.x")){
+                        } else if (branchToBuild.equals("2.0.x")) {
                             branchToBuild = "Darwin"
                         }
                         phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
@@ -92,48 +128,46 @@ class SpringScstAppStatersPhasedBuildMaker implements SpringScstAppStarterJobs {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core", branchToBuild)
                     .deploy(false, false, false, false, false, isRelease, releaseType)
 
-            if (branchToBuild.equals("1.3.x")){
-                AllScstAppStarterJobs.CELSIUS_ALL_JOBS.each { new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, branchToBuild)
-                        .deploy(true, true,
-                        true, false, false, isRelease, releaseType)}
-            }
-            else if (branchToBuild.equals("2.0.x")){
-                AllScstAppStarterJobs.DARWIN_ALL_JOBS.each { new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, branchToBuild)
-                        .deploy(true, true,
-                        true, false, false, isRelease, releaseType)}
-            }
-            else { //master branch
+            if (branchToBuild.equals("1.3.x")) {
+                AllScstAppStarterJobs.CELSIUS_ALL_JOBS.each {
+                    new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, branchToBuild)
+                            .deploy(true, true,
+                            true, false, false, isRelease, releaseType)
+                }
+            } else if (branchToBuild.equals("2.0.x")) {
+                AllScstAppStarterJobs.DARWIN_ALL_JOBS.each {
+                    new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, branchToBuild)
+                            .deploy(true, true,
+                            true, false, false, isRelease, releaseType)
+                }
+            } else { //master branch
                 AllScstAppStarterJobs.ALL_JOBS.each {
                     new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, branchToBuild)
                             .deploy(true, true,
                             true, false, false, isRelease, releaseType)
                 }
             }
-            if (branchToBuild.equals("1.3.x")){
+            if (branchToBuild.equals("1.3.x")) {
                 branchToBuild = "Celsius"
-            }
-            else if (branchToBuild.equals("2.0.x")) {
+            } else if (branchToBuild.equals("2.0.x")) {
                 branchToBuild = "Darwin"
             }
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "app-starters-release", branchToBuild)
                     .deploy(false, false, false, false, true, isRelease, releaseType)
-        }
-        else {
+        } else {
             new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", "core", branchToBuild)
                     .deploy(false, false, false, true, false, isRelease, releaseType)
-            if (branchToBuild.equals("1.3.x")){
+            if (branchToBuild.equals("1.3.x")) {
                 AllScstAppStarterJobs.CELSIUS_ALL_JOBS.each {
                     new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, branchToBuild).deploy(true, true,
                             true, true, false, isRelease, releaseType)
                 }
-            }
-            else if (branchToBuild.equals("2.0.x")){
+            } else if (branchToBuild.equals("2.0.x")) {
                 AllScstAppStarterJobs.DARWIN_ALL_JOBS.each {
                     new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, branchToBuild).deploy(true, true,
                             true, true, false, isRelease, releaseType)
                 }
-            }
-            else { // master branch
+            } else { // master branch
                 AllScstAppStarterJobs.ALL_JOBS.each {
                     new SpringScstAppStartersBuildMaker(dsl, "spring-cloud-stream-app-starters", it, branchToBuild).deploy(true, true,
                             true, true, false, isRelease, releaseType)

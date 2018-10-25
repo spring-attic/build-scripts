@@ -55,6 +55,11 @@ class AllScstAppStarterJobs {
                     DARWIN_PHASE3_JOBS + DARWIN_PHASE4_JOBS +
                     DARWIN_PHASE5_JOBS
 
+    public static final List<List<String>> DARWIN_PHASES = [
+            DARWIN_PHASE1_JOBS, DARWIN_PHASE2_JOBS,
+            DARWIN_PHASE3_JOBS, DARWIN_PHASE4_JOBS,
+            DARWIN_PHASE5_JOBS]
+
     public static final List<String> CELSIUS_PHASE1_JOBS = ['log', 'time', 'throughput', 'bridge', 'groovy-transform', 'tasklauncher-local',
                                                     'header-enricher', 'router', 'counter']
 
@@ -74,5 +79,10 @@ class AllScstAppStarterJobs {
             CELSIUS_PHASE1_JOBS + CELSIUS_PHASE2_JOBS +
                     CELSIUS_PHASE3_JOBS + CELSIUS_PHASE4_JOBS +
                     CELSIUS_PHASE5_JOBS
+
+    public static final List<List<String>> CELSIUS_PHASES = [
+            CELSIUS_PHASE1_JOBS, CELSIUS_PHASE2_JOBS,
+            CELSIUS_PHASE3_JOBS, CELSIUS_PHASE4_JOBS,
+            CELSIUS_PHASE5_JOBS]
 
 }
