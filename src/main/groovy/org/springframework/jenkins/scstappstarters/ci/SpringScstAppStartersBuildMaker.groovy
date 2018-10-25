@@ -21,24 +21,11 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
 
     String branchToBuild = "master"
 
-    String parentVersion
-
-    String releaseTrainVersion
-
     SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
                                     String project, String branchToBuild) {
         this.dsl = dsl
         this.organization = organization
         this.project = project
-        this.branchToBuild = branchToBuild
-    }
-
-    SpringScstAppStartersBuildMaker(DslFactory dsl, String organization,
-                                    String project, String parentVersion,
-                                    String releaseTrainVersion, String branchToBuild) {
-        this(dsl, organization, project, branchToBuild)
-        this.parentVersion = parentVersion
-        this.releaseTrainVersion = releaseTrainVersion
         this.branchToBuild = branchToBuild
     }
 
@@ -53,6 +40,11 @@ class SpringScstAppStartersBuildMaker implements JdkConfig, TestPublisher,
                 branchToBuild = "1.0.x"
             } else if (project.equals("app-starters-release")) {
                 branchToBuild = "Celsius"
+            }
+        }
+        else if(branchToBuild.equals("2.0.x")) {
+            if (project.equals("app-starters-release")) {
+                branchToBuild = "Darwin"
             }
         }
 
