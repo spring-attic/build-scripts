@@ -17,7 +17,7 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
 
     void build(boolean isRelease, String releaseType, String branchToBuild = "master") {
         buildAllRelatedJobs(isRelease, releaseType, branchToBuild)
-        dsl.multiJob("spring-cloud-task-app-starter-builds") {
+        dsl.multiJob("spring-cloud-task-app-starter-builds" + "-" + branchToBuild) {
             steps {
                 if (!isRelease) {
                     phase('core-phase', 'COMPLETED') {
@@ -57,6 +57,9 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
                 if (!isRelease) {
                     phase('task-app-starters-release-phase') {
                         String prefixedProjectName = prefixJob("app-starters-release")
+                        if (branchToBuild.equals("2.0.x")) {
+                            branchToBuild = "Dearborn"
+                        }
                         phaseJob("${prefixedProjectName}-${branchToBuild}-ci".toString()) {
                             currentJobParameters()
                         }
@@ -72,6 +75,9 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
                     .deploy(false, false, false, false, false, isRelease, releaseType)
             AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each { new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, branchToBuild)
                     .deploy(true, true, true, false, false, isRelease, releaseType)}
+            if (branchToBuild.equals("2.0.x")) {
+                branchToBuild = "Dearborn"
+            }
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release", branchToBuild)
                     .deploy(false, false, false, false, true, isRelease, releaseType)
         }
@@ -80,6 +86,9 @@ class SpringCloudTaskAppStatersPhasedBuildMaker implements SpringCloudTaskAppSta
                     .deploy(false, false, false, true)
             AllSpringCloudTaskAppStarterJobs.ALL_JOBS.each {
                 new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", it, branchToBuild).deploy()
+            }
+            if (branchToBuild.equals("2.0.x")) {
+                branchToBuild = "Dearborn"
             }
             new SpringCloudTaskAppStartersBuildMaker(dsl, "spring-cloud-task-app-starters", "app-starters-release", branchToBuild)
                     .deploy(false, false, false, true, true)
