@@ -22,7 +22,7 @@ class AllScstAppStarterJobs {
     public static final List<String> PHASE4_JOBS = ['twitter', 'counter', 'aggregator', 'mqtt', 'rabbit', 'gemfire',
                                                     'scriptable-transform', 'ftp', 'file', ]
 
-    public static final List<String> PHASE5_JOBS = ['aws-s3', 'sftp', 'tensorflow', 'mongodb', 'hdfs', 'jdbc', 'python']
+    public static final List<String> PHASE5_JOBS = ['aws-s3', 'sftp', 'tensorflow', 'mongodb', 'hdfs', 'jdbc', 'python', 'analytics']
 
     public static final List<String> ALL_JOBS =
             PHASE1_JOBS + PHASE2_JOBS +
