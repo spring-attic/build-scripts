@@ -38,12 +38,12 @@ class AllScstAppStarterJobs {
     public static final List<String> PHASE1_JOBS = ['log', 'time', 'throughput', 'bridge', 'groovy-transform',
                                                     'header-enricher', 'router', 'tasklauncher-data-flow', 'grpc', 'trigger', 'loggregator']
 
-    public static final List<String> PHASE2_JOBS = ['load-generator', 'mail', 'field-value-counter', 'httpclient',
-                                                    'pmml', 'tasklaunchrequest-transform', 'triggertask', 'transform', 'websocket', 'http', 'syslog', 'filter', 'splitter']
+    public static final List<String> PHASE2_JOBS = ['load-generator', 'mail', 'httpclient',
+                                                    'pmml', 'tasklaunchrequest-transform', 'triggertask', 'transform', 'websocket', 'http', 'syslog', 'filter']
 
     public static final List<String> PHASE3_JOBS = ['jms', 'groovy-filter',
-                                                    'redis-pubsub', 'aggregate-counter', 'tcp',
-                                                    'cassandra', 'twitter', 'counter', 'mqtt', 'aggregator', 'rabbit']
+                                                    'redis-pubsub', 'tcp',
+                                                    'cassandra', 'twitter', 'mqtt', 'aggregator', 'rabbit', 'splitter']
 
     public static final List<String> PHASE4_JOBS = ['gemfire', 'scriptable-transform', 'ftp', 'file', 'aws-s3', 'sftp',
                                                     'tensorflow', 'mongodb', 'hdfs', 'jdbc', 'python', 'analytics']
