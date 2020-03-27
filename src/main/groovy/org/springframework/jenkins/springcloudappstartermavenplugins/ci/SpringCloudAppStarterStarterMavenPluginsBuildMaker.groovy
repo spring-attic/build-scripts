@@ -18,7 +18,7 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
     final String repo
     final String project
 
-    String branchToBuild = "for-einstein-elston"
+    String branchToBuild = "master"
 
     Map<String, Object> envVariables = new HashMap<>();
 
