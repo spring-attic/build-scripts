@@ -39,6 +39,9 @@ class SpringCloudAppStarterStarterMavenPluginsBuildMaker implements JdkConfig, T
         String projectBranch
         if (project != null && !project.isEmpty()) {
             projectBranch = project + "-" + branchToBuild
+            if (project.equals("spring-cloud-stream-app-maven-plugin")) {
+              branchToBuild = "for-einstein-elston"
+            }
         }
         else {
             projectBranch = branchToBuild
