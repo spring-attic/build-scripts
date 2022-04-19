@@ -1,4 +1,4 @@
-= Jenkins DSL
+= Jenkins DSL is no longer actively maintained by VMware, Inc.
 
 The repository contains job definitions using https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin[Jenkins Job Dsl plugin].
 
